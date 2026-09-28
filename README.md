@@ -1,17 +1,24 @@
-# Primo — mobile prototype
+# PriMo Nails — "The Seasons" mobile prototype
 
-A mobile-first, installable web app (PWA) for daily tasks and focus sessions. Vanilla HTML/CSS/JS, no build step, data stays on-device (`localStorage`).
+Working prototype of the *The Seasons – Mobile* design: a swipeable seasonal collection carousel. Plain HTML/CSS/JS, no build step, installable as a PWA and usable offline.
 
-- **Today** – add / complete / delete tasks, daily progress ring
-- **Focus** – 15/25/45 min timer tied to a task; survives backgrounding and reloads
-- **Stats** – streak, totals, 7-day chart
-- Light/dark theme, safe-area aware, works offline via a service worker
+## What's in it
+- Snap-scrolling carousel (autumn → winter → spring → summer); side cards scale/fade with distance
+- Each season re-themes the screen: card border, active dot, button tint, background and drifting particles (leaves, snow, petals, bubbles)
+- Intro state from the first design frame (neutral, nothing selected) that settles on *autumn*
+- Dots + arrow keys + tapping a side card to navigate
+- Shade swatches: tap to select, **+5** expands to all 8 shades
+- **I Più Venduti** opens a bottom sheet with the season's shades
+
+Photos are cropped from the PDF (`img/`); Montserrat is bundled (`fonts/`).
+
+### Placeholders (not in the design)
+The 5 extra shades behind **+5**, and the bottom sheet behind **I Più Venduti**, are stand-ins; the design shows neither.
+The winter/spring/summer background textures are recreated with CSS gradients rather than the original photography.
 
 ## Run
-
 ```sh
-python3 -m http.server 8000   # or any static server
+python3 -m http.server 8000
 ```
-
-Open http://localhost:8000 on your phone (same network) or in browser devtools' device mode.
-On iOS/Android use *Add to Home Screen* to install (service worker needs HTTPS or localhost).
+Open http://localhost:8000 on a phone (same network) or in devtools device mode (390 × 740 matches the design).
+Desktop browsers show it inside a phone-sized frame.

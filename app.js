@@ -1,227 +1,174 @@
 (() => {
   'use strict';
   const $ = (s, el = document) => el.querySelector(s);
-  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-  const KEY = 'primo.v1';
-  const CIRC = 2 * Math.PI * 42;       // progress ring
-  const TCIRC = 2 * Math.PI * 44;      // timer ring
 
-  // ---------- state ----------
-  const defaults = () => ({
-    tasks: [],                          // {id,title,done,doneOn}
-    days: {},                           // 'YYYY-MM-DD' -> {done, focus}
-    theme: null,
-    focus: { minutes: 25, taskId: null, endsAt: null, remaining: 25 * 60 },
+  // Colours / shades come from the design frames; the 5 extra shades behind "+5" are placeholders.
+  const BASE = ['#ffffff', '#c9c9c9', '#8f8f8f'];
+  const SEASONS = [
+    { id: 'autumn', color: '#c8742d', cta: '#fcf5eb', isNew: false,
+      shades: ['#e9860f', '#e1332a', '#8c3a12', '#f0b429', '#c2521e', '#a8391f', '#6b4a2b', '#d8a15a'] },
+    { id: 'winter', color: '#2f80e9', cta: '#f2f3f7', isNew: false,
+      shades: [...BASE, '#dfe8f5', '#9fb7d8', '#4a6fa5', '#2b2f3a', '#b9a7c9'] },
+    { id: 'spring', color: '#e5668f', cta: '#fdf1f5', isNew: false,
+      shades: [...BASE, '#f6c9d6', '#e98aa8', '#f3b8a0', '#c7d9a8', '#d9b6e0'] },
+    { id: 'summer', color: '#44c232', cta: '#f2fdec', isNew: true,
+      shades: [...BASE, '#ff8a5c', '#ffc247', '#f2545b', '#6cc551', '#3fb6b2'] },
+  ];
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const state = { active: -1, sel: SEASONS.map(() => 0), expanded: SEASONS.map(() => false) };
+
+  const phone = $('#phone'), track = $('#track'), dotsEl = $('#dots'), bg = $('#bg'), cta = $('#cta');
+  const root = document.documentElement;
+
+  // ---------- render ----------
+  const swatchBtn = (season, i, extra = '') =>
+    `<button class="sw ${state.sel[season] === i ? 'sel' : ''} ${extra}" style="--sw:${SEASONS[season].shades[i]};--i:${i}"
+      data-shade="${i}" aria-label="Shade ${i + 1}" aria-pressed="${state.sel[season] === i}"></button>`;
+
+  function swatchRow(s) {
+    const open = state.expanded[s];
+    const n = open ? 8 : 3;
+    let h = '';
+    for (let i = 0; i < n; i++) h += swatchBtn(s, i, open && i >= 3 ? 'pop' : '');
+    if (!open) h += '<button class="more" data-more aria-label="Show 5 more shades">+5</button>';
+    return h;
+  }
+
+  SEASONS.forEach((s, i) => {
+    track.insertAdjacentHTML('beforeend', `
+      <article class="card" data-i="${i}" style="--c:${s.color}" aria-label="${s.id}">
+        <div class="photo"><img src="img/${s.id}.jpg" alt="PriMo Nails polish – ${s.id} collection" draggable="false" ${i ? 'loading="lazy"' : ''}>
+          ${s.isNew ? '<span class="badge">new</span>' : ''}</div>
+        <div class="meta"><h2>${s.id}</h2><div class="swatches">${swatchRow(i)}</div></div>
+      </article>`);
+    dotsEl.insertAdjacentHTML('beforeend',
+      `<button class="dot" role="tab" data-i="${i}" aria-label="${s.id}" aria-selected="false"></button>`);
   });
-  let state;
-  try { state = { ...defaults(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }; }
-  catch { state = defaults(); }
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch {} };
+  const cards = [...track.children], dots = [...dotsEl.children];
 
-  const dayKey = (d = new Date()) =>
-    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  const day = k => (state.days[k] ||= { done: 0, focus: 0 });
-  const uid = () => Math.random().toString(36).slice(2, 10);
-  const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-
-  // ---------- helpers ----------
-  let toastTimer;
-  function toast(msg) {
-    const t = $('#toast');
-    t.textContent = msg; t.classList.add('show');
-    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-  }
-  const buzz = p => { try { navigator.vibrate && navigator.vibrate(p); } catch {} };
-
-  // ---------- theme ----------
-  function applyTheme() {
-    const dark = state.theme ? state.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-    $('meta[name=theme-color]').content = dark ? '#101018' : '#5b5bd6';
-  }
-  $('#theme-btn').onclick = () => {
-    state.theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    applyTheme(); save();
+  // ---------- seasonal backgrounds + particles ----------
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const leaf = c => `<svg viewBox="0 0 24 24"><path d="M12 1C7 6 3 11 6 16c1.6 2.6 4 3.6 5.2 4.6L11 23h2l-.2-2.4c1.4-1 3.8-2 5.2-4.6 3-5-1-10-6-15Z" fill="${c}"/><path d="M12 5v17" stroke="rgba(90,40,10,.35)" stroke-width=".8"/></svg>`;
+  const kinds = {
+    autumn: () => ({ cls: '', size: rnd(18, 36), html: leaf(['#e8850f', '#d9542a', '#b8741f', '#cf9a30', '#e8a13b'][Math.random() * 5 | 0]), o: rnd(.55, .9) }),
+    winter: () => ({ cls: 'flake', size: rnd(4, 11), html: '', o: rnd(.6, 1) }),
+    spring: () => ({ cls: 'petal', size: rnd(9, 16), html: '', o: rnd(.6, .9) }),
+    summer: () => ({ cls: 'bubble rise', size: rnd(8, 26), html: '', o: rnd(.5, .9) }),
   };
-
-  // ---------- tabs ----------
-  const titles = { today: 'Today', focus: 'Focus', stats: 'Stats' };
-  function show(view) {
-    $$('.view').forEach(v => v.classList.toggle('active', v.id === 'view-' + view));
-    $$('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-    $('#title').textContent = titles[view];
-    $('main').scrollTop = 0;
-    if (view === 'stats') renderStats();
-    try { history.replaceState(null, '', '#' + view); } catch {}
-  }
-  $$('.tab').forEach(t => t.onclick = () => show(t.dataset.view));
-
-  // ---------- tasks ----------
-  const today = () => dayKey();
-  const visibleTasks = () => state.tasks.filter(t => !t.done || t.doneOn === today());
-
-  function addTask(title) {
-    title = title.trim();
-    if (!title) return;
-    state.tasks.unshift({ id: uid(), title, done: false, doneOn: null });
-    save(); renderTasks();
-  }
-  function toggleTask(id) {
-    const t = state.tasks.find(t => t.id === id);
-    if (!t) return;
-    if (!t.done) {
-      t.done = true; t.doneOn = today(); day(today()).done++;
-      buzz(15);
-      const open = state.tasks.filter(x => !x.done).length;
-      if (!open) toast('All done — nice work 🎉');
-    } else {
-      t.done = false;
-      const d = day(t.doneOn); d.done = Math.max(0, d.done - 1);
-      t.doneOn = null;
+  SEASONS.forEach(s => {
+    const layer = document.createElement('div');
+    layer.className = 'bg-layer'; layer.dataset.season = s.id;
+    let p = '';
+    if (!reduceMotion) for (let i = 0; i < (s.id === 'autumn' ? 26 : 18); i++) {
+      const k = kinds[s.id](), dur = rnd(9, 17);
+      p += `<i class="p ${k.cls}" style="--x:${rnd(-2, 98).toFixed(1)}%;--s:${k.size.toFixed(1)}px;--dur:${dur.toFixed(1)}s;--delay:${(-rnd(0, dur)).toFixed(1)}s;
+        --sway:${rnd(-70, 70).toFixed(0)}px;--r0:${rnd(-40, 40) | 0}deg;--r1:${rnd(120, 420) | 0}deg;--o:${k.o.toFixed(2)}">${k.html}</i>`;
     }
-    save(); renderTasks();
-  }
-  function deleteTask(id, li) {
-    const t = state.tasks.find(t => t.id === id);
-    if (t && t.done) { const d = day(t.doneOn); d.done = Math.max(0, d.done - 1); }
-    const commit = () => {
-      state.tasks = state.tasks.filter(t => t.id !== id);
-      if (state.focus.taskId === id) state.focus.taskId = null;
-      save(); renderTasks();
-    };
-    if (li) { li.classList.add('removing'); setTimeout(commit, 180); } else commit();
-  }
+    layer.innerHTML = `<div class="panel"></div><div class="particles">${p}</div>`;
+    bg.appendChild(layer);
+  });
+  const layers = [...bg.children];
 
-  function renderTasks() {
-    const list = visibleTasks();
-    $('#task-list').innerHTML = list.map(t => `
-      <li class="task ${t.done ? 'done' : ''}" data-id="${t.id}">
-        <button class="check" aria-label="${t.done ? 'Mark not done' : 'Mark done'}">✓</button>
-        <span class="task-title">${esc(t.title)}</span>
-        <button class="del" aria-label="Delete task">×</button>
-      </li>`).join('');
-    $('#empty').hidden = list.length > 0;
-
-    const done = list.filter(t => t.done).length, total = list.length;
-    const pct = total ? Math.round(done / total * 100) : 0;
-    $('#progress-pct').textContent = pct + '%';
-    $('#progress-sub').textContent = total ? `${done} of ${total} done` : 'No tasks yet';
-    const ring = $('#ring');
-    ring.style.strokeDasharray = CIRC;
-    ring.style.strokeDashoffset = CIRC * (1 - pct / 100);
-
-    renderFocusList();
+  // ---------- active season ----------
+  function setActive(i) {
+    if (i === state.active) return;
+    state.active = i;
+    const s = SEASONS[i];
+    root.style.setProperty('--accent', s.color);
+    root.style.setProperty('--cta-bg', s.cta);
+    cards.forEach((c, k) => c.classList.toggle('active', k === i));
+    dots.forEach((d, k) => d.setAttribute('aria-selected', k === i));
+    layers.forEach((l, k) => l.classList.toggle('on', k === i));
+    phone.dataset.season = s.id;
+    if ($('#sheet') && !$('#sheet').hidden) renderSheet();
   }
 
-  $('#add-form').onsubmit = e => {
-    e.preventDefault();
-    const i = $('#add-input');
-    addTask(i.value); i.value = ''; i.focus();
-  };
-  $('#task-list').onclick = e => {
-    const li = e.target.closest('.task'); if (!li) return;
-    if (e.target.closest('.check')) toggleTask(li.dataset.id);
-    else if (e.target.closest('.del')) deleteTask(li.dataset.id, li);
-  };
-
-  // ---------- focus timer ----------
-  let tick = null;
-  const f = () => state.focus;
-  const running = () => f().endsAt !== null;
-  const remaining = () => running() ? Math.max(0, Math.round((f().endsAt - Date.now()) / 1000)) : f().remaining;
-
-  function renderFocusList() {
-    const open = state.tasks.filter(t => !t.done);
-    if (f().taskId && !open.some(t => t.id === f().taskId)) f().taskId = null;
-    $('#focus-list').innerHTML = open.length
-      ? open.map(t => `<li class="task selectable ${t.id === f().taskId ? 'selected' : ''}" data-id="${t.id}">
-          <span class="task-title">${esc(t.title)}</span></li>`).join('')
-      : '<li class="empty" style="margin:12px 0">No open tasks. Add one on the Today tab.</li>';
-    const sel = state.tasks.find(t => t.id === f().taskId);
-    $('#timer-task').textContent = sel ? sel.title : 'Pick a task below';
-  }
-  $('#focus-list').onclick = e => {
-    const li = e.target.closest('.task'); if (!li) return;
-    f().taskId = f().taskId === li.dataset.id ? null : li.dataset.id;
-    save(); renderFocusList();
-  };
-
-  function renderTimer() {
-    const r = remaining(), total = f().minutes * 60;
-    $('#timer-time').textContent = `${String(Math.floor(r / 60)).padStart(2, '0')}:${String(r % 60).padStart(2, '0')}`;
-    const ring = $('#timer-ring');
-    ring.style.strokeDasharray = TCIRC;
-    ring.style.strokeDashoffset = TCIRC * (1 - r / total);
-    $('#timer-toggle').textContent = running() ? 'Pause' : (r < total ? 'Resume' : 'Start');
-    $$('.chip').forEach(c => {
-      c.classList.toggle('active', +c.dataset.min === f().minutes);
-      c.disabled = running();
+  // distance-based scale/fade of side cards, and nearest-card detection
+  let raf = 0;
+  function onScroll() {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      const mid = track.scrollLeft + track.clientWidth / 2;
+      const pitch = cards[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || 17);
+      let best = 0, bestD = Infinity;
+      cards.forEach((c, k) => {
+        const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+        if (d < bestD) { bestD = d; best = k; }
+        c.style.setProperty('--t', phone.dataset.idle === 'true' ? 0 : Math.min(1, d / pitch).toFixed(3));
+      });
+      if (phone.dataset.idle !== 'true') setActive(best);
     });
-    document.title = running() ? `${$('#timer-time').textContent} · Primo` : 'Primo';
   }
-  function loop() {
-    renderTimer();
-    if (running() && remaining() <= 0) return finish();
-    if (running() && !tick) tick = setInterval(loop, 250);
-    if (!running() && tick) { clearInterval(tick); tick = null; }
-  }
-  function finish() {
-    clearInterval(tick); tick = null;
-    day(today()).focus += f().minutes;
-    f().endsAt = null; f().remaining = f().minutes * 60;
-    save(); loop(); buzz([200, 100, 200]);
-    toast(`Focus session complete · ${f().minutes} min`);
-  }
-  $('#timer-toggle').onclick = () => {
-    if (running()) { f().remaining = remaining(); f().endsAt = null; }
-    else f().endsAt = Date.now() + f().remaining * 1000;
-    save(); loop();
-  };
-  $('#timer-reset').onclick = () => {
-    f().endsAt = null; f().remaining = f().minutes * 60; save(); loop();
-  };
-  $('.chips').onclick = e => {
-    const c = e.target.closest('.chip'); if (!c || running()) return;
-    f().minutes = +c.dataset.min; f().remaining = f().minutes * 60; save(); loop();
-  };
-  document.addEventListener('visibilitychange', () => { if (!document.hidden) loop(); });
+  track.addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
 
-  // ---------- stats ----------
-  function renderStats() {
-    const keys = [...Array(7)].map((_, i) => { const d = new Date(); d.setDate(d.getDate() - (6 - i)); return d; });
-    const vals = keys.map(d => (state.days[dayKey(d)] || {}).done || 0);
-    const max = Math.max(1, ...vals);
-    $('#bars').innerHTML = keys.map((d, i) => `
-      <div class="bar ${i === 6 ? 'today' : ''}">
-        <b>${vals[i]}</b><i style="height:${Math.round(vals[i] / max * 100)}%"></i>
-        <span>${d.toLocaleDateString(undefined, { weekday: 'narrow' })}</span>
-      </div>`).join('');
-
-    let streak = 0; const d = new Date();
-    if (!((state.days[dayKey(d)] || {}).done)) d.setDate(d.getDate() - 1);   // today may still be in progress
-    while ((state.days[dayKey(d)] || {}).done) { streak++; d.setDate(d.getDate() - 1); }
-    const all = Object.values(state.days);
-    $('#stat-streak').textContent = streak;
-    $('#stat-done').textContent = all.reduce((a, x) => a + x.done, 0);
-    $('#stat-focus').textContent = all.reduce((a, x) => a + x.focus, 0);
-  }
-  $('#reset-data').onclick = () => {
-    if (!confirm('Delete all tasks and stats?')) return;
-    state = defaults(); save(); applyTheme(); renderTasks(); loop(); renderStats(); toast('Data cleared');
+  const centerLeft = i => cards[i].offsetLeft - (track.clientWidth - cards[i].offsetWidth) / 2;
+  const goTo = (i, smooth = true) => {
+    i = Math.max(0, Math.min(SEASONS.length - 1, i));
+    leaveIdle();
+    track.scrollTo({ left: centerLeft(i), behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
+    setActive(i);
   };
 
-  // ---------- init ----------
-  $('#date').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' });
-  applyTheme();
-  if (!state.tasks.length && !Object.keys(state.days).length) {
-    ['Plan the day', 'Reply to messages', 'Go for a walk'].reverse().forEach(t =>
-      state.tasks.unshift({ id: uid(), title: t, done: false, doneOn: null }));
-    save();
+  // ---------- idle intro (design frame 1) → autumn (frame 5) ----------
+  let introTimer;
+  function leaveIdle() {
+    if (phone.dataset.idle !== 'true') return;
+    clearTimeout(introTimer);
+    phone.dataset.idle = 'false';
+    track.classList.remove('free');
+    onScroll();
   }
-  renderTasks(); loop();
-  const h = location.hash.slice(1); if (titles[h]) show(h);
+  track.classList.add('free');
+  track.scrollLeft = centerLeft(0) + 41;              // first card sits slightly off-centre, nothing selected yet
+  onScroll();
+  introTimer = setTimeout(() => goTo(0), 1100);
+  ['pointerdown', 'wheel', 'keydown', 'touchstart'].forEach(ev =>
+    track.addEventListener(ev, () => { if (phone.dataset.idle === 'true') { leaveIdle(); } }, { passive: true }));
 
-  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+  // ---------- interactions ----------
+  dotsEl.addEventListener('click', e => { const d = e.target.closest('.dot'); if (d) goTo(+d.dataset.i); });
+
+  track.addEventListener('click', e => {
+    const card = e.target.closest('.card'); if (!card) return;
+    const i = +card.dataset.i;
+    const shade = e.target.closest('.sw'), more = e.target.closest('[data-more]');
+    if (i !== state.active) { goTo(i); return; }                 // tapping a side card brings it to the centre
+    if (more) { state.expanded[i] = true; card.querySelector('.swatches').innerHTML = swatchRow(i); return; }
+    if (shade) selectShade(i, +shade.dataset.shade);
+  });
+  track.addEventListener('keydown', e => {
+    const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (step) { e.preventDefault(); goTo((state.active < 0 ? 0 : state.active) + step); }
+  });
+
+  function selectShade(season, shade) {
+    state.sel[season] = shade;
+    cards[season].querySelectorAll('.sw').forEach(b => {
+      const on = +b.dataset.shade === shade;
+      b.classList.toggle('sel', on); b.setAttribute('aria-pressed', on);
+    });
+    if (!$('#sheet').hidden) renderSheet();
+    try { navigator.vibrate && navigator.vibrate(8); } catch {}
   }
+
+  // ---------- "I Più Venduti" sheet (placeholder: the design has no follow-up screen) ----------
+  const sheet = $('#sheet'), backdrop = $('#backdrop');
+  function renderSheet() {
+    const i = state.active < 0 ? 0 : state.active, s = SEASONS[i];
+    $('#sheet-sub').textContent = `${s.id} · top shades`;
+    $('#sheet-grid').innerHTML = s.shades.map((_, k) => swatchBtn(i, k)).join('');
+  }
+  function openSheet() { renderSheet(); sheet.hidden = backdrop.hidden = false; $('#sheet-close').focus(); }
+  function closeSheet() { sheet.hidden = backdrop.hidden = true; cta.focus(); }
+  cta.addEventListener('click', () => { leaveIdle(); if (state.active < 0) setActive(0); openSheet(); });
+  $('#sheet-close').addEventListener('click', closeSheet);
+  backdrop.addEventListener('click', closeSheet);
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !sheet.hidden) closeSheet(); });
+  $('#sheet-grid').addEventListener('click', e => {
+    const b = e.target.closest('.sw'); if (b) selectShade(state.active < 0 ? 0 : state.active, +b.dataset.shade);
+  });
+
+  if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

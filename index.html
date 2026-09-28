@@ -3,97 +3,44 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#5b5bd6">
+<meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Primo</title>
+<meta name="apple-mobile-web-app-title" content="PriMo Seasons">
+<title>The Seasons – PriMo Nails</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon.svg">
+<link rel="preload" href="fonts/montserrat-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div id="app">
-  <header class="topbar">
-    <div>
-      <p class="eyebrow" id="date"></p>
-      <h1 id="title">Today</h1>
-    </div>
-    <button class="icon-btn" id="theme-btn" aria-label="Toggle theme"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
-  </header>
+<div class="phone" id="phone" data-idle="true">
+  <!-- one full-bleed themed layer per season; cross-faded when the active card changes -->
+  <div class="bg" id="bg" aria-hidden="true"></div>
 
-  <main>
-    <!-- TODAY -->
-    <section class="view active" id="view-today" aria-label="Today">
-      <div class="card progress-card">
-        <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
-          <circle class="ring-bg" cx="50" cy="50" r="42"/>
-          <circle class="ring-fg" id="ring" cx="50" cy="50" r="42"/>
-        </svg>
-        <div class="progress-text">
-          <strong id="progress-pct">0%</strong>
-          <span id="progress-sub">No tasks yet</span>
-        </div>
-      </div>
+  <main class="stage">
+    <header class="head">
+      <h1>The Seasons.</h1>
+      <p>Pick your mood</p>
+    </header>
 
-      <form id="add-form" class="add-form" autocomplete="off">
-        <input id="add-input" type="text" placeholder="Add a task…" maxlength="80" aria-label="New task">
-        <button type="submit" class="btn primary" aria-label="Add task">+</button>
-      </form>
-
-      <ul id="task-list" class="task-list"></ul>
-      <p id="empty" class="empty" hidden>Nothing here yet.<br>Add your first task above.</p>
+    <section class="carousel" aria-roledescription="carousel" aria-label="Seasonal collections">
+      <div class="track" id="track" tabindex="0"></div>
     </section>
 
-    <!-- FOCUS -->
-    <section class="view" id="view-focus" aria-label="Focus">
-      <div class="card timer-card">
-        <div class="timer-ring">
-          <svg viewBox="0 0 100 100" aria-hidden="true">
-            <circle class="ring-bg" cx="50" cy="50" r="44"/>
-            <circle class="ring-fg" id="timer-ring" cx="50" cy="50" r="44"/>
-          </svg>
-          <div class="timer-face">
-            <span id="timer-time">25:00</span>
-            <small id="timer-task">Pick a task below</small>
-          </div>
-        </div>
-        <div class="chips" role="group" aria-label="Duration">
-          <button class="chip" data-min="15">15</button>
-          <button class="chip active" data-min="25">25</button>
-          <button class="chip" data-min="45">45</button>
-        </div>
-        <div class="timer-actions">
-          <button class="btn ghost" id="timer-reset">Reset</button>
-          <button class="btn primary big" id="timer-toggle">Start</button>
-        </div>
-      </div>
-      <h2 class="section-title">Focus on</h2>
-      <ul id="focus-list" class="task-list"></ul>
-    </section>
+    <div class="dots" id="dots" role="tablist" aria-label="Choose season"></div>
 
-    <!-- STATS -->
-    <section class="view" id="view-stats" aria-label="Stats">
-      <div class="stat-grid">
-        <div class="card stat"><strong id="stat-streak">0</strong><span>day streak</span></div>
-        <div class="card stat"><strong id="stat-done">0</strong><span>tasks done</span></div>
-        <div class="card stat"><strong id="stat-focus">0</strong><span>focus min</span></div>
-      </div>
-      <h2 class="section-title">Last 7 days</h2>
-      <div class="card">
-        <div class="bars" id="bars"></div>
-      </div>
-      <button class="btn ghost wide" id="reset-data">Reset all data</button>
-    </section>
+    <button class="cta" id="cta" type="button">I Più Venduti</button>
   </main>
 
-  <nav class="tabbar" aria-label="Primary">
-    <button class="tab active" data-view="today"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg>Today</button>
-    <button class="tab" data-view="focus"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg>Focus</button>
-    <button class="tab" data-view="stats"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg>Stats</button>
-  </nav>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div class="sheet-backdrop" id="backdrop" hidden></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+    <div class="sheet-grip"></div>
+    <h2 id="sheet-title">I Più Venduti</h2>
+    <p class="sheet-sub" id="sheet-sub"></p>
+    <div class="sheet-grid" id="sheet-grid"></div>
+    <button class="cta solid" id="sheet-close" type="button">Done</button>
+  </div>
 </div>
 <script src="app.js"></script>
 </body>
