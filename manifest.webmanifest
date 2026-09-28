@@ -1,6 +1,7 @@
 {
-  "name": "PriMo Nails – The Seasons",
-  "short_name": "PriMo Seasons",
+  "name": "PriMo Nails",
+  "short_name": "PriMo Nails",
+  "description": "Gel polish professionali – L'eleganza nelle tue mani.",
   "start_url": ".",
   "display": "standalone",
   "orientation": "portrait",
