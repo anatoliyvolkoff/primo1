@@ -28,8 +28,7 @@ HEAD = """<!doctype html>
 <link rel="apple-touch-icon" href="icons/icon.svg">
 {preload}<link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
-<link rel="stylesheet" href="css/{css}.css">
-</head>
+{css_links}</head>
 <body class="{body}">
 <div class="page" id="page">
   <a class="skip" href="#top">Vai al contenuto</a>
@@ -38,8 +37,7 @@ HEAD = """<!doctype html>
 TAIL = """</div>
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
 <script src="js/site.js"></script>
-<script src="js/{js}.js"></script>
-</body>
+{js_links}</body>
 </html>
 """
 
@@ -56,10 +54,12 @@ def build(src: pathlib.Path) -> str:
     if dm:
         drawer, body = dm.group(1), body[:dm.start()] + body[dm.end():]
     preload = ''.join(f'<link rel="preload" href="{p}" as="image" fetchpriority="high">\n' for p in opts.get('preload', '').split() if p)
+    css_links = ''.join(f'<link rel="stylesheet" href="css/{c}.css">\n' for c in opts.get('css', src.stem).split())
+    js_links = ''.join(f'<script src="js/{j}.js"></script>\n' for j in opts.get('js', src.stem).split())
     page = HEAD.format(title=opts.get('title', 'PriMo Nails'), description=opts.get('description', ''),
-                       css=opts.get('css', src.stem), body=opts.get('body', src.stem), preload=preload)
+                       css_links=css_links, body=opts.get('body', src.stem), preload=preload)
     page += partial['header'] + '\n' + body.rstrip() + '\n\n' + partial['footer'] + '\n' + partial['overlays'].replace('{{drawer_page}}', drawer)
-    page += TAIL.format(js=opts.get('js', src.stem))
+    page += TAIL.format(js_links=js_links)
     return page
 
 
