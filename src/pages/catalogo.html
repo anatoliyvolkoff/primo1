@@ -1,0 +1,67 @@
+<!--page title="Tutti i Prodotti – PriMo Nails" description="Catalogo PriMo Nails: gel polish, semipermanenti, basi, top e accessori professionali." css="catalog product" js="product catalog" body="catalog" -->
+  <main id="top" class="cat" tabindex="-1">
+    <section class="cat-hero" aria-label="PriMo Nails">
+      <picture><source media="(min-width:1024px)" srcset="img/hero-catalog.jpg"><img src="img/catalog-hero-m.jpg" alt="" fetchpriority="high"></picture>
+      <div class="cat-hero-txt d-only"><h1>L'Eleganza nelle Tue Mani</h1><p>Scopri la collezione di gel polish professionali PriMo Nails.</p></div>
+    </section>
+
+    <div class="cat-nav m-only">
+      <a class="back" href="index.html" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Indietro</a>
+      <nav class="crumbs" aria-label="Percorso"><a href="index.html">Home</a><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg><span aria-current="page" id="crumb-cur">Tutti i Prodotti</span></nav>
+    </div>
+
+    <div class="fbar-wrap" id="fbar-wrap">
+      <div class="fbar">
+        <button type="button" class="f-toggle" id="f-toggle" aria-expanded="false" aria-controls="fpanel">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/></svg><span>Filtri</span><b class="f-count" id="f-count" hidden></b>
+        </button>
+        <div class="f-right">
+          <div class="sort d-only">
+            <button type="button" class="sort-btn" id="sort-btn" aria-haspopup="listbox" aria-expanded="false"><span>Ordina per:</span><b id="sort-cur">Popolarità</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          </div>
+          <button type="button" class="f-hide d-only" id="f-hide" aria-controls="fpanel" aria-expanded="false"><span>Mostra filtri</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          <button type="button" class="f-circle m-only" id="f-circle" aria-label="Apri filtri" aria-controls="fpanel" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+        </div>
+      </div>
+      <div class="fpanel" id="fpanel" hidden>
+        <div class="fp-grid">
+          <fieldset class="fp-colors"><legend>Colori</legend><div class="fc" id="fc"></div></fieldset>
+          <fieldset class="fp-coll"><legend>Collezioni</legend><div class="fchips" id="fcoll"></div></fieldset>
+          <fieldset class="fp-fx"><legend>Effetti</legend><div class="fchips" id="ffx"></div></fieldset>
+          <fieldset class="fp-price"><legend>Prezzo</legend>
+            <div class="pr-vals"><output id="pr-min">0,00 €</output><output id="pr-max">10,00 €</output></div>
+            <div class="pr-track" id="pr-track"><i id="pr-fill"></i>
+              <input type="range" id="pr-a" min="0" max="10" step="0.5" value="0" aria-label="Prezzo minimo">
+              <input type="range" id="pr-b" min="0" max="10" step="0.5" value="10" aria-label="Prezzo massimo"></div>
+          </fieldset>
+        </div>
+        <div class="fp-foot">
+          <button type="button" class="sort-btn m-sort m-only" id="sort-btn-m" aria-haspopup="listbox" aria-expanded="false"><span>Ordina per:</span><b>Popolarità</b><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg></button>
+          <button type="button" class="fp-reset" id="fp-reset" hidden>Azzera filtri</button>
+        </div>
+      </div>
+      <ul class="sort-menu" id="sort-menu" role="listbox" aria-label="Ordina per" hidden>
+        <li role="option" data-sort="pop" aria-selected="true">Popolarità</li>
+        <li role="option" data-sort="new" aria-selected="false">Novità</li>
+        <li role="option" data-sort="asc" aria-selected="false">Prezzo crescente</li>
+        <li role="option" data-sort="desc" aria-selected="false">Prezzo decrescente</li>
+      </ul>
+    </div>
+
+    <p class="results-live" id="results-live" aria-live="polite"></p>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden><p>Nessun prodotto con questi filtri.</p><button type="button" class="pill-btn" id="empty-reset">Azzera filtri</button></div>
+
+    <nav class="pager" id="pager" aria-label="Pagine"></nav>
+
+    <div class="marquee d-only" data-kind="free" aria-hidden="true"></div>
+  </main>
+
+  <div class="qv" id="qv" hidden>
+    <div class="qv-modal" role="dialog" aria-modal="true" aria-label="Anteprima rapida">
+      <button type="button" class="qv-close ib" id="qv-close" aria-label="Chiudi anteprima"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <div class="qv-tabs season-tabs" id="qv-tabs" role="tablist" aria-label="Collezione"></div>
+      <div class="qv-body" id="qv-body"></div>
+      <a class="qv-more" href="prodotto.html">Vai alla scheda prodotto</a>
+    </div>
+  </div>

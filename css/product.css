@@ -84,12 +84,12 @@
 @media (min-width:1024px){
   .pdp{max-width:976px;margin:0 auto}
   .pdp-top{padding-top:40px}
-  .crumbs{display:flex!important;align-items:center;gap:2px;height:16.5px;font-family:var(--fi);font-size:13px;line-height:16px;color:#8a8a8a}
-  .crumbs svg{width:12px;height:12px;margin:0 2px 0 8px;stroke-width:2}
-  .crumbs a:hover{color:#000}
-  .crumbs [aria-current]{color:#4a4a4a}
-  .back{display:inline-flex!important;align-items:center;margin:12px 0 0 -1px;height:28.2px;font-family:var(--fi);font-size:13px;color:#555}
-  .back svg{width:22.6px;height:22.6px;stroke-width:1.6}
+  .pdp .crumbs{display:flex!important;align-items:center;gap:2px;height:16.5px;font-family:var(--fi);font-size:13px;line-height:16px;color:#8a8a8a}
+  .pdp .crumbs svg{width:12px;height:12px;margin:0 2px 0 8px;stroke-width:2}
+  .pdp .crumbs a:hover{color:#000}
+  .pdp .crumbs [aria-current]{color:#4a4a4a}
+  .pdp .back{display:inline-flex!important;align-items:center;margin:12px 0 0 -1px;height:28.2px;font-family:var(--fi);font-size:13px;color:#555}
+  .pdp .back svg{width:22.6px;height:22.6px;stroke-width:1.6}
   .season-tabs{margin:24px 0 0 252px}
   .pdp-grid{display:grid;grid-template-columns:480px 479px;column-gap:17px;margin-top:27.6px;align-items:start}
   .gallery{margin:0;height:631px;background:#fff}
