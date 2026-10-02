@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="PriMo Nails">
+<meta name="description" content="Onicotecnica Corso Base: impara le tecniche fondamentali della ricostruzione unghie con PriMo Academy.">
+<title>Onicotecnica Corso Base – PriMo Academy</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon.svg">
+<link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/academy.css">
+<link rel="stylesheet" href="css/course.css">
+</head>
+<body class="course">
+<div class="page" id="page">
+  <a class="skip" href="#top">Vai al contenuto</a>
+
+  <!-- ===== Header (phones: 440 design; desktop: 1440 design) ===== -->
+  <header class="topbar">
+    <div class="tb-row">
+      <div class="tb-left">
+        <button class="ib menu-ib" id="menu-btn" aria-label="Menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24"><path d="M4 12h16M4 6h16M4 18h16"/></svg>
+        </button>
+        <div class="lang">
+          <button class="lang-btn" id="lang-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Lingua: italiano"><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span><span id="lang-cur">IT</span>
+            <svg viewBox="0 0 24 24" class="chev"><path d="m6 9 6 6 6-6"/></svg></button>
+          <ul class="lang-menu" id="lang-menu" role="listbox" hidden>
+            <li role="option" data-lang="IT" aria-selected="true">IT</li><li role="option" data-lang="EN">EN</li><li role="option" data-lang="RU">RU</li>
+          </ul>
+        </div>
+      </div>
+      <a class="logo" href="index.html" aria-label="PriMo Nails – home"><img src="img/logo.png" alt="PriMo Nails" width="98" height="15.5"></a>
+      <div class="tb-right">
+        <button class="ib search-ib" id="search-btn" aria-label="Apri ricerca"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+        <button class="ib cart" id="cart-btn" aria-label="Carrello"><svg viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span class="cart-n" id="cart-n" hidden>0</span></button>
+      </div>
+    </div>
+    <nav class="dnav" aria-label="Categorie">
+      <a href="catalogo.html">TUTTI I PRODOTTI</a>
+      <a href="catalogo.html?cat=preparatori">PREPARATORI</a>
+      <a href="catalogo.html?cat=base">BASE</a>
+      <a href="catalogo.html?cat=top">TOP</a>
+      <a href="catalogo.html?cat=gel" class="has-sub">GEL<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></a>
+      <a href="catalogo.html?cat=acrygel">ACRYGEL</a>
+      <a href="catalogo.html?cat=semipermanente">SEMIPERMANENTE</a>
+      <a href="catalogo.html?cat=nail-art">NAIL ART</a>
+      <a href="catalogo.html?cat=care">CARE</a>
+      <a href="catalogo.html?cat=kit">KIT</a>
+      <a href="catalogo.html?cat=accessori">ACCESSORI</a>
+      <a href="academy.html">CORSI</a>
+      <a href="chi-siamo.html">ABOUT US</a>
+    </nav>
+    <div class="progress" id="progress" aria-hidden="true"></div>
+  </header>
+
+  <main id="top" class="course-p" tabindex="-1">
+    <div class="acad-back m-only"><a class="back" href="academy.html" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Indietro</a></div>
+    <section class="acad-hero co-hero">
+      <picture><source media="(min-width:1024px)" srcset="img/academy-hero-d.jpg"><img src="img/course-hero-m.jpg" alt="Irina PriMo in studio" fetchpriority="high"></picture>
+      <div class="acad-intro d-only"><p class="h1like">PriMo Academy</p><p>Percorsi formativi d'eccellenza per professionisti del settore. Eleva la tua arte con i nostri masterclass esclusivi.</p></div>
+    </section>
+    <div class="acad-back d-only"><a class="back" href="academy.html" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Indietro</a></div>
+
+    <div class="co-wrap">
+      <section class="co-intro">
+        <img class="co-wing d-only" src="img/course-wing.jpg" alt="" loading="lazy">
+        <h1>Onicotecnica<br>Corso Base</h1>
+        <p><span class="m-only">Impara le tecniche fondamentali della ricostruzione unghie</span><span class="d-only">Impara le tecniche fondamentali della ricostruzione unghie. Un percorso completo per iniziare la tua carriera professionale nel mondo beauty.</span></p>
+        <a class="wa d-only" href="https://wa.me/393893193049?text=Ciao!%20Vorrei%20iscrivermi%20a%20Onicotecnica%20Corso%20Base" target="_blank" rel="noopener">Inscriviti su WhatsApp</a>
+      </section>
+
+      <section class="co-facts" aria-label="Dettagli del corso">
+        <dl>
+          <div><dt><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/><rect x="7" y="13" width="4" height="4" rx="1"/></svg>Inizio</dt><dd>14 settembre</dd></div>
+          <div><dt><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4.5A9 9 0 1 1 9 20.6"/><path d="M14 8v5l3 2"/><path d="M2 12h5M3 16h5M5 20h4"/></svg>Durata</dt><dd>5 lezione</dd></div>
+          <div><dt><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20M6 15h4"/></svg>Pagamento</dt><dd>Disponibile a rate</dd></div>
+          <div><dt><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9l5 5v3"/><path d="M8 9h6M8 13h4"/><circle cx="17" cy="16" r="3"/><path d="m15.5 18.5-.8 3.5 2.3-1.2 2.3 1.2-.8-3.5"/></svg>Certificati</dt><dd>5 certificati, uno per ogni lezione</dd></div>
+        </dl>
+      </section>
+
+      <a class="wa m-only" href="https://wa.me/393893193049?text=Ciao!%20Vorrei%20iscrivermi%20a%20Onicotecnica%20Corso%20Base" target="_blank" rel="noopener">Inscriviti su WhatsApp</a>
+
+      <section class="co-acc" id="co-acc"></section>
+
+      <section class="gal" aria-labelledby="gal-h">
+        <h2 id="gal-h">Galleria</h2>
+        <div class="gal-track" id="gal" data-drag tabindex="0" aria-label="Galleria: scorri per vedere le foto">
+          <figure><img src="img/course2.jpg" alt="Nail art a farfalla, dettaglio" loading="lazy"></figure>
+          <figure><img src="img/gallery-dots.jpg" alt="Manicure a pois bianchi e neri" loading="lazy"></figure>
+          <figure><img src="img/course1.jpg" alt="Nail art a farfalla" loading="lazy"></figure>
+          <figure><img src="img/course3.jpg" alt="Nail art a farfalla, variante" loading="lazy"></figure>
+        </div>
+        <div class="gal-nav"><button type="button" class="gal-btn" data-d="-1" aria-label="Foto precedente"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></svg></button><button type="button" class="gal-btn" data-d="1" aria-label="Foto successiva"><svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></svg></button></div>
+        <a class="wa" href="https://wa.me/393893193049?text=Ciao!%20Vorrei%20iscrivermi%20a%20Onicotecnica%20Corso%20Base" target="_blank" rel="noopener">Inscriviti su WhatsApp</a>
+      </section>
+    </div>
+  </main>
+  <div class="acad-foot co-foot"><a href="academy.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Torna all'Academy</a></div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="f-in">
+      <div class="f-brand">
+        <img class="f-logo" src="img/logo.png" alt="PriMo Nails" width="98" height="15.5">
+        <p class="f-desc">L'eccellenza italiana nel mondo della ricostruzione e del design delle unghie. Prodotti professionali per risultati impeccabili.</p>
+        <div class="social">
+          <a href="#" data-todo aria-label="Instagram"><svg viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg></a>
+          <a href="#" data-todo aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="#" data-todo aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg></a>
+          <a href="#" data-todo aria-label="TikTok"><svg viewBox="0 0 24 24" class="fill"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1 0-5.2c.27 0 .53.04.78.12V9.66a5.7 5.7 0 0 0-.78-.05A5.69 5.69 0 0 0 4.17 15.3a5.69 5.69 0 0 0 5.69 5.69 5.69 5.69 0 0 0 5.69-5.69V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3a4.3 4.3 0 0 1-3.25-1.48Z"/></svg></a>
+          <a href="#" data-todo aria-label="Telegram"><svg viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg></a>
+        </div>
+      </div>
+      <div class="acc" id="acc">
+        <details><summary>Shop<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <ul><li><a href="catalogo.html">Tutti i Prodotti</a></li><li><a href="catalogo.html?ordina=novita">Nuovi Arrivi</a></li><li><a href="index.html#seasons">Collezioni</a></li><li><a href="catalogo.html?cat=accessori">Accessori</a></li><li><a href="catalogo.html?ordina=offerte">Offerte</a></li></ul></details>
+        <details><summary>Formazione<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <ul><li><a href="academy.html">Corsi Online</a></li></ul></details>
+        <details><summary>Azienda<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></summary>
+          <ul><li><a href="chi-siamo.html">La Nostra Storia</a></li><li><a href="mailto:primonailspro@gmail.com">Contatti</a></li><li><a href="#" data-todo>Spedizioni</a></li><li><a href="#" data-todo>Privacy Policy</a></li><li><a href="#" data-todo>Termini</a></li></ul></details>
+      </div>
+      <div class="f-bottom">
+        <p class="copy">© 2026 PriMo Nails. Tutti i diritti riservati.</p>
+        <div class="contacts">
+          <p class="contact"><svg viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><a href="mailto:primonailspro@gmail.com">primonailspro@gmail.com</a></p>
+          <p class="contact"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:+393893193049">+39 389 319 3049</a></p>
+        </div>
+        <div class="pay" aria-label="Metodi di pagamento">
+          <span class="visa">VISA</span>
+          <span class="mc"><i class="mc1"></i><i class="mc2"></i></span>
+          <span class="amex"><b>AMEX</b></span>
+          <span class="ap"><svg viewBox="0 0 24 24"><path d="M16.4 12.7c0-2.2 1.8-3.2 1.9-3.3-1-1.5-2.6-1.7-3.2-1.7-1.4-.1-2.6.8-3.3.8s-1.7-.8-2.8-.8c-1.4 0-2.8.9-3.5 2.1-1.5 2.6-.4 6.5 1.1 8.6.7 1 1.6 2.2 2.7 2.2 1.1 0 1.5-.7 2.8-.7s1.7.7 2.8.7c1.2 0 1.9-1 2.6-2.1.8-1.2 1.1-2.3 1.2-2.4-.1 0-2.3-.9-2.3-3.4ZM14.3 6.3c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.5.6-1 1.6-.9 2.6 1 .1 1.9-.5 2.5-1.2Z"/></svg>Pay</span>
+          <span class="gp"><b>G</b> Pay</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== Overlays ===== -->
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+    <button class="ib close" id="drawer-close" aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <nav class="d-nav" aria-label="Sezioni">
+      <p class="d-h">Shop</p>
+      <a href="catalogo.html">Tutti i prodotti</a><a href="catalogo.html?cat=semipermanente">Semipermanente</a><a href="catalogo.html?cat=gel">Gel</a>
+      <a href="catalogo.html?cat=acrygel">Acrygel</a><a href="catalogo.html?cat=nail-art">Nail art</a><a href="catalogo.html?cat=accessori">Accessori</a>
+      <p class="d-h">Formazione</p>
+      <a href="academy.html">PriMo Academy</a><a href="corso.html">Onicotecnica Corso Base</a>
+      <p class="d-h">Azienda</p>
+      <a href="chi-siamo.html">Chi siamo</a><a href="mailto:primonailspro@gmail.com">Contatti</a>
+    </nav>
+  </div>
+  <div class="search" id="search" role="dialog" aria-modal="true" aria-label="Cerca" hidden>
+    <form id="search-form" role="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search-input" type="search" placeholder="Cerca un colore…" aria-label="Cerca un colore" autocomplete="off" enterkeyhint="search"><button type="button" id="search-close">Chiudi</button></form>
+    <p class="search-hint" id="search-hint">Scegli un colore:</p>
+    <div class="chips" id="search-chips"></div>
+  </div>
+  <section class="sheet" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
+    <header class="sheet-h"><h2 id="cart-title">Carrello</h2>
+      <button class="ib" id="cart-close" aria-label="Chiudi carrello"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></header>
+    <div class="ship" id="cart-ship"><p id="cart-ship-txt"></p><div class="ship-bar" aria-hidden="true"><i id="cart-ship-fill"></i></div></div>
+    <ul class="cart-list" id="cart-list"></ul>
+    <div class="cart-empty" id="cart-empty" hidden><p>Il carrello è vuoto.</p><button class="pill-btn" id="cart-shop">Continua lo shopping</button></div>
+    <footer class="cart-f" id="cart-foot"><p class="cart-total"><span>Subtotale</span><b id="cart-total">€0,00</b></p>
+      <button class="btn-black" id="cart-checkout">Vai al checkout</button></footer>
+  </section>
+  <button class="totop" id="totop" aria-label="Torna su"><svg viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg></button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
+<script src="js/site.js"></script>
+<script src="js/course.js"></script>
+</body>
+</html>
