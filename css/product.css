@@ -74,6 +74,16 @@
 .buybar.away{transform:translate(-50%,110%)}
 .product .totop{bottom:calc(95px + env(safe-area-inset-bottom,0px))}
 
+/* narrower phones: let the fixed design blocks scale down */
+@media (max-width:439.98px){
+  .season-tabs{width:calc(100% - 20px);grid-template-columns:repeat(4,1fr);column-gap:4px}
+  .pinfo{padding-left:20px;padding-right:20px}
+  .p-grid{grid-template-columns:repeat(6,minmax(0,55.7px));column-gap:6px}
+  .psw{width:100%;height:auto;aspect-ratio:1}
+  .buybar{padding-left:14px;padding-right:16px;gap:10px}
+  .buybar .buy{width:auto;flex:1;max-width:246px}
+}
+
 /* related */
 .related{padding:37px 0 0}
 .rel-h{margin:0;padding:0 33px;font-size:25px;line-height:40px;font-weight:700;letter-spacing:.35px;color:#1e1e1e}

@@ -1,35 +1,57 @@
-# PriMo Nails — mobile landing prototype
+# PriMo Nails — site prototype
 
-Working prototype of the full mobile landing page (*Landing mob* reference, 440 px wide) with the interactive **The Seasons** carousel section (*The Seasons – Mobile*) placed where the reference puts it — between *Nuovi Arrivi* and *Consigliati per te*.
-Plain HTML/CSS/JS, no build step, installable as a PWA and usable offline. Photos are cropped from the supplied PDFs (`img/`); Montserrat + Inter are bundled (`fonts/`).
+A working multi-page prototype of the PriMo Nails shop, rebuilt from the Figma file *PriMo-Nails-1*. It has phone layouts (440 px frames) and desktop layouts (1440 px frames). It is plain HTML/CSS/JS, installable as a PWA and usable offline. Montserrat and Inter are bundled in `fonts/` and stand in for the design's Gotham, with sizes and letter-spacing calibrated to match the Figma text boxes.
+
+## Pages
+| Page | File | Figma frames |
+|---|---|---|
+| Home | `index.html` | Landing mob · Desktop – 7 |
+| Product | `prodotto.html` (`?sale=0` no-sale variant, `?kit=inverno` seasonal kit with season switcher) | product page mob · Desktop – 15 |
+| Catalogue | `catalogo.html` (`?cat=…` from the desktop nav) | catalogue phone + desktop frames, filter and pagination states |
+| Academy (course list) | `academy.html` | Courses mob · Course desk 7602:18585 |
+| Course detail | `corso.html` | Course mob · Course desk 7602:18311 |
+| About us | `chi-siamo.html` | about us mob · about us |
+
+Shared header (phone bar + desktop nav), footer (accordion on phones, columns on desktop), menu drawer, search, cart sheet and toasts are in `src/partials/`.
 
 ## What works
-- **Header** – sticky; menu drawer (grouped like the footer, highlights where you are), search with tap-to-pick colour chips, language menu, cart, and a thin page-progress line
-- **Hero** – swipeable 3-slide carousel with auto-advance and dots
-- **I Più Venduti** – tab switcher (I Più Venduti / Novità / Saldi), product carousels, shade selection, **+5** to reveal more shades, *add to cart* fills the cart
-- **Scegli il tuo Mood** – 14 colour swatches; **see all** toggles a grid
-- **The Seasons** – snap carousel (autumn → winter → spring → summer). Opens in the design's idle frame, settles on *autumn* when scrolled into view, then each season re-themes the section (border, dot, button, background, drifting leaves / snow / petals / bubbles). Dots, arrow keys and tapping a side card navigate; **+5** expands to 8 shades; **I Più Venduti** scrolls to the best-sellers block
-- **Cart** – bottom sheet with quantities, subtotal and a free-shipping progress bar (the 199 € threshold from the shipping bar); persists across reloads
-- Shipping / *TPO & HEMA free* marquees, testimonials carousel, founder bio (**Leggi di più** expands), course cards, footer accordion
+- **Cart**: add from any product card, the product page (sticky buy bar on phones), the catalogue quick view or the seasonal kit. It persists across reloads and has a free-shipping progress bar.
+- **Catalogue**: filter panel (13 colours, collections, effects, dual-handle price range), sort menu, active-filter count, pagination (12 per page on phones, 16 on desktop), empty state, and a quick-view dialog that reuses the product panel.
+- **Product**: swipeable gallery with dots, shade picker, quantity stepper, accordions, related products. The kit page has an animated season switcher.
+- **Academy**: course cards, plus an individual-training request form with validation and a confirmation toast.
+- **Course detail**: facts card, accordions (description / programme / info), a draggable gallery, and a WhatsApp CTA.
+- **Home**: everything from the previous prototype (hero carousel, best sellers tabs, mood swatches, The Seasons carousel, testimonials, founder, courses).
+- Every page passes a check for no console errors and no horizontal scroll at 360 / 390 / 440 / 1440 px. Below the 440 px design width, the fixed-size blocks (swatch grid, season tabs, catalogue cards, pager) scale down instead of being clipped.
 
-## Usability (kept every element, lowered the effort of using them)
-- **Orientation** – position bar under every carousel, page-progress line, back-to-top button, current section marked in the menu
-- **Less noise** – marquees are slower and pause on touch/hover; hero autoplay is slow, plays through once and stops as soon as you touch it; particles stay clear of the headline; everything animated pauses off-screen; nothing loops under *reduce motion*
-- **Fewer slips** – 44 px touch targets everywhere (swatches keep their look but get bigger hit areas), tapping a season never flashes through the seasons in between, the language label never lies
-- **Legibility** – all text meets WCAG AA contrast; hero text sits on a soft scrim; balanced line breaks; fluid hero type (no clipping down to 320 px)
-- **Keyboard / assistive tech** – visible focus ring, skip link, arrow keys on tabs / hero / seasons, dialogs move and restore focus and make the page behind inert
-- **Mouse** – any carousel can be dragged (with snap); touch and trackpads scroll natively
+## Building
+Pages are assembled from `src/pages/*.html` and the partials:
+```sh
+python3 build.py          # writes the root *.html files
+python3 build.py --check  # fails if the built files are stale
+```
+When you add images or pages, update the `ASSETS` list in `sw.js` and bump `CACHE`.
 
-## Placeholders / not in the designs
-- Hero *Learn more* jumps to the founder story (destination not specified in the design)
-- Hero slides 2 and 3: the reference shows only slide 1's copy; headlines for 2 and 3 are stand-ins
-- Mood colour names after the first six (only *b&w, grigio, nude, rosa, rosso, bord…* are visible in the reference), the 5 extra season shades, and footer link lists
-- Buttons whose destination isn't designed (*Learn more*, *see all*, *Scopri*, social links) show a "not designed yet" toast
-- Winter / spring / summer season backgrounds are CSS gradients + particles, not the original photography
-- The reference repeats one product and one testimonial; the prototype does the same
+## Known gaps / placeholders
+- **Images that need a proper export from Figma.** The Figma MCP quota ran out and figma.com asset URLs are blocked in the build environment. Several images were taken from low-resolution renders and upscaled, so they look soft at full size:
+  - desktop catalogue hero (`img/hero-catalog.jpg`, baked-in text painted out)
+  - About page teal hero, portrait and b/w photo (`img/about-hero.jpg`, `img/about-portrait.jpg`, `img/about-bw.jpg`)
+  - desktop Academy hero (`img/academy-hero-d.jpg`, a composite of a blurred cover and the founder photo)
+
+  The third About block on phones uses the product bottle in place of the design's "Air Spring" photo.
+- **Design placeholders kept as-is**:
+  - every catalogue product is "№112 Ultramarine Glow"
+  - the course accordion copy is the design's placeholder text
+  - the pager starts on page 1 (the design shows page 5)
+- **Small deviations from the design**:
+  - the phone catalogue has a pager the phone design doesn't show
+  - the design typo "Proffessional" is corrected
+  - the third phone footer section is titled "Azienda" (the design repeats "Shop")
+  - footer link grey is #707070 instead of #737373, for AA contrast
+  - footer link rows have 44 px tap targets, with the text in the same positions as the design
+- Destinations that aren't designed (social links, some "see all" buttons) show a "not designed yet" toast.
 
 ## Run
 ```sh
 python3 -m http.server 8000
 ```
-Open http://localhost:8000 on a phone (same network) or in devtools device mode (440 px matches the reference). Desktop browsers show a centred 440 px column.
+Open http://localhost:8000. Use a 440 px-wide device for the phone layout, or 1024 px and wider for the desktop layout.

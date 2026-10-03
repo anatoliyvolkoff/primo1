@@ -119,12 +119,13 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
 .acc{margin-top:23px}
 .acc details{border-top:1px solid #444}
 .acc details:last-child{border-bottom:1px solid #444}
-.acc summary{list-style:none;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 0;font-family:var(--f);font-size:17px;font-weight:600;letter-spacing:.05em;color:#666;cursor:pointer}
+.acc summary{list-style:none;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 0;font-family:var(--f);font-size:17px;font-weight:600;letter-spacing:.05em;color:#666;cursor:pointer}
 .acc summary::-webkit-details-marker{display:none}
 .acc summary svg{width:20px;height:20px;stroke:#333;transition:transform .25s}
 .acc details[open] summary svg{transform:rotate(180deg)}
-.acc ul{list-style:none;margin:0;padding:0 0 14px;font-size:15px;color:#555}
-.acc li a{display:block;padding:13px 0}
+.acc ul{list-style:none;margin:0;padding:13px 0 43px;font-family:var(--fi);font-size:14px;color:#707070}
+.acc li a{display:block;line-height:20px;padding:12px 0}
+.acc li+li{margin-top:8px}
 .f-bottom{border-top:1px solid #e3e0de;margin:44px -1px 0}
 .copy{margin:36px 0 0;text-align:center;font-size:16px;color:#6b6b6b;letter-spacing:.02em}
 .contact{margin:12px 0 0;text-align:center;font-size:16px;color:#6b6b6b;letter-spacing:.03em;display:flex;justify-content:center;align-items:center;gap:10px}
@@ -306,7 +307,7 @@ html.lock,html.lock body{overflow:hidden}
   .acc details,.acc details:last-child{border:0}
   .acc summary{height:auto;padding:11px 0 0 1px;font-size:11.5px;line-height:16px;font-weight:700;letter-spacing:2.1px;text-transform:uppercase;color:#262626;cursor:default}
   .acc summary svg{display:none}
-  .acc ul{padding:24px 0 0 1px;font-size:14px;line-height:20px;color:#737373}
+  .acc ul{padding:24px 0 0 1px;font-size:14px;line-height:20px;color:#707070}
   .acc li a{padding:0;line-height:20px}
   .acc li+li{margin-top:16px}
   .acc li a:hover{color:#000}
