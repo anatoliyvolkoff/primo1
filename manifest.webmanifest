@@ -1,11 +1,11 @@
 {
-  "name": "Primo",
-  "short_name": "Primo",
-  "description": "Daily tasks and focus timer",
+  "name": "PriMo Nails",
+  "short_name": "PriMo Nails",
+  "description": "Gel polish professionali – L'eleganza nelle tue mani.",
   "start_url": ".",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#f5f5fa",
-  "theme_color": "#5b5bd6",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "icons": [{ "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
 }

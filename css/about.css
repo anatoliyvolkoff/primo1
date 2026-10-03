@@ -1,0 +1,39 @@
+/* PriMo Nails – about. Phones: "about us mob" 7602:18992 (440). Desktop: "about us" 7602:18894 (1440). */
+.about{background:#f9f9f9;padding:0}
+.ab-blocks{display:flex;flex-direction:column;gap:80px;padding:38px 40px 80px}
+.ab-block{display:flex;flex-direction:column;gap:40px}
+.ab-img{position:relative;overflow:hidden;background:#eee}
+.b1 .ab-img{aspect-ratio:522/627}
+.b1 .ab-img img{position:absolute;left:-19.3%;top:-22.6%;width:155.88%;height:130.08%;max-width:none;object-fit:cover}
+.b2 .ab-img,.b3 .ab-img{height:529px;border:3.376px solid rgba(0,0,0,.05)}
+.b2 .ab-img img{width:100%;height:100%;object-fit:cover}
+.b3 .ab-img img{position:absolute;left:-40.07%;top:0;width:146.94%;height:100%;max-width:none;object-fit:cover}
+.ab-txt{display:flex;flex-direction:column;gap:20px}
+.ab-txt h2{margin:0;font-size:46px;line-height:42px;font-weight:600;letter-spacing:-1.54px;color:#1a1c1c}
+.ab-txt p{margin:0;font-size:17px;line-height:20px;font-weight:400;letter-spacing:1px;color:#000}
+.ab-txt p br{display:none}
+@media (min-width:1024px){
+  .about{padding:0}
+  .ab-hero{display:block!important;height:443px;overflow:hidden}
+  .ab-hero img{width:100%;height:100%;object-fit:cover}
+  .ab-blocks{display:block;max-width:1112px;margin:0 auto;padding:80px 0 0;position:relative;height:1956px}
+  .ab-block{position:absolute;left:0;right:0;display:block}
+  .ab-img{position:absolute;width:532px;border-radius:14px;box-shadow:0 20px 40px -20px rgba(0,0,0,.35);border:0!important}
+  .b1{top:80px}.b2{top:603px}.b3{top:1156px}
+  .b1 .ab-img{left:580px;top:0;height:639px;aspect-ratio:auto}
+  .b1 .ab-img img{left:0;top:0;width:100%;height:100%;object-position:58% 40%}
+  .b2 .ab-img{left:0;top:0;height:720px}
+  .b3 .ab-img{left:580px;top:0;height:720px}
+  .b3 .ab-img img{left:0;width:100%}
+  .ab-txt{position:absolute;width:532px;gap:25px}
+  .b1 .ab-txt{left:10px;top:69px}
+  .b2 .ab-txt{left:580px;top:183px}
+  .b3 .ab-txt{left:0;top:246px}
+  .ab-txt h2{font-size:42px;line-height:42px;letter-spacing:-1.3px}
+  .ab-txt h2 br{display:none}
+  .ab-txt p{font-size:12.5px;line-height:19px;letter-spacing:.1px}
+  .ab-txt p br{display:inline}
+  .about::after{content:"";display:block;height:0}
+}
+.d-br{display:none}
+@media (min-width:1024px){ .ab-txt h2 br{display:inline}.ab-txt h2 .d-br{display:inline} }

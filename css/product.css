@@ -1,0 +1,132 @@
+/* PriMo Nails – product detail. Phones: "product page mob" (440, values = design y − 60 for the status bar).
+   Desktop: "Desktop - 15" (1440). The same panel is reused by the catalogue quick view. */
+.pdp{padding-bottom:0}
+
+/* season switcher (kit page) */
+.season-tabs{position:relative;display:grid;grid-template-columns:repeat(4,96.4px);column-gap:4.27px;width:411px;height:42.4px;margin:26px auto 0;padding:5.7px 6.3px;border-radius:21.2px;background:#f2f2f2;--glow:#2f80e9}
+.season-tabs[hidden]{display:none}
+.season-tabs button{position:relative;z-index:1;height:31px;padding:0;border:0;border-radius:15.5px;background:none;font-size:13px;font-weight:600;letter-spacing:-.17px;color:#000;transition:color .25s}
+.season-tabs button[aria-selected=true]{color:#fff}
+.st-pill{position:absolute;left:0;top:5.7px;height:31px;border-radius:15.5px;background:#000;box-shadow:0 2px 5px -1px var(--glow);transition:transform .35s var(--ease),width .35s var(--ease),box-shadow .35s}
+
+/* gallery */
+.gallery{position:relative;margin-top:-4px;height:540px;background:#fefefe}
+.kit .gallery{margin-top:25.6px}
+.g-track{display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.g-track::-webkit-scrollbar{display:none}
+.g-slide{flex:none;width:100%;height:100%;margin:0;scroll-snap-align:start;overflow:hidden}
+.g-slide img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+.g-zoom img{transform:scale(1.9);transform-origin:76% 52%}
+.g-dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:0}
+.g-dots button{width:20px;height:24px;padding:0;border:0;background:none;display:grid;place-items:center}
+.g-dots button::before{content:"";width:6px;height:6px;border-radius:3px;background:#cfcfcf;transition:width .3s var(--ease),background .3s}
+.g-dots button[aria-current=true]::before{width:14px;background:#222}
+
+/* details column */
+.pinfo{padding:28px 33px 0;display:flex;flex-direction:column;align-items:flex-start}
+.p-badge{display:grid;place-items:center;width:59.4px;height:25.1px;border-radius:13px;background:#ff4040;color:#fff;font-size:15px;line-height:1;font-weight:700}
+.p-badge+.p-title{margin-top:13.5px}
+.p-title{margin:0;font-size:27px;line-height:34px;font-weight:700;letter-spacing:.15px;color:#1e1e1e}
+.p-price{margin:14.5px 0 0;display:flex;gap:16px;align-items:baseline;font-size:26px;line-height:17px;font-weight:800;letter-spacing:2.56px}
+.p-price b{color:#f00;font-weight:800}
+.p-price.nosale b{color:#000}
+.p-price s{color:#7f7f7f;text-decoration-thickness:2.5px}
+.p-size{margin-top:25px;display:grid;place-items:center;width:60px;height:25px;border:1.5px solid #7f7f7f;border-radius:13px;font-size:15px;font-weight:500;line-height:1}
+.p-shades-h{margin-top:25px;align-self:stretch;height:39px;display:flex;justify-content:space-between;padding-top:6px;border-bottom:1px solid #f2f2f4;font-size:16px;line-height:19px;letter-spacing:-.13px}
+.p-shades-h b,.p-shades-h b span{font-weight:700;color:#1e1e1e;font-size:16px}
+.p-shades-h>span{font-size:15px;font-weight:400;color:#a0a0a0}
+.p-shades-h em{font-style:normal;color:#5a5a5a}
+.p-grid{margin-top:10px;align-self:stretch;display:grid;grid-template-columns:repeat(6,55.7px);justify-content:space-between;column-gap:7.96px;row-gap:8px}
+.psw{position:relative;width:55.7px;height:55.7px;padding:0;border:0;border-radius:50%;background:#2e3a8f center/cover no-repeat;transition:transform .2s var(--ease),box-shadow .2s}
+.psw.gloss{background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.75) 0 7%,rgba(255,255,255,0) 18%),radial-gradient(circle at 50% 60%,var(--c) 0 55%,color-mix(in srgb,var(--c) 70%,#000) 100%);box-shadow:inset 0 -3px 6px rgba(0,0,0,.18),0 2px 4px rgba(0,0,0,.12)}
+.psw.all{background:var(--c);color:#fff;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
+.psw[aria-pressed=true]{box-shadow:0 0 0 2.5px #fff,0 0 0 5px #000}
+.psw:active{transform:scale(.94)}
+.wholesale{margin-top:49.6px;align-self:stretch;height:66px;display:flex;align-items:center;gap:13px;padding:0 0 0 18px;border:1.5px solid #999;border-radius:16px}
+.ws-ic{flex:none;width:38px;height:38px;border-radius:50%;border:1.5px solid #222;display:grid;place-items:center}
+.ws-ic svg{width:20px;height:20px;stroke-width:1.6}
+.wholesale p{margin:0;display:flex;flex-direction:column;gap:6px}
+.wholesale b{font-size:15px;line-height:17px;font-weight:700;letter-spacing:.2px;color:#111}
+.wholesale p span{font-size:14px;line-height:16px;color:#1d1a52}
+.wholesale a{font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#1d1a52}
+.ship-note{align-self:stretch;margin:15px 0 0;text-align:center;font-size:12.5px;line-height:16px;letter-spacing:.3px;color:#a9a9a9}
+.p-acc{align-self:stretch;margin-top:20.4px}
+.p-acc details{border-top:1px solid #f0f0f2}
+.p-acc details+details{margin-top:4px}
+.p-acc summary{list-style:none;height:66px;display:flex;align-items:center;justify-content:space-between;padding-right:8px;font-size:16px;font-weight:400;color:#555;cursor:pointer}
+.p-acc summary::-webkit-details-marker{display:none}
+.p-acc summary svg{width:18px;height:18px;stroke:#222;stroke-width:2;transition:transform .25s}
+.p-acc details[open] summary svg{transform:rotate(180deg)}
+.p-acc p{margin:0 0 18px;font-size:14px;line-height:21px;color:#555}
+
+/* stepper + add to cart */
+.stepper{display:flex;align-items:center}
+.stepper button{width:44px;height:44px;padding:0;border:0;background:none;display:grid;place-items:center;color:#222}
+.stepper svg{width:44px;height:44px;stroke-width:.9}
+.stepper output{width:13px;text-align:center;font-size:20px;line-height:24px;font-weight:500}
+.buy{border:0;background:#000;color:#fff;font-size:16px;font-weight:600;letter-spacing:.2px;border-radius:99px;transition:transform .15s,background .3s}
+.buy:active{transform:scale(.98)}
+.buy.ok{background:#1f7a3a}
+.buybar{position:fixed;z-index:25;left:50%;bottom:0;transform:translateX(-50%);width:100%;max-width:440px;height:79px;padding:13.5px 27px 13.5px 24px;display:flex;align-items:center;gap:19px;
+  background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.08);transition:transform .3s var(--ease)}
+.buybar .stepper output{margin:0 13px}
+.buybar .buy{margin-left:auto;width:246px;height:52px}
+.buybar.away{transform:translate(-50%,110%)}
+.product .totop{bottom:calc(95px + env(safe-area-inset-bottom,0px))}
+
+/* narrower phones: let the fixed design blocks scale down */
+@media (max-width:439.98px){
+  .season-tabs{width:calc(100% - 20px);grid-template-columns:repeat(4,1fr);column-gap:4px}
+  .pinfo{padding-left:20px;padding-right:20px}
+  .p-grid{grid-template-columns:repeat(6,minmax(0,55.7px));column-gap:6px}
+  .psw{width:100%;height:auto;aspect-ratio:1}
+  .buybar{padding-left:14px;padding-right:16px;gap:10px}
+  .buybar .buy{width:auto;flex:1;max-width:246px}
+}
+
+/* related */
+.related{padding:37px 0 0}
+.rel-h{margin:0;padding:0 33px;font-size:25px;line-height:40px;font-weight:700;letter-spacing:.35px;color:#1e1e1e}
+.related .rail{padding-top:14px}
+.related+.marquee+.buybar+*,.pdp+.footer{margin-top:0}
+.pdp .related{padding-bottom:100.5px}
+
+@media (min-width:1024px){
+  .pdp{max-width:976px;margin:0 auto}
+  .pdp-top{padding-top:40px}
+  .pdp .crumbs{display:flex!important;align-items:center;gap:2px;height:16.5px;font-family:var(--fi);font-size:13px;line-height:16px;color:#8a8a8a}
+  .pdp .crumbs svg{width:12px;height:12px;margin:0 2px 0 8px;stroke-width:2}
+  .pdp .crumbs a:hover{color:#000}
+  .pdp .crumbs [aria-current]{color:#4a4a4a}
+  .pdp .back{display:inline-flex!important;align-items:center;margin:12px 0 0 -1px;height:28.2px;font-family:var(--fi);font-size:13px;color:#555}
+  .pdp .back svg{width:22.6px;height:22.6px;stroke-width:1.6}
+  .season-tabs{margin:24px 0 0 252px}
+  .pdp-grid{display:grid;grid-template-columns:480px 479px;column-gap:17px;margin-top:27.6px;align-items:start}
+  .gallery{margin:0;height:631px;background:#fff}
+  .kit .gallery{margin:0}
+  .g-track{height:480px;margin-top:75px}
+  .g-dots{bottom:auto;top:575px}
+  .pinfo{padding:0}
+  .p-badge{width:83px;height:35px;border-radius:18px;font-size:15.8px}
+  .p-badge+.p-title{margin-top:20.5px}
+  .p-title{font-size:33px;line-height:42px;letter-spacing:.65px}
+  .p-price{margin-top:16.6px}
+  .p-grid{margin-top:20px;width:419px;align-self:flex-start}
+  .p-buy{display:flex!important;align-self:stretch;align-items:center;margin-top:41.9px;height:54px;padding:0 41.4px 0 45.5px}
+  .p-buy .stepper output{margin:0 13px}
+  .p-buy .buy{margin-left:auto;width:172.4px;height:42.8px}
+  .wholesale{margin:40px 52.5px 0}
+  .p-acc{margin-top:20px}
+  .related{padding:134.9px 0 140px}
+  .rel-head{display:flex;justify-content:space-between;align-items:flex-start}
+  .rel-h{padding:0;font-size:31px;line-height:38px;letter-spacing:.3px}
+  .rel-sub{margin:16px 0 0;font-size:20px;line-height:31px;font-weight:600;letter-spacing:.37px;color:#8a8a8a}
+  .rel-all{display:inline-flex!important;align-items:center;gap:12px;margin-top:26.5px;font-size:12px;font-weight:600;color:#111}
+  .rel-all span{width:32px;height:32px;border-radius:50%;border:1px solid #d8d8d8;display:grid;place-items:center}
+  .rel-all svg{width:16px;height:16px;stroke-width:2}
+  .rel-all:hover span{background:#000;color:#fff}
+  .related .rail{margin-top:40px;padding:0}
+  .related .pcard:nth-child(n+5){display:none}
+  .pdp>.marquee{width:100vw;margin-left:calc(50% - 50vw)}
+  .pdp .related{padding-bottom:140px}
+}

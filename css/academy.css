@@ -1,0 +1,97 @@
+/* PriMo Nails – Academy. Phones: "Courses mob" (440, page y = design y − 61). Desktop: "Course desk" 7602:18585 (1440). */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.acad-back{height:47.2px;display:flex;align-items:center;padding-left:21.8px}
+.back{display:inline-flex;align-items:center;gap:11px;height:27.2px;font-family:var(--fi);font-size:13px;line-height:16px;color:#555}
+.back svg{width:21.8px;height:21.8px;stroke-width:1.6}
+.acad-hero{position:relative;margin-top:10px}
+.acad-hero img{width:100%;height:331px;object-fit:cover}
+.acad-intro{padding:0 24px}
+.acad-intro h1{margin:30px 0 0;font-size:34px;line-height:43px;font-weight:600;letter-spacing:.2px;color:#111}
+.acad-intro p{margin:20px 0 0;max-width:331px;font-size:14px;line-height:18px;font-weight:600;letter-spacing:.33px;color:#111}
+
+.acad-list h2{margin:53px 26px 0;text-align:center;font-size:28px;line-height:32.5px;font-weight:600;letter-spacing:-.69px;color:#222}
+.acad-cards{display:flex;flex-direction:column;gap:45px;margin:50px 31.5px 0}
+.acard{position:relative;height:549px;border:1px solid #7f7f7f;border-radius:32px;overflow:hidden;background:linear-gradient(180deg,#fcfcfc 0%,#fafafa 55%,#f6f6f6 100%)}
+.ac-img{height:198px;background:#fff;overflow:hidden}
+.ac-img img{width:100%;height:100%;object-fit:cover}
+.ac-rate{display:flex;align-items:center;gap:18px;margin:26px 0 0 26px;font-size:15px;letter-spacing:.2px}
+.ac-rate .stars{display:flex;gap:5.6px;color:#ff9000}
+.ac-rate .stars svg{width:19.5px;height:19.5px;fill:currentColor;stroke:none}
+.ac-rate b{font-weight:700}
+.ac-body{padding:26px 0 0 21.8px}
+.ac-body h3{margin:0;max-width:250px;font-size:29px;line-height:32.5px;font-weight:600;letter-spacing:-1.3px;color:#111}
+.ac-desc{margin:5px 0 0;font-size:14px;line-height:18px;font-weight:500;letter-spacing:.45px;color:#111}
+.d-b{font-weight:inherit}
+.ac-date{display:flex;align-items:center;gap:10px;margin:26px 0 0;font-size:15px;font-weight:600}
+.ac-date svg{width:24px;height:26px;stroke-width:1.5}
+.ac-cta{position:absolute;left:194px;top:479.4px;display:grid;place-items:center;width:124.2px;height:39px;border:1px solid #333;border-radius:20px;font-family:var(--fi);font-size:15px;letter-spacing:.6px;color:#555}
+.ac-cta:hover{background:#000;color:#fff}
+
+.solo{margin:45px 31px 0}
+.solo-txt{border-left:3px solid #ba6000;padding:44px 0 44px 31.6px;min-height:377px}
+.solo h2{margin:0;font-size:36px;line-height:43px;font-weight:500;letter-spacing:.5px;color:#111}
+.solo-txt p{margin:16px 0 0;font-size:16px;line-height:18px;letter-spacing:.2px;color:#111}
+.solo ul{margin:30.4px 0 0;padding:0 0 0 22px;font-size:15px;line-height:18px;font-weight:600;letter-spacing:.3px}
+.solo li+li{margin-top:9.8px}
+.solo li::marker{font-size:12px}
+.req{margin-top:23.4px;padding:25.6px 30.1px 28px;border:1px solid #b3b3b3;border-radius:28px;background:#fff;box-shadow:0 30px 60px -30px rgba(0,0,0,.15)}
+.req h3{margin:0;font-size:20px;line-height:22px;font-weight:500;letter-spacing:.3px}
+.req-sub{margin:2px 0 0;font-size:12px;line-height:14px;font-weight:600;letter-spacing:.1px}
+.fld{display:block;margin-top:14px}
+.fld:first-of-type{margin-top:23px}
+.fld input,.fld textarea{width:100%;height:37.1px;padding:0 0 0 28.7px;border:1px solid #ececec;border-radius:19px;background:#fff;font:400 13px var(--f);color:#111}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:#4f4f4f}
+.fld input::placeholder,.fld textarea::placeholder{color:#a5a5a5;font-size:9.5px;letter-spacing:.2px}
+.fld textarea{display:block;height:88.2px;padding-top:21px;resize:vertical;border-radius:19px}
+.fld.bad input,.fld.bad textarea{border-color:#d92d2d}
+.req-err{min-height:0;margin:6px 0 0;font-size:12px;color:#d92d2d}
+.req-err:empty{display:none}
+.req-btn{display:block;width:100%;height:44.1px;margin-top:14px;border:0;border-radius:22px;background:#000;color:#fff;font-size:12px;font-weight:600;letter-spacing:.3px}
+.req-btn:disabled{background:#1f7a3a}
+.acad{padding-bottom:120px}
+
+@media (min-width:1024px){
+  .acad{padding-bottom:0}
+  .acad-hero{margin:0;height:521px;overflow:hidden;background:#111}
+  .acad-hero img{height:521px;filter:brightness(.62)}
+  .acad-intro{position:absolute;left:calc(50% - 540px);top:262px;padding:0;color:#fff}
+  .acad-intro h1{margin:0;font-size:44px;line-height:54px;font-weight:600;letter-spacing:.4px;color:#e9e9e9}
+  .acad-intro p{margin:14px 0 0;max-width:960px;font-size:19px;line-height:25px;font-weight:600;letter-spacing:.3px;color:#e2e2e2}
+  .acad-back{max-width:976px;margin:48.7px auto 0;height:48.9px;padding-left:22.6px}
+  .back svg{width:22.6px;height:22.6px}
+  .back{gap:1px}
+  .acad-list{max-width:976px;margin:0 auto}
+  .acad-list h2{margin:42.4px 0 0;max-width:715px;text-align:left;font-size:40px;line-height:50px;font-weight:500;letter-spacing:-.4px}
+  .acad-cards{gap:54px;margin:61px 0 0}
+  .acard{height:396.2px;border:1px solid #8a8a8a;border-radius:90px;background:linear-gradient(180deg,#fff 0%,#fcfcfc 50%,#f8f8f8 100%)}
+  .acard:hover{border:2px solid #f5a623;box-shadow:0 18px 30px -16px rgba(0,0,0,.2)}
+  .ac-img{position:absolute;right:1px;top:1px;width:560px;height:394px;background:none}
+  .ac-img img{object-fit:cover}
+  .ac-body{position:relative;padding:69.5px 0 0 123.4px}
+  .ac-body h3{max-width:340px;font-size:38px;line-height:44px;font-weight:600;letter-spacing:-.3px}
+  .ac-desc{margin:13.2px 0 0;font-size:14px;line-height:17px;letter-spacing:.2px}
+  .d-b{font-weight:700}
+  .ac-date{margin:13.3px 0 0;gap:10.6px;font-size:15px}
+  .ac-date svg{width:28.2px;height:28.2px;stroke-width:1.2}
+  .ac-cta{position:static;margin-top:35.3px;width:214.4px;height:44.1px;border-color:#222;color:#222;font-family:var(--f);font-size:13.5px;letter-spacing:.6px}
+  .solo{display:grid;grid-template-columns:382px 540px;justify-content:space-between;max-width:976px;margin:54px auto 0}
+  .solo-txt{align-self:center;height:381px;padding:25px 0 0 32px;border-left-width:3px}
+  .solo h2{font-size:44px;line-height:50px;letter-spacing:.4px}
+  .solo-txt p{margin:16px 0 0;font-size:16px;line-height:19px}
+  .solo ul{margin:42px 0 0;font-size:16px;line-height:19px}
+  .solo li+li{margin-top:10px}
+  .req{margin:0;height:521px;padding:39px 43px 0;border-radius:40px}
+  .req h3{font-size:27px;line-height:31px}
+  .req-sub{margin-top:2px;font-size:16px;line-height:19px}
+  .fld:first-of-type{margin-top:35px}
+  .fld{margin-top:20px}
+  .fld input{height:53px;border-radius:27px;padding-left:41px;font-size:15px}
+  .fld textarea{height:126px;padding:31px 0 0 41px;border-radius:27px}
+  .fld input::placeholder,.fld textarea::placeholder{font-size:14px}
+  .req-btn{height:63px;border-radius:32px;margin-top:20px;font-size:16px}
+  .acad::after{content:"";display:block;height:107.8px}
+  .acad-foot{display:flex!important;justify-content:center;align-items:center;height:55px;border-top:1px solid #eee}
+  .acad-foot a{display:inline-flex;align-items:center;gap:4px;font-family:var(--fi);font-size:13px;color:#8a8a8a}
+  .acad-foot svg{width:21.8px;height:21.8px;stroke-width:1.5}
+  .acad-foot a:hover{color:#000}
+}

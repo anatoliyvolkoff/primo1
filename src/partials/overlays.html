@@ -1,0 +1,31 @@
+  <!-- ===== Overlays ===== -->
+  <div class="scrim" id="scrim" hidden></div>
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+    <button class="ib close" id="drawer-close" aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <nav class="d-nav" aria-label="Sezioni">
+{{drawer_page}}      <p class="d-h">Shop</p>
+      <a href="catalogo.html">Tutti i prodotti</a><a href="catalogo.html?cat=semipermanente">Semipermanente</a><a href="catalogo.html?cat=gel">Gel</a>
+      <a href="catalogo.html?cat=acrygel">Acrygel</a><a href="catalogo.html?cat=nail-art">Nail art</a><a href="catalogo.html?cat=accessori">Accessori</a>
+      <p class="d-h">Formazione</p>
+      <a href="academy.html">PriMo Academy</a><a href="corso.html">Onicotecnica Corso Base</a>
+      <p class="d-h">Azienda</p>
+      <a href="chi-siamo.html">Chi siamo</a><a href="mailto:primonailspro@gmail.com">Contatti</a>
+    </nav>
+  </div>
+  <div class="search" id="search" role="dialog" aria-modal="true" aria-label="Cerca" hidden>
+    <form id="search-form" role="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search-input" type="search" placeholder="Cerca un colore…" aria-label="Cerca un colore" autocomplete="off" enterkeyhint="search"><button type="button" id="search-close">Chiudi</button></form>
+    <p class="search-hint" id="search-hint">Scegli un colore:</p>
+    <div class="chips" id="search-chips"></div>
+  </div>
+  <section class="sheet" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
+    <header class="sheet-h"><h2 id="cart-title">Carrello</h2>
+      <button class="ib" id="cart-close" aria-label="Chiudi carrello"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></header>
+    <div class="ship" id="cart-ship"><p id="cart-ship-txt"></p><div class="ship-bar" aria-hidden="true"><i id="cart-ship-fill"></i></div></div>
+    <ul class="cart-list" id="cart-list"></ul>
+    <div class="cart-empty" id="cart-empty" hidden><p>Il carrello è vuoto.</p><button class="pill-btn" id="cart-shop">Continua lo shopping</button></div>
+    <footer class="cart-f" id="cart-foot"><p class="cart-total"><span>Subtotale</span><b id="cart-total">€0,00</b></p>
+      <button class="btn-black" id="cart-checkout">Vai al checkout</button></footer>
+  </section>
+  <button class="totop" id="totop" aria-label="Torna su"><svg viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg></button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
