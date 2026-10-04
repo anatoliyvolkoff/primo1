@@ -28,7 +28,6 @@ HEAD = """<!doctype html>
 <link rel="apple-touch-icon" href="icons/icon.svg">
 {preload}<link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
-<link rel="stylesheet" href="css/search.css">
 {css_links}</head>
 <body class="{body}">
 <div class="page" id="page">
@@ -38,7 +37,6 @@ HEAD = """<!doctype html>
 TAIL = """</div>
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
 <script src="js/site.js"></script>
-<script src="js/search.js"></script>
 {js_links}</body>
 </html>
 """

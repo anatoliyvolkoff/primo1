@@ -5,7 +5,13 @@
   const PM = window.PM;
   const { $, $$, money, toast, addToCart, flashAdded, buzz } = PM;
 
-  const KITS = PM.CATALOG.KITS;
+  // the four season kits; Inverno uses the rendered swatches from the design, the others a glossy CSS swatch in their palette
+  const KITS = {
+    inverno: { tab: 'Inverno', name: 'Kit Collezione Invernale', glow: '#2f80e9', shades: [['night', 'Night Blue'], ['emerald', 'Emerald Blue'], ['viola', 'Viola Blue'], ['ocean', 'Ocean Blue'], ['ocean', 'Azure'], ['ocean', 'Cobalto'], ['ocean', 'Zaffiro'], ['ocean', 'Oltremare'], ['ocean', 'Indaco']], all: '#2e3a8f' },
+    primavera: { tab: 'Primavera', name: 'Kit Collezione Primaverile', glow: '#e5668f', shades: [['#f6c9d6', 'Cipria'], ['#e98aa8', 'Peonia'], ['#f3b8a0', 'Pesca'], ['#d9b6e0', 'Lilla'], ['#c7d9a8', 'Menta'], ['#f4a3bd', 'Rosa'], ['#e7738f', 'Fragola'], ['#f0c7b5', 'Nude'], ['#c9a1d4', 'Glicine']], all: '#d9879f' },
+    estate: { tab: 'Estate', name: 'Kit Collezione Estiva', glow: '#44c232', shades: [['#ff8a5c', 'Corallo'], ['#ffc247', 'Mango'], ['#f2545b', 'Anguria'], ['#6cc551', 'Lime'], ['#3fb6b2', 'Laguna'], ['#ff6f91', 'Flamingo'], ['#ffd166', 'Sole'], ['#2ec4b6', 'Turchese'], ['#ef476f', 'Lampone']], all: '#e0743d' },
+    autunno: { tab: 'Autunno', name: 'Kit Collezione Autunnale', glow: '#f5a623', shades: [['#e9860f', 'Zucca'], ['#e1332a', 'Acero'], ['#8c3a12', 'Castagna'], ['#f0b429', 'Ocra'], ['#c2521e', 'Ruggine'], ['#a8391f', 'Mattone'], ['#6b4a2b', 'Cacao'], ['#d8a15a', 'Caramello'], ['#7a2e2e', 'Vinaccia']], all: '#b5541c' },
+  };
   const PRICE = 14.99, OLD = 20.99;
   const euro = n => n.toFixed(2) + '€';
   const chev = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';

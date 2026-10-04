@@ -2,7 +2,6 @@
   <div class="scrim" id="scrim" hidden></div>
   <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu" hidden>
     <button class="ib close" id="drawer-close" aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-    <button type="button" class="d-search" id="drawer-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Cerca prodotti, colori, corsi…</button>
     <nav class="d-nav" aria-label="Sezioni">
 {{drawer_page}}      <p class="d-h">Shop</p>
       <a href="catalogo.html">Tutti i prodotti</a><a href="catalogo.html?cat=semipermanente">Semipermanente</a><a href="catalogo.html?cat=gel">Gel</a>
@@ -14,16 +13,10 @@
     </nav>
   </div>
   <div class="search" id="search" role="dialog" aria-modal="true" aria-label="Cerca" hidden>
-    <form class="sx-top" id="search-form" role="search" action="catalogo.html">
-      <label class="sx-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-        <span class="sr">Cerca prodotti, colori e corsi</span>
-        <input id="search-input" name="q" type="search" role="combobox" aria-expanded="false" aria-controls="search-body" aria-autocomplete="list"
-          placeholder="Cerca prodotti, colori, corsi…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
-        <button type="button" class="sx-clear" id="search-clear" aria-label="Cancella il testo" hidden><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></label>
-      <button type="button" class="sx-cancel" id="search-close"><span class="m-only">Annulla</span><span class="d-only">Chiudi <kbd>Esc</kbd></span></button>
-    </form>
-    <div class="sx-body" id="search-body" aria-label="Risultati della ricerca"></div>
-    <p class="sr" id="search-live" role="status" aria-live="polite"></p>
+    <form id="search-form" role="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search-input" type="search" placeholder="Cerca un colore…" aria-label="Cerca un colore" autocomplete="off" enterkeyhint="search"><button type="button" id="search-close">Chiudi</button></form>
+    <p class="search-hint" id="search-hint">Scegli un colore:</p>
+    <div class="chips" id="search-chips"></div>
   </div>
   <section class="sheet" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
     <header class="sheet-h"><h2 id="cart-title">Carrello</h2>

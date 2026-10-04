@@ -105,6 +105,12 @@
     if (!grid) moodRow.scrollLeft = 0;
     moodRow._progress();
   };
+  // search on the home page jumps to the colour picker instead of leaving the page (phones); desktop goes to the catalogue
+  window.PM.onColorPick = name => {
+    if (desktopMQ.matches) { location.href = 'catalogo.html?colore=' + encodeURIComponent(name); return; }
+    const item = $$('.mood-item').find(m => m.dataset.name === name);
+    if (item) pickMood(item, { scroll: true });
+  };
 
   // ---------- The Seasons ----------
   const BASE = ['#ffffff', '#c9c9c9', '#8f8f8f'];

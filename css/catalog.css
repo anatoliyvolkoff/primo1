@@ -83,14 +83,6 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
 .gcard .add{margin:7.5px 0 0 -.3px;width:160.6px;height:28px;font-size:9.5px;font-weight:600;letter-spacing:.35px;display:flex;align-items:center;justify-content:center}
 .gcard .add svg{width:9px;height:9px;stroke-width:3;margin-right:4.5px;vertical-align:-1px}
 .empty{padding:40px 24px 0;text-align:center;color:#666}
-/* search query from the header (?q=) */
-.q-pill{display:flex;align-items:center;gap:6px;margin:24px 22.8px -27px;font:400 14px var(--fi);color:#666}
-.q-pill[hidden]{display:none}
-.q-text{min-height:36px;padding:0 4px;border:0;background:none;font:700 15px var(--f);color:#111;text-decoration:underline;text-decoration-color:#ccc;text-underline-offset:4px}
-.q-text b::before{content:"“"}.q-text b::after{content:"”"}
-.q-x{width:36px;height:36px;margin-left:-4px;padding:0;border:0;border-radius:50%;background:none;display:grid;place-items:center;color:#777}
-.q-x svg{width:15px;height:15px;stroke-width:2.2}
-.q-x:hover{background:#f2f2f2;color:#111}
 .empty p{margin:0;font-size:15px}
 
 /* pagination (design "Variant A Capsule") */
@@ -130,7 +122,6 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .pg-nums button{min-width:24px}
 }
 @media (min-width:1024px){
-  .q-pill{max-width:976px;margin:28px auto -12px;font-size:15px}
   .cat{padding-bottom:0}
   .cat-hero{height:356px;margin-top:0;background:#f4f4f4}
   .cat-hero img{position:static;width:100%;height:100%;object-position:50% 50%}
