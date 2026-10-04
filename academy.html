@@ -14,6 +14,7 @@
 <link rel="apple-touch-icon" href="icons/icon.svg">
 <link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/search.css">
 <link rel="stylesheet" href="css/academy.css">
 </head>
 <body class="academy">
@@ -37,7 +38,7 @@
       </div>
       <a class="logo" href="index.html" aria-label="PriMo Nails – home"><img src="img/logo.png" alt="PriMo Nails" width="98" height="15.5"></a>
       <div class="tb-right">
-        <button class="ib search-ib" id="search-btn" aria-label="Apri ricerca"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></button>
+        <button class="ib search-ib" id="search-btn" aria-label="Cerca" aria-keyshortcuts="/ Control+K Meta+K"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span class="search-ph d-only">Cerca prodotti, colori…</span><kbd class="d-only" aria-hidden="true">/</kbd></button>
         <button class="ib cart" id="cart-btn" aria-label="Carrello"><svg viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><span class="cart-n" id="cart-n" hidden>0</span></button>
       </div>
     </div>
@@ -137,6 +138,7 @@
   <div class="scrim" id="scrim" hidden></div>
   <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu" hidden>
     <button class="ib close" id="drawer-close" aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <button type="button" class="d-search" id="drawer-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Cerca prodotti, colori, corsi…</button>
     <nav class="d-nav" aria-label="Sezioni">
       <p class="d-h">Shop</p>
       <a href="catalogo.html">Tutti i prodotti</a><a href="catalogo.html?cat=semipermanente">Semipermanente</a><a href="catalogo.html?cat=gel">Gel</a>
@@ -148,10 +150,16 @@
     </nav>
   </div>
   <div class="search" id="search" role="dialog" aria-modal="true" aria-label="Cerca" hidden>
-    <form id="search-form" role="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="search-input" type="search" placeholder="Cerca un colore…" aria-label="Cerca un colore" autocomplete="off" enterkeyhint="search"><button type="button" id="search-close">Chiudi</button></form>
-    <p class="search-hint" id="search-hint">Scegli un colore:</p>
-    <div class="chips" id="search-chips"></div>
+    <form class="sx-top" id="search-form" role="search" action="catalogo.html">
+      <label class="sx-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span class="sr">Cerca prodotti, colori e corsi</span>
+        <input id="search-input" name="q" type="search" role="combobox" aria-expanded="false" aria-controls="search-body" aria-autocomplete="list"
+          placeholder="Cerca prodotti, colori, corsi…" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="search">
+        <button type="button" class="sx-clear" id="search-clear" aria-label="Cancella il testo" hidden><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button></label>
+      <button type="button" class="sx-cancel" id="search-close"><span class="m-only">Annulla</span><span class="d-only">Chiudi <kbd>Esc</kbd></span></button>
+    </form>
+    <div class="sx-body" id="search-body" aria-label="Risultati della ricerca"></div>
+    <p class="sr" id="search-live" role="status" aria-live="polite"></p>
   </div>
   <section class="sheet" id="cart" role="dialog" aria-modal="true" aria-labelledby="cart-title" hidden>
     <header class="sheet-h"><h2 id="cart-title">Carrello</h2>
@@ -167,6 +175,7 @@
 </div>
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
 <script src="js/site.js"></script>
+<script src="js/search.js"></script>
 <script src="js/academy.js"></script>
 </body>
 </html>

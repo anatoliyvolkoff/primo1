@@ -27,6 +27,33 @@
   const MOODS = [['b & w', 'bw'], ['grigio', 'grigio'], ['nude', 'nude'], ['rosa', 'rosa'], ['rosso', 'rosso'], ['bordeaux', 'bordeaux'], ['lampone', 'lampone'],
     ['fucsia', 'fucsia'], ['lilla', 'lilla'], ['cioccolato', 'cioccolato'], ['glitter', 'glitter'], ['blu', 'blu'], ['verde', 'verde'], ['giallo', 'giallo']];
 
+  // ---------- catalogue data (one product photo in the design; names and shades follow its swatch labels). Used by the catalogue, product page and search. ----------
+  const COLORS = [['bw', 'b & w', 'linear-gradient(90deg,#040404 50%,#f4f4f4 50%)'], ['grigio', 'grigio', '#8a8d91'], ['nude', 'nude', '#e3c2b0'], ['rosa', 'rosa', '#f49ac1'],
+    ['rosso', 'rosso', '#d91a2a'], ['bordo', 'bordo', '#6b0f1a'], ['marsala', 'marsala', '#b52857'], ['magenta', 'magenta', '#e0007b'],
+    ['viola', 'viola', '#9b6bce'], ['marrone', 'marrone', '#4a2518'], ['blu', 'blu', '#2b429f'], ['verde', 'verde', '#559e38'], ['oy', 'O & Y', 'linear-gradient(90deg,#feda00 50%,#fe8c00 50%)']];
+  const MOOD_TO_COLOR = { 'b & w': 'bw', grigio: 'grigio', nude: 'nude', rosa: 'rosa', rosso: 'rosso', bordeaux: 'bordo', lampone: 'marsala', fucsia: 'magenta', lilla: 'viola', cioccolato: 'marrone', glitter: 'nude', blu: 'blu', verde: 'verde', giallo: 'oy' };
+  const COLLS = [['autumn', 'Autumn collection'], ['winter', 'Winter collection'], ['spring', 'Spring collection'], ['summer', 'Summer collection']];
+  const FX = [['shimmer', 'Shimmer'], ['holo', 'Olografico']];
+  const NAMES = ['Ultramarine Glow', 'Night Blue', 'Emerald Blue', 'Viola Blue', 'Ocean Blue', 'Azure', 'Rosa Antico', 'Nude Velvet', 'Rosso Milano', 'Bordeaux', 'Lilla Soft', 'Cacao', 'Verde Salvia', 'Sole d’Estate', 'Grafite', 'Magenta Pop'];
+  const COLOR_OF = ['blu', 'blu', 'verde', 'viola', 'blu', 'blu', 'rosa', 'nude', 'rosso', 'bordo', 'viola', 'marrone', 'verde', 'oy', 'grigio', 'magenta'];
+  const CATS = ['semipermanente', 'gel', 'base', 'top', 'acrygel', 'preparatori', 'nail-art', 'care', 'kit', 'accessori'];
+  const CAT_LABEL = { semipermanente: 'Semipermanente', gel: 'Gel', base: 'Base', top: 'Top', acrygel: 'Acrygel', preparatori: 'Preparatori', 'nail-art': 'Nail art', care: 'Care', kit: 'Kit', accessori: 'Accessori' };
+  const PRODUCTS = Array.from({ length: 96 }, (_, i) => {
+    const n = i % NAMES.length;
+    return {
+      id: i, num: 112, name: 'Ultramarine Glow', shade: NAMES[n], color: COLOR_OF[n], coll: COLLS[i % 4][0], fx: i % 6 === 0 ? 'holo' : i % 3 === 0 ? 'shimmer' : null,
+      cat: i % 5 === 4 ? CATS[(i / 5 | 0) % CATS.length] : 'semipermanente', price: 14.99, pop: (i * 37) % 96, isNew: i % 7 === 0,
+    };
+  });
+  // the four season kits; Inverno uses the rendered swatches from the design, the others a glossy CSS swatch in their palette
+  const KITS = {
+    inverno: { tab: 'Inverno', name: 'Kit Collezione Invernale', glow: '#2f80e9', shades: [['night', 'Night Blue'], ['emerald', 'Emerald Blue'], ['viola', 'Viola Blue'], ['ocean', 'Ocean Blue'], ['ocean', 'Azure'], ['ocean', 'Cobalto'], ['ocean', 'Zaffiro'], ['ocean', 'Oltremare'], ['ocean', 'Indaco']], all: '#2e3a8f' },
+    primavera: { tab: 'Primavera', name: 'Kit Collezione Primaverile', glow: '#e5668f', shades: [['#f6c9d6', 'Cipria'], ['#e98aa8', 'Peonia'], ['#f3b8a0', 'Pesca'], ['#d9b6e0', 'Lilla'], ['#c7d9a8', 'Menta'], ['#f4a3bd', 'Rosa'], ['#e7738f', 'Fragola'], ['#f0c7b5', 'Nude'], ['#c9a1d4', 'Glicine']], all: '#d9879f' },
+    estate: { tab: 'Estate', name: 'Kit Collezione Estiva', glow: '#44c232', shades: [['#ff8a5c', 'Corallo'], ['#ffc247', 'Mango'], ['#f2545b', 'Anguria'], ['#6cc551', 'Lime'], ['#3fb6b2', 'Laguna'], ['#ff6f91', 'Flamingo'], ['#ffd166', 'Sole'], ['#2ec4b6', 'Turchese'], ['#ef476f', 'Lampone']], all: '#e0743d' },
+    autunno: { tab: 'Autunno', name: 'Kit Collezione Autunnale', glow: '#f5a623', shades: [['#e9860f', 'Zucca'], ['#e1332a', 'Acero'], ['#8c3a12', 'Castagna'], ['#f0b429', 'Ocra'], ['#c2521e', 'Ruggine'], ['#a8391f', 'Mattone'], ['#6b4a2b', 'Cacao'], ['#d8a15a', 'Caramello'], ['#7a2e2e', 'Vinaccia']], all: '#b5541c' },
+  };
+  const CATALOG = { COLORS, MOOD_TO_COLOR, COLLS, FX, NAMES, COLOR_OF, CATS, CAT_LABEL, PRODUCTS, KITS };
+
   // ---------- toast ----------
   const toastEl = $('#toast');
   let toastTimer;
@@ -79,8 +106,6 @@
   scrim.addEventListener('click', () => closeOverlay());
   $('#menu-btn').onclick = () => openOverlay('drawer', '#drawer-close');
   $('#drawer-close').onclick = () => closeOverlay();
-  $('#search-btn').onclick = () => openOverlay('search', '#search-input');
-  $('#search-close').onclick = () => closeOverlay();
   $('#cart-btn').onclick = () => openOverlay('cart', '#cart-close');
   $('#cart-close').onclick = () => closeOverlay();
   overlays.drawer.addEventListener('click', e => {
@@ -216,30 +241,6 @@
     }
   });
 
-  // ---------- search: tap a colour instead of typing ----------
-  const chips = $('#search-chips'), searchInput = $('#search-input'), searchHint = $('#search-hint');
-  chips.innerHTML = MOODS.map(([label]) => `<button type="button" class="chip" data-name="${label}">${label}</button>`).join('');
-  const matches = q => MOODS.map(m => m[0]).filter(n => n.includes(q));
-  searchInput.addEventListener('input', () => {
-    const q = searchInput.value.trim().toLowerCase(), hits = matches(q);
-    $$('.chip', chips).forEach(c => { c.hidden = !hits.includes(c.dataset.name); });
-    searchHint.textContent = !q ? 'Scegli un colore:' : hits.length ? 'Colori trovati:' : `Nessun colore per “${q}”`;
-  });
-  /* Pages can take over what picking a colour does (the home page scrolls to its colour picker). */
-  const PM = window.PM = window.PM || {};
-  PM.onColorPick = name => { location.href = 'catalogo.html?colore=' + encodeURIComponent(name); };
-  function chooseColor(name) {
-    closeOverlay(true); searchInput.value = ''; searchInput.dispatchEvent(new Event('input'));
-    PM.onColorPick(name);
-  }
-  chips.addEventListener('click', e => { const c = e.target.closest('.chip'); if (c) chooseColor(c.dataset.name); });
-  $('#search-form').onsubmit = e => {
-    e.preventDefault();
-    const q = searchInput.value.trim().toLowerCase(); if (!q) return;
-    const hit = matches(q)[0];
-    hit ? chooseColor(hit) : toast(`Nessun colore per “${q}”`);
-  };
-
   // ---------- marquees ----------
   const ICON = {
     ship: '<svg viewBox="0 0 32 32"><path d="M3 9h16v12H3zM19 13h5l4 4v4h-9"/><circle cx="8.5" cy="23.5" r="2.5"/><circle cx="23" cy="23.5" r="2.5"/><path d="M1 12.5h5M1 16h4"/></svg>',
@@ -321,9 +322,10 @@
   const here = location.pathname.split('/').pop() || 'index.html';
   $$('.dnav a, .drawer a').forEach(a => { if (a.getAttribute('href') === here) a.setAttribute('aria-current', 'page'); });
 
+  const PM = window.PM = window.PM || {};
   Object.assign(PM, {
     $, $$, root, reduceMotion, finePointer, desktopMQ, smooth, money, buzz, store, settle,
-    PRODUCT, SHADES, EXTRA, SHADE_IMG, MOODS, toast, openOverlay, closeOverlay, addToCart, flashAdded,
+    PRODUCT, SHADES, EXTRA, SHADE_IMG, MOODS, CATALOG, toast, openOverlay, closeOverlay, addToCart, flashAdded,
     attachProgress, productCard, fillRail, dragScroll, jumpTo,
   });
   /* Page scripts run after this file; they call PM.ready() so shared setup that depends on their DOM runs last. */

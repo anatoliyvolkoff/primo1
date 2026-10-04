@@ -7,7 +7,7 @@ A working multi-page prototype of the PriMo Nails shop, rebuilt from the Figma f
 |---|---|---|
 | Home | `index.html` | Landing mob · Desktop – 7 |
 | Product | `prodotto.html` (`?sale=0` no-sale variant, `?kit=inverno` seasonal kit with season switcher) | product page mob · Desktop – 15 |
-| Catalogue | `catalogo.html` (`?cat=…` from the desktop nav) | catalogue phone + desktop frames, filter and pagination states |
+| Catalogue | `catalogo.html` (`?cat=`, `?colore=`, `?coll=`, `?q=` search results) | catalogue phone + desktop frames, filter and pagination states |
 | Academy (course list) | `academy.html` | Courses mob · Course desk 7602:18585 |
 | Course detail | `corso.html` | Course mob · Course desk 7602:18311 |
 | About us | `chi-siamo.html` | about us mob · about us |
@@ -16,6 +16,7 @@ Shared header (phone bar + desktop nav), footer (accordion on phones, columns on
 
 ## What works
 - **Cart**: add from any product card, the product page (sticky buy bar on phones), the catalogue quick view or the seasonal kit. It persists across reloads and has a free-shipping progress bar.
+- **Search** (`js/search.js`, `css/search.css`): full screen on phones; on desktop a visible field in the header that opens a panel under it. Results update as you type, grouped into suggestions (colours, categories, collections, courses, pages) and products, with matches in bold. It tolerates accents, typos ("rossso" finds rosso) and common Italian/English synonyms (smalto, blue, top coat…). Before you type it shows recent searches (stored on the device, removable), popular searches, colours and best sellers. Keyboard: `/` or Ctrl/⌘+K opens it, arrow keys move through results, Enter opens one, Esc closes. Enter on an exact colour or category opens it directly; any other text goes to the catalogue as `?q=`. Also reachable from the phone menu.
 - **Catalogue**: filter panel (13 colours, collections, effects, dual-handle price range), sort menu, active-filter count, pagination (12 per page on phones, 16 on desktop), empty state, and a quick-view dialog that reuses the product panel.
 - **Product**: swipeable gallery with dots, shade picker, quantity stepper, accordions, related products. The kit page has an animated season switcher.
 - **Academy**: course cards, plus an individual-training request form with validation and a confirmation toast.
