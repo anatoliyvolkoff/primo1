@@ -1,16 +1,7 @@
 /* PriMo Nails – course detail. Phones: single column with a sticky enrol bar. Desktop: split hero, content + sticky enrol card. */
 .course-p{--cx-warm:#f6f3ef;--cx-line:#e6e1dc;padding-bottom:40px}
-.cx-eyebrow{margin:0;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
-.cx-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 28px;border-radius:99px;background:#000;color:#fff;font-size:15px;font-weight:600;letter-spacing:.2px;white-space:nowrap;transition:background .2s,transform .15s}
-.cx-btn svg{width:20px;height:20px;stroke-width:1.8}
-.cx-btn:hover{background:#2a2a2a}.cx-btn:active{transform:scale(.98)}
-.cx-btn.light{background:#fff;color:#000}.cx-btn.light:hover{background:#ece8e3}
-.cx-ghost{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 24px;border-radius:99px;border:1.2px solid #c9c4bf;font-size:15px;font-weight:500;color:#222;white-space:nowrap;transition:border-color .2s}
-.cx-ghost:hover{border-color:#000}
 
 /* hero */
-.cx-back{position:absolute;z-index:2;top:12px;left:12px;height:auto;padding:0}
-.cx-back .back{height:36px;padding:0 14px 0 8px;gap:4px;border-radius:99px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#111;font-weight:500}
 .cx-hero{position:relative;background:var(--cx-warm)}
 .cx-media{height:380px;overflow:hidden}
 .cx-media img{width:100%;height:100%;object-fit:cover;object-position:50% 38%}
@@ -24,22 +15,11 @@
 .cx-ctas{display:flex;flex-direction:column;gap:10px;margin-top:26px}
 
 /* key facts */
-.cx-facts{padding:0 16px;margin-top:-1px;background:linear-gradient(var(--cx-warm) 50%,#fff 50%)}
-.cx-facts dl{display:grid;grid-template-columns:1fr 1fr;margin:0;border:1px solid var(--cx-line);border-radius:24px;background:#fff;box-shadow:0 20px 40px -28px rgba(0,0,0,.25);overflow:hidden}
-.cx-facts div{padding:18px 18px 20px;border-color:var(--cx-line)}
-.cx-facts div:nth-child(odd){border-right:1px solid var(--cx-line)}
-.cx-facts div:nth-child(-n+2){border-bottom:1px solid var(--cx-line)}
-.cx-facts dt{display:flex;flex-direction:column;gap:12px;font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a8580}
-.cx-facts dt svg{width:26px;height:26px;stroke-width:1.5;color:#111}
-.cx-facts dd{margin:4px 0 0;font-size:16px;line-height:21px;font-weight:600;color:#111}
 
 /* content */
 .cx-body{padding:0 24px}
 .cx-sec{padding-top:56px}
 .cx-sec h2,.cx-gal h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111}
-.cx-learn{display:grid;gap:14px;margin:24px 0 0;padding:0;list-style:none}
-.cx-learn li{position:relative;padding-left:36px;font-size:15.5px;line-height:22px;color:#222}
-.cx-learn li::before{content:"";position:absolute;left:0;top:-1px;width:24px;height:24px;border-radius:50%;background:#111 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
 .cx-prog{margin:24px 0 0;padding:0;list-style:none;border-top:1px solid var(--cx-line)}
 .cx-prog li{display:grid;grid-template-columns:52px 1fr;padding:20px 0;border-bottom:1px solid var(--cx-line)}
 .cx-prog .n{font-size:22px;line-height:26px;font-weight:300;color:var(--accent);font-variant-numeric:tabular-nums}
@@ -130,7 +110,6 @@
   .cx-book li span{color:#8a8580}
   .cx-book li b{font-weight:600;color:#111}
   .cx-book .cx-btn{width:100%}
-  .cx-note{margin:12px 0 0;text-align:center;font-family:var(--fi);font-size:12.5px;color:#8a8580}
   .cx-gal{max-width:976px;margin:0 auto;padding-top:96px}
   .cx-gal-head{padding:0}
   .gal-track{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px;padding:0;overflow:visible}
