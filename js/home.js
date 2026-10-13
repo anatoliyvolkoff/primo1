@@ -113,26 +113,28 @@
   };
 
   // ---------- The Seasons ----------
-  const BASE = ['#ffffff', '#c9c9c9', '#8f8f8f'];
+  // Each season opens its seasonal kit page; the shade picked here is carried over (prodotto.html?kit=…&shade=…).
   const SEASONS = [
-    { id: 'autumn', color: '#c8742d', cta: '#fcf5eb', isNew: false, shades: ['#e9860f', '#e1332a', '#8c3a12', '#f0b429', '#c2521e', '#a8391f', '#6b4a2b', '#d8a15a'] },
-    { id: 'winter', color: '#2f80e9', cta: '#f2f3f7', isNew: false, shades: [...BASE, '#dfe8f5', '#9fb7d8', '#4a6fa5', '#2b2f3a', '#b9a7c9'] },
-    { id: 'spring', color: '#e5668f', cta: '#fdf1f5', isNew: false, shades: [...BASE, '#f6c9d6', '#e98aa8', '#f3b8a0', '#c7d9a8', '#d9b6e0'] },
-    { id: 'summer', color: '#44c232', cta: '#f2fdec', isNew: true, shades: [...BASE, '#ff8a5c', '#ffc247', '#f2545b', '#6cc551', '#3fb6b2'] },
+    { id: 'autumn', kit: 'autunno', color: '#c8742d', cta: '#fcf5eb', isNew: false, shades: [['#e9860f', 'Zucca'], ['#e1332a', 'Acero'], ['#8c3a12', 'Castagna'], ['#f0b429', 'Ocra'], ['#c2521e', 'Ruggine'], ['#a8391f', 'Mattone'], ['#6b4a2b', 'Cacao'], ['#d8a15a', 'Caramello']] },
+    { id: 'winter', kit: 'inverno', color: '#2f80e9', cta: '#f2f3f7', isNew: false, shades: [['#22305e', 'Night Blue'], ['#1f6f78', 'Emerald Blue'], ['#5b4a9e', 'Viola Blue'], ['#2a7fc0', 'Ocean Blue'], ['#5aa9e6', 'Azure'], ['#2747a8', 'Cobalto'], ['#1f3f8a', 'Zaffiro'], ['#2b3f9e', 'Oltremare']] },
+    { id: 'spring', kit: 'primavera', color: '#e5668f', cta: '#fdf1f5', isNew: false, shades: [['#f6c9d6', 'Cipria'], ['#e98aa8', 'Peonia'], ['#f3b8a0', 'Pesca'], ['#d9b6e0', 'Lilla'], ['#c7d9a8', 'Menta'], ['#f4a3bd', 'Rosa'], ['#e7738f', 'Fragola'], ['#f0c7b5', 'Nude']] },
+    { id: 'summer', kit: 'estate', color: '#44c232', cta: '#f2fdec', isNew: true, shades: [['#ff8a5c', 'Corallo'], ['#ffc247', 'Mango'], ['#f2545b', 'Anguria'], ['#6cc551', 'Lime'], ['#3fb6b2', 'Laguna'], ['#ff6f91', 'Flamingo'], ['#ffd166', 'Sole'], ['#2ec4b6', 'Turchese']] },
   ];
-  const sState = { active: -1, sel: SEASONS.map(() => 0), expanded: SEASONS.map(() => false) };
+  // active: the season shown now (hover preview on desktop); pinned: the one picked with a click / tap / key (-1 = neutral)
+  const sState = { active: -1, pinned: -1, sel: SEASONS.map(() => 0), expanded: SEASONS.map(() => false) };
   const sec = $('#seasons'), track = $('#track'), dotsEl = $('#dots'), bg = $('#bg'), cta = $('#cta');
+  const kitHref = i => `prodotto.html?kit=${SEASONS[i].kit}&shade=${sState.sel[i] + 1}`;
 
   const swRow = s => {
     const open = sState.expanded[s], n = open ? 8 : 3;
     let h = '';
-    for (let i = 0; i < n; i++) h += `<button class="sw ${sState.sel[s] === i ? 'sel' : ''} ${open && i >= 3 ? 'pop' : ''}" style="--sw:${SEASONS[s].shades[i]};--i:${i}" data-shade="${i}" aria-label="Shade ${i + 1}" aria-pressed="${sState.sel[s] === i}"></button>`;
-    return h + (open ? '' : '<button class="more" data-more aria-label="Show 5 more shades">+5</button>');
+    for (let i = 0; i < n; i++) h += `<button type="button" class="sw ${sState.sel[s] === i ? 'sel' : ''} ${open && i >= 3 ? 'pop' : ''}" style="--sw:${SEASONS[s].shades[i][0]};--i:${i}" data-shade="${i}" aria-label="${SEASONS[s].shades[i][1]}" aria-pressed="${sState.sel[s] === i}"></button>`;
+    return h + (open ? '' : '<button type="button" class="more" data-more aria-label="Mostra altre 5 sfumature">+5</button>');
   };
   SEASONS.forEach((s, i) => {
     track.insertAdjacentHTML('beforeend', `<article class="s-card" data-i="${i}" style="--c:${s.color}" aria-label="${s.id}">
-      <div class="s-photo"><picture><source media="(min-width:1024px)" srcset="img/${s.id}-d.jpg"><img src="img/${s.id}.jpg" alt="PriMo Nails polish – ${s.id} collection" draggable="false" decoding="async"></picture>${s.isNew ? '<span class="s-badge" lang="en">new</span>' : ''}</div>
-      <div class="s-meta"><h3 lang="en">${s.id}</h3><div class="s-sw">${swRow(i)}</div></div></article>`);
+      <a class="s-photo" href="${kitHref(i)}" draggable="false" aria-label="Scopri la collezione ${s.id}"><picture><source media="(min-width:1024px)" srcset="img/${s.id}-d.jpg"><img src="img/${s.id}.jpg" alt="" draggable="false" decoding="async"></picture>${s.isNew ? '<span class="s-badge" lang="en">new</span>' : ''}<span class="s-go" aria-hidden="true">Scopri</span></a>
+      <div class="s-meta"><h3 lang="en">${s.id}</h3><div class="s-sw" role="group" aria-label="Sfumature ${s.id}">${swRow(i)}</div><p class="s-shade" aria-live="polite">${s.shades[0][1]}</p></div></article>`);
     dotsEl.insertAdjacentHTML('beforeend', `<button class="s-dot" role="tab" data-i="${i}" aria-label="${s.id}" aria-selected="false"></button>`);
   });
   const sCards = [...track.children], sDots = [...dotsEl.children];
@@ -157,15 +159,27 @@
   });
   const layers = [...bg.children];
 
+  // i = -1 brings back the neutral frame (desktop only)
   function setActive(i) {
     if (i === sState.active) return;
     sState.active = i;
-    const s = SEASONS[i];
-    sec.style.setProperty('--accent', s.color); sec.style.setProperty('--cta-bg', s.cta);
     sCards.forEach((c, k) => c.classList.toggle('active', k === i));
     sDots.forEach((d, k) => d.setAttribute('aria-selected', k === i));
     layers.forEach((l, k) => l.classList.toggle('on', k === i));
+    if (i < 0) { delete sec.dataset.season; return; }
+    const s = SEASONS[i];
+    sec.style.setProperty('--accent', s.color); sec.style.setProperty('--cta-bg', s.cta);
     sec.dataset.season = s.id;
+    cta.href = kitHref(i);
+  }
+  function pickShade(i, n) {
+    sState.sel[i] = n;
+    const card = sCards[i], name = $('.s-shade', card);
+    $$('.sw', card).forEach(b => { const on = +b.dataset.shade === n; b.classList.toggle('sel', on); b.setAttribute('aria-pressed', on); });
+    name.textContent = SEASONS[i].shades[n][1];
+    name.classList.remove('swap'); void name.offsetWidth; name.classList.add('swap');   // restart the fade-in
+    $('.s-photo', card).href = kitHref(i);
+    if (i === sState.active) cta.href = kitHref(i);
   }
   // While a dot/arrow/tap animates the scroll, keep the chosen season instead of flashing through the ones in between.
   let sNav = -1;
@@ -184,7 +198,7 @@
         if (d < bestD) { bestD = d; best = k; }
         c.style.setProperty('--t', sec.dataset.idle === 'true' ? 0 : Math.min(1, d / pitch).toFixed(3));
       });
-      if (sec.dataset.idle !== 'true' && sNav < 0) setActive(best);
+      if (sec.dataset.idle !== 'true' && sNav < 0) { sState.pinned = best; setActive(best); }
     });
   }
   track.addEventListener('scroll', () => { if (sNav >= 0) sUnlock(); onSScroll(); }, { passive: true });
@@ -199,9 +213,11 @@
   }
   function sGoTo(i, animate = true) {
     i = Math.max(0, Math.min(SEASONS.length - 1, i));
+    sState.pinned = i;
+    if (desktopMQ.matches) { setActive(i); return; }
     leaveIdle();
     sNav = i; setActive(i); sUnlock();
-    if (!desktopMQ.matches) track.scrollTo({ left: centerLeft(i), behavior: animate && !reduceMotion ? 'smooth' : 'auto' });
+    track.scrollTo({ left: centerLeft(i), behavior: animate && !reduceMotion ? 'smooth' : 'auto' });
   }
   // idle frame: first card sits at the left margin, nothing selected. Settles on "autumn" when the carousel is first seen (phones).
   track.classList.add('free');
@@ -217,30 +233,36 @@
   track.addEventListener('click', e => {
     const card = e.target.closest('.s-card'); if (!card) return;
     const i = +card.dataset.i;
-    if (i !== sState.active) { sGoTo(i); if (!desktopMQ.matches) return; }
-    if (e.target.closest('[data-more]')) { sState.expanded[i] = true; $('.s-sw', card).innerHTML = swRow(i); return; }
-    const sw = e.target.closest('.sw');
-    if (sw) {
-      sState.sel[i] = +sw.dataset.shade;
-      $$('.sw', card).forEach(b => { const on = +b.dataset.shade === sState.sel[i]; b.classList.toggle('sel', on); b.setAttribute('aria-pressed', on); });
-      buzz(8);
+    if (!desktopMQ.matches && i !== sState.active) { e.preventDefault(); sGoTo(i); return; }   // phones: the first tap brings a side card to the centre
+    if (e.target.closest('.s-photo')) return;                                               // the photo opens the seasonal kit
+    sGoTo(i);                                                                                // desktop: a click keeps this season after the pointer leaves
+    const more = e.target.closest('[data-more]');
+    if (more) {
+      sState.expanded[i] = true; $('.s-sw', card).innerHTML = swRow(i);
+      if (!e.detail) $('.sw[data-shade="3"]', card).focus();                                 // keyboard: carry focus to the first new shade
+      return;
     }
+    const sw = e.target.closest('.sw');
+    if (sw) { pickShade(i, +sw.dataset.shade); buzz(8); }
   });
   track.addEventListener('keydown', e => {
     const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-    if (step) { e.preventDefault(); sGoTo((sState.active < 0 ? 0 : sState.active) + step); }
+    if (step && e.target === track) { e.preventDefault(); sGoTo((sState.active < 0 ? 0 : sState.active) + step); }
   });
-  cta.onclick = () => {
-    $('#bestsellers').scrollIntoView({ behavior: smooth() });
-    selectTab($('[data-tab=best]', tabs));
-  };
-  // desktop: the four cards sit side by side; the frame starts neutral (design state 1) and picks a season on hover / focus / tap
+  // desktop: the four cards sit side by side; the frame starts neutral (design state 1), hovering or focusing a card previews
+  // its season, and leaving the cards goes back to the clicked season, or to neutral if none was clicked
   if (desktopMQ.matches) sec.dataset.idle = 'false';
-  desktopMQ.addEventListener('change', () => { if (desktopMQ.matches) { sec.dataset.idle = 'false'; sCards.forEach(c => c.style.removeProperty('--t')); } else placeIdle(); });
+  desktopMQ.addEventListener('change', () => {
+    if (desktopMQ.matches) { sec.dataset.idle = 'false'; sCards.forEach(c => c.style.removeProperty('--t')); setActive(sState.pinned); return; }
+    if (sec.dataset.idle === 'true') placeIdle(); else sGoTo(sState.pinned < 0 ? 0 : sState.pinned, false);
+  });
+  const restore = () => { if (desktopMQ.matches) setActive(sState.pinned); };
   sCards.forEach((c, i) => {
     c.addEventListener('mouseenter', () => { if (desktopMQ.matches) setActive(i); });
     c.addEventListener('focusin', () => { if (desktopMQ.matches) setActive(i); });
   });
+  track.addEventListener('mouseleave', restore);
+  track.addEventListener('focusout', e => { if (!track.contains(e.relatedTarget) && !track.matches(':hover')) restore(); });
 
   // ---------- testimonials ----------
   const t = $('#t-track');
