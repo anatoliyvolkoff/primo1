@@ -6,11 +6,16 @@ Each page source starts with a settings comment, e.g.
 and may define the page-specific drawer links between <!--drawer--> ... <!--/drawer-->.
 Run `python3 build.py` after editing anything in src/; `python3 build.py --check` fails if the output is stale.
 """
-import pathlib, re, sys
+import hashlib, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).parent
 SRC = ROOT / 'src'
 partial = {p.stem: p.read_text() for p in (SRC / 'partials').glob('*.html')}
+
+
+def v(path: str) -> str:
+    """Asset URL with a content hash, so browsers fetch a fresh copy after each deploy instead of a cached old one."""
+    return f'{path}?v={hashlib.sha1((ROOT / path).read_bytes()).hexdigest()[:8]}'
 
 HEAD = """<!doctype html>
 <html lang="it">
@@ -27,7 +32,7 @@ HEAD = """<!doctype html>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon.svg">
 {preload}<link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="{site_css}">
 {css_links}</head>
 <body class="{body}">
 <div class="page" id="page">
@@ -36,7 +41,7 @@ HEAD = """<!doctype html>
 """
 TAIL = """</div>
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
-<script src="js/site.js"></script>
+<script src="{site_js}"></script>
 {js_links}</body>
 </html>
 """
@@ -54,12 +59,12 @@ def build(src: pathlib.Path) -> str:
     if dm:
         drawer, body = dm.group(1), body[:dm.start()] + body[dm.end():]
     preload = ''.join(f'<link rel="preload" href="{p}" as="image" fetchpriority="high">\n' for p in opts.get('preload', '').split() if p)
-    css_links = ''.join(f'<link rel="stylesheet" href="css/{c}.css">\n' for c in opts.get('css', src.stem).split())
-    js_links = ''.join(f'<script src="js/{j}.js"></script>\n' for j in opts.get('js', src.stem).split())
+    css_links = ''.join(f'<link rel="stylesheet" href="{v(f"css/{c}.css")}">\n' for c in opts.get('css', src.stem).split())
+    js_links = ''.join(f'<script src="{v(f"js/{j}.js")}"></script>\n' for j in opts.get('js', src.stem).split())
     page = HEAD.format(title=opts.get('title', 'PriMo Nails'), description=opts.get('description', ''),
-                       css_links=css_links, body=opts.get('body', src.stem), preload=preload)
+                       css_links=css_links, body=opts.get('body', src.stem), preload=preload, site_css=v('css/site.css'))
     page += partial['header'] + '\n' + body.rstrip() + '\n\n' + partial['footer'] + '\n' + partial['overlays'].replace('{{drawer_page}}', drawer)
-    page += TAIL.format(js_links=js_links)
+    page += TAIL.format(js_links=js_links, site_js=v('js/site.js'))
     return page
 
 
