@@ -148,31 +148,7 @@
   desktopMQ.addEventListener('change', () => apply());
 
   // ---------- quick view (desktop design "product seasons (with sale)"; on phones it opens as a sheet) ----------
-  const qv = $('#qv'), qvTabs = $('#qv-tabs');
-  const KIT_TABS = [['inverno', 'Inverno', '#2f80e9'], ['primavera', 'Primavera', '#e5668f'], ['estate', 'Estate', '#44c232'], ['autunno', 'Autunno', '#f5a623']];
-  let qvKit = 'inverno', qvReturn = null;
-  qvTabs.innerHTML = '<span class="st-pill" aria-hidden="true"></span>' + KIT_TABS.map(([k, l, g]) => `<button type="button" role="tab" data-kit="${k}" aria-selected="${k === qvKit}" style="--glow:${g}">${l}</button>`).join('');
-  const placeQv = () => { const b = $('[aria-selected=true]', qvTabs), pill = $('.st-pill', qvTabs); pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft}px)`; qvTabs.style.setProperty('--glow', KIT_TABS.find(t => t[0] === qvKit)[2]); };
-  const renderQv = () => { PM.renderProduct($('#qv-body'), { kit: qvKit, sale: true, idp: 'qv' }); $('.qv-more').href = `prodotto.html?kit=${qvKit}`; };
-  function openQv() {
-    qvReturn = document.activeElement;
-    qv.hidden = false; PM.root.classList.add('lock');
-    [$('.topbar'), $('#top'), $('.footer')].forEach(n => { n.inert = true; });
-    renderQv(); requestAnimationFrame(() => { placeQv(); $('#qv-close').focus(); });
-  }
-  function closeQv() {
-    qv.hidden = true; PM.root.classList.remove('lock');
-    [$('.topbar'), $('#top'), $('.footer')].forEach(n => { n.inert = false; });
-    qvReturn?.focus({ preventScroll: true });
-  }
-  grid.addEventListener('click', e => { if (e.target.closest('[data-qv]')) openQv(); });
-  $('#qv-close').onclick = closeQv;
-  qv.addEventListener('click', e => { if (e.target === qv) closeQv(); });
-  addEventListener('keydown', e => { if (e.key === 'Escape' && !qv.hidden) closeQv(); });
-  qvTabs.addEventListener('click', e => {
-    const b = e.target.closest('[data-kit]'); if (!b) return;
-    qvKit = b.dataset.kit; $$('[data-kit]', qvTabs).forEach(t => t.setAttribute('aria-selected', t === b)); placeQv(); renderQv();
-  });
+  grid.addEventListener('click', e => { if (e.target.closest('[data-qv]')) PM.quickView(); });
 
   $$('[data-back]').forEach(l => l.addEventListener('click', e => { if (document.referrer.startsWith(location.origin) && history.length > 1) { e.preventDefault(); history.back(); } }));
   // a colour picked in search stays on this page
