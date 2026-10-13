@@ -79,7 +79,7 @@
       $$('.psw', root).forEach(x => x.setAttribute('aria-pressed', x === b));
       const n = +b.dataset.i;
       $('[data-shade-name]', root).textContent = n ? `${String(90 + n).padStart(3, '0')} ${b.getAttribute('aria-label')}` : '091';
-      buzz(6);
+      if (e.isTrusted) buzz(6);
     });
     // accordions: one open at a time
     const acc = $$('.p-acc details', root);
@@ -140,6 +140,9 @@
     addEventListener('resize', place); document.fonts.ready.then(place); place();
   }
   render();
+  // a shade picked on the home page's The Seasons arrives pre-selected (?shade=1…9)
+  const shade = $(`.psw[data-i="${parseInt(params.get('shade'), 10) || 0}"]`, page);
+  if (shade && shade.dataset.i !== '0') shade.click();
   // "Indietro" goes back when we came from inside the site
   $$('[data-back]').forEach(a => a.addEventListener('click', e => { if (document.referrer.startsWith(location.origin) && history.length > 1) { e.preventDefault(); history.back(); } }));
   // the phone add-to-cart bar hides while the footer is on screen so it never covers the links
