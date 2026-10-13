@@ -80,11 +80,11 @@
   // ---------- colour picker (mobile "Scegli il tuo Mood", desktop "Shop by color") ----------
   const moodRow = $('#mood-row');
   moodRow.innerHTML = MOODS.map(([label, f]) => `<button class="mood-item" data-name="${label}" aria-pressed="false">
-    <img src="img/mood-${f}.webp?v=2" alt="" width="53" height="125" loading="lazy" decoding="async"><span>${label}</span></button>`).join('');
+    <img src="img/mood-${f}.webp?v=3" alt="" width="53" height="125" loading="lazy" decoding="async"><span>${label}</span></button>`).join('');
   attachProgress(moodRow);
   const colorRow = $('#color-row');
   colorRow.innerHTML = MOODS.map(([label, f]) => `<a class="color-item" href="catalogo.html?colore=${encodeURIComponent(label)}" aria-label="${label}">
-    <img src="img/mood-${f}.webp?v=2" alt="" width="50" height="122" loading="lazy" decoding="async"><span>color</span></a>`).join('');
+    <img src="img/mood-${f}.webp?v=3" alt="" width="50" height="122" loading="lazy" decoding="async"><span>color</span></a>`).join('');
   function pickMood(item, { scroll = false } = {}) {
     $$('.mood-item').forEach(m => m.setAttribute('aria-pressed', m === item));
     toast(`Colore: ${item.dataset.name}`);

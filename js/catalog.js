@@ -184,7 +184,7 @@
   // ---------- "Shop by color" (replaces the banner on ?cat=semipermanente): a swatch filters the grid in place, tapping it again clears ----------
   const shopRow = $('#cat-shop-row');
   shopRow.innerHTML = MOODS.map(([label, f]) => `<button type="button" class="cs-item" data-mood="${label}" aria-pressed="false">
-    <img src="img/mood-${f}.webp?v=2" alt="" width="51" height="122" decoding="async"><span>${label}</span></button>`).join('');
+    <img src="img/mood-${f}.webp?v=3" alt="" width="51" height="122" decoding="async"><span>${label}</span></button>`).join('');
   shopRow.addEventListener('click', e => {
     const m = e.target.closest('[data-mood]'); if (!m) return;
     if (m.getAttribute('aria-pressed') === 'true') { st.mood = null; st.colors.clear(); }
