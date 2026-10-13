@@ -113,7 +113,7 @@
   };
 
   // ---------- The Seasons ----------
-  // Each season opens its seasonal kit page; the shade picked here is carried over (prodotto.html?kit=…&shade=…).
+  // Each season opens its kit in the quick-view pop-up (product.js), on the shade picked here; the kit page link is the fallback.
   const SEASONS = [
     { id: 'autumn', kit: 'autunno', color: '#c8742d', cta: '#fcf5eb', isNew: false, shades: [['#e9860f', 'Zucca'], ['#e1332a', 'Acero'], ['#8c3a12', 'Castagna'], ['#f0b429', 'Ocra'], ['#c2521e', 'Ruggine'], ['#a8391f', 'Mattone'], ['#6b4a2b', 'Cacao'], ['#d8a15a', 'Caramello']] },
     { id: 'winter', kit: 'inverno', color: '#2f80e9', cta: '#f2f3f7', isNew: false, shades: [['#22305e', 'Night Blue'], ['#1f6f78', 'Emerald Blue'], ['#5b4a9e', 'Viola Blue'], ['#2a7fc0', 'Ocean Blue'], ['#5aa9e6', 'Azure'], ['#2747a8', 'Cobalto'], ['#1f3f8a', 'Zaffiro'], ['#2b3f9e', 'Oltremare']] },
@@ -234,7 +234,7 @@
     const card = e.target.closest('.s-card'); if (!card) return;
     const i = +card.dataset.i;
     if (!desktopMQ.matches && i !== sState.active) { e.preventDefault(); sGoTo(i); return; }   // phones: the first tap brings a side card to the centre
-    if (e.target.closest('.s-photo')) return;                                               // the photo opens the seasonal kit
+    if (e.target.closest('.s-photo')) { e.preventDefault(); openSeason(i); return; }        // the photo opens the product pop-up
     sGoTo(i);                                                                                // desktop: a click keeps this season after the pointer leaves
     const more = e.target.closest('[data-more]');
     if (more) {
@@ -245,6 +245,13 @@
     const sw = e.target.closest('.sw');
     if (sw) { pickShade(i, +sw.dataset.shade); buzz(8); }
   });
+  // the season's kit in the quick-view pop-up, on the shade picked on the card (the links stay as a fallback without the pop-up)
+  function openSeason(i) {
+    if (!PM.quickView) { location.href = kitHref(i); return; }
+    sState.pinned = i; setActive(i);
+    PM.quickView(SEASONS[i].kit, sState.sel[i] + 1);
+  }
+  cta.addEventListener('click', e => { if (sState.active >= 0) { e.preventDefault(); openSeason(sState.active); } });
   track.addEventListener('keydown', e => {
     const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
     if (step && e.target === track) { e.preventDefault(); sGoTo((sState.active < 0 ? 0 : sState.active) + step); }

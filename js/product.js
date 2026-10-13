@@ -100,6 +100,68 @@
     }
   });
 
+  // ---------- quick view: the product panel in a dialog (catalogue "eye" button, home The Seasons) ----------
+  // PM.quickView(kit, shade): kit = 'inverno' | 'primavera' | 'estate' | 'autunno', shade = 1…9 to pre-select a colour (0 = full set)
+  let qv, qvKit = 'inverno', qvReturn = null, qvClosing = 0;
+  const pickPsw = (root, n) => { const b = n > 0 && $(`.psw[data-i="${n}"]`, root); if (b) b.click(); };
+  function buildQv() {
+    document.body.insertAdjacentHTML('beforeend', `<div class="qv" id="qv" hidden>
+    <div class="qv-modal" role="dialog" aria-modal="true" aria-label="Anteprima rapida">
+      <button type="button" class="qv-close ib" id="qv-close" aria-label="Chiudi anteprima"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      <div class="qv-tabs season-tabs" id="qv-tabs" role="tablist" aria-label="Collezione">
+        <span class="st-pill" aria-hidden="true"></span>${Object.entries(KITS).map(([k, v]) => `<button type="button" role="tab" data-kit="${k}" aria-selected="false" style="--glow:${v.glow}">${v.tab}</button>`).join('')}
+      </div>
+      <div class="qv-body" id="qv-body"></div>
+      <a class="qv-more" href="prodotto.html">Vai alla scheda prodotto</a>
+    </div></div>`);
+    qv = $('#qv');
+    const tabs = $('#qv-tabs');
+    $('#qv-close').onclick = closeQv;
+    qv.addEventListener('click', e => { if (e.target === qv) closeQv(); });
+    addEventListener('keydown', e => { if (e.key === 'Escape' && !qv.hidden) closeQv(); });
+    tabs.addEventListener('click', e => { const b = e.target.closest('[data-kit]'); if (b && b.dataset.kit !== qvKit) { qvKit = b.dataset.kit; renderQv(0); } });
+    tabs.addEventListener('keydown', e => {
+      const list = $$('[data-kit]', tabs), i = list.indexOf(document.activeElement), s = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+      if (s && i >= 0) { e.preventDefault(); const n = list[(i + s + list.length) % list.length]; n.focus(); n.click(); }
+    });
+    addEventListener('resize', () => { if (!qv.hidden) placeQv(); });
+  }
+  function placeQv() {
+    const tabs = $('#qv-tabs'), b = $('[aria-selected=true]', tabs), pill = $('.st-pill', tabs);
+    pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft}px)`; tabs.style.setProperty('--glow', KITS[qvKit].glow);
+  }
+  function renderQv(shade) {
+    $$('#qv-tabs [data-kit]').forEach(t => t.setAttribute('aria-selected', t.dataset.kit === qvKit));
+    placeQv();
+    PM.renderProduct($('#qv-body'), { kit: qvKit, sale: true, idp: 'qv' });
+    pickPsw($('#qv-body'), shade);
+    const sel = $('#qv-body .psw[aria-pressed=true]');
+    $('.qv-more').href = `prodotto.html?kit=${qvKit}${sel && sel.dataset.i !== '0' ? '&shade=' + sel.dataset.i : ''}`;
+  }
+  PM.quickView = (kit, shade = 0) => {
+    if (!qv) buildQv();
+    clearTimeout(qvClosing); qv.classList.remove('out');
+    if (KITS[kit]) qvKit = kit;                                           // no kit: reopen on the last one shown
+    if (qv.hidden) qvReturn = document.activeElement;
+    qv.hidden = false; PM.root.classList.add('lock');
+    [$('.topbar'), $('#top'), $('.footer')].forEach(n => { if (n) n.inert = true; });
+    renderQv(shade);
+    requestAnimationFrame(() => { placeQv(); $('#qv-close').focus({ preventScroll: true }); });
+  };
+  function closeQv() {
+    if (qv.hidden || qv.classList.contains('out')) return;
+    qv.classList.add('out');                                              // play the closing animation, then hide
+    qvClosing = setTimeout(() => { qv.hidden = true; qv.classList.remove('out'); }, PM.reduceMotion ? 0 : 230);
+    PM.root.classList.remove('lock');
+    [$('.topbar'), $('#top'), $('.footer')].forEach(n => { if (n) n.inert = false; });
+    qvReturn?.focus({ preventScroll: true });
+  }
+  // the shade link in the panel keeps the picked colour when going to the full product page
+  document.addEventListener('click', e => {
+    const b = e.target.closest('#qv-body .psw'); if (!b) return;
+    $('.qv-more').href = `prodotto.html?kit=${qvKit}${b.dataset.i !== '0' ? '&shade=' + b.dataset.i : ''}`;
+  });
+
   // ---------- the product page itself ----------
   const page = $('#pdp');
   if (!page) return;

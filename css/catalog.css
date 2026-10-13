@@ -117,16 +117,6 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
 .pg-info{margin:0;font-size:12.5px;color:#8a8a8a}
 .cat{padding-bottom:110px}
 
-/* quick view */
-.qv{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,20,20,.55);animation:fadein .2s both}
-.qv[hidden]{display:none}
-.qv-modal{position:relative;width:100%;max-width:440px;max-height:92dvh;overflow:auto;overscroll-behavior:contain;background:#fff;border-radius:26px 26px 0 0;padding:18px 0 28px;animation:sheetup .3s var(--ease) both}
-@keyframes sheetup{from{transform:translateY(100%)}}
-.qv-close{position:absolute;top:10px;right:12px;z-index:3;background:#fff;box-shadow:0 0 0 1px #ececec}
-.qv-tabs{margin:34px auto 0}
-.qv .gallery{margin-top:12px;height:400px}
-.qv .pinfo{padding-top:20px}
-.qv-more{display:block;margin:18px auto 0;width:fit-content;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
 
 @media (max-width:439.98px){
   .cat-shop-row{padding:0 6px;column-gap:0}
@@ -200,28 +190,6 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .pg-nums{gap:20px}
   .pg-info{font-size:14px;color:#8a8a8a}
   .cat>.marquee{margin-top:140px;width:100vw;margin-left:calc(50% - 50vw)}
-  .qv{align-items:center}
-  .qv-modal{max-width:792px;border-radius:40px;padding:0 0 30px;max-height:90vh}
-  .qv-close{top:36px;right:28px}
-  .qv-tabs{margin:24px auto 0}
-  .qv .pdp-grid,.qv-body{display:grid;grid-template-columns:404px 288px;column-gap:16px;padding:0 42px;margin-top:22px}
-  .qv .gallery{margin:0;height:404px}
-  .qv .g-track{height:404px;margin:0}
-  .qv .g-dots{top:auto;bottom:8px}
-  .qv .pinfo{padding:0}
-  .qv .p-title{font-size:21px;line-height:28px}
-  .qv .p-price{font-size:17px;gap:10px;letter-spacing:1.6px;margin-top:8px}
-  .qv .p-size{margin-top:12px;transform:scale(.8);transform-origin:left}
-  .qv .p-shades-h{margin-top:12px;font-size:11px}
-  .qv .p-grid{grid-template-columns:repeat(6,36px);column-gap:4.6px;row-gap:5px;width:auto;justify-content:start}
-  .qv .psw{width:36px;height:36px}
-  .qv .p-buy{padding:0 0 0 6px;margin-top:20px;height:44px}
-  .qv .p-buy .stepper svg{width:30px;height:30px}
-  .qv .p-buy .buy{width:162px;height:34px;font-size:13px}
-  .qv .wholesale{margin:16px 0 0;height:52px;padding-left:10px}
-  .qv .wholesale b{font-size:12px}.qv .wholesale p span{font-size:11px}
-  .qv .ws-ic{width:30px;height:30px}
-  .qv .p-acc summary{height:44px;font-size:12.5px}
 }
 @media (min-width:1024px){
   /* desktop catalogue cards use the same shade photos as the home cards */
