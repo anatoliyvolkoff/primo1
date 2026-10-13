@@ -4,35 +4,29 @@
   const PM = window.PM;
   const { $, $$, toast, addToCart, flashAdded, buzz, smooth, desktopMQ, openOverlay, MOODS } = PM;
 
-  // ---------- data (the design shows one product photo; names and shades follow the design's swatch labels) ----------
-  const COLORS = [['bw', 'b & w', 'linear-gradient(90deg,#040404 50%,#f4f4f4 50%)'], ['grigio', 'grigio', '#8a8d91'], ['nude', 'nude', '#e3c2b0'], ['rosa', 'rosa', '#f49ac1'],
-    ['rosso', 'rosso', '#d91a2a'], ['bordo', 'bordo', '#6b0f1a'], ['marsala', 'marsala', '#b52857'], ['magenta', 'magenta', '#e0007b'],
-    ['viola', 'viola', '#9b6bce'], ['marrone', 'marrone', '#4a2518'], ['blu', 'blu', '#2b429f'], ['verde', 'verde', '#559e38'], ['oy', 'O & Y', 'linear-gradient(90deg,#feda00 50%,#fe8c00 50%)']];
-  const MOOD_TO_COLOR = { 'b & w': 'bw', grigio: 'grigio', nude: 'nude', rosa: 'rosa', rosso: 'rosso', bordeaux: 'bordo', lampone: 'marsala', fucsia: 'magenta', lilla: 'viola', cioccolato: 'marrone', glitter: 'nude', blu: 'blu', verde: 'verde', giallo: 'oy' };
-  const COLLS = [['autumn', 'Autumn collection'], ['winter', 'Winter collection'], ['spring', 'Spring collection'], ['summer', 'Summer collection']];
-  const FX = [['shimmer', 'Shimmer'], ['holo', 'Olografico']];
-  const NAMES = ['Ultramarine Glow', 'Night Blue', 'Emerald Blue', 'Viola Blue', 'Ocean Blue', 'Azure', 'Rosa Antico', 'Nude Velvet', 'Rosso Milano', 'Bordeaux', 'Lilla Soft', 'Cacao', 'Verde Salvia', 'Sole d’Estate', 'Grafite', 'Magenta Pop'];
-  const COLOR_OF = ['blu', 'blu', 'verde', 'viola', 'blu', 'blu', 'rosa', 'nude', 'rosso', 'bordo', 'viola', 'marrone', 'verde', 'oy', 'grigio', 'magenta'];
-  const CATS = ['semipermanente', 'gel', 'base', 'top', 'acrygel', 'preparatori', 'nail-art', 'care', 'kit', 'accessori'];
-  const CAT_LABEL = { semipermanente: 'Semipermanente', gel: 'Gel', base: 'Base', top: 'Top', acrygel: 'Acrygel', preparatori: 'Preparatori', 'nail-art': 'Nail art', care: 'Care', kit: 'Kit', accessori: 'Accessori' };
-  const PRODUCTS = Array.from({ length: 96 }, (_, i) => {
-    const n = i % NAMES.length;
-    return {
-      id: i, num: 112, name: 'Ultramarine Glow', shade: NAMES[n], color: COLOR_OF[n], coll: COLLS[i % 4][0], fx: i % 6 === 0 ? 'holo' : i % 3 === 0 ? 'shimmer' : null,
-      cat: i % 5 === 4 ? CATS[(i / 5 | 0) % CATS.length] : 'semipermanente', price: 14.99, pop: (i * 37) % 96, isNew: i % 7 === 0,
-    };
-  });
+  // ---------- data: shared with search (js/site.js → PM.CATALOG) ----------
+  const { COLORS, MOOD_TO_COLOR, COLLS, FX, CATS, CAT_LABEL, PRODUCTS } = PM.CATALOG;
   const SW = ['night', 'night', 'emerald', 'viola', 'ocean', null];        // swatches printed on every catalogue card
 
   // ---------- state from the URL ----------
   const qs = new URLSearchParams(location.search);
   const st = {
     colors: new Set((qs.get('colore') ? [MOOD_TO_COLOR[qs.get('colore')] || qs.get('colore')] : []).filter(c => COLORS.some(x => x[0] === c))),
-    colls: new Set(), fx: new Set(), min: 0, max: 10, sort: qs.get('ordina') === 'novita' ? 'new' : 'pop',
+    colls: new Set(COLLS.some(c => c[0] === qs.get('coll')) ? [qs.get('coll')] : []), fx: new Set(), q: (qs.get('q') || '').trim().slice(0, 80), min: 0, max: 10, sort: qs.get('ordina') === 'novita' ? 'new' : 'pop',
     cat: CATS.includes(qs.get('cat')) ? qs.get('cat') : null, page: Math.max(1, +qs.get('pagina') || 1), sale: qs.get('ordina') === 'offerte',
     mood: qs.get('colore'),                                            // swatch picked in "Shop by color" (several share one filter colour)
   };
   if (st.cat) { $('#crumb-cur').textContent = CAT_LABEL[st.cat]; document.title = `${CAT_LABEL[st.cat]} – PriMo Nails`; }
+  // a search from the header lands here as ?q=
+  function showQuery() {
+    $('#q-pill').hidden = !st.q;
+    if (st.q) { $('#q-text').textContent = st.q; document.title = `“${st.q}” – Ricerca – PriMo Nails`; }
+    $('#crumb-cur').textContent = st.q ? 'Ricerca' : st.cat ? CAT_LABEL[st.cat] : 'Tutti i Prodotti';
+  }
+  $('#q-clear').onclick = () => { st.q = ''; st.page = 1; showQuery(); apply(); };
+  $('#q-edit').onclick = () => PM.search.open();
+  PM.onSearch = q => { st.q = q; st.page = 1; showQuery(); apply(true); };   // searching again from this page stays here
+  showQuery();
   const perPage = () => (desktopMQ.matches ? 16 : 12);
 
   // ---------- filter panel ----------
@@ -66,7 +60,7 @@
     apply();
   }
   a.addEventListener('input', onRange); b.addEventListener('input', onRange);
-  const reset = () => { st.colors.clear(); st.colls.clear(); st.fx.clear(); a.value = 0; b.value = 10; st.cat = null; st.sale = false; onRange(); };
+  const reset = () => { st.q = ''; showQuery(); st.colors.clear(); st.colls.clear(); st.fx.clear(); a.value = 0; b.value = 10; st.cat = null; st.sale = false; onRange(); };
   $('#fp-reset').onclick = reset; $('#empty-reset').onclick = reset;
 
   // sort
@@ -93,7 +87,7 @@
       <button type="button" class="qv-btn" data-qv="${p.id}" aria-label="Anteprima rapida: №${p.num} ${p.name}"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg></button>
       <div class="pbody">
         <h3><a href="prodotto.html"><span>№${p.num}</span><span>${p.name}</span></a></h3>
-        <p class="type">SEMIPERMANENTE</p><p class="ml">12 ml</p>
+        <p class="type">${st.q ? `${CAT_LABEL[p.cat]} · ${p.shade}`.toUpperCase() : 'SEMIPERMANENTE'}</p><p class="ml">12 ml</p>
         <p class="price" aria-label="€155,00, prezzo originale €211,00"><b>€155,00</b><s>€211,00</s></p>
         <div class="shades" role="group" aria-label="Tonalità">${SW.map((s, i) => `<button class="sh${s ? '' : ' turq'}" data-i="${i}" ${s ? `style="background-image:url(img/sw/${s}.png)"` : ''} aria-label="Tonalità ${i + 1}" aria-pressed="${i === 0}"></button>`).join('')}<button class="plus" aria-expanded="false" aria-label="Mostra altre 5 tonalità">+5</button></div>
         <button class="add" aria-label="Aggiungi al carrello – №${p.num} ${p.name}"><span class="m-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>add to cart — ${p.price.toFixed(2)}€</span><span class="d-only">add to cart</span></button>
@@ -102,7 +96,7 @@
 
   function filtered() {
     let list = PRODUCTS.filter(p => (!st.colors.size || st.colors.has(p.color)) && (!st.colls.size || st.colls.has(p.coll)) &&
-      (!st.fx.size || st.fx.has(p.fx)) && p.price >= st.min && (st.max >= 10 || p.price <= st.max) && (!st.cat || p.cat === st.cat));
+      (!st.fx.size || st.fx.has(p.fx)) && p.price >= st.min && (st.max >= 10 || p.price <= st.max) && (!st.cat || p.cat === st.cat) && (!st.q || PM.search.matchProduct(p, st.q)));
     const by = { pop: (x, y) => x.pop - y.pop, new: (x, y) => (y.isNew - x.isNew) || (y.id - x.id), asc: (x, y) => x.price - y.price, desc: (x, y) => y.price - x.price }[st.sort];
     return list.sort(by);
   }
@@ -112,6 +106,7 @@
     const slice = list.slice((st.page - 1) * perPage(), st.page * perPage());
     grid.innerHTML = slice.map(card).join('');
     $('#empty').hidden = list.length > 0;
+    $('#empty-msg').textContent = st.q ? `Nessun prodotto per “${st.q}” con questi filtri.` : 'Nessun prodotto con questi filtri.';
     // filter UI state
     $$('[data-color]').forEach(d => d.setAttribute('aria-pressed', st.colors.has(d.dataset.color)));
     $$('[data-coll]').forEach(d => d.setAttribute('aria-pressed', st.colls.has(d.dataset.coll)));
@@ -125,7 +120,9 @@
     renderPager(pages, list.length);
     // keep the URL shareable
     const u = new URLSearchParams();
+    if (st.q) u.set('q', st.q);
     if (st.cat) u.set('cat', st.cat);
+    if (st.colls.size === 1) u.set('coll', [...st.colls][0]);
     if (st.colors.size === 1) u.set('colore', [...st.colors][0]);
     if (st.page > 1) u.set('pagina', st.page);
     history.replaceState(null, '', u.toString() ? '?' + u : location.pathname);
@@ -179,7 +176,7 @@
 
   $$('[data-back]').forEach(l => l.addEventListener('click', e => { if (document.referrer.startsWith(location.origin) && history.length > 1) { e.preventDefault(); history.back(); } }));
   // a colour picked in search stays on this page
-  PM.onColorPick = name => { st.mood = name; st.colors = new Set([MOOD_TO_COLOR[name] || name]); st.page = 1; apply(true); toast(`Colore: ${name}`); };
+  PM.onColorPick = name => { st.q = ''; showQuery(); st.mood = name; st.colors = new Set([MOOD_TO_COLOR[name] || name]); st.page = 1; apply(true); toast(`Colore: ${name}`); };
 
   // ---------- "Shop by color" (replaces the banner on ?cat=semipermanente): a swatch filters the grid in place, tapping it again clears ----------
   const shopRow = $('#cat-shop-row');
@@ -192,6 +189,6 @@
     st.page = 1; buzz(6); apply(true);
   });
   if (st.colors.size && !document.documentElement.classList.contains('cat-semi')) setPanel(true);
-  apply();
+  apply(!!st.q);                                                     // arriving from search: go straight to the results
   PM.ready();
 })();
