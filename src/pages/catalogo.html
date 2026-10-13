@@ -1,5 +1,11 @@
 <!--page title="Tutti i Prodotti – PriMo Nails" description="Catalogo PriMo Nails: gel polish, semipermanenti, basi, top e accessori professionali." css="catalog product" js="product catalog" body="catalog" -->
   <main id="top" class="cat" tabindex="-1">
+    <script>if (new URLSearchParams(location.search).get('cat') === 'semipermanente') document.documentElement.classList.add('cat-semi');</script>
+    <section class="cat-shop" id="cat-shop" aria-labelledby="cat-shop-h">
+      <h1 class="h2" id="cat-shop-h">Shop by color</h1>
+      <p class="sub">Choose your colour, go straight to the product selection you are looking for.</p>
+      <div class="cat-shop-row" id="cat-shop-row" role="group" aria-label="Colori"></div>
+    </section>
     <section class="cat-hero" aria-label="PriMo Nails">
       <picture><source media="(min-width:1024px)" srcset="img/hero-catalog.jpg"><img src="img/catalog-hero-m.jpg" alt="" fetchpriority="high"></picture>
       <div class="cat-hero-txt d-only"><h1>L'Eleganza nelle Tue Mani</h1><p>Scopri la collezione di gel polish professionali PriMo Nails.</p></div>
