@@ -19,7 +19,7 @@ Shared header (phone bar + desktop nav), footer (accordion on phones, columns on
 - **Catalogue**: filter panel (13 colours, collections, effects, dual-handle price range), sort menu, active-filter count, pagination (12 per page on phones, 16 on desktop), empty state, and a quick-view dialog that reuses the product panel.
 - **Product**: swipeable gallery with dots, shade picker, quantity stepper, accordions, related products. The kit page has an animated season switcher.
 - **Academy**: course cards, plus an individual-training request form with validation and a confirmation toast.
-- **Course detail**: facts card, accordions (description / programme / info), a draggable gallery, and a WhatsApp CTA.
+- **Course detail**: split hero with WhatsApp CTA, key-facts strip, what you'll learn, 5-lesson programme, teacher, FAQ, gallery (carousel on phones, grid on desktop), a sticky enrol card on desktop and an enrol bar on phones that appears once the hero buttons scroll away.
 - **Home**: everything from the previous prototype (hero carousel, best sellers tabs, mood swatches, The Seasons carousel, testimonials, founder, courses).
 - Every page passes a check for no console errors and no horizontal scroll at 360 / 390 / 440 / 1440 px. Below the 440 px design width, the fixed-size blocks (swatch grid, season tabs, catalogue cards, pager) scale down instead of being clipped.
 
@@ -40,7 +40,7 @@ When you add images or pages, update the `ASSETS` list in `sw.js` and bump `CACH
   The third About block on phones uses the product bottle in place of the design's "Air Spring" photo.
 - **Design placeholders kept as-is**:
   - every catalogue product is "№112 Ultramarine Glow"
-  - the course accordion copy is the design's placeholder text
+  - the course page copy (learning outcomes, lesson titles, FAQ answers) is draft text to confirm with PriMo
   - the pager starts on page 1 (the design shows page 5)
 - **Small deviations from the design**:
   - the phone catalogue has a pager the phone design doesn't show
