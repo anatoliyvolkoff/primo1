@@ -33,6 +33,7 @@ HEAD = """<!doctype html>
 <link rel="apple-touch-icon" href="icons/icon.svg">
 {preload}<link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="{site_css}">
+<link rel="stylesheet" href="{search_css}">
 {css_links}</head>
 <body class="{body}">
 <div class="page" id="page">
@@ -42,6 +43,7 @@ HEAD = """<!doctype html>
 TAIL = """</div>
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
 <script src="{site_js}"></script>
+<script src="{search_js}"></script>
 {js_links}</body>
 </html>
 """
@@ -62,9 +64,9 @@ def build(src: pathlib.Path) -> str:
     css_links = ''.join(f'<link rel="stylesheet" href="{v(f"css/{c}.css")}">\n' for c in opts.get('css', src.stem).split())
     js_links = ''.join(f'<script src="{v(f"js/{j}.js")}"></script>\n' for j in opts.get('js', src.stem).split())
     page = HEAD.format(title=opts.get('title', 'PriMo Nails'), description=opts.get('description', ''),
-                       css_links=css_links, body=opts.get('body', src.stem), preload=preload, site_css=v('css/site.css'))
+                       css_links=css_links, body=opts.get('body', src.stem), preload=preload, site_css=v('css/site.css'), search_css=v('css/search.css'))
     page += partial['header'] + '\n' + body.rstrip() + '\n\n' + partial['footer'] + '\n' + partial['overlays'].replace('{{drawer_page}}', drawer)
-    page += TAIL.format(js_links=js_links, site_js=v('js/site.js'))
+    page += TAIL.format(js_links=js_links, site_js=v('js/site.js'), search_js=v('js/search.js'))
     return page
 
 
