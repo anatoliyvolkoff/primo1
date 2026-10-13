@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const PM = window.PM;
-  const { $, $$, toast, addToCart, flashAdded, buzz, smooth, desktopMQ, openOverlay } = PM;
+  const { $, $$, toast, addToCart, flashAdded, buzz, smooth, desktopMQ, openOverlay, MOODS } = PM;
 
   // ---------- data (the design shows one product photo; names and shades follow the design's swatch labels) ----------
   const COLORS = [['bw', 'b & w', 'linear-gradient(90deg,#040404 50%,#f4f4f4 50%)'], ['grigio', 'grigio', '#8a8d91'], ['nude', 'nude', '#e3c2b0'], ['rosa', 'rosa', '#f49ac1'],
@@ -30,6 +30,7 @@
     colors: new Set((qs.get('colore') ? [MOOD_TO_COLOR[qs.get('colore')] || qs.get('colore')] : []).filter(c => COLORS.some(x => x[0] === c))),
     colls: new Set(), fx: new Set(), min: 0, max: 10, sort: qs.get('ordina') === 'novita' ? 'new' : 'pop',
     cat: CATS.includes(qs.get('cat')) ? qs.get('cat') : null, page: Math.max(1, +qs.get('pagina') || 1), sale: qs.get('ordina') === 'offerte',
+    mood: qs.get('colore'),                                            // swatch picked in "Shop by color" (several share one filter colour)
   };
   if (st.cat) { $('#crumb-cur').textContent = CAT_LABEL[st.cat]; document.title = `${CAT_LABEL[st.cat]} – PriMo Nails`; }
   const perPage = () => (desktopMQ.matches ? 16 : 12);
@@ -115,6 +116,7 @@
     $$('[data-color]').forEach(d => d.setAttribute('aria-pressed', st.colors.has(d.dataset.color)));
     $$('[data-coll]').forEach(d => d.setAttribute('aria-pressed', st.colls.has(d.dataset.coll)));
     $$('[data-fx]').forEach(d => d.setAttribute('aria-pressed', st.fx.has(d.dataset.fx)));
+    $$('[data-mood]').forEach(d => d.setAttribute('aria-pressed', d.dataset.mood === st.mood && st.colors.size === 1 && st.colors.has(MOOD_TO_COLOR[st.mood])));
     const n = st.colors.size + st.colls.size + st.fx.size + (st.min > 0 || st.max < 10 ? 1 : 0) + (st.cat ? 1 : 0);
     $('#f-count').hidden = !n; $('#f-count').textContent = n; $('#fp-reset').hidden = !n;
     $('#sort-cur').textContent = SORT_LABEL[st.sort]; $('#sort-btn-m b').textContent = SORT_LABEL[st.sort];
@@ -177,8 +179,19 @@
 
   $$('[data-back]').forEach(l => l.addEventListener('click', e => { if (document.referrer.startsWith(location.origin) && history.length > 1) { e.preventDefault(); history.back(); } }));
   // a colour picked in search stays on this page
-  PM.onColorPick = name => { st.colors = new Set([MOOD_TO_COLOR[name] || name]); st.page = 1; apply(true); toast(`Colore: ${name}`); };
-  if (st.colors.size) setPanel(true);
+  PM.onColorPick = name => { st.mood = name; st.colors = new Set([MOOD_TO_COLOR[name] || name]); st.page = 1; apply(true); toast(`Colore: ${name}`); };
+
+  // ---------- "Shop by color" (replaces the banner on ?cat=semipermanente): a swatch filters the grid in place, tapping it again clears ----------
+  const shopRow = $('#cat-shop-row');
+  shopRow.innerHTML = MOODS.map(([label, f]) => `<button type="button" class="cs-item" data-mood="${label}" aria-pressed="false">
+    <img src="img/mood-${f}.webp" alt="" width="51" height="122" decoding="async"><span>${label}</span></button>`).join('');
+  shopRow.addEventListener('click', e => {
+    const m = e.target.closest('[data-mood]'); if (!m) return;
+    if (m.getAttribute('aria-pressed') === 'true') { st.mood = null; st.colors.clear(); }
+    else { st.mood = m.dataset.mood; st.colors = new Set([MOOD_TO_COLOR[st.mood]]); }
+    st.page = 1; buzz(6); apply(true);
+  });
+  if (st.colors.size && !document.documentElement.classList.contains('cat-semi')) setPanel(true);
   apply();
   PM.ready();
 })();

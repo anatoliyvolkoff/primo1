@@ -1,6 +1,17 @@
 /* PriMo Nails – catalogue. Phones: frame "Frame 427321589" (440). Desktop: "Desktop - 13" (1440), filter panel from component 7594:15190. */
 .cat-hero{position:relative;height:391px;margin-top:-1px;overflow:hidden;background:#1d1d1d}
 .cat-hero img{width:100%;height:100%;object-fit:cover}
+.cat-shop{display:none;padding:36px 0 8px;text-align:center}
+.cat-semi .cat-shop{display:block}
+.cat-semi .cat-hero{display:none}
+.cat-shop .sub{margin-top:11px}
+.cat-shop-row{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:22px 4px;max-width:440px;margin:30px auto 0;padding:0 14px}
+.cs-item{position:relative;min-height:44px;border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;cursor:pointer;color:var(--ink)}
+.cs-item img{width:38px;height:91px;object-fit:contain;filter:drop-shadow(0 6px 6px rgba(0,0,0,.1));transition:transform .3s var(--ease)}
+.cs-item span{margin-top:12px;font-size:clamp(9px,2.5vw,11px);line-height:14px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.cs-item:active img{transform:translateY(-4px) scale(1.04)}
+.cs-item[aria-pressed=true] img{transform:translateY(-6px)}
+.cs-item[aria-pressed=true] span{font-weight:800;box-shadow:inset 0 -2px 0 #000}
 .cat-nav{padding:17px 26px 0}
 .back{display:inline-flex;align-items:center;height:28.2px;font-family:var(--fi);font-size:13px;line-height:16px;color:#555}
 .back svg{width:22.6px;height:22.6px;stroke-width:1.6;margin-right:1px}
@@ -111,6 +122,7 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
 .qv-more{display:block;margin:18px auto 0;width:fit-content;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
 
 @media (max-width:439.98px){
+  .cat-shop-row{padding:0 6px;column-gap:0}
   .grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px;padding-left:14px;padding-right:14px}
   .gcard{width:auto;height:auto;padding-bottom:16px}
   .gcard .pimg{height:auto;aspect-ratio:190/177;overflow:hidden;border-radius:17px 17px 0 0}
@@ -128,6 +140,15 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .cat-hero-txt{position:absolute;left:calc(50% - 478px);top:183.5px;display:block!important}
   .cat-hero-txt h1{margin:0;font-size:35px;line-height:45px;font-weight:700;letter-spacing:-.08px;color:#111}
   .cat-hero-txt p{margin:4px 0 0;font-size:19px;line-height:30px;font-weight:700;letter-spacing:.31px;color:#222}
+  .cat-shop{padding:90px 0 0}
+  .cat-shop .h2{font-size:48px;line-height:50px;font-weight:700;letter-spacing:.95px;color:#1e1e1e}
+  .cat-shop .sub{margin-top:16.6px;font-family:var(--f);font-size:18px;line-height:22px;font-weight:500;letter-spacing:.26px}
+  .cat-shop-row{display:flex;justify-content:space-between;width:977px;max-width:none;margin-top:53.5px;padding:0}
+  .cs-item{width:51px}
+  .cs-item img{width:51px;height:122px}
+  .cs-item:hover img{transform:translateY(-6px)}
+  .cs-item span{margin-top:45px;font-size:12px;line-height:15px;font-weight:700}
+  .cat-semi .fbar-wrap{margin-top:80px}
   .fbar-wrap{width:992px;margin:120px auto 0}
   .fbar{padding:0 13px 0 13px}
   .f-toggle{gap:7.6px;padding:0 9px;height:33.6px;font-size:14px}
