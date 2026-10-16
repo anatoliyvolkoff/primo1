@@ -50,6 +50,7 @@
 .wholesale p span{font-size:14px;line-height:16px;color:#1d1a52}
 .wholesale a{font-weight:700;text-decoration:underline;text-underline-offset:2px;color:#1d1a52}
 .ship-note{align-self:stretch;margin:15px 0 0;text-align:center;font-size:12.5px;line-height:16px;letter-spacing:.3px;color:#a9a9a9}
+.ship-note a{color:#6b6b6b;text-decoration:underline;text-underline-offset:2px;white-space:nowrap}
 .p-acc{align-self:stretch;margin-top:20.4px}
 .p-acc details{border-top:1px solid #f0f0f2}
 .p-acc details+details{margin-top:4px}
