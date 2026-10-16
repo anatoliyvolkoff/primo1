@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="css/site.css?v=c7978bb5">
 <link rel="stylesheet" href="css/search.css?v=b89386fe">
 <link rel="stylesheet" href="css/academy.css?v=81ab524e">
-<link rel="stylesheet" href="css/about.css?v=540f4d43">
+<link rel="stylesheet" href="css/about.css?v=87821489">
 </head>
 <body class="about">
 <div class="page" id="page">
@@ -154,7 +154,7 @@
       </div>
     </section>
   </main>
-  <!-- Variant C (?v=c): a cinematic version kept for comparison; swapped in before first paint. -->
+  <!-- Variant C (?v=c, or ?v=d for the alternative lower half): a cinematic version kept for comparison; swapped in before first paint. -->
   <template id="ab-c">
     <section class="abc-hero">
       <picture><source media="(min-width:1024px)" srcset="img/academy-hero-d.jpg"><img src="img/academy-hero-m.jpg" alt="Irina PriMo durante un'intervista in studio" fetchpriority="high"></picture>
@@ -189,6 +189,7 @@
       </div>
     </section>
 
+    <div class="abc-low" data-low="c">
     <section class="abc-values" id="valori" aria-labelledby="values-h">
       <p class="cx-eyebrow">In cosa crediamo</p>
       <h2 id="values-h" class="sr">I nostri valori</h2>
@@ -230,8 +231,36 @@
         <li><span class="abc-row"><span class="abc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span><small>Sede</small>Milano, Italia</span></span></li>
       </ul>
     </section>
+    </div>
+    <div class="abc-low" data-low="d">
+    <section class="abd-values" id="valori" aria-labelledby="dv-h">
+      <p class="cx-eyebrow">In cosa crediamo</p>
+      <h2 id="dv-h" class="sr">I nostri valori</h2>
+      <p class="abd-sentence">Lavoriamo con <em>precisione</em>, cerchiamo l'<em>eleganza</em> che non alza la voce e crediamo nella <em>formazione</em>, perché il sapere cresce quando si condivide.</p>
+    </section>
+
+    <section class="abd-index" id="lavoro" aria-labelledby="di-h">
+      <p class="cx-eyebrow">Cosa facciamo</p>
+      <h2 id="di-h" class="sr">Cosa facciamo</h2>
+      <ul>
+        <li><a href="catalogo.html"><span class="abd-num">01</span><span class="abd-thumb"><img src="img/product.jpg" alt="" loading="lazy"></span><span class="abd-txt"><b>Shop</b><small>Prodotti professionali per risultati da salone</small></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        <li><a href="academy.html"><span class="abd-num">02</span><span class="abd-thumb"><img src="img/course1.jpg" alt="" loading="lazy"></span><span class="abd-txt"><b>Academy</b><small>I corsi di Irina PriMo, in aula e su misura</small></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        <li><a href="spedizioni.html"><span class="abd-num">03</span><span class="abd-thumb"><img src="img/hero3.jpg" alt="" loading="lazy"></span><span class="abd-txt"><b>Spedizioni</b><small>Da Milano in tutta Italia e in Europa con GLS</small></span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+      </ul>
+    </section>
+
+    <section class="abd-end" aria-labelledby="de-h">
+      <div class="abd-face"><img src="img/founder.jpg" alt="" loading="lazy"></div>
+      <h2 id="de-h">Scrivici, ti rispondiamo noi.</h2>
+      <p>Prodotti, ordini all'ingrosso o corsi: siamo a un messaggio di distanza.</p>
+      <div class="abd-ctas">
+        <a class="cx-btn" href="https://wa.me/393893193049" target="_blank" rel="noopener">Scrivici su WhatsApp</a>
+        <a class="cx-ghost" href="mailto:primonailspro@gmail.com">primonailspro@gmail.com</a>
+      </div>
+    </section>
+    </div>
   </template>
-  <script>(() => { if (new URLSearchParams(location.search).get('v') !== 'c') return; const m = document.getElementById('top'); m.className = 'abc'; m.replaceChildren(document.getElementById('ab-c').content.cloneNode(true)); })();</script>
+  <script>(() => { const v = new URLSearchParams(location.search).get('v'); if (v !== 'c' && v !== 'd') return; const m = document.getElementById('top'), f = document.getElementById('ab-c').content.cloneNode(true); f.querySelectorAll('.abc-low').forEach(l => { if (l.dataset.low === v) l.replaceWith(...l.childNodes); else l.remove(); }); m.className = 'abc'; m.replaceChildren(f); })();</script>
 
   <!-- ===== Footer ===== -->
   <footer class="footer">
