@@ -1,5 +1,5 @@
 /* PriMo Nails – Spedizioni e resi. Built from the course-page primitives (academy.css + course.css): warm hero, key-facts strip,
-   numbered steps, FAQ accordions and the black closing panel. Page-only: the zone rate switcher and the terms layout.
+   numbered steps, FAQ accordions and the black closing panel. Page-only: the rate tables and the terms layout.
    Phones: one column. Desktop: 976px column. */
 .shp{--cx-warm:#f6f3ef;--cx-line:#e6e1dc;padding-bottom:40px}
 
@@ -17,34 +17,36 @@
 .shp .cx-sec h2{text-wrap:balance}
 .shp-sub{margin:10px 0 0;font-family:var(--fi);font-size:15px;line-height:23px;color:#555}
 
-/* zone switcher: a grey track of pills, selected = black (scrolls sideways on phones) */
-.zt{display:flex;gap:4px;margin:24px -24px 0;padding:0 24px;overflow-x:auto;scrollbar-width:none;scroll-padding:0 24px}
-.zt::-webkit-scrollbar{display:none}
-.zt button{flex:none;height:44px;padding:0 18px;border:1.2px solid #c9c4bf;border-radius:99px;background:#fff;font-size:14px;font-weight:600;color:#222;white-space:nowrap;
   transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease),transform .15s}
-.zt button:active{transform:scale(.97)}
-.zt [aria-selected=true]{background:#000;border-color:#000;color:#fff}
-.zps{margin-top:16px}
-.zp{border:1px solid var(--cx-line);border-radius:24px;background:#fff;box-shadow:0 20px 40px -28px rgba(0,0,0,.25);overflow:hidden;animation:fadein .35s var(--ease)}
-.zp+.zp{margin-top:16px}
-.js .zp+.zp{margin-top:0}
-.zp[hidden]{display:none}
-.zp-info{padding:22px 22px 20px;background:linear-gradient(#fbf9f6,#fff)}
-.zp h3{margin:0;font-size:20px;line-height:26px;font-weight:600;letter-spacing:-.4px;color:#111}
-.zp-area{margin:6px 0 0;font-family:var(--fi);font-size:13.5px;line-height:20px;color:#8a8580}
-.zp-free{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0 0;padding:14px 18px;border-radius:18px;background:rgba(31,122,58,.07);border:1px solid rgba(31,122,58,.18)}
-.zp-free span{font-size:11px;line-height:15px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#1f7a3a}
-.zp-free b{font-size:32px;line-height:34px;font-weight:700;letter-spacing:-1px;color:#1f7a3a;font-variant-numeric:tabular-nums}
-.zp-free small{font-size:16px;letter-spacing:0}
-.zp table{width:100%;border-collapse:collapse}
-.zp thead th{height:38px;padding:0 22px;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a8580;border-top:1px solid var(--cx-line);border-bottom:1px solid var(--cx-line);background:#fbf9f6}
-.zp thead th{text-align:left}
-.zp thead th:last-child{text-align:right}
-.zp tbody tr+tr{border-top:1px solid var(--cx-line)}
-.zp tbody th,.zp td{height:46px;padding:0 22px;font-size:15px}
-.zp tbody th{text-align:left;font-family:var(--fi);font-weight:400;color:#555}
-.zp td{text-align:right;font-weight:700;color:#111;font-variant-numeric:tabular-nums}
-@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* rate tables: every zone visible at once, Italy and Europe each in one comparison card */
+.rt{margin-top:24px;border:1px solid var(--cx-line);border-radius:24px;background:#fff;box-shadow:0 20px 40px -28px rgba(0,0,0,.25);overflow:hidden}
+.rt+.rt{margin-top:16px}
+.rt-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:20px 18px 16px}
+.rt-head h3{margin:0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:-.5px;color:#111}
+.rt-head p{margin:0;font-family:var(--fi);font-size:13px;line-height:19px;color:#8a8580}
+.rt-scroll{overflow-x:auto;scrollbar-width:none}
+.rt-scroll::-webkit-scrollbar{display:none}
+.rt table{width:100%;border-collapse:collapse;table-layout:fixed}
+.rt th,.rt td{padding:0 10px;text-align:right;font-variant-numeric:tabular-nums}
+.rt th:first-child{padding-left:18px;text-align:left}
+.rt tr>:last-child{padding-right:18px}
+.rt-w{width:30%}
+.rt-eu .rt-w{width:34%}
+.rt thead th{padding-top:12px;padding-bottom:12px;vertical-align:bottom;border-top:1px solid var(--cx-line);background:#fbf9f6}
+.rt-zone{display:block;font-size:13px;line-height:17px;font-weight:700;color:#111}
+.rt-area{display:block;margin-top:3px;font-family:var(--fi);font-size:11px;line-height:14px;font-weight:400;color:#8a8580}
+.rt thead .rt-w{font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a8580}
+.rt tbody tr{border-top:1px solid var(--cx-line)}
+.rt tbody th,.rt tbody td{height:46px;font-size:14.5px}
+.rt tbody th{font-family:var(--fi);font-weight:400;color:#555;white-space:nowrap}
+.rt tbody td{font-weight:700;color:#111}
+.rt .rt-free th,.rt .rt-free td{height:44px;background:rgba(31,122,58,.07);color:#1f7a3a}
+.rt .rt-free th{font-family:var(--f);font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase}
+.rt .rt-free svg{width:13px;height:13px;stroke-width:2.4;margin:0 6px -2px 0}
+.rt-countries{display:grid;gap:14px;margin:0;padding:18px 18px 20px;border-top:1px solid var(--cx-line);background:#fbf9f6}
+.rt-countries dt{font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent)}
+.rt-countries dd{margin:4px 0 0;font-family:var(--fi);font-size:13.5px;line-height:20px;color:#555}
 
 /* terms */
 .shp .cx-faq p{padding-bottom:0}
@@ -61,7 +63,6 @@
 .cx-ghost.dark:hover{border-color:#fff}
 
 @media (hover:hover) and (pointer:fine){
-  .zt button:not([aria-selected=true]):hover{border-color:#000}
   .shp .cx-faq a:hover{text-decoration-color:#111}
 }
 
@@ -79,23 +80,26 @@
   .shp .cx-sec{padding-top:96px}
   .shp-sub{font-size:16px;line-height:24px}
 
-  .zt{display:inline-flex;margin:32px 0 0;padding:5px;border-radius:99px;background:#f2f0ed;overflow:visible}
-  .zt button{height:42px;padding:0 22px;border:0;background:none}
-  .zt [aria-selected=true]{background:#000;box-shadow:0 6px 16px -8px rgba(0,0,0,.45)}
-  .zps{margin-top:20px}
-  .zp{display:grid;grid-template-columns:360px 1fr;border-radius:28px}
-  .zp-info{padding:36px 36px 32px;background:#fbf9f6;border-right:1px solid var(--cx-line);display:flex;flex-direction:column}
-  .zp h3{font-size:24px;line-height:30px;letter-spacing:-.6px}
-  .zp-area{font-size:14px;line-height:21px}
-  .zp-free{margin-top:auto;flex-direction:column;align-items:flex-start;gap:8px;padding:20px 22px;background:#fff}
-  .zp-area+.zp-free{margin-top:28px}
-  .zp-free b{font-size:44px;line-height:44px;letter-spacing:-1.6px}
-  .zp-free small{font-size:20px}
-  .zp table{align-self:start}
-  .zp thead th{height:48px;padding:0 36px;border-top:0;background:none}
-  .zp tbody th,.zp td{height:52px;padding:0 36px;font-size:15.5px}
-  .zp tbody tr{transition:background .2s}
-  .zp tbody tr:hover{background:#fbf9f6}
+
+  .rt{margin-top:32px;border-radius:28px}
+  .rt+.rt{margin-top:20px}
+  .rt-head{padding:28px 32px 20px}
+  .rt-head h3{font-size:26px;line-height:32px;letter-spacing:-.7px}
+  .rt-head p{font-size:14px}
+  .rt th:first-child{padding-left:32px}
+  .rt tr>:last-child{padding-right:32px}
+  .rt th,.rt td{padding:0 20px}
+  .rt-w,.rt-eu .rt-w{width:28%}
+  .rt thead th{padding-top:16px;padding-bottom:16px}
+  .rt-zone{font-size:15px;line-height:20px}
+  .rt-area{font-size:12.5px;line-height:17px}
+  .rt tbody th,.rt tbody td{height:50px;font-size:15.5px}
+  .rt tbody tr:not(.rt-free){transition:background .2s}
+  .rt tbody tr:not(.rt-free):hover{background:#fbf9f6}
+  .rt .rt-free th,.rt .rt-free td{height:52px;font-size:17px}
+  .rt .rt-free th{font-size:11.5px}
+  .rt-countries{grid-template-columns:1fr 1fr;gap:32px;padding:22px 32px 26px}
+  .rt-countries dd{font-size:14px;line-height:21px}
 
   .shp-steps .cx-prog{display:grid;grid-template-columns:repeat(4,1fr);gap:0 32px;border-top:0}
   .shp-steps .cx-prog li{display:block;padding:24px 0 0;border-bottom:0;border-top:2px solid #111}

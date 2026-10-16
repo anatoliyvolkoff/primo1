@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="css/search.css?v=b89386fe">
 <link rel="stylesheet" href="css/academy.css?v=81ab524e">
 <link rel="stylesheet" href="css/course.css?v=9be02a78">
-<link rel="stylesheet" href="css/shipping.css?v=938e9244">
+<link rel="stylesheet" href="css/shipping.css?v=af12899b">
 </head>
 <body class="shipping">
 <div class="page" id="page">
@@ -85,108 +85,47 @@
       <section class="cx-sec shp-rates" id="tariffe" aria-labelledby="rates-h">
         <p class="cx-eyebrow">Tariffe</p>
         <h2 id="rates-h">Quanto costa la spedizione</h2>
-        <p class="shp-sub">Scegli la tua zona: il costo cresce con il peso dell’ordine.</p>
-        <div class="zt" role="tablist" aria-label="Zona di consegna">
-          <button type="button" role="tab" id="zt-italia" aria-controls="zp-italia" aria-selected="true">Italia</button><button type="button" role="tab" id="zt-sud" aria-controls="zp-sud" aria-selected="false" tabindex="-1">Sicilia e Calabria</button><button type="button" role="tab" id="zt-sardegna" aria-controls="zp-sardegna" aria-selected="false" tabindex="-1">Sardegna</button><button type="button" role="tab" id="zt-eu1" aria-controls="zp-eu1" aria-selected="false" tabindex="-1">Europa 1</button><button type="button" role="tab" id="zt-eu2" aria-controls="zp-eu2" aria-selected="false" tabindex="-1">Europa 2</button>
-        </div>
-        <div class="zps">
-        <div class="zp" role="tabpanel" id="zp-italia" aria-labelledby="zt-italia" tabindex="0">
-          <div class="zp-info">
-            <h3>Italia continentale</h3>
-            <p class="zp-area">Tutte le regioni tranne Sicilia, Calabria, Sardegna e le isole minori.</p>
-            <p class="zp-free"><span>Spedizione gratuita<br>per ordini da</span><b>€99<small>,00</small></b></p>
+        <p class="shp-sub">Trova la tua zona e il peso dell’ordine. Oltre la soglia indicata la spedizione è gratuita.</p>
+        <div class="rt rt-it">
+          <div class="rt-head"><h3>Italia</h3><p>Consegna GLS in 3–5 giorni lavorativi.</p></div>
+          <div class="rt-scroll">
+            <table>
+              <caption class="sr">Costi di spedizione Italia: per zona e peso dell’ordine</caption>
+              <thead><tr><th scope="col" class="rt-w">Peso</th><th scope="col"><span class="rt-zone">Italia continentale</span><span class="rt-area">Tranne isole e Calabria</span></th><th scope="col"><span class="rt-zone">Sicilia e Calabria</span><span class="rt-area">Tutte le province</span></th><th scope="col"><span class="rt-zone">Sardegna</span><span class="rt-area">Tutte le province</span></th></tr></thead>
+              <tbody>
+                <tr class="rt-free"><th scope="row"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Gratis da</th><td>€99,00</td><td>€99,00</td><td>€199,00</td></tr>
+                <tr><th scope="row">Fino a 3 kg</th><td>€7,00</td><td>€8,00</td><td>€16,00</td></tr>
+                <tr><th scope="row">Fino a 5 kg</th><td>€7,00</td><td>€10,00</td><td>€18,00</td></tr>
+                <tr><th scope="row">Fino a 10 kg</th><td>€10,00</td><td>€12,00</td><td>€20,00</td></tr>
+                <tr><th scope="row">Fino a 25 kg</th><td>€15,00</td><td>€17,00</td><td>€25,00</td></tr>
+                <tr><th scope="row">Fino a 50 kg</th><td>€20,00</td><td>€23,00</td><td>€32,00</td></tr>
+                <tr><th scope="row">Fino a 100 kg</th><td>€35,00</td><td>€38,00</td><td>€45,00</td></tr>
+              </tbody>
+            </table>
           </div>
-          <table>
-            <caption class="sr">Costo di spedizione per Italia continentale in base al peso dell’ordine</caption>
-            <thead><tr><th scope="col">Peso dell’ordine</th><th scope="col">Costo</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Fino a 3 kg</th><td>€7,00</td></tr>
-              <tr><th scope="row">Fino a 5 kg</th><td>€7,00</td></tr>
-              <tr><th scope="row">Fino a 10 kg</th><td>€10,00</td></tr>
-              <tr><th scope="row">Fino a 25 kg</th><td>€15,00</td></tr>
-              <tr><th scope="row">Fino a 50 kg</th><td>€20,00</td></tr>
-              <tr><th scope="row">Fino a 100 kg</th><td>€35,00</td></tr>
-            </tbody>
-          </table>
         </div>
-        <div class="zp" role="tabpanel" id="zp-sud" aria-labelledby="zt-sud" tabindex="0">
-          <div class="zp-info">
-            <h3>Sicilia e Calabria</h3>
-            <p class="zp-area">Tutte le province di Sicilia e Calabria.</p>
-            <p class="zp-free"><span>Spedizione gratuita<br>per ordini da</span><b>€99<small>,00</small></b></p>
+        <div class="rt rt-eu">
+          <div class="rt-head"><h3>Europa</h3><p>Paesi UE serviti da GLS; i tempi possono essere più lunghi.</p></div>
+          <div class="rt-scroll">
+            <table>
+              <caption class="sr">Costi di spedizione Europa: per zona e peso dell’ordine</caption>
+              <thead><tr><th scope="col" class="rt-w">Peso</th><th scope="col"><span class="rt-zone">Zona 1</span><span class="rt-area">16 Paesi</span></th><th scope="col"><span class="rt-zone">Zona 2</span><span class="rt-area">7 Paesi</span></th></tr></thead>
+              <tbody>
+                <tr class="rt-free"><th scope="row"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>Gratis da</th><td>€199,00</td><td>€299,00</td></tr>
+                <tr><th scope="row">Fino a 3 kg</th><td>€16,00</td><td>€20,00</td></tr>
+                <tr><th scope="row">Fino a 5 kg</th><td>€18,00</td><td>€23,00</td></tr>
+                <tr><th scope="row">Fino a 10 kg</th><td>€20,00</td><td>€26,00</td></tr>
+                <tr><th scope="row">Fino a 15 kg</th><td>€23,00</td><td>€29,00</td></tr>
+                <tr><th scope="row">Fino a 20 kg</th><td>€25,00</td><td>€33,00</td></tr>
+                <tr><th scope="row">Fino a 25 kg</th><td>€27,00</td><td>€36,00</td></tr>
+                <tr><th scope="row">Fino a 40 kg</th><td>€33,00</td><td>€45,00</td></tr>
+              </tbody>
+            </table>
           </div>
-          <table>
-            <caption class="sr">Costo di spedizione per Sicilia e Calabria in base al peso dell’ordine</caption>
-            <thead><tr><th scope="col">Peso dell’ordine</th><th scope="col">Costo</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Fino a 3 kg</th><td>€8,00</td></tr>
-              <tr><th scope="row">Fino a 5 kg</th><td>€10,00</td></tr>
-              <tr><th scope="row">Fino a 10 kg</th><td>€12,00</td></tr>
-              <tr><th scope="row">Fino a 25 kg</th><td>€17,00</td></tr>
-              <tr><th scope="row">Fino a 50 kg</th><td>€23,00</td></tr>
-              <tr><th scope="row">Fino a 100 kg</th><td>€38,00</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="zp" role="tabpanel" id="zp-sardegna" aria-labelledby="zt-sardegna" tabindex="0">
-          <div class="zp-info">
-            <h3>Sardegna</h3>
-            <p class="zp-area">Tutte le province della Sardegna.</p>
-            <p class="zp-free"><span>Spedizione gratuita<br>per ordini da</span><b>€199<small>,00</small></b></p>
-          </div>
-          <table>
-            <caption class="sr">Costo di spedizione per Sardegna in base al peso dell’ordine</caption>
-            <thead><tr><th scope="col">Peso dell’ordine</th><th scope="col">Costo</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Fino a 3 kg</th><td>€16,00</td></tr>
-              <tr><th scope="row">Fino a 5 kg</th><td>€18,00</td></tr>
-              <tr><th scope="row">Fino a 10 kg</th><td>€20,00</td></tr>
-              <tr><th scope="row">Fino a 25 kg</th><td>€25,00</td></tr>
-              <tr><th scope="row">Fino a 50 kg</th><td>€32,00</td></tr>
-              <tr><th scope="row">Fino a 100 kg</th><td>€45,00</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="zp" role="tabpanel" id="zp-eu1" aria-labelledby="zt-eu1" tabindex="0">
-          <div class="zp-info">
-            <h3>Europa · Zona 1</h3>
-            <p class="zp-area">Austria, Belgio, Croazia, Danimarca, Francia, Germania, Lussemburgo, Paesi Bassi, Polonia, Portogallo, Repubblica Ceca, Romania, Slovacchia, Slovenia, Spagna, Ungheria.</p>
-            <p class="zp-free"><span>Spedizione gratuita<br>per ordini da</span><b>€199<small>,00</small></b></p>
-          </div>
-          <table>
-            <caption class="sr">Costo di spedizione per Europa · Zona 1 in base al peso dell’ordine</caption>
-            <thead><tr><th scope="col">Peso dell’ordine</th><th scope="col">Costo</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Fino a 3 kg</th><td>€16,00</td></tr>
-              <tr><th scope="row">Fino a 5 kg</th><td>€18,00</td></tr>
-              <tr><th scope="row">Fino a 10 kg</th><td>€20,00</td></tr>
-              <tr><th scope="row">Fino a 15 kg</th><td>€23,00</td></tr>
-              <tr><th scope="row">Fino a 20 kg</th><td>€25,00</td></tr>
-              <tr><th scope="row">Fino a 25 kg</th><td>€27,00</td></tr>
-              <tr><th scope="row">Fino a 40 kg</th><td>€33,00</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="zp" role="tabpanel" id="zp-eu2" aria-labelledby="zt-eu2" tabindex="0">
-          <div class="zp-info">
-            <h3>Europa · Zona 2</h3>
-            <p class="zp-area">Bulgaria, Estonia, Grecia, Irlanda, Lettonia, Lituania, Svezia.</p>
-            <p class="zp-free"><span>Spedizione gratuita<br>per ordini da</span><b>€299<small>,00</small></b></p>
-          </div>
-          <table>
-            <caption class="sr">Costo di spedizione per Europa · Zona 2 in base al peso dell’ordine</caption>
-            <thead><tr><th scope="col">Peso dell’ordine</th><th scope="col">Costo</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Fino a 3 kg</th><td>€20,00</td></tr>
-              <tr><th scope="row">Fino a 5 kg</th><td>€23,00</td></tr>
-              <tr><th scope="row">Fino a 10 kg</th><td>€26,00</td></tr>
-              <tr><th scope="row">Fino a 15 kg</th><td>€29,00</td></tr>
-              <tr><th scope="row">Fino a 20 kg</th><td>€33,00</td></tr>
-              <tr><th scope="row">Fino a 25 kg</th><td>€36,00</td></tr>
-              <tr><th scope="row">Fino a 40 kg</th><td>€45,00</td></tr>
-            </tbody>
-          </table>
-        </div>
+          <dl class="rt-countries">
+            <div><dt>Zona 1</dt><dd>Austria, Belgio, Croazia, Danimarca, Francia, Germania, Lussemburgo, Paesi Bassi, Polonia, Portogallo, Repubblica Ceca, Romania, Slovacchia, Slovenia, Spagna, Ungheria</dd></div>
+            <div><dt>Zona 2</dt><dd>Bulgaria, Estonia, Grecia, Irlanda, Lettonia, Lituania, Svezia</dd></div>
+          </dl>
         </div>
       </section>
 
@@ -312,6 +251,6 @@
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
 <script src="js/site.js?v=19800cf5"></script>
 <script src="js/search.js?v=c0be1f3b"></script>
-<script src="js/shipping.js?v=befe4f14"></script>
+<script src="js/shipping.js?v=73c76b4a"></script>
 </body>
 </html>
