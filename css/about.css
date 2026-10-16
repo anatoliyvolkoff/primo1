@@ -1,39 +1,92 @@
-/* PriMo Nails – about. Phones: "about us mob" 7602:18992 (440). Desktop: "about us" 7602:18894 (1440). */
-.about{background:#f9f9f9;padding:0}
-.ab-blocks{display:flex;flex-direction:column;gap:80px;padding:38px 40px 80px}
-.ab-block{display:flex;flex-direction:column;gap:40px}
-.ab-img{position:relative;overflow:hidden;background:#eee}
-.b1 .ab-img{aspect-ratio:522/627}
-.b1 .ab-img img{position:absolute;left:-19.3%;top:-22.6%;width:155.88%;height:130.08%;max-width:none;object-fit:cover}
-.b2 .ab-img,.b3 .ab-img{height:529px;border:3.376px solid rgba(0,0,0,.05)}
-.b2 .ab-img img{width:100%;height:100%;object-fit:cover}
-.b3 .ab-img img{position:absolute;left:-40.07%;top:0;width:146.94%;height:100%;max-width:none;object-fit:cover}
-.ab-txt{display:flex;flex-direction:column;gap:20px}
-.ab-txt h2{margin:0;font-size:46px;line-height:42px;font-weight:600;letter-spacing:-1.54px;color:#1a1c1c}
-.ab-txt p{margin:0;font-size:17px;line-height:20px;font-weight:400;letter-spacing:1px;color:#000}
-.ab-txt p br{display:none}
-@media (min-width:1024px){
-  .about{padding:0}
-  .ab-hero{display:block!important;height:443px;overflow:hidden}
-  .ab-hero img{width:100%;height:100%;object-fit:cover}
-  .ab-blocks{display:block;max-width:1112px;margin:0 auto;padding:80px 0 0;position:relative;height:1956px}
-  .ab-block{position:absolute;left:0;right:0;display:block}
-  .ab-img{position:absolute;width:532px;border-radius:14px;box-shadow:0 20px 40px -20px rgba(0,0,0,.35);border:0!important}
-  .b1{top:80px}.b2{top:603px}.b3{top:1156px}
-  .b1 .ab-img{left:580px;top:0;height:639px;aspect-ratio:auto}
-  .b1 .ab-img img{left:0;top:0;width:100%;height:100%;object-position:58% 40%}
-  .b2 .ab-img{left:0;top:0;height:720px}
-  .b3 .ab-img{left:580px;top:0;height:720px}
-  .b3 .ab-img img{left:0;width:100%}
-  .ab-txt{position:absolute;width:532px;gap:25px}
-  .b1 .ab-txt{left:10px;top:69px}
-  .b2 .ab-txt{left:580px;top:183px}
-  .b3 .ab-txt{left:0;top:246px}
-  .ab-txt h2{font-size:42px;line-height:42px;letter-spacing:-1.3px}
-  .ab-txt h2 br{display:none}
-  .ab-txt p{font-size:12.5px;line-height:19px;letter-spacing:.1px}
-  .ab-txt p br{display:inline}
-  .about::after{content:"";display:block;height:0}
+/* PriMo Nails – Chi siamo. Built from the course-page primitives (academy.css + course.css): warm hero, key-facts strip,
+   numbered values, photo gallery and the black closing panel. Page-only: the founder story, the quote and the two path cards.
+   Phones: one column. Desktop: split hero, 976px column. */
+.ab{--cx-warm:#f6f3ef;--cx-line:#e6e1dc;padding-bottom:40px}
+
+/* hero */
+.ab-hero{position:relative;background:var(--cx-warm);padding-bottom:40px}
+.ab-media{height:380px;overflow:hidden;background:#222}
+.ab-media img{width:100%;height:100%;object-fit:cover;object-position:30% 30%}
+.ab-intro{position:relative;margin-top:-28px;padding:30px 24px 32px;border-radius:28px 28px 0 0;background:var(--cx-warm)}
+.ab-intro h1{margin:10px 0 0;font-size:40px;line-height:42px;font-weight:700;letter-spacing:-1.6px;color:#111;text-wrap:balance}
+.ab-lead{margin:16px 0 0;font-family:var(--fi);font-size:16px;line-height:24px;color:#555;text-wrap:pretty}
+.ab-ctas{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+.ab .cx-facts{margin-top:-56px;background:none;position:relative}
+
+/* body */
+.ab-body{padding:0 24px}
+.ab .cx-sec h2{text-wrap:balance}
+
+/* founder story */
+.ab-story-img{border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:var(--cx-warm);margin-bottom:28px}
+.ab-story-img img{width:100%;height:100%;object-fit:cover;object-position:52% 35%}
+.ab-story-txt>p:not(.cx-eyebrow){margin:14px 0 0;font-family:var(--fi);font-size:15.5px;line-height:24px;color:#555;text-wrap:pretty}
+.ab-quote{margin:28px 0 0;padding:4px 0 4px 20px;border-left:2px solid var(--accent)}
+.ab-quote p{margin:0;font-size:20px;line-height:28px;font-weight:500;letter-spacing:-.4px;color:#111;text-wrap:balance}
+.ab-quote cite{display:block;margin-top:10px;font-family:var(--fi);font-size:13px;font-style:normal;color:#8a8580}
+
+/* two paths: shop + academy */
+.ab-cards{display:grid;gap:12px;margin-top:24px}
+.ab-card{display:grid;grid-template-columns:108px 1fr;gap:16px;align-items:center;padding:10px 14px 10px 10px;border:1px solid var(--cx-line);border-radius:22px;background:#fff;transition:border-color .2s,box-shadow .25s,transform .25s var(--ease)}
+.ab-card:active{transform:scale(.98)}
+.ab-card-img{aspect-ratio:1;border-radius:16px;overflow:hidden;background:var(--cx-warm)}
+.ab-card-img img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 50%);transition:transform .5s var(--ease)}
+.ab-card h3{margin:4px 0 0;font-size:17px;line-height:21px;font-weight:600;letter-spacing:-.3px;color:#111}
+.ab-card-body>p:not(.ac-lvl){margin:6px 0 0;font-family:var(--fi);font-size:13px;line-height:19px;color:#666}
+.ab-card .ac-go{margin-top:8px}
+
+/* gallery: phones scroll, desktop four across (course.css) */
+.ab .cx-gal{padding-top:56px}
+.ab .gal-track figure{border:1px solid var(--cx-line)}
+
+/* closing panel */
+.ab-final-ctas{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:28px}
+.ab-final-ctas .cx-btn{margin:0}
+
+@media (hover:hover) and (pointer:fine){
+  .ab-card:hover{border-color:#cfc8c1;box-shadow:0 18px 36px -24px rgba(0,0,0,.28)}
+  .ab-card:hover .ab-card-img img{transform:scale(1.05)}
+  .ab-card:hover .ac-go svg{transform:translateX(3px)}
 }
-.d-br{display:none}
-@media (min-width:1024px){ .ab-txt h2 br{display:inline}.ab-txt h2 .d-br{display:inline} }
+
+@media (min-width:1024px){
+  .ab{padding-bottom:0}
+  .ab-hero{display:grid;grid-template-columns:1fr 1fr;min-height:600px;padding-bottom:0}
+  .ab-hero .cx-back{top:48px;left:max(24px,calc(50% - 488px));margin:0;height:auto;padding:0}
+  .ab-hero .cx-back .back{background:#fff}
+  .ab-media{order:2;height:auto;min-height:600px}
+  .ab-media img{position:absolute;inset:0 0 0 50%;width:50%;object-position:25% 25%}
+  .ab-intro{align-self:start;margin:0;padding:136px 56px 128px max(24px,calc(50vw - 488px));border-radius:0;background:none}
+  .ab-intro h1{font-size:56px;line-height:58px;letter-spacing:-2.4px}
+  .ab-lead{max-width:440px;font-size:17px;line-height:27px}
+  .ab-ctas{flex-direction:row;margin-top:34px}
+  .ab .cx-facts{margin-top:-48px}
+  .ab-body{max-width:976px;margin:0 auto;padding:0}
+  .ab .cx-sec{padding-top:112px}
+
+  .ab-story{display:grid;grid-template-columns:420px 1fr;gap:80px;align-items:center}
+  .ab-story-img{margin:0;border-radius:32px;box-shadow:0 30px 60px -36px rgba(0,0,0,.3)}
+  .ab-story-txt>p:not(.cx-eyebrow){font-size:16px;line-height:26px}
+  .ab-quote{margin-top:36px;padding-left:24px}
+  .ab-quote p{font-size:24px;line-height:32px;letter-spacing:-.6px}
+
+  .ab-values .cx-prog{display:grid;grid-template-columns:repeat(3,1fr);gap:0 40px;margin-top:40px;border-top:0}
+  .ab-values .cx-prog li{display:block;padding:24px 0 0;border-bottom:0;border-top:2px solid #111}
+  .ab-values .cx-prog li+li{border-top-color:var(--cx-line)}
+  .ab-values .cx-prog .n{display:block;margin-bottom:14px}
+  .ab-values .cx-prog p{max-width:none}
+
+  .ab-paths{display:grid;grid-template-columns:1fr 1fr;column-gap:24px}
+  .ab-paths>.cx-eyebrow,.ab-paths>h2{grid-column:1/-1}
+  .ab-cards{grid-column:1/-1;grid-template-columns:1fr 1fr;gap:24px;margin-top:36px}
+  .ab-card{grid-template-columns:200px 1fr;gap:28px;padding:12px 28px 12px 12px;border-radius:28px}
+  .ab-card:hover{transform:translateY(-4px)}
+  .ab-card-img{border-radius:20px}
+  .ab-card h3{margin-top:6px;font-size:22px;line-height:27px;letter-spacing:-.5px}
+  .ab-card-body>p:not(.ac-lvl){margin-top:8px;font-size:14px;line-height:21px}
+  .ab-card .ac-go{margin-top:16px;font-size:13.5px}
+
+  .ab .cx-gal{padding-top:112px}
+  .ab .gal-track{cursor:default}
+  .ab-final-ctas{flex-direction:row;justify-content:center;gap:12px;margin-top:34px}
+}
