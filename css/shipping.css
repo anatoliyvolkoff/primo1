@@ -1,63 +1,112 @@
-/* PriMo Nails – Spedizioni e resi: zone rate cards with free-shipping thresholds, then a contents list and the numbered policy.
-   Uses the Academy warm palette and .cx-eyebrow / .back from academy.css. Phones: one column. Desktop: 792px column, 2-up cards, sticky contents. */
-.shp{--cx-warm:#f6f3ef;--cx-line:#e6e1dc;background:var(--cx-warm);padding-bottom:80px}
+/* PriMo Nails – Spedizioni e resi. Built from the course-page primitives (academy.css + course.css): warm hero, key-facts strip,
+   numbered steps, FAQ accordions and the black closing panel. Page-only: the zone rate switcher and the terms layout.
+   Phones: one column. Desktop: 976px column. */
+.shp{--cx-warm:#f6f3ef;--cx-line:#e6e1dc;padding-bottom:40px}
+
+/* hero */
+.shp-hero{background:var(--cx-warm);padding-bottom:40px}
 .shp-back{height:47.2px;display:flex;align-items:center;padding-left:21.8px}
-.shp-head{margin:8px 24px 0;padding-bottom:32px;border-bottom:1px solid var(--cx-line)}
-.shp-head h1{margin:10px 0 0;font-size:40px;line-height:42px;font-weight:700;letter-spacing:-1.6px;color:#111;text-wrap:balance}
+.shp-intro{padding:10px 24px 32px}
+.shp-intro h1{margin:10px 0 0;font-size:40px;line-height:42px;font-weight:700;letter-spacing:-1.6px;color:#111;text-wrap:balance}
 .shp-lead{margin:16px 0 0;font-family:var(--fi);font-size:16px;line-height:24px;color:#555;text-wrap:pretty}
+.shp .cx-facts{margin-top:-56px;background:none;position:relative}
+.shp .cx-facts dd{font-size:15px}
 
-/* zone rate cards */
-.zones{display:grid;gap:16px;padding:32px 16px 0}
-.zone{background:#fff;border:1px solid var(--cx-line);border-radius:22px;padding:22px 22px 14px;box-shadow:0 18px 36px -30px rgba(0,0,0,.22)}
-.zone h2{margin:0;font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.2px;color:#111}
-.z-area{margin:6px 0 0;font-family:var(--fi);font-size:13px;line-height:19px;color:#8a8580}
-.z-free{display:inline-flex;align-items:center;gap:7px;height:26px;margin:14px 0 6px;padding:0 13px 0 10px;border-radius:99px;border:1px solid rgba(31,122,58,.22);background:rgba(31,122,58,.07);
-  font-size:10.5px;line-height:1;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#1f7a3a}
-.z-free svg{width:13px;height:13px;stroke-width:2.2}
-.zone table{width:100%;border-collapse:collapse}
-.zone tr+tr{border-top:1px solid var(--cx-line)}
-.zone th,.zone td{height:40px;padding:0;font-size:14px}
-.zone th{text-align:left;font-family:var(--fi);font-weight:400;color:#6b6b6b}
-.zone td{text-align:right;font-weight:700;color:#111;font-variant-numeric:tabular-nums}
+/* body */
+.shp-body{padding:0 24px}
+.shp .cx-sec h2{text-wrap:balance}
+.shp-sub{margin:10px 0 0;font-family:var(--fi);font-size:15px;line-height:23px;color:#555}
 
-/* contents + policy */
-.policy{margin:40px 16px 0;display:grid;gap:16px}
-.toc{background:#fff;border:1px solid var(--cx-line);border-radius:22px;padding:22px 22px 12px}
-.toc ol{margin:8px 0 0;padding:0;list-style:none}
-.toc a{display:flex;gap:12px;min-height:44px;align-items:center;padding:6px 0;font-family:var(--fi);font-size:14px;line-height:19px;color:#555;transition:color .2s var(--ease)}
-.toc a span{flex:none;width:20px;font-family:var(--f);font-size:12.5px;font-weight:600;color:#e0a46f}
-.toc li+li a{border-top:1px solid var(--cx-line)}
-.toc a[aria-current]{color:#111;font-weight:500}
-.toc a[aria-current] span{color:var(--accent)}
-.terms{background:#fff;border:1px solid var(--cx-line);border-radius:22px;padding:4px 22px}
-.terms section{padding:28px 0 30px}
-.terms section+section{border-top:1px solid #f1e8df}
-.terms h2{margin:0;font-size:20px;line-height:26px;font-weight:600;letter-spacing:-.4px;color:#111;text-wrap:balance}
-.terms p{margin:14px 0 0;font-family:var(--fi);font-size:15px;line-height:24px;color:#6b6b6b;text-wrap:pretty}
-.terms a{color:#111;text-decoration:underline;text-decoration-color:#c9c4bf;text-underline-offset:3px;overflow-wrap:anywhere;transition:text-decoration-color .2s}
-.terms a:hover{text-decoration-color:#111}
+/* zone switcher: a grey track of pills, selected = black (scrolls sideways on phones) */
+.zt{display:flex;gap:4px;margin:24px -24px 0;padding:0 24px;overflow-x:auto;scrollbar-width:none;scroll-padding:0 24px}
+.zt::-webkit-scrollbar{display:none}
+.zt button{flex:none;height:44px;padding:0 18px;border:1.2px solid #c9c4bf;border-radius:99px;background:#fff;font-size:14px;font-weight:600;color:#222;white-space:nowrap;
+  transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease),transform .15s}
+.zt button:active{transform:scale(.97)}
+.zt [aria-selected=true]{background:#000;border-color:#000;color:#fff}
+.zps{margin-top:16px}
+.zp{border:1px solid var(--cx-line);border-radius:24px;background:#fff;box-shadow:0 20px 40px -28px rgba(0,0,0,.25);overflow:hidden;animation:fadein .35s var(--ease)}
+.zp+.zp{margin-top:16px}
+.js .zp+.zp{margin-top:0}
+.zp[hidden]{display:none}
+.zp-info{padding:22px 22px 20px;background:linear-gradient(#fbf9f6,#fff)}
+.zp h3{margin:0;font-size:20px;line-height:26px;font-weight:600;letter-spacing:-.4px;color:#111}
+.zp-area{margin:6px 0 0;font-family:var(--fi);font-size:13.5px;line-height:20px;color:#8a8580}
+.zp-free{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:18px 0 0;padding:14px 18px;border-radius:18px;background:rgba(31,122,58,.07);border:1px solid rgba(31,122,58,.18)}
+.zp-free span{font-size:11px;line-height:15px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:#1f7a3a}
+.zp-free b{font-size:32px;line-height:34px;font-weight:700;letter-spacing:-1px;color:#1f7a3a;font-variant-numeric:tabular-nums}
+.zp-free small{font-size:16px;letter-spacing:0}
+.zp table{width:100%;border-collapse:collapse}
+.zp thead th{height:38px;padding:0 22px;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a8580;border-top:1px solid var(--cx-line);border-bottom:1px solid var(--cx-line);background:#fbf9f6}
+.zp thead th{text-align:left}
+.zp thead th:last-child{text-align:right}
+.zp tbody tr+tr{border-top:1px solid var(--cx-line)}
+.zp tbody th,.zp td{height:46px;padding:0 22px;font-size:15px}
+.zp tbody th{text-align:left;font-family:var(--fi);font-weight:400;color:#555}
+.zp td{text-align:right;font-weight:700;color:#111;font-variant-numeric:tabular-nums}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* terms */
+.shp .cx-faq p{padding-bottom:0}
+.shp .cx-faq details p:last-child{padding-bottom:22px}
+.shp .cx-faq p+p{margin-top:12px}
+.shp .cx-faq a{color:#111;text-decoration:underline;text-decoration-color:#c9c4bf;text-underline-offset:3px;overflow-wrap:anywhere}
 /* [[…]] notes still to be filled in: kept visible on purpose so they're easy to spot and replace */
-.todo-note{border-radius:4px;background:rgba(200,116,45,.1);color:#8a4f1c;box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 3px}
-p.todo-note{padding:10px 12px;border-radius:12px}
+.todo-note{border-radius:4px;background:rgba(200,116,45,.12);color:#8a4f1c;box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:0 3px}
+
+/* closing panel: a second, outline button on black */
+.shp-final-ctas{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:28px}
+.shp-final-ctas .cx-btn{margin:0}
+.cx-ghost.dark{border-color:#4a4643;color:#fff;font-family:var(--fi);font-size:14px}
+.cx-ghost.dark:hover{border-color:#fff}
+
+@media (hover:hover) and (pointer:fine){
+  .zt button:not([aria-selected=true]):hover{border-color:#000}
+  .shp .cx-faq a:hover{text-decoration-color:#111}
+}
 
 @media (min-width:1024px){
-  .shp{padding-bottom:120px}
-  .shp-back{max-width:792px;margin:40px auto 0;height:48.9px;padding-left:0}
-  .shp-head,.zones,.policy{max-width:792px;margin-left:auto;margin-right:auto}
-  .shp-head{margin-top:8px;padding-bottom:30px}
-  .shp-head h1{margin-top:12px;font-size:56px;line-height:58px;letter-spacing:-2.4px}
-  .shp-lead{max-width:680px;font-size:17px;line-height:27px}
-  .zones{grid-template-columns:1fr 1fr;padding:52px 0 0}
-  .zone{padding:22px 22px 18px}
-  .zone th,.zone td{height:33.3px;font-size:13.5px}
-  .policy{margin-top:40px;grid-template-columns:228px 1fr;gap:32px;align-items:start}
-  .toc{position:sticky;top:120px;background:none;border:0;border-radius:0;padding:10px 0 0 7px}
-  .toc ol{margin-top:14px}
-  .toc a{min-height:30.5px;padding:4px 0;font-size:13px;line-height:16px;gap:10px}
-  .toc li+li a{border-top:0}
-  .toc a:hover{color:#111}
-  .terms{border-radius:22px;padding:14px 36px;box-shadow:0 30px 60px -44px rgba(0,0,0,.3)}
-  .terms section{padding:32px 0 36px}
-  .terms h2{font-size:22px;line-height:28px}
-  .terms p{font-size:15px;line-height:23.5px}
+  .shp{padding-bottom:0}
+  .shp-hero{padding-bottom:48px}
+  .shp-back{max-width:976px;margin:0 auto;padding:40px 0 0;height:auto}
+  .shp-intro{max-width:976px;margin:0 auto;padding:24px 0 56px;display:grid;grid-template-columns:1fr 440px;column-gap:72px;align-items:end}
+  .shp-intro .cx-eyebrow{grid-column:1/-1}
+  .shp-intro h1{font-size:56px;line-height:58px;letter-spacing:-2.4px}
+  .shp-lead{margin:0 0 6px;font-size:17px;line-height:27px}
+  .shp .cx-facts{margin-top:-48px}
+  .shp .cx-facts dd{font-size:17px}
+  .shp-body{max-width:976px;margin:0 auto;padding:0}
+  .shp .cx-sec{padding-top:96px}
+  .shp-sub{font-size:16px;line-height:24px}
+
+  .zt{display:inline-flex;margin:32px 0 0;padding:5px;border-radius:99px;background:#f2f0ed;overflow:visible}
+  .zt button{height:42px;padding:0 22px;border:0;background:none}
+  .zt [aria-selected=true]{background:#000;box-shadow:0 6px 16px -8px rgba(0,0,0,.45)}
+  .zps{margin-top:20px}
+  .zp{display:grid;grid-template-columns:360px 1fr;border-radius:28px}
+  .zp-info{padding:36px 36px 32px;background:#fbf9f6;border-right:1px solid var(--cx-line);display:flex;flex-direction:column}
+  .zp h3{font-size:24px;line-height:30px;letter-spacing:-.6px}
+  .zp-area{font-size:14px;line-height:21px}
+  .zp-free{margin-top:auto;flex-direction:column;align-items:flex-start;gap:8px;padding:20px 22px;background:#fff}
+  .zp-area+.zp-free{margin-top:28px}
+  .zp-free b{font-size:44px;line-height:44px;letter-spacing:-1.6px}
+  .zp-free small{font-size:20px}
+  .zp table{align-self:start}
+  .zp thead th{height:48px;padding:0 36px;border-top:0;background:none}
+  .zp tbody th,.zp td{height:52px;padding:0 36px;font-size:15.5px}
+  .zp tbody tr{transition:background .2s}
+  .zp tbody tr:hover{background:#fbf9f6}
+
+  .shp-steps .cx-prog{display:grid;grid-template-columns:repeat(4,1fr);gap:0 32px;border-top:0}
+  .shp-steps .cx-prog li{display:block;padding:24px 0 0;border-bottom:0;border-top:2px solid #111}
+  .shp-steps .cx-prog li+li{border-top-color:var(--cx-line)}
+  .shp-steps .cx-prog .n{display:block;margin-bottom:14px}
+  .shp-steps .cx-prog p{max-width:none}
+
+  .shp-terms{display:grid;grid-template-columns:320px 1fr;gap:72px;align-items:start}
+  .shp-terms-head{position:sticky;top:130px}
+  .shp-terms .cx-faq{margin-top:0}
+  .shp .cx-faq p{padding-right:56px}
+
+  .shp-final-ctas{flex-direction:row;justify-content:center;gap:12px;margin-top:34px}
 }
