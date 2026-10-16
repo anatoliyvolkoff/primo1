@@ -95,3 +95,64 @@
       </div>
     </section>
   </main>
+  <!-- Variant C (?v=c): a cinematic version kept for comparison; swapped in before first paint. -->
+  <template id="ab-c">
+    <section class="abc-hero">
+      <picture><source media="(min-width:1024px)" srcset="img/academy-hero-d.jpg"><img src="img/academy-hero-m.jpg" alt="Irina PriMo durante un'intervista in studio" fetchpriority="high"></picture>
+      <div class="abc-back cx-back"><a class="back" href="index.html" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Indietro</a></div>
+      <div class="abc-title">
+        <p class="cx-eyebrow">PriMo Nails · Milano</p>
+        <h1>Chi <br>siamo</h1>
+      </div>
+    </section>
+
+    <section class="abc-intro" aria-label="In breve">
+      <p>Prodotti professionali e una scuola per chi fa delle unghie il proprio mestiere. <span>Nati dall'esperienza di Irina PriMo, International Nail Trainer e giudice dal 2005.</span></p>
+    </section>
+
+    <section class="abc-time" aria-labelledby="time-h">
+      <div class="abc-time-head"><p class="cx-eyebrow">Il percorso</p><h2 id="time-h">Vent'anni in quattro capitoli</h2></div>
+      <ol class="abc-track" data-drag tabindex="0" aria-label="Il percorso di PriMo Nails">
+        <li><span class="abc-yr">2005</span><h3>In gara e in aula</h3><p>Irina PriMo diventa International Nail Trainer e giudice di campionati internazionali.</p></li>
+        <li><span class="abc-yr">20<sup>+</sup></span><h3>Tecniche firmate</h3><p>Anni di ricerca nella ricostruzione e nel design danno vita a tecniche esclusive.</p></li>
+        <li><span class="abc-yr">10 000<sup>+</sup></span><h3>Studenti nel mondo</h3><p>Professionisti formati con un metodo preciso, dal corso base al livello master.</p></li>
+        <li><span class="abc-yr">Oggi</span><h3>PriMo Nails</h3><p>I prodotti che usa ogni giorno, per chi lavora in salone. E la sua scuola, PriMo Academy.</p></li>
+      </ol>
+    </section>
+
+    <section class="abc-founder" id="storia" aria-labelledby="founder-h">
+      <div class="abc-founder-img"><img src="img/founder-d.jpg" alt="Irina PriMo, fondatrice di PriMo Nails" loading="lazy"></div>
+      <div class="abc-founder-txt">
+        <p class="cx-eyebrow">La fondatrice</p>
+        <h2 id="founder-h" class="sr">Irina PriMo</h2>
+        <p class="abc-words">“Sono Irina PriMo Prijilevscaia-Mosenscaia, artista professionista di livello internazionale, giudice di campionati mondiali e autrice di tecniche esclusive nel mondo della ricostruzione e del design.”</p>
+        <p class="abc-name">Irina PriMo<span>Fondatrice, PriMo Nails e PriMo Academy</span></p>
+      </div>
+    </section>
+
+    <section class="abc-words-band" id="valori" aria-label="I nostri valori">
+      <div class="abc-band" data-animated aria-hidden="true"><div class="abc-band-track"><span>Precisione</span><i></i><span>Eleganza</span><i></i><span>Formazione</span><i></i><span>Eccellenza italiana</span><i></i><span>Precisione</span><i></i><span>Eleganza</span><i></i><span>Formazione</span><i></i><span>Eccellenza italiana</span><i></i></div></div>
+      <p class="sr">Precisione, eleganza, formazione, eccellenza italiana.</p>
+    </section>
+
+    <section class="abc-split" id="lavoro" aria-label="Cosa facciamo">
+      <a class="abc-half shop" href="catalogo.html">
+        <img src="img/product.jpg" alt="" loading="lazy">
+        <div><p class="cx-eyebrow">Il prodotto</p><h2>Prodotti professionali</h2><p>Gel, semipermanente, base e top per risultati da salone.</p><span class="abc-go">Scopri i prodotti<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+      <a class="abc-half school" href="academy.html">
+        <img src="img/course1.jpg" alt="" loading="lazy">
+        <div><p class="cx-eyebrow">La scuola</p><h2>PriMo Academy</h2><p>Corsi di Irina PriMo per professionisti, in aula e su misura.</p><span class="abc-go">Scopri i corsi<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+      </a>
+    </section>
+
+    <section class="abc-end" aria-labelledby="end-h">
+      <h2 id="end-h">Parliamone.</h2>
+      <p>Prodotti, ordini all'ingrosso o corsi: siamo a un messaggio di distanza.</p>
+      <div class="abc-ctas">
+        <a class="cx-btn" href="https://wa.me/393893193049" target="_blank" rel="noopener">Scrivici su WhatsApp</a>
+        <a class="abc-mail" href="mailto:primonailspro@gmail.com">primonailspro@gmail.com</a>
+      </div>
+    </section>
+  </template>
+  <script>(() => { if (new URLSearchParams(location.search).get('v') !== 'c') return; const m = document.getElementById('top'); m.className = 'abc'; m.replaceChildren(document.getElementById('ab-c').content.cloneNode(true)); })();</script>
