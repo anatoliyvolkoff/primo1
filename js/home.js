@@ -316,8 +316,40 @@
     more.textContent = open ? 'LEGGI MENO' : 'LEGGI DI PIU'; more.setAttribute('aria-expanded', open);
   };
 
-  // ---------- courses: the next three from the Academy catalogue, in the Academy card style ----------
-  $('#c-list').innerHTML = PM.CATALOG.COURSES.slice(0, 3).map(c => PM.courseCard(c)).join('');
+  // ---------- courses ----------
+  // Variant A (default): the next three courses as Academy cards.
+  // Variant B (?corsi=b, draft for comparison): the master course as a featured black panel, the rest in a rail.
+  const { COURSES } = PM.CATALOG;
+  if (new URLSearchParams(location.search).get('corsi') === 'b') {
+    const f = COURSES.find(c => c.img === 'course-wing') || COURSES[COURSES.length - 1];
+    const star = '<svg viewBox="0 0 24 24"><path d="m12 2.5 2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.5l-5.9 3.2 1.2-6.6L2.5 9.5l6.6-.9Z"/></svg>';
+    const ico = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+    const sec = $('#courses');
+    sec.classList.add('vb');
+    $('.c-head', sec).outerHTML = `<div class="c-top"><h2 class="h2">Corsi di Irina PriMo</h2><p class="sub">Eleva la tua arte con PriMo Academy</p></div>`;
+    $('#c-list').outerHTML = `<div class="c-grid">
+      <a class="c-feat" href="corso.html">
+        <div class="cf-img"><img src="img/${f.img}.jpg" style="--pos:${f.pos}" alt="" loading="lazy" decoding="async"></div>
+        <div class="cf-body">
+          <p class="cf-lvl">In evidenza · ${f.tag}</p>
+          <h3>${f.title}</h3>
+          <p class="cf-txt">${f.txt}</p>
+          <ul class="cf-facts">
+            <li>${ico('<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/>')}${f.date}</li>
+            <li>${ico('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>')}${f.les} lezioni</li>
+            <li><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><b>${f.rev}</b> recensioni</li>
+          </ul>
+          <span class="cf-go">Scopri il corso${PM.ARROW}</span>
+        </div></a>
+      <div class="c-rail" data-drag>${COURSES.filter(c => c !== f).map(c => PM.courseCard(c)).join('')}</div>
+    </div>`;
+    $('.c-all-m', sec).textContent = 'Vedi tutti i corsi';
+    $('.c-all', sec)?.remove();
+    $('.c-grid', sec).insertAdjacentHTML('beforeend', `<a class="c-all d-only" href="academy.html">Tutti i corsi${PM.ARROW}</a>`);
+    if (!desktopMQ.matches) attachProgress($('.c-rail', sec));
+  } else {
+    $('#c-list').innerHTML = COURSES.slice(0, 3).map(c => PM.courseCard(c)).join('');
+  }
 
   window.PM.ready();
 })();

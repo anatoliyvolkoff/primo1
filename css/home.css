@@ -156,6 +156,39 @@
 .c-all-m{display:flex;align-items:center;justify-content:center;height:50px;margin-top:20px;border:1.2px solid #c9c4bf;border-radius:99px;font-size:15px;font-weight:500;color:#222;transition:border-color .2s}
 .c-all-m:hover{border-color:#000}
 
+/* courses, variant B (?corsi=b): featured master course + rail of the others */
+.c-top{text-align:center;margin:0 -24px}
+.vb .c-grid{margin-top:28px}
+.c-feat{display:block;padding:10px;border-radius:28px;background:#111;color:#fff;transition:box-shadow .25s,transform .25s var(--ease)}
+.cf-img{aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:#fff}
+/* scale crops the old card outline baked into the top-right corner of course-wing.jpg */
+.cf-img img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 50%);scale:1.12;transform-origin:25% 80%;transition:transform .5s var(--ease)}
+.cf-body{padding:22px 14px 14px}
+.cf-lvl{margin:0;font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e2a46d}
+.c-feat h3{margin:6px 0 0;font-size:26px;line-height:31px;font-weight:600;letter-spacing:-.6px}
+.cf-txt{margin:10px 0 0;font-family:var(--fi);font-size:14.5px;line-height:22px;color:#c9c4bf}
+.cf-facts{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.cf-facts li{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px solid rgba(255,255,255,.18);border-radius:99px;font-family:var(--fi);font-size:12.5px;color:#e9e6e2}
+.cf-facts svg{width:15px;height:15px;stroke-width:1.7;color:#fff}
+.cf-facts .stars{display:flex;gap:2px;margin:0;color:var(--orange)}
+.cf-facts .stars svg{width:11px;height:11px;fill:currentColor;stroke:none;color:inherit}
+.cf-facts b{font-weight:700;color:#fff}
+.cf-go{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;margin-top:22px;border-radius:99px;background:#fff;color:#000;font-size:15px;font-weight:600;transition:background .2s}
+.cf-go svg{width:18px;height:18px;stroke-width:2;transition:transform .2s}
+.c-rail{display:flex;gap:12px;margin:12px -24px 0;padding:0 24px 4px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:24px;scrollbar-width:none;overscroll-behavior-x:contain}
+.c-rail::-webkit-scrollbar{display:none}
+.c-rail .acard{flex:none;width:248px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:8px;border-radius:24px}
+.c-rail .ac-img{aspect-ratio:4/3;border-radius:17px}
+.c-rail .ac-body{display:flex;flex-direction:column;flex:1;padding:14px 8px 6px}
+.c-rail .ac-foot{margin-top:auto;padding-top:12px}
+.vb .rprog{margin-top:14px}
+@media (hover:hover) and (pointer:fine){
+  .c-feat:hover{box-shadow:0 30px 60px -36px rgba(0,0,0,.5);transform:translateY(-4px)}
+  .c-feat:hover .cf-img img{transform:scale(1.04)}
+  .c-feat:hover .cf-go{background:#ece8e3}
+  .c-feat:hover .cf-go svg{transform:translateX(3px)}
+}
+
 /* mood picker: visible selected state */
 .mood-item{position:relative;min-height:44px}
 .mood-item[aria-pressed=true] img{transform:translateY(-6px)}
@@ -299,6 +332,23 @@
   .c-all svg{width:18px;height:18px;stroke-width:2;transition:transform .2s}
   .c-all:hover svg{transform:translateX(3px)}
   .c-list{grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}
+  .c-top{margin:0}
+  .vb .c-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);grid-template-rows:1fr auto;gap:16px 24px;margin-top:48px}
+  .c-feat{grid-row:1/3;display:flex;flex-direction:column}
+  .cf-img{aspect-ratio:auto;flex:1;min-height:300px}
+  .cf-body{padding:26px 22px 18px}
+  .c-feat h3{font-size:32px;line-height:38px;letter-spacing:-.9px}
+  .cf-txt{font-size:15px;line-height:23px;max-width:420px}
+  .cf-go{width:fit-content;padding:0 28px}
+  .c-rail{display:grid;gap:12px;margin:0;padding:0;overflow:visible}
+  .c-rail .acard{width:auto;display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center;padding:10px 14px 10px 10px;border-radius:22px}
+  .c-rail .acard:hover{transform:translateY(-2px)}
+  .c-rail .ac-img{aspect-ratio:1;border-radius:14px}
+  .c-rail .ac-body{display:block;padding:0}
+  .c-rail .ac-txt{display:none}
+  .c-rail .ac-meta{margin:6px 0 0;font-size:13px}
+  .c-rail .ac-foot{margin-top:8px;padding-top:0;border-top:0}
+  .vb .c-all{justify-self:end;align-self:end}
   .courses+.marquee{margin-top:120px}
   .marquee+.footer,.courses~.marquee.d-only{margin-bottom:0}
   main{padding-bottom:120px}
