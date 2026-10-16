@@ -162,7 +162,7 @@
 }
 
 /* ===== Variant C (?v=c): cinematic. Full-bleed hero with giant type, a horizontal timeline, the founder in her own words,
-   a moving copper word band, two full-bleed halves for shop and school, and a typographic ending. ===== */
+   three values, two shop/school tiles and a black contact panel. ===== */
 .abc{--cx-warm:#f6f3ef;--cx-line:#e6e1dc;overflow:hidden}
 .abc h2{text-wrap:balance}
 .abc-hero{position:relative;height:560px;background:#111;color:#fff;overflow:hidden}
@@ -177,7 +177,7 @@
 
 .abc-time{padding:64px 0 0}
 .abc-time-head{padding:0 24px}
-.abc-time h2,.abc-end h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111}
+.abc-time h2,.abc-paths h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111}
 .abc-track{display:flex;gap:12px;margin:28px 0 0;padding:0 24px 4px;list-style:none;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 24px;scrollbar-width:none;overscroll-behavior-x:contain}
 .abc-track::-webkit-scrollbar{display:none}
 .abc-track li{position:relative;flex:none;width:76%;padding:28px 22px 26px;border-radius:24px;background:var(--cx-warm);scroll-snap-align:start}
@@ -195,38 +195,9 @@
 .abc-name{margin:26px 0 0;padding-top:18px;border-top:1px solid var(--cx-line);font-size:17px;font-weight:700;letter-spacing:-.3px;color:#111}
 .abc-name span{display:block;margin-top:4px;font-family:var(--fi);font-size:13px;font-weight:400;letter-spacing:0;color:#8a8580}
 
-.abc-words-band{margin-top:72px;background:#111;overflow:hidden}
-.abc-band{padding:26px 0}
-.abc-band-track{display:flex;align-items:center;gap:28px;width:max-content;animation:abc-roll 26s linear infinite}
-.abc-band.off .abc-band-track{animation-play-state:paused}
-.abc-band span{font-size:44px;line-height:52px;font-weight:300;letter-spacing:-1.6px;color:#fff;white-space:nowrap}
-.abc-band span:nth-of-type(even){color:#e8b07c}
-.abc-band i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--accent)}
-@keyframes abc-roll{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.abc-band-track{animation:none!important}}
 
-.abc-split{display:grid}
-.abc-half{position:relative;display:block;background:var(--cx-warm)}
-.abc-half img{width:100%;aspect-ratio:1;object-fit:cover;transition:transform .6s var(--ease)}
-.abc-half.school{background:#fff}
-.abc-half.school img{object-position:40% 15%}
-.abc-half>div{padding:28px 24px 40px}
-.abc-half h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111}
-.abc-half>div>p:not(.cx-eyebrow){margin:10px 0 0;font-family:var(--fi);font-size:15px;line-height:23px;color:#555}
-.abc-go{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding-bottom:4px;border-bottom:1.5px solid #111;font-size:14px;font-weight:600;color:#111}
-.abc-go svg{width:18px;height:18px;stroke-width:1.8;transition:transform .2s}
-.abc-half:active{opacity:.92}
-
-.abc-end{padding:88px 24px 96px;text-align:center}
-.abc-end h2{font-size:64px;line-height:64px;font-weight:800;letter-spacing:-3.5px}
-.abc-end>p{margin:16px auto 0;max-width:320px;font-family:var(--fi);font-size:15.5px;line-height:23px;color:#555}
-.abc-ctas{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:30px}
-.abc-mail{font-family:var(--fi);font-size:14.5px;color:#111;text-decoration:underline;text-decoration-color:#c9c4bf;text-underline-offset:4px}
 
 @media (hover:hover) and (pointer:fine){
-  .abc-half:hover img{transform:scale(1.04)}
-  .abc-half:hover .abc-go svg{transform:translateX(4px)}
-  .abc-mail:hover{text-decoration-color:#111}
 }
 @media (max-width:439.98px){ .abc-title h1{font-size:84px;line-height:74px} }
 
@@ -242,7 +213,7 @@
 
   .abc-time{max-width:976px;margin:0 auto;padding-top:120px}
   .abc-time-head{padding:0}
-  .abc-time h2,.abc-end h2{font-size:38px;line-height:44px;letter-spacing:-1.2px}
+  .abc-time h2,.abc-paths h2{font-size:38px;line-height:44px;letter-spacing:-1.2px}
   .abc-track{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:48px;padding:0;overflow:visible;border-top:1px solid var(--cx-line)}
   .abc-track li{width:auto;padding:36px 28px 0 0;border-radius:0;background:none}
   .abc-track li::before{left:0;right:auto;top:-6px;width:11px;height:11px;border-radius:50%;background:var(--accent)}
@@ -256,21 +227,69 @@
   .abc-words{font-size:34px;line-height:44px;letter-spacing:-1.2px}
   .abc-name{font-size:19px}
 
-  .abc-words-band{margin-top:140px}
-  .abc-band{padding:40px 0}
-  .abc-band-track{gap:48px}
-  .abc-band span{font-size:88px;line-height:96px;letter-spacing:-3.6px}
-  .abc-band i{width:14px;height:14px}
+}
 
-  .abc-split{grid-template-columns:1fr 1fr}
-  .abc-half img{aspect-ratio:4/3}
-  .abc-half>div{max-width:440px;padding:40px 48px 56px}
-  .abc-half.shop>div{margin-left:auto;padding-right:56px}
-  .abc-half h2{font-size:38px;line-height:44px;letter-spacing:-1.2px}
-  .abc-half>div>p:not(.cx-eyebrow){font-size:16px;line-height:25px}
+/* C: values, path tiles, contact panel */
+.abc-values{padding:72px 24px 0}
+.abc-values ul{margin:18px 0 0;padding:0;list-style:none;border-top:1px solid var(--cx-line)}
+.abc-values li{padding:22px 0 24px;border-bottom:1px solid var(--cx-line)}
+.abc-values h3{margin:0;font-size:48px;line-height:52px;font-weight:300;letter-spacing:-2.2px;color:#111}
+.abc-values li:nth-child(2) h3{color:var(--accent)}
+.abc-values li p{margin:8px 0 0;font-family:var(--fi);font-size:14.5px;line-height:22px;color:#555}
 
-  .abc-end{padding:140px 24px}
-  .abc-end h2{font-size:140px;line-height:130px;letter-spacing:-8px}
-  .abc-end>p{max-width:none;font-size:18px;line-height:27px}
-  .abc-ctas{flex-direction:row;justify-content:center;gap:28px;margin-top:40px}
+.abc-paths{padding:72px 24px 0}
+.abc-tiles{display:grid;gap:12px;margin-top:28px}
+.abc-tile{position:relative;display:flex;flex-direction:column;min-height:420px;padding:24px;border-radius:28px;background:var(--cx-warm);overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s}
+.abc-tile img{position:absolute;right:-6%;top:0;width:86%;height:72%;object-fit:contain;object-position:100% 0;mix-blend-mode:multiply;transition:transform .6s var(--ease)}
+.abc-tile:not(.school) img{-webkit-mask-image:radial-gradient(ellipse 62% 62% at 58% 48%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 62% at 58% 48%,#000 55%,transparent 100%)}
+.abc-tile.school{background:#ece6df}
+.abc-tile.school img{right:-14%;width:96%;height:76%}
+.abc-tile-txt{position:relative;margin-top:auto;max-width:78%}
+.abc-tile h3{margin:8px 0 0;font-size:28px;line-height:32px;font-weight:600;letter-spacing:-.9px;color:#111}
+.abc-tile-txt>p:not(.cx-eyebrow){margin:8px 0 0;font-family:var(--fi);font-size:14.5px;line-height:21px;color:#555}
+.abc-arrow{position:absolute;right:20px;bottom:20px;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#111;color:#fff;transition:transform .25s var(--ease)}
+.abc-arrow svg{width:20px;height:20px;stroke-width:1.8}
+.abc-tile:active{transform:scale(.985)}
+
+.abc-contact{margin:72px 16px 40px;padding:40px 24px 16px;border-radius:28px;background:#111;color:#fff}
+.abc-contact .cx-eyebrow{color:#e8b07c}
+.abc-contact h2{margin:8px 0 0;font-size:44px;line-height:46px;font-weight:700;letter-spacing:-2px;color:#fff}
+.abc-contact-txt>p:not(.cx-eyebrow){margin:12px 0 0;font-family:var(--fi);font-size:15px;line-height:22px;color:#bdb6ae}
+.abc-lines{margin:28px 0 0;padding:0;list-style:none}
+.abc-lines li{border-top:1px solid #2e2b29}
+.abc-lines a,.abc-row{display:flex;align-items:center;gap:14px;min-height:76px;color:#fff}
+.abc-ic{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:1px solid #3a3734;color:#e8b07c}
+.abc-ic svg{width:20px;height:20px;stroke-width:1.6}
+.abc-lines a>span:nth-child(2),.abc-row>span:nth-child(2){flex:1;min-width:0;font-size:16px;font-weight:600;overflow-wrap:anywhere}
+.abc-lines small{display:block;margin-bottom:2px;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a8580}
+.abc-go2{flex:none;width:22px;height:22px;stroke-width:1.6;color:#8a8580;transition:transform .25s var(--ease),color .2s}
+
+@media (hover:hover) and (pointer:fine){
+  .abc-tile:hover{transform:translateY(-4px);box-shadow:0 30px 60px -36px rgba(0,0,0,.3)}
+  .abc-tile:hover img{transform:scale(1.04)}
+  .abc-tile:hover .abc-arrow{transform:translateX(4px)}
+  .abc-lines a:hover .abc-go2{color:#fff;transform:translate(3px,-3px)}
+}
+
+@media (min-width:1024px){
+  .abc-values{max-width:976px;margin:0 auto;padding:140px 0 0}
+  .abc-values ul{display:grid;grid-template-columns:repeat(3,1fr);margin-top:28px;border-top:0}
+  .abc-values li{padding:0 40px 0 0;border-bottom:0}
+  .abc-values li+li{padding-left:40px;border-left:1px solid var(--cx-line)}
+  .abc-values h3{font-size:58px;line-height:64px;letter-spacing:-2.8px}
+  .abc-values li p{margin-top:16px;font-size:15px;line-height:24px}
+
+  .abc-paths{max-width:976px;margin:0 auto;padding:140px 0 0}
+  .abc-tiles{grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+  .abc-tile{min-height:520px;padding:36px;border-radius:36px}
+  .abc-tile h3{font-size:34px;line-height:40px;letter-spacing:-1.2px}
+  .abc-tile-txt>p:not(.cx-eyebrow){font-size:15.5px;line-height:24px}
+  .abc-arrow{right:32px;bottom:32px;width:60px;height:60px}
+
+  .abc-contact{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:64px;align-items:center;max-width:976px;margin:140px auto 120px;padding:64px 64px;border-radius:36px}
+  .abc-contact h2{font-size:64px;line-height:66px;letter-spacing:-3px}
+  .abc-contact-txt>p:not(.cx-eyebrow){font-size:16px;line-height:25px;max-width:340px}
+  .abc-lines{margin:0}
+  .abc-lines li:last-child{border-bottom:1px solid #2e2b29}
+  .abc-lines a,.abc-row{min-height:84px}
 }
