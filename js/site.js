@@ -61,6 +61,19 @@
     { lvl: 'master', tag: 'Master · 2° livello', title: 'Premium Top Master', txt: 'Perfeziona design e velocità con le tecniche esclusive del team PriMo.', img: 'course-wing', pos: '60% 50%', date: '9 novembre', les: 7, rev: '594+' },
   ];
   const CATALOG = { COLORS, MOOD_TO_COLOR, COLLS, FX, NAMES, COLOR_OF, CATS, CAT_LABEL, PRODUCTS, KITS, COURSES };
+  // course card, shared by the Academy list and the home page courses section (styles in css/site.css)
+  const STAR = '<svg viewBox="0 0 24 24"><path d="m12 2.5 2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.5l-5.9 3.2 1.2-6.6L2.5 9.5l6.6-.9Z"/></svg>';
+  const CAL = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>';
+  const ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const courseCard = (c, eager) => `<a class="acard" href="corso.html" data-lvl="${c.lvl}">
+      <div class="ac-img"><img src="img/${c.img}.jpg" style="--pos:${c.pos}" alt="" loading="${eager ? 'eager' : 'lazy'}" decoding="async"></div>
+      <div class="ac-body">
+        <p class="ac-lvl">${c.tag}</p>
+        <h3>${c.title}</h3>
+        <p class="ac-txt">${c.txt}</p>
+        <p class="ac-meta">${CAL}<span>${c.date} · ${c.les} lezioni</span></p>
+        <div class="ac-foot"><span class="ac-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${STAR.repeat(5)}</span><span><b>${c.rev}</b> <span class="d-only">recensioni</span></span></span><span class="ac-go" aria-hidden="true">Dettagli${ARROW}</span></div>
+      </div></a>`;
 
   // ---------- toast ----------
   const toastEl = $('#toast');
@@ -336,7 +349,7 @@
 
   Object.assign(PM, {
     $, $$, root, reduceMotion, finePointer, desktopMQ, smooth, money, buzz, store, settle,
-    PRODUCT, SHADES, EXTRA, SHADE_IMG, MOODS, CATALOG, toast, openOverlay, closeOverlay, addToCart, flashAdded,
+    PRODUCT, SHADES, EXTRA, SHADE_IMG, MOODS, CATALOG, courseCard, ARROW, toast, openOverlay, closeOverlay, addToCart, flashAdded,
     attachProgress, productCard, fillRail, dragScroll, jumpTo,
   });
   /* Page scripts run after this file; they call PM.ready() so shared setup that depends on their DOM runs last. */

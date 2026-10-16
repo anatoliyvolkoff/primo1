@@ -148,22 +148,46 @@
 .founder .pill-btn{margin-top:28px;margin-bottom:78px}
 .bar{height:22px;background:#000}
 
-/* ---------- courses ---------- */
-.courses{padding:52px 0 0;text-align:center}
-.courses .h2{line-height:32px;letter-spacing:-.04em;padding:0 20px}
-.c-list{margin:59px 31px 0;display:flex;flex-direction:column;gap:46px;text-align:left}
-.ccard{border:1px solid #676767;border-radius:44px 44px 44px 44px;overflow:hidden;background:linear-gradient(180deg,#fdfdfd,#f6f6f6);display:flex;flex-direction:column}
-.c-img{height:199px;overflow:hidden;background:#fbfbfb;position:relative}
-.c-img img{position:absolute;left:0;top:0;max-width:none;height:auto;width:var(--iw,205%);transform:translate(var(--ix,-43%),var(--iy,-32%))}
-.c-body{padding:25px 20px 22px 21px}
-.c-rate{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:400;text-transform:uppercase;font-family:var(--fi);letter-spacing:.01em}
-.c-rate .stars{margin:0;gap:5px}.c-rate b{font-weight:600;margin-left:14px}
-.c-title{margin:30px 0 0;max-width:260px;font-size:30px;line-height:32px;font-weight:600;letter-spacing:-.045em}
-.c-desc{margin:8px 0 0;font-size:16px;line-height:18px;font-weight:600;letter-spacing:-.005em}
-.c-date{margin:28px 0 0;display:flex;align-items:center;gap:11px;font-size:17px;font-weight:600}
-.c-date svg{width:22px;height:23px;stroke-width:1.5}
-.c-cta{display:grid;place-items:center;width:fit-content;margin:47px 0 0 auto;height:44px;padding:0 33px;border-radius:99px;border:1.2px solid #444;background:none;font-size:15px;font-weight:400;letter-spacing:.04em;color:#666;font-family:var(--fi)}
-.courses>.pill-btn{display:grid;place-items:center;width:fit-content;margin:47px auto 0;padding:0 48px;height:44px;margin-bottom:59px}
+/* ---------- courses: compact Academy cards (.acard, css/site.css) ---------- */
+.courses{padding:52px 24px 56px}
+.c-eyebrow{margin:0;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
+.c-head h2{margin:8px 0 0;font-size:28px;line-height:34px;font-weight:600;letter-spacing:-.8px;color:#111;text-wrap:balance}
+.c-list{display:grid;gap:12px;margin-top:22px}
+.c-all-m{display:flex;align-items:center;justify-content:center;height:50px;margin-top:20px;border:1.2px solid #c9c4bf;border-radius:99px;font-size:15px;font-weight:500;color:#222;transition:border-color .2s}
+.c-all-m:hover{border-color:#000}
+
+/* courses, variant B (?corsi=b): featured master course + rail of the others */
+.c-top{text-align:center;margin:0 -24px}
+.vb .c-grid{margin-top:28px}
+.c-feat{display:block;padding:10px;border-radius:28px;background:#111;color:#fff;transition:box-shadow .25s,transform .25s var(--ease)}
+.cf-img{aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:#fff}
+/* scale crops the old card outline baked into the top-right corner of course-wing.jpg */
+.cf-img img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 50%);scale:1.12;transform-origin:25% 80%;transition:transform .5s var(--ease)}
+.cf-body{padding:22px 14px 14px}
+.cf-lvl{margin:0;font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#e2a46d}
+.c-feat h3{margin:6px 0 0;font-size:26px;line-height:31px;font-weight:600;letter-spacing:-.6px}
+.cf-txt{margin:10px 0 0;font-family:var(--fi);font-size:14.5px;line-height:22px;color:#c9c4bf}
+.cf-facts{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0;padding:0;list-style:none}
+.cf-facts li{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border:1px solid rgba(255,255,255,.18);border-radius:99px;font-family:var(--fi);font-size:12.5px;color:#e9e6e2}
+.cf-facts svg{width:15px;height:15px;stroke-width:1.7;color:#fff}
+.cf-facts .stars{display:flex;gap:2px;margin:0;color:var(--orange)}
+.cf-facts .stars svg{width:11px;height:11px;fill:currentColor;stroke:none;color:inherit}
+.cf-facts b{font-weight:700;color:#fff}
+.cf-go{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;margin-top:22px;border-radius:99px;background:#fff;color:#000;font-size:15px;font-weight:600;transition:background .2s}
+.cf-go svg{width:18px;height:18px;stroke-width:2;transition:transform .2s}
+.c-rail{display:flex;gap:12px;margin:12px -24px 0;padding:0 24px 4px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:24px;scrollbar-width:none;overscroll-behavior-x:contain}
+.c-rail::-webkit-scrollbar{display:none}
+.c-rail .acard{flex:none;width:248px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:stretch;gap:0;padding:8px;border-radius:24px}
+.c-rail .ac-img{aspect-ratio:4/3;border-radius:17px}
+.c-rail .ac-body{display:flex;flex-direction:column;flex:1;padding:14px 8px 6px}
+.c-rail .ac-foot{margin-top:auto;padding-top:12px}
+.vb .rprog{margin-top:14px}
+@media (hover:hover) and (pointer:fine){
+  .c-feat:hover{box-shadow:0 30px 60px -36px rgba(0,0,0,.5);transform:translateY(-4px)}
+  .c-feat:hover .cf-img img{transform:scale(1.04)}
+  .c-feat:hover .cf-go{background:#ece8e3}
+  .c-feat:hover .cf-go svg{transform:translateX(3px)}
+}
 
 /* mood picker: visible selected state */
 .mood-item{position:relative;min-height:44px}
@@ -173,17 +197,12 @@
 @keyframes flash{50%{transform:translateY(-12px) scale(1.07)}}
 
 /* phone-only pieces of shared markup */
-.c-wing,.d-sp{display:none}
-.d-b{font-weight:inherit}
 .color-row{display:none}
 
 /* =====================================================================
    Desktop home (design "Desktop - 7", 1440 wide)
    ===================================================================== */
 @media (min-width:1024px){
-  .c-wing{display:block}
-  .d-sp{display:inline}
-  .d-b{font-weight:700}
 
   /* hero: 600 tall; copy block at x=242, buttons end 99px above the bottom */
   .hero{height:600px;background:#8b8c8c}
@@ -304,21 +323,32 @@
   .founder+.bar+.marquee{margin-top:120px}
   .community+.marquee.d-only{margin-top:120px}
 
-  /* courses: three wide cards with the butterfly photo on the right */
-  .courses{padding:118px 0 0;max-width:976px;margin:0 auto}
-  .c-list{margin:0;gap:49px}
-  .ccard{position:relative;height:359px;border:1px solid #8a8a8a;border-radius:90px;background:linear-gradient(180deg,#fff 0%,#fcfcfc 50%,#f8f8f8 100%);flex-direction:row}
-  .ccard.hl{border:2px solid #f5a623;box-shadow:0 18px 30px -16px rgba(0,0,0,.2)}
-  .c-img{position:absolute;inset:0;height:auto;background:none;pointer-events:none}
-  .c-img img:not(.c-wing){display:none}
-  .c-img .c-wing{position:absolute;left:auto;right:1px;top:1px;width:506px;height:356px;object-fit:cover;transform:none}
-  .c-body{position:relative;padding:64px 0 0 123px;width:560px}
-  .c-rate{display:none}
-  .c-title{margin:0;max-width:330px;font-size:32px;line-height:40px;font-weight:700;letter-spacing:-.3px;color:#000}
-  .c-desc{margin:12px 0 0;font-size:13px;line-height:15px;font-weight:400;letter-spacing:.15px}
-  .c-date{margin:10px 0 0;gap:9.6px;font-size:13px;font-weight:600}
-  .c-date svg{width:25.6px;height:25.6px;stroke-width:1.2}
-  .c-cta{margin:30px 0 0 -1px;width:196px;height:42px;padding:0;border:1.2px solid #222;color:#222;font-family:var(--f);font-size:13px;font-weight:400;letter-spacing:.6px}
+  /* courses: three-column Academy card grid */
+  .courses{max-width:976px;margin:0 auto;padding:118px 0 0}
+  .c-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px}
+  .c-head h2{font-size:38px;line-height:44px;letter-spacing:-1.2px;max-width:640px}
+  .c-all{display:inline-flex;align-items:center;gap:8px;flex:none;height:44px;padding:0 22px;border:1.2px solid #c9c4bf;border-radius:99px;font-size:14px;font-weight:600;color:#111;transition:border-color .2s}
+  .c-all:hover{border-color:#000}
+  .c-all svg{width:18px;height:18px;stroke-width:2;transition:transform .2s}
+  .c-all:hover svg{transform:translateX(3px)}
+  .c-list{grid-template-columns:repeat(3,1fr);gap:24px;margin-top:36px}
+  .c-top{margin:0}
+  .vb .c-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);grid-template-rows:1fr auto;gap:16px 24px;margin-top:48px}
+  .c-feat{grid-row:1/3;display:flex;flex-direction:column}
+  .cf-img{aspect-ratio:auto;flex:1;min-height:300px}
+  .cf-body{padding:26px 22px 18px}
+  .c-feat h3{font-size:32px;line-height:38px;letter-spacing:-.9px}
+  .cf-txt{font-size:15px;line-height:23px;max-width:420px}
+  .cf-go{width:fit-content;padding:0 28px}
+  .c-rail{display:grid;gap:12px;margin:0;padding:0;overflow:visible}
+  .c-rail .acard{width:auto;display:grid;grid-template-columns:96px 1fr;gap:16px;align-items:center;padding:10px 14px 10px 10px;border-radius:22px}
+  .c-rail .acard:hover{transform:translateY(-2px)}
+  .c-rail .ac-img{aspect-ratio:1;border-radius:14px}
+  .c-rail .ac-body{display:block;padding:0}
+  .c-rail .ac-txt{display:none}
+  .c-rail .ac-meta{margin:6px 0 0;font-size:13px}
+  .c-rail .ac-foot{margin-top:8px;padding-top:0;border-top:0}
+  .vb .c-all{justify-self:end;align-self:end}
   .courses+.marquee{margin-top:120px}
   .marquee+.footer,.courses~.marquee.d-only{margin-bottom:0}
   main{padding-bottom:120px}

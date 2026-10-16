@@ -2,21 +2,10 @@
 (() => {
   'use strict';
   const PM = window.PM;
-  const { $, $$, toast } = PM;
-  const star = '<svg viewBox="0 0 24 24"><path d="m12 2.5 2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.5l-5.9 3.2 1.2-6.6L2.5 9.5l6.6-.9Z"/></svg>';
-  const cal = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>';
-  const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const { $, $$, toast, courseCard, ARROW: arrow } = PM;
   const { COURSES } = PM.CATALOG;                                 // shared with search (js/site.js)
   const list = $('#acad-cards');
-  list.innerHTML = COURSES.map((c, i) => `<a class="acard" href="corso.html" data-lvl="${c.lvl}">
-      <div class="ac-img"><img src="img/${c.img}.jpg" style="--pos:${c.pos}" alt="" loading="${i < 3 ? 'eager' : 'lazy'}" decoding="async"></div>
-      <div class="ac-body">
-        <p class="ac-lvl">${c.tag}</p>
-        <h3>${c.title}</h3>
-        <p class="ac-txt">${c.txt}</p>
-        <p class="ac-meta">${cal}<span>${c.date} · ${c.les} lezioni</span></p>
-        <div class="ac-foot"><span class="ac-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><span><b>${c.rev}</b> <span class="d-only">recensioni</span></span></span><span class="ac-go" aria-hidden="true">Dettagli${arrow}</span></div>
-      </div></a>`).join('') + `<a class="acard solo-tile" href="#solo">
+  list.innerHTML = COURSES.map((c, i) => courseCard(c, i < 3)).join('') + `<a class="acard solo-tile" href="#solo">
       <div><p class="ac-lvl">Su misura</p><h3>Non trovi il corso giusto?</h3><p>Costruiamo un percorso individuale sulle tue esigenze.</p></div>
       <span class="ac-arrow" aria-hidden="true">${arrow}</span></a>`;
 

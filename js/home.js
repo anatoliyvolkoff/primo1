@@ -317,15 +317,39 @@
   };
 
   // ---------- courses ----------
-  const cal = '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="4"/><path d="M8 3v4M16 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 17.500h.01M12 17.500h.01"/></svg>';
-  const CROP = { course1: '--iw:118%;--ix:-1%;--iy:-4%', course2: '--iw:118%;--ix:-1%;--iy:-4%', course3: '--iw:118%;--ix:-1%;--iy:-4%' };
-  $('#c-list').innerHTML = ['course1', 'course2', 'course3'].map((img, i) => `<article class="ccard${i === 1 ? ' hl' : ''}">
-    <div class="c-img"><img src="img/${img}.jpg" style="${CROP[img]}" alt="Nail art a farfalla" loading="lazy" decoding="async"><img class="c-wing" src="img/course-wing.jpg" alt="" loading="lazy" decoding="async"></div>
-    <div class="c-body"><div class="c-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><span><b>594+</b> RECENSIONI</span></div>
-      <h3 class="c-title">Premium top Master - 2 livello</h3>
-      <p class="c-desc">Corso base<span class="d-sp"> </span> - PriMo Nails<span class="d-sp"> </span> Professional<br><b class="d-b">01</b> livello - <b class="d-b">7</b> lezione</p>
-      <p class="c-date">${cal}<span>9 settembre</span></p>
-      <a class="c-cta" href="corso.html"><span class="m-only">SCOPRI</span><span class="d-only">DETTAGLI</span></a></div></article>`).join('');
+  // Variant A (default): the next three courses as Academy cards.
+  // Variant B (?corsi=b, draft for comparison): the master course as a featured black panel, the rest in a rail.
+  const { COURSES } = PM.CATALOG;
+  if (new URLSearchParams(location.search).get('corsi') === 'b') {
+    const f = COURSES.find(c => c.img === 'course-wing') || COURSES[COURSES.length - 1];
+    const star = '<svg viewBox="0 0 24 24"><path d="m12 2.5 2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.5l-5.9 3.2 1.2-6.6L2.5 9.5l6.6-.9Z"/></svg>';
+    const ico = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+    const sec = $('#courses');
+    sec.classList.add('vb');
+    $('.c-head', sec).outerHTML = `<div class="c-top"><h2 class="h2">Corsi di Irina PriMo</h2><p class="sub">Eleva la tua arte con PriMo Academy</p></div>`;
+    $('#c-list').outerHTML = `<div class="c-grid">
+      <a class="c-feat" href="corso.html">
+        <div class="cf-img"><img src="img/${f.img}.jpg" style="--pos:${f.pos}" alt="" loading="lazy" decoding="async"></div>
+        <div class="cf-body">
+          <p class="cf-lvl">In evidenza · ${f.tag}</p>
+          <h3>${f.title}</h3>
+          <p class="cf-txt">${f.txt}</p>
+          <ul class="cf-facts">
+            <li>${ico('<rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 10h18"/>')}${f.date}</li>
+            <li>${ico('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>')}${f.les} lezioni</li>
+            <li><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><b>${f.rev}</b> recensioni</li>
+          </ul>
+          <span class="cf-go">Scopri il corso${PM.ARROW}</span>
+        </div></a>
+      <div class="c-rail" data-drag>${COURSES.filter(c => c !== f).map(c => PM.courseCard(c)).join('')}</div>
+    </div>`;
+    $('.c-all-m', sec).textContent = 'Vedi tutti i corsi';
+    $('.c-all', sec)?.remove();
+    $('.c-grid', sec).insertAdjacentHTML('beforeend', `<a class="c-all d-only" href="academy.html">Tutti i corsi${PM.ARROW}</a>`);
+    if (!desktopMQ.matches) attachProgress($('.c-rail', sec));
+  } else {
+    $('#c-list').innerHTML = COURSES.slice(0, 3).map(c => PM.courseCard(c)).join('');
+  }
 
   window.PM.ready();
 })();
