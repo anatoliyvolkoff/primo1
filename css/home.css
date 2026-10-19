@@ -543,3 +543,28 @@
   .v-h .mn-go svg{width:18px;height:18px}
   .v-h .mn:hover .mn-go{background:#111;color:#fff}
 }
+
+/* Courses, G/H livelier (?corsi=g2 / ?corsi=h2): tinted photo panels (white photo backgrounds multiply into the tint),
+   bolder title, rating as a chip, black pill CTA. */
+.vivid .mn-img{background:var(--tint)}
+.vivid .mn-img img{mix-blend-mode:multiply}
+.vivid .mn h3{font-weight:700;letter-spacing:-.5px}
+.vivid .mn-txt{color:#555}
+.vivid .mn-rate{width:fit-content;padding:5px 10px 5px 8px;border-radius:99px;background:#fff6ea;color:#7a5a3a}
+.vivid .mn-go{display:inline-flex;width:fit-content;align-items:center;gap:8px;height:44px;margin-top:16px;padding:0 18px 0 20px;border-radius:99px;background:#111;color:#fff;font-size:14px;font-weight:600;transition:background-color .2s}
+.vivid .mn-go svg{width:16px;height:16px;transition:transform .2s}
+.vivid.v-h .mn-go{display:none}
+.vivid .mn:hover .mn-go{background:#2a2a2a}
+.vivid .mn:hover .mn-go svg{transform:translateX(3px)}
+@media (min-width:1024px){
+  .vivid .mn-go{margin-top:20px;height:48px;font-size:15px}
+  .vivid.v-h .mn-go{display:grid;width:56px;height:56px;margin:0;padding:0;border:0;background:#111;color:#fff}
+  .vivid.v-h .mn-go svg{width:18px;height:18px}
+  .vivid.v-h .mn:hover .mn-go{background:var(--accent)}
+  .vivid.v-h .mn-img{width:280px}
+}
+.vivid.v-g .mn-body{flex:1;display:flex;flex-direction:column}
+.vivid.v-g .mn-rate{margin-bottom:16px}
+.vivid.v-g .mn-go{margin-top:auto}
+@media (min-width:1024px){.vivid.v-h .mn-go{font-size:0}}
+@media (min-width:1024px){.v-h .mn-go,.vivid.v-h .mn-go{display:flex;align-items:center;justify-content:center;gap:0}}

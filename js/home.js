@@ -374,17 +374,22 @@
   // Variants E and F (?corsi=e / ?corsi=f): minimal cards with photo, title, description and reviews only.
   // E: photo cards in three columns (a snap rail on phones). F: wide rows, text left and photo right (stacked on phones).
   // G and H (?corsi=g / ?corsi=h): the same content in cards with a 0.8 px outline; G is E outlined, H is a row with the photo on the left.
-  const minimal = new URLSearchParams(location.search).get('corsi');
+  // g2 / h2: G and H made livelier: each photo sits on its own soft tint, bolder title, rating chip, black CTA.
+  let minimal = new URLSearchParams(location.search).get('corsi');
+  const vivid = minimal === 'g2' || minimal === 'h2';
+  if (vivid) minimal = minimal[0];
+  const TINT = { course2: '#eef2e3', course3: '#f4e8ee', 'course-wing': '#f6eedf', course1: '#f7ebdf', 'gallery-dots': '#ececf0' };
   if (['e', 'f', 'g', 'h'].includes(minimal)) {
     const sec = $('#courses'), { COURSES } = window.PM.CATALOG;
     const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
     sec.classList.add('v-min', 'v-' + minimal);
+    if (vivid) sec.classList.add('vivid');
     sec.innerHTML = `<h2 class="mn-h">I corsi di Irina PriMo</h2>
       <div class="mn-list" id="c-list">${[0, 2, 4].map(i => COURSES[i]).map(c => `<a class="mn" href="corso.html">
-        <div class="mn-img"><img src="img/${c.img}.jpg" style="--pos:${c.pos}${c.img === 'course-wing' ? ';--z:1.12' : ''}" alt="" loading="lazy" decoding="async"></div>
+        <div class="mn-img" style="--tint:${TINT[c.img] || '#f6f3ef'}"><img src="img/${c.img}.jpg" style="--pos:${c.pos}${c.img === 'course-wing' ? ';--z:1.12' : ''}" alt="" loading="lazy" decoding="async"></div>
         <div class="mn-body"><h3>${c.title}</h3><p class="mn-txt">${c.txt}</p>
           <p class="mn-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><span><b>${c.rev}</b> recensioni</span></p>
-          ${minimal === 'f' || minimal === 'h' ? `<span class="mn-go" aria-hidden="true">Scopri il corso${arrow}</span>` : ''}</div></a>`).join('')}</div>
+          ${minimal === 'f' || minimal === 'h' || vivid ? `<span class="mn-go" aria-hidden="true">Scopri il corso${arrow}</span>` : ''}</div></a>`).join('')}</div>
       <a class="mn-all" href="academy.html">Tutti i corsi${arrow}</a>`;
   }
 
