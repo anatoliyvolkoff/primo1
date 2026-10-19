@@ -54,7 +54,7 @@
           <p><b>Vuoi acquistare all’ingrosso?</b><span>Contattaci Su <a href="https://wa.me/393893193049" target="_blank" rel="noopener">WhatsApp</a> O Via <a href="mailto:primonailspro@gmail.com">e-mail.</a></span></p>
         </div>
         <p class="ship-note">Spedizione calcolata al checkout. <a href="spedizioni.html">Tariffe e resi</a></p>
-        <div class="p-acc">${ACC.map(([h, t], i) => `<details><summary>${h}${chev}</summary><p id="${id}-acc${i}">${t}</p></details>`).join('')}</div>
+        <div class="p-acc">${ACC.map(([h, t], i) => `<details><summary><span>${h}</span>${chev}</summary><p id="${id}-acc${i}">${t}</p></details>`).join('')}</div>
       </div>`;
     wire(root, k);
   };
