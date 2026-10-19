@@ -349,5 +349,27 @@
       <a class="tk-all m-only" href="academy.html">Tutti i corsi${arrow}</a>`;
   }
 
+  // Variant D (?corsi=d): an editorial numbered index; on desktop the hovered course shows in a photo preview.
+  if (new URLSearchParams(location.search).get('corsi') === 'd') {
+    const sec = $('#courses'), { COURSES } = window.PM.CATALOG;
+    const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    sec.classList.add('v-d');
+    sec.innerHTML = `<div class="ix-head"><p class="ix-eye">PriMo Academy</p><h2>I corsi di Irina PriMo</h2></div>
+      <div class="ix-wrap">
+        <ol class="ix-list" id="c-list">${COURSES.map((c, i) => `<li><a class="ix-row${i ? '' : ' on'}" href="corso.html" data-i="${i}">
+          <span class="ix-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
+          <span class="ix-main"><span class="ix-lvl">${c.tag}</span><span class="ix-title">${c.title}</span><span class="ix-meta">${c.date} · ${c.les} lezioni</span></span>
+          <img class="ix-thumb" src="img/${c.img}.jpg" style="--pos:${c.pos}" alt="" loading="lazy" decoding="async">
+          <span class="ix-when" aria-hidden="true"><b>${c.date}</b>${c.les} lezioni</span>
+          <span class="ix-go" aria-hidden="true">${arrow}</span></a></li>`).join('')}</ol>
+        <div class="ix-preview" aria-hidden="true">${COURSES.map((c, i) => `<figure class="${i ? '' : 'on'}"><img src="img/${c.img}.jpg" style="--pos:${c.pos}" alt="" loading="lazy" decoding="async">
+          <figcaption><span class="ix-rate"><span class="stars">${star.repeat(5)}</span><b>${c.rev}</b> recensioni</span><span>${c.txt}</span></figcaption></figure>`).join('')}</div>
+      </div>
+      <a class="ix-all" href="academy.html">Tutti i corsi${arrow}</a>`;
+    const rows = $$('.ix-row', sec), figs = $$('.ix-preview figure', sec);
+    const show = i => { rows.forEach((r, j) => r.classList.toggle('on', j === i)); figs.forEach((f, j) => f.classList.toggle('on', j === i)); };
+    rows.forEach((r, i) => { r.addEventListener('mouseenter', () => show(i)); r.addEventListener('focus', () => show(i)); });
+  }
+
   window.PM.ready();
 })();
