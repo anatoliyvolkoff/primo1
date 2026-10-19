@@ -317,81 +317,18 @@
   };
 
   // ---------- courses ----------
-  const cal = '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="4"/><path d="M8 3v4M16 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 17.500h.01M12 17.500h.01"/></svg>';
-  const CROP = { course1: '--iw:118%;--ix:-1%;--iy:-4%', course2: '--iw:118%;--ix:-1%;--iy:-4%', course3: '--iw:118%;--ix:-1%;--iy:-4%' };
-  $('#c-list').innerHTML = ['course1', 'course2', 'course3'].map((img, i) => `<article class="ccard${i === 1 ? ' hl' : ''}">
-    <div class="c-img"><img src="img/${img}.jpg" style="${CROP[img]}" alt="Nail art a farfalla" loading="lazy" decoding="async"><img class="c-wing" src="img/course-wing.jpg" alt="" loading="lazy" decoding="async"></div>
-    <div class="c-body"><div class="c-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><span><b>594+</b> RECENSIONI</span></div>
-      <h3 class="c-title">Premium top Master - 2 livello</h3>
-      <p class="c-desc">Corso base<span class="d-sp"> </span> - PriMo Nails<span class="d-sp"> </span> Professional<br><b class="d-b">01</b> livello - <b class="d-b">7</b> lezione</p>
-      <p class="c-date">${cal}<span>9 settembre</span></p>
-      <a class="c-cta" href="corso.html"><span class="m-only">SCOPRI</span><span class="d-only">DETTAGLI</span></a></div></article>`).join('');
-
-  // Variant C (?corsi=c): upcoming courses as tickets, date stub + perforation. Draft for comparison.
-  if (new URLSearchParams(location.search).get('corsi') === 'c') {
-    const sec = $('#courses'), { COURSES } = window.PM.CATALOG;
-    const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-    const book = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>';
-    const ticket = c => {
-      const [day, month] = c.date.split(' ');
-      return `<a class="tk" href="corso.html">
-        <div class="tk-img"><img src="img/${c.img}.jpg" style="--pos:${c.pos}" alt="" loading="lazy" decoding="async"></div>
-        <span class="tk-cut" aria-hidden="true"></span>
-        <p class="tk-stub"><b>${day.padStart(2, '0')}</b><span aria-hidden="true">${month.slice(0, 3)}</span><span class="sr"> ${month}</span></p>
-        <div class="tk-body"><p class="tk-lvl">${c.tag}</p><h3>${c.title}</h3><p class="tk-txt">${c.txt}</p>
-          <p class="tk-meta"><span>${book}${c.les} lezioni</span><span class="tk-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><b>${c.rev}</b></span></p></div>
-        <span class="tk-go" aria-hidden="true">${arrow}</span></a>`;
-    };
-    sec.classList.add('v-c');
-    sec.innerHTML = `<div class="tk-head"><div><p class="cx-eyebrow">PriMo Academy</p><h2>Prossimi corsi</h2><p class="tk-sub">Eleva la tua arte con Irina PriMo e il suo team.</p></div>
-      <a class="tk-all d-only" href="academy.html">Tutti i corsi${arrow}</a></div>
-      <div class="tk-list" id="c-list">${[0, 2, 3, 4].map(i => ticket(COURSES[i])).join('')}</div>
-      <a class="tk-all m-only" href="academy.html">Tutti i corsi${arrow}</a>`;
-  }
-
-  // Variant D (?corsi=d): an editorial numbered index; on desktop the hovered course shows in a photo preview.
-  if (new URLSearchParams(location.search).get('corsi') === 'd') {
-    const sec = $('#courses'), { COURSES } = window.PM.CATALOG;
-    const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-    sec.classList.add('v-d');
-    sec.innerHTML = `<div class="ix-head"><p class="ix-eye">PriMo Academy</p><h2>I corsi di Irina PriMo</h2></div>
-      <div class="ix-wrap">
-        <ol class="ix-list" id="c-list">${COURSES.map((c, i) => `<li><a class="ix-row${i ? '' : ' on'}" href="corso.html" data-i="${i}">
-          <span class="ix-num" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
-          <span class="ix-main"><span class="ix-lvl">${c.tag}</span><span class="ix-title">${c.title}</span><span class="ix-meta">${c.date} · ${c.les} lezioni</span></span>
-          <img class="ix-thumb" src="img/${c.img}.jpg" style="--pos:${c.pos}" alt="" loading="lazy" decoding="async">
-          <span class="ix-when" aria-hidden="true"><b>${c.date}</b>${c.les} lezioni</span>
-          <span class="ix-go" aria-hidden="true">${arrow}</span></a></li>`).join('')}</ol>
-        <div class="ix-preview" aria-hidden="true">${COURSES.map((c, i) => `<figure class="${i ? '' : 'on'}"><img src="img/${c.img}.jpg" style="--pos:${c.pos}" alt="" loading="lazy" decoding="async">
-          <figcaption><span class="ix-rate"><span class="stars">${star.repeat(5)}</span><b>${c.rev}</b> recensioni</span><span>${c.txt}</span></figcaption></figure>`).join('')}</div>
-      </div>
-      <a class="ix-all" href="academy.html">Tutti i corsi${arrow}</a>`;
-    const rows = $$('.ix-row', sec), figs = $$('.ix-preview figure', sec);
-    const show = i => { rows.forEach((r, j) => r.classList.toggle('on', j === i)); figs.forEach((f, j) => f.classList.toggle('on', j === i)); };
-    rows.forEach((r, i) => { r.addEventListener('mouseenter', () => show(i)); r.addEventListener('focus', () => show(i)); });
-  }
-
-  // Variants E and F (?corsi=e / ?corsi=f): minimal cards with photo, title, description and reviews only.
-  // E: photo cards in three columns (a snap rail on phones). F: wide rows, text left and photo right (stacked on phones).
-  // G and H (?corsi=g / ?corsi=h): the same content in cards with a 0.8 px outline; G is E outlined, H is a row with the photo on the left.
-  // g2 / h2: G and H made livelier: each photo sits on its own soft tint, bolder title, rating chip, black CTA.
-  let minimal = new URLSearchParams(location.search).get('corsi');
-  const vivid = minimal === 'g2' || minimal === 'h2';
-  if (vivid) minimal = minimal[0];
-  const TINT = { course2: '#eef2e3', course3: '#f4e8ee', 'course-wing': '#f6eedf', course1: '#f7ebdf', 'gallery-dots': '#ececf0' };
-  if (['e', 'f', 'g', 'h'].includes(minimal)) {
-    const sec = $('#courses'), { COURSES } = window.PM.CATALOG;
-    const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-    sec.classList.add('v-min', 'v-' + minimal);
-    if (vivid) sec.classList.add('vivid');
-    sec.innerHTML = `<h2 class="mn-h">I corsi di Irina PriMo</h2>
-      <div class="mn-list" id="c-list">${[0, 2, 4].map(i => COURSES[i]).map(c => `<a class="mn" href="corso.html">
-        <div class="mn-img" style="--tint:${TINT[c.img] || '#f6f3ef'}"><img src="img/${c.img}.jpg" style="--pos:${c.pos}${c.img === 'course-wing' ? ';--z:1.12' : ''}" alt="" loading="lazy" decoding="async"></div>
-        <div class="mn-body"><h3>${c.title}</h3><p class="mn-txt">${c.txt}</p>
-          <p class="mn-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><span><b>${c.rev}</b> recensioni</span></p>
-          ${minimal === 'f' || minimal === 'h' || vivid ? `<span class="mn-go" aria-hidden="true">Scopri il corso${arrow}</span>` : ''}</div></a>`).join('')}</div>
-      <a class="mn-all" href="academy.html">Tutti i corsi${arrow}</a>`;
-  }
+  // Outlined cards: photo on its own soft tint (the white photo background multiplies into it), title, description,
+  // reviews and a CTA. Phones/tablets: square-photo cards in a snap rail; desktop: rows with a round arrow.
+  const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const TINT = { course2: '#eef2e3', course3: '#f4e8ee', 'course-wing': '#f6eedf' };
+  const ZOOM = { 'course-wing': 1.12 };                             // crops a pale edge baked into that photo
+  const { COURSES } = window.PM.CATALOG;
+  $('#c-list').innerHTML = [0, 2, 4].map(i => COURSES[i]).map(c => `<a class="mn" href="corso.html">
+    <div class="mn-img" style="--tint:${TINT[c.img] || '#f6f3ef'}"><img src="img/${c.img}.jpg" style="--pos:${c.pos}${ZOOM[c.img] ? ';--z:' + ZOOM[c.img] : ''}" alt="" loading="lazy" decoding="async"></div>
+    <div class="mn-body"><h3>${c.title}</h3><p class="mn-txt">${c.txt}</p>
+      <p class="mn-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><span><b>${c.rev}</b> recensioni</span></p>
+      <span class="mn-go" aria-hidden="true">Scopri il corso${arrow}</span></div></a>`).join('');
+  $('#c-all').insertAdjacentHTML('beforeend', arrow);
 
   window.PM.ready();
 })();

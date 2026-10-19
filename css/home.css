@@ -148,22 +148,28 @@
 .founder .pill-btn{margin-top:28px;margin-bottom:78px}
 .bar{height:22px;background:#000}
 
-/* ---------- courses ---------- */
-.courses{padding:52px 0 0;text-align:center}
-.courses .h2{line-height:32px;letter-spacing:-.04em;padding:0 20px}
-.c-list{margin:59px 31px 0;display:flex;flex-direction:column;gap:46px;text-align:left}
-.ccard{border:1px solid #676767;border-radius:44px 44px 44px 44px;overflow:hidden;background:linear-gradient(180deg,#fdfdfd,#f6f6f6);display:flex;flex-direction:column}
-.c-img{height:199px;overflow:hidden;background:#fbfbfb;position:relative}
-.c-img img{position:absolute;left:0;top:0;max-width:none;height:auto;width:var(--iw,205%);transform:translate(var(--ix,-43%),var(--iy,-32%))}
-.c-body{padding:25px 20px 22px 21px}
-.c-rate{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:400;text-transform:uppercase;font-family:var(--fi);letter-spacing:.01em}
-.c-rate .stars{margin:0;gap:5px}.c-rate b{font-weight:600;margin-left:14px}
-.c-title{margin:30px 0 0;max-width:260px;font-size:30px;line-height:32px;font-weight:600;letter-spacing:-.045em}
-.c-desc{margin:8px 0 0;font-size:16px;line-height:18px;font-weight:600;letter-spacing:-.005em}
-.c-date{margin:28px 0 0;display:flex;align-items:center;gap:11px;font-size:17px;font-weight:600}
-.c-date svg{width:22px;height:23px;stroke-width:1.5}
-.c-cta{display:grid;place-items:center;width:fit-content;margin:47px 0 0 auto;height:44px;padding:0 33px;border-radius:99px;border:1.2px solid #444;background:none;font-size:15px;font-weight:400;letter-spacing:.04em;color:#666;font-family:var(--fi)}
-.courses>.pill-btn{display:grid;place-items:center;width:fit-content;margin:47px auto 0;padding:0 48px;height:44px;margin-bottom:59px}
+/* ---------- courses (phones/tablets: outlined photo cards in a snap rail; desktop block below: outlined rows) ---------- */
+.courses{padding:56px 0 0;text-align:left}
+.mn-h{margin:0;padding:0 24px;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111;text-wrap:balance}
+.mn-list{display:flex;gap:14px;margin:24px 0 0;padding:4px 24px 8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 24px;scrollbar-width:none;overscroll-behavior-x:contain}
+.mn-list::-webkit-scrollbar{display:none}
+.mn{flex:none;width:286px;scroll-snap-align:start;display:flex;flex-direction:column;padding:10px;border:.8px solid #1a1a1a;border-radius:26px;color:#111;transition:box-shadow .25s,transform .25s var(--ease)}
+.mn:active{transform:scale(.98)}
+.mn:focus-visible{outline:2px solid #000;outline-offset:4px}
+.mn-img{aspect-ratio:1;border-radius:18px;overflow:hidden;background:var(--tint,#f6f3ef)}
+.mn-img img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 30%);mix-blend-mode:multiply;transform:scale(var(--z,1));transform-origin:30% 70%;transition:transform .6s var(--ease)}
+.mn-body{flex:1;display:flex;flex-direction:column;padding:16px 10px 10px}
+.mn h3{margin:0;font-size:20px;line-height:24px;font-weight:700;letter-spacing:-.5px;text-wrap:balance}
+.mn-txt{margin:6px 0 0;font-family:var(--fi);font-size:14px;line-height:21px;color:#555}
+.mn-rate{display:flex;align-items:center;gap:8px;width:fit-content;margin:12px 0 16px;padding:5px 10px 5px 8px;border-radius:99px;background:#fff6ea;font-family:var(--fi);font-size:13px;line-height:18px;color:#7a5a3a}
+.mn-rate .stars{margin:0;gap:2px}
+.mn-rate .stars svg{width:13px;height:13px}
+.mn-rate b{font-weight:700;color:#111}
+.mn-go{display:inline-flex;align-items:center;gap:8px;width:fit-content;height:44px;margin-top:auto;padding:0 18px 0 20px;border-radius:99px;background:#111;color:#fff;font-size:14px;font-weight:600;transition:background-color .2s}
+.mn-all{display:flex;align-items:center;justify-content:center;gap:8px;width:fit-content;height:52px;margin:32px auto 56px;padding:0 28px;border:1px solid #c9c4bf;border-radius:99px;font-size:15px;font-weight:500;color:#111;transition:background-color .2s,color .2s,border-color .2s}
+.mn-all svg,.mn-go svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.mn-all svg{width:18px;height:18px}
+.mn-all:active{transform:scale(.97)}
 
 /* mood picker: visible selected state */
 .mood-item{position:relative;min-height:44px}
@@ -173,18 +179,12 @@
 @keyframes flash{50%{transform:translateY(-12px) scale(1.07)}}
 
 /* phone-only pieces of shared markup */
-.c-wing,.d-sp{display:none}
-.d-b{font-weight:inherit}
 .color-row{display:none}
 
 /* =====================================================================
    Desktop home (design "Desktop - 7", 1440 wide)
    ===================================================================== */
 @media (min-width:1024px){
-  .c-wing{display:block}
-  .d-sp{display:inline}
-  .d-b{font-weight:700}
-
   /* hero: 600 tall; copy block at x=242, buttons end 99px above the bottom */
   .hero{height:600px;background:#8b8c8c}
   .slide>img{top:0;height:100%;object-position:50% 50%!important}
@@ -304,267 +304,26 @@
   .founder+.bar+.marquee{margin-top:120px}
   .community+.marquee.d-only{margin-top:120px}
 
-  /* courses: three wide cards with the butterfly photo on the right */
-  .courses{padding:118px 0 0;max-width:976px;margin:0 auto}
-  .c-list{margin:0;gap:49px}
-  .ccard{position:relative;height:359px;border:1px solid #8a8a8a;border-radius:90px;background:linear-gradient(180deg,#fff 0%,#fcfcfc 50%,#f8f8f8 100%);flex-direction:row}
-  .ccard.hl{border:2px solid #f5a623;box-shadow:0 18px 30px -16px rgba(0,0,0,.2)}
-  .c-img{position:absolute;inset:0;height:auto;background:none;pointer-events:none}
-  .c-img img:not(.c-wing){display:none}
-  .c-img .c-wing{position:absolute;left:auto;right:1px;top:1px;width:506px;height:356px;object-fit:cover;transform:none}
-  .c-body{position:relative;padding:64px 0 0 123px;width:560px}
-  .c-rate{display:none}
-  .c-title{margin:0;max-width:330px;font-size:32px;line-height:40px;font-weight:700;letter-spacing:-.3px;color:#000}
-  .c-desc{margin:12px 0 0;font-size:13px;line-height:15px;font-weight:400;letter-spacing:.15px}
-  .c-date{margin:10px 0 0;gap:9.6px;font-size:13px;font-weight:600}
-  .c-date svg{width:25.6px;height:25.6px;stroke-width:1.2}
-  .c-cta{margin:30px 0 0 -1px;width:196px;height:42px;padding:0;border:1.2px solid #222;color:#222;font-family:var(--f);font-size:13px;font-weight:400;letter-spacing:.6px}
-  .courses+.marquee{margin-top:120px}
+  /* courses: outlined rows, photo left, round arrow right */
+  .courses{padding:112px 0 0;max-width:976px;margin:0 auto}
+  .mn-h{padding:0;font-size:48px;line-height:52px;letter-spacing:-1.6px;text-align:center}
+  .mn-list{flex-direction:column;gap:20px;margin:48px 0 0;padding:0;overflow:visible}
+  .mn{width:auto;flex-direction:row;align-items:center;gap:48px;padding:12px;border-radius:30px}
+  .mn:hover{transform:translateY(-4px);box-shadow:0 18px 36px -24px rgba(0,0,0,.28)}
+  .mn:hover .mn-img img{transform:scale(calc(var(--z,1) * 1.05))}
+  .mn-img{flex:none;width:280px;aspect-ratio:4/3;border-radius:20px}
+  .mn-body{display:grid;grid-template-columns:1fr auto;column-gap:32px;align-items:center;padding:0 40px 0 0}
+  .mn-body>*:not(.mn-go){grid-column:1}
+  .mn h3{font-size:28px;line-height:34px;letter-spacing:-.8px}
+  .mn-txt{max-width:460px;font-size:15.5px;line-height:24px}
+  .mn-rate{margin:14px 0 0;font-size:14px}
+  .mn-go{display:flex;justify-content:center;gap:0;grid-column:2;grid-row:1/4;width:56px;height:56px;margin:0;padding:0;border-radius:50%;font-size:0}
+  .mn-go svg{width:18px;height:18px}
+  .mn:hover .mn-go{background:var(--accent)}
+  .mn:hover .mn-go svg{transform:translateX(3px)}
+  .mn-all{margin:56px auto 0}
+  .mn-all:hover{background:#111;border-color:#111;color:#fff}
+  .courses+.marquee{margin-top:112px}
   .marquee+.footer,.courses~.marquee.d-only{margin-bottom:0}
   main{padding-bottom:120px}
 }
-
-/* =====================================================================
-   Courses, variant C (?corsi=c): tickets with a date stub and a perforation.
-   Phone: a snap rail of 300 px tickets. Desktop: full-width rows.
-   ===================================================================== */
-.courses.v-c{padding:56px 0 0;text-align:left}
-.v-c .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.tk-head{padding:0 24px}
-.tk-head .cx-eyebrow{margin:0;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
-.tk-head h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111;text-wrap:balance}
-.tk-sub{margin:8px 0 0;font-family:var(--fi);font-size:15px;line-height:22px;color:#555;text-wrap:balance}
-.tk-list{display:flex;gap:14px;margin:28px 0 0;padding:4px 24px 24px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 24px;scrollbar-width:none;overscroll-behavior-x:contain}
-.tk-list::-webkit-scrollbar{display:none}
-.tk{--bg:#f6f3ef;position:relative;flex:none;width:300px;scroll-snap-align:start;display:grid;grid-template-columns:62px 1fr 44px;grid-template-areas:"img img img" "cut cut cut" "stub body go";align-items:center;padding:8px;border-radius:26px;background:var(--bg);overflow:hidden;color:#111;transition:background-color .25s,box-shadow .25s,transform .25s var(--ease)}
-.tk:active{transform:scale(.98)}
-.tk-img{grid-area:img;aspect-ratio:4/3;border-radius:19px;overflow:hidden;background:#fff}
-.tk-img img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 30%);transition:transform .5s var(--ease)}
-/* perforation: dashed line ending in two notches cut from the card edge */
-.tk-cut{grid-area:cut;position:relative;align-self:stretch;height:0;margin:14px -8px 12px;border-top:1.5px dashed #d6cfc7}
-.tk-cut::before,.tk-cut::after{content:"";position:absolute;top:-12px;width:22px;height:22px;border-radius:50%;background:#fff}
-.tk-cut::before{left:-11px}.tk-cut::after{right:-11px}
-.tk-stub{grid-area:stub;align-self:start;margin:0;display:flex;flex-direction:column;align-items:center;padding:2px 10px 6px 4px}
-.tk-stub b{font-size:30px;line-height:32px;font-weight:700;letter-spacing:-1.2px}
-.tk-stub span[aria-hidden]{margin-top:2px;font-size:11px;line-height:14px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
-.tk-body{grid-area:body;min-width:0;align-self:start;padding:0 4px 8px 6px;border-left:1px solid #e6e1dc}
-.tk-lvl{margin:0;font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent)}
-.tk h3{margin:4px 0 0;font-size:17px;line-height:21px;font-weight:600;letter-spacing:-.3px;text-wrap:balance}
-.tk-txt{display:none}
-.tk-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;margin:8px 0 0;font-family:var(--fi);font-size:12.5px;line-height:16px;color:#555}
-.tk-meta>span{display:inline-flex;align-items:center;gap:5px}
-.tk-meta svg{flex:none;width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-.tk-rate .stars{margin:0;gap:1px}
-.tk-rate .stars svg{width:11px;height:11px;fill:currentColor;stroke:none}
-.tk-rate b{font-weight:700;color:#111}
-.tk-go{grid-area:go;align-self:start;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#111;color:#fff;transition:background-color .2s,color .2s,transform .25s var(--ease)}
-.tk-go svg,.tk-all svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.tk-all{display:flex;align-items:center;justify-content:center;gap:8px;width:fit-content;height:52px;margin:8px auto 56px;padding:0 28px;border:1px solid #c9c4bf;border-radius:99px;font-size:15px;font-weight:500;color:#111;transition:background-color .2s,color .2s,border-color .2s}
-.tk-all:active{transform:scale(.97)}
-.tk:focus-visible{outline:2px solid #000;outline-offset:3px}
-
-@media (min-width:1024px){
-  .courses.v-c{padding:112px 0 0}
-  .tk-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;padding:0}
-  .tk-head h2{font-size:38px;line-height:44px;letter-spacing:-1.2px}
-  .tk-sub{font-size:17px;line-height:27px}
-  .tk-all{margin:0;flex:none}
-  .tk-list{flex-direction:column;gap:16px;margin:40px 0 0;padding:0;overflow:visible}
-  .tk{width:auto;height:196px;grid-template-columns:132px 0 1fr 76px 300px;grid-template-areas:"stub cut body go img";grid-template-rows:100%;padding:10px;border-radius:30px}
-  .tk-img{aspect-ratio:auto;height:100%;border-radius:22px}
-  .tk-cut{width:0;height:auto;margin:-10px 0;border-top:0;border-left:1.5px dashed #d6cfc7}
-  .tk-cut::before,.tk-cut::after{left:-12px;right:auto}
-  .tk-cut::before{top:-11px}.tk-cut::after{top:auto;bottom:-11px}
-  .tk-stub{align-self:center;padding:0}
-  .tk-stub b{font-size:52px;line-height:52px;letter-spacing:-2.4px}
-  .tk-stub span[aria-hidden]{margin-top:6px;font-size:12px;letter-spacing:2.4px}
-  .tk-body{align-self:center;padding:0 0 0 36px;border:0}
-  .tk-lvl{font-size:11px;letter-spacing:1.8px}
-  .tk h3{margin-top:6px;font-size:26px;line-height:30px;letter-spacing:-.6px}
-  .tk-txt{display:block;margin:6px 0 0;max-width:440px;font-family:var(--fi);font-size:15px;line-height:22px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .tk-meta{margin-top:12px;font-size:13.5px;gap:4px 18px}
-  .tk-go{align-self:center;justify-self:center;width:52px;height:52px;background:none;color:#111;border:1px solid #c9c4bf}
-  .tk:hover{--bg:#f1ece6;transform:translateY(-4px);box-shadow:0 18px 36px -24px rgba(0,0,0,.28)}
-  .tk:hover .tk-img img{transform:scale(1.05)}
-  .tk:hover .tk-go{background:#111;border-color:#111;color:#fff;transform:translateX(3px)}
-  .tk-all:hover{background:#111;border-color:#111;color:#fff}
-  .courses.v-c+.marquee{margin-top:112px}
-}
-
-/* =====================================================================
-   Courses, variant D (?corsi=d): numbered editorial index.
-   Phone: rows with a thumbnail. Desktop: list + sticky photo preview of the hovered course.
-   ===================================================================== */
-.courses.v-d{padding:56px 24px 0;text-align:left}
-.ix-eye{margin:0;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
-.ix-head h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111;text-wrap:balance}
-.ix-list{list-style:none;margin:24px 0 0;padding:0;border-bottom:1px solid var(--hair)}
-.ix-row{display:grid;grid-template-columns:34px 1fr 76px;align-items:center;gap:12px;padding:16px 0;border-top:1px solid var(--hair);color:#111;transition:color .2s}
-.ix-row:active{opacity:.7}
-.ix-num{align-self:start;padding-top:2px;font-size:13px;line-height:16px;font-weight:600;letter-spacing:.5px;color:#8a8580;transition:color .2s}
-.ix-main{display:flex;flex-direction:column;min-width:0}
-.ix-lvl{font-size:10.5px;line-height:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent)}
-.ix-title{margin-top:4px;font-size:19px;line-height:23px;font-weight:600;letter-spacing:-.4px;text-wrap:balance}
-.ix-meta{margin-top:6px;font-family:var(--fi);font-size:13px;line-height:18px;color:#666}
-.ix-thumb{width:76px;height:76px;border-radius:16px;object-fit:cover;object-position:var(--pos,50% 30%);background:#f6f3ef}
-.ix-when,.ix-go,.ix-preview{display:none}
-.ix-all{display:flex;align-items:center;justify-content:center;gap:8px;width:fit-content;height:52px;margin:32px auto 56px;padding:0 28px;border:1px solid #c9c4bf;border-radius:99px;font-size:15px;font-weight:500;color:#111;transition:background-color .2s,color .2s,border-color .2s}
-.ix-all svg,.ix-go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.ix-all:active{transform:scale(.97)}
-.ix-row:focus-visible{outline:2px solid #000;outline-offset:2px}
-
-@media (min-width:1024px){
-  .courses.v-d{padding:112px 0 0}
-  .ix-head h2{font-size:48px;line-height:52px;letter-spacing:-1.6px}
-  .ix-wrap{display:grid;grid-template-columns:1fr 360px;gap:56px;align-items:start;margin-top:40px}
-  .ix-list{margin:0}
-  .ix-row{grid-template-columns:56px 1fr auto 52px;gap:20px;padding:26px 0}
-  .ix-num{padding-top:6px;font-size:14px}
-  .ix-title{margin-top:6px;font-size:30px;line-height:34px;letter-spacing:-.9px;color:#8a8580;transition:color .25s}
-  .ix-meta,.ix-thumb{display:none}
-  .ix-when{display:flex;flex-direction:column;align-items:flex-end;font-family:var(--fi);font-size:14px;line-height:20px;color:#8a8580}
-  .ix-when b{font-family:var(--f);font-size:15px;font-weight:600;color:#111}
-  .ix-go{display:grid;place-items:center;width:52px;height:52px;border-radius:50%;border:1px solid #c9c4bf;color:#111;transition:background-color .2s,color .2s,border-color .2s,transform .25s var(--ease)}
-  .ix-row.on .ix-title{color:#111}
-  .ix-row.on .ix-num{color:var(--accent)}
-  .ix-row.on .ix-go{background:#111;border-color:#111;color:#fff;transform:translateX(3px)}
-  .ix-preview{display:block;position:sticky;top:120px;aspect-ratio:4/5;border-radius:32px;overflow:hidden;background:#f6f3ef;box-shadow:0 30px 60px -36px rgba(0,0,0,.3)}
-  .ix-preview figure{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .45s var(--ease)}
-  .ix-preview figure.on{opacity:1}
-  .ix-preview img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 30%);transform:scale(1.06);transition:transform .9s var(--ease)}
-  .ix-preview figure.on img{transform:none}
-  .ix-preview figcaption{position:absolute;left:14px;right:14px;bottom:14px;display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:22px;background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);font-family:var(--fi);font-size:14px;line-height:20px;color:#555}
-  .ix-rate{display:flex;align-items:center;gap:6px;color:#555}
-  .ix-rate .stars{margin:0;gap:2px}
-  .ix-rate .stars svg{width:13px;height:13px}
-  .ix-rate b{color:#111;font-weight:700}
-  .ix-all{margin:48px 0 0}
-  .ix-all:hover{background:#111;border-color:#111;color:#fff}
-  .courses.v-d+.marquee{margin-top:112px}
-}
-
-/* =====================================================================
-   Courses, variants E and F (?corsi=e / ?corsi=f): minimal cards, photo + title + description + reviews.
-   E: photo cards (phone snap rail, desktop 3 columns). F: wide rows, photo right (stacked on phones).
-   ===================================================================== */
-.courses.v-min{padding:56px 0 0;text-align:left}
-.mn-h{margin:0;padding:0 24px;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111;text-wrap:balance}
-.mn{display:flex;flex-direction:column;color:#111}
-.mn:active{transform:scale(.98)}
-.mn-img{border-radius:24px;overflow:hidden;background:#f6f3ef}
-.mn-img img{width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 30%);transform:scale(var(--z,1));transform-origin:30% 70%;transition:transform .6s var(--ease)}
-.mn h3{margin:0;font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.4px;text-wrap:balance}
-.mn-txt{margin:6px 0 0;font-family:var(--fi);font-size:14px;line-height:21px;color:#666}
-.mn-rate{display:flex;align-items:center;gap:8px;margin:12px 0 0;font-family:var(--fi);font-size:13px;line-height:18px;color:#666}
-.mn-rate .stars{margin:0;gap:2px}
-.mn-rate .stars svg{width:13px;height:13px}
-.mn-rate b{font-weight:700;color:#111}
-.mn-all{display:flex;align-items:center;justify-content:center;gap:8px;width:fit-content;height:52px;margin:32px auto 56px;padding:0 28px;border:1px solid #c9c4bf;border-radius:99px;font-size:15px;font-weight:500;color:#111;transition:background-color .2s,color .2s,border-color .2s}
-.mn-all svg,.mn-go svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.mn-all:active{transform:scale(.97)}
-.mn:focus-visible{outline:2px solid #000;outline-offset:4px;border-radius:24px}
-/* E */
-.v-e .mn-list{display:flex;gap:16px;margin:24px 0 0;padding:0 24px 4px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 24px;scrollbar-width:none}
-.v-e .mn-list::-webkit-scrollbar{display:none}
-.v-e .mn{flex:none;width:280px;scroll-snap-align:start}
-.v-e .mn-img{aspect-ratio:4/5}
-.v-e .mn-body{padding:16px 4px 0}
-/* F */
-.v-f .mn-list{display:flex;flex-direction:column;gap:20px;margin:24px 24px 0}
-.v-f .mn{border:1px solid var(--cx-line,#e6e1dc);border-radius:28px;overflow:hidden;transition:border-color .2s,box-shadow .25s}
-.v-f .mn-img{aspect-ratio:16/10;border-radius:0}
-.v-f .mn-body{padding:20px 22px 22px}
-.mn-go{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:14px;font-weight:600}
-.mn-go svg{width:16px;height:16px;transition:transform .2s}
-
-@media (min-width:1024px){
-  .courses.v-min{padding:112px 0 0}
-  .mn-h{padding:0;font-size:48px;line-height:52px;letter-spacing:-1.6px;text-align:center}
-  .mn h3{font-size:24px;line-height:29px;letter-spacing:-.6px}
-  .mn-txt{font-size:15.5px;line-height:24px}
-  .mn-rate{margin-top:16px;font-size:14px}
-  .mn:hover .mn-img img{transform:scale(calc(var(--z,1) * 1.05))}
-  .mn-all{margin:56px auto 0}
-  .mn-all:hover{background:#111;border-color:#111;color:#fff}
-  .courses.v-min+.marquee{margin-top:112px}
-  /* E */
-  .v-e .mn-list{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px;padding:0;overflow:visible}
-  .v-e .mn{width:auto}
-  .v-e .mn-body{padding:22px 4px 0}
-  /* F */
-  .v-f .mn-list{gap:24px;margin:48px 0 0}
-  .v-f .mn{flex-direction:row-reverse;height:320px}
-  .v-f .mn-img{flex:none;width:44%;aspect-ratio:auto}
-  .v-f .mn-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 56px 0 72px}
-  .v-f .mn h3{font-size:32px;line-height:38px;letter-spacing:-.9px}
-  .v-f .mn-txt{max-width:400px;margin-top:10px}
-  .v-f .mn-go{margin-top:28px}
-  .v-f .mn:hover{border-color:#cfc8c1;box-shadow:0 18px 36px -24px rgba(0,0,0,.28)}
-  .v-f .mn:hover .mn-go svg{transform:translateX(3px)}
-}
-
-/* =====================================================================
-   Courses, variants G and H (?corsi=g / ?corsi=h): minimal cards with a 0.8 px outline.
-   G: outlined photo cards (phone snap rail, desktop 3 columns). H: outlined rows, photo left.
-   ===================================================================== */
-.v-g .mn,.v-h .mn{border:.8px solid #1a1a1a;border-radius:26px;padding:10px;transition:box-shadow .25s,transform .25s var(--ease)}
-.v-g .mn-list{display:flex;gap:14px;margin:24px 0 0;padding:4px 24px 8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 24px;scrollbar-width:none}
-.v-g .mn-list::-webkit-scrollbar{display:none}
-.v-g .mn{flex:none;width:286px;scroll-snap-align:start}
-.v-g .mn-img{aspect-ratio:1;border-radius:18px}
-.v-g .mn-body{padding:16px 10px 10px}
-.v-h .mn-list{display:flex;flex-direction:column;gap:14px;margin:24px 24px 0}
-.v-h .mn{flex-direction:row;align-items:center;gap:16px}
-.v-h .mn-img{flex:none;width:112px;aspect-ratio:1;border-radius:18px}
-.v-h .mn-body{min-width:0;padding-right:6px}
-.v-h .mn h3{font-size:18px;line-height:22px}
-.v-h .mn-txt{font-size:13px;line-height:19px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.v-h .mn-rate{margin-top:8px;font-size:12px}
-.v-h .mn-rate .stars svg{width:11px;height:11px}
-.v-h .mn-go{display:none}
-
-@media (min-width:1024px){
-  .v-g .mn,.v-h .mn{border-radius:30px;padding:12px}
-  .v-g .mn:hover,.v-h .mn:hover{transform:translateY(-4px);box-shadow:0 18px 36px -24px rgba(0,0,0,.28)}
-  .v-g .mn-list{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px;padding:0;overflow:visible}
-  .v-g .mn{width:auto}
-  .v-g .mn-img{border-radius:20px}
-  .v-g .mn-body{padding:20px 12px 12px}
-  .v-h .mn-list{gap:20px;margin:48px 0 0}
-  .v-h .mn{gap:48px}
-  .v-h .mn-img{width:260px;aspect-ratio:4/3;border-radius:20px}
-  .v-h .mn h3{font-size:28px;line-height:34px;letter-spacing:-.8px}
-  .v-h .mn-txt{font-size:15.5px;line-height:24px;max-width:460px}
-  .v-h .mn-rate{margin-top:14px;font-size:14px}
-  .v-h .mn-rate .stars svg{width:13px;height:13px}
-  .v-h .mn-body{flex:1;display:grid;grid-template-columns:1fr auto;column-gap:32px;align-items:center;padding-right:40px}
-  .v-h .mn-body>*:not(.mn-go){grid-column:1}
-  .v-h .mn-go{display:grid;place-items:center;grid-column:2;grid-row:1/4;width:52px;height:52px;margin:0;border:.8px solid #1a1a1a;border-radius:50%;font-size:0;transition:background-color .2s,color .2s}
-  .v-h .mn-go svg{width:18px;height:18px}
-  .v-h .mn:hover .mn-go{background:#111;color:#fff}
-}
-
-/* Courses, G/H livelier (?corsi=g2 / ?corsi=h2): tinted photo panels (white photo backgrounds multiply into the tint),
-   bolder title, rating as a chip, black pill CTA. */
-.vivid .mn-img{background:var(--tint)}
-.vivid .mn-img img{mix-blend-mode:multiply}
-.vivid .mn h3{font-weight:700;letter-spacing:-.5px}
-.vivid .mn-txt{color:#555}
-.vivid .mn-rate{width:fit-content;padding:5px 10px 5px 8px;border-radius:99px;background:#fff6ea;color:#7a5a3a}
-.vivid .mn-go{display:inline-flex;width:fit-content;align-items:center;gap:8px;height:44px;margin-top:16px;padding:0 18px 0 20px;border-radius:99px;background:#111;color:#fff;font-size:14px;font-weight:600;transition:background-color .2s}
-.vivid .mn-go svg{width:16px;height:16px;transition:transform .2s}
-.vivid.v-h .mn-go{display:none}
-.vivid .mn:hover .mn-go{background:#2a2a2a}
-.vivid .mn:hover .mn-go svg{transform:translateX(3px)}
-@media (min-width:1024px){
-  .vivid .mn-go{margin-top:20px;height:48px;font-size:15px}
-  .vivid.v-h .mn-go{display:grid;width:56px;height:56px;margin:0;padding:0;border:0;background:#111;color:#fff}
-  .vivid.v-h .mn-go svg{width:18px;height:18px}
-  .vivid.v-h .mn:hover .mn-go{background:var(--accent)}
-  .vivid.v-h .mn-img{width:280px}
-}
-.vivid.v-g .mn-body{flex:1;display:flex;flex-direction:column}
-.vivid.v-g .mn-rate{margin-bottom:16px}
-.vivid.v-g .mn-go{margin-top:auto}
-@media (min-width:1024px){.vivid.v-h .mn-go{font-size:0}}
-@media (min-width:1024px){.v-h .mn-go,.vivid.v-h .mn-go{display:flex;align-items:center;justify-content:center;gap:0}}
