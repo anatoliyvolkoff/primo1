@@ -56,6 +56,9 @@
 .cx-final h2 span{color:#bdb6ae}
 .cx-final p{margin:14px auto 0;max-width:340px;font-family:var(--fi);font-size:15px;line-height:22px;color:#c9c4bf}
 .cx-final .cx-btn{margin-top:28px}
+/* outline button on the black panel (spedizioni, chi siamo) */
+.cx-ghost.dark{border-color:#4a4643;color:#fff;font-family:var(--fi);font-size:14px}
+.cx-ghost.dark:hover{border-color:#fff}
 
 .co-foot{display:flex;justify-content:center;align-items:center;height:55px;border-top:1px solid #eee}
 .co-foot a{display:inline-flex;align-items:center;gap:4px;font-family:var(--fi);font-size:13px;color:#8a8a8a}
