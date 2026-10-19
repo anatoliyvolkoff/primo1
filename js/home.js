@@ -317,15 +317,18 @@
   };
 
   // ---------- courses ----------
-  const cal = '<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="4"/><path d="M8 3v4M16 3v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 17.500h.01M12 17.500h.01"/></svg>';
-  const CROP = { course1: '--iw:118%;--ix:-1%;--iy:-4%', course2: '--iw:118%;--ix:-1%;--iy:-4%', course3: '--iw:118%;--ix:-1%;--iy:-4%' };
-  $('#c-list').innerHTML = ['course1', 'course2', 'course3'].map((img, i) => `<article class="ccard${i === 1 ? ' hl' : ''}">
-    <div class="c-img"><img src="img/${img}.jpg" style="${CROP[img]}" alt="Nail art a farfalla" loading="lazy" decoding="async"><img class="c-wing" src="img/course-wing.jpg" alt="" loading="lazy" decoding="async"></div>
-    <div class="c-body"><div class="c-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><span><b>594+</b> RECENSIONI</span></div>
-      <h3 class="c-title">Premium top Master - 2 livello</h3>
-      <p class="c-desc">Corso base<span class="d-sp"> </span> - PriMo Nails<span class="d-sp"> </span> Professional<br><b class="d-b">01</b> livello - <b class="d-b">7</b> lezione</p>
-      <p class="c-date">${cal}<span>9 settembre</span></p>
-      <a class="c-cta" href="corso.html"><span class="m-only">SCOPRI</span><span class="d-only">DETTAGLI</span></a></div></article>`).join('');
+  // Outlined cards: photo on its own soft tint (the white photo background multiplies into it), title, description,
+  // reviews and a CTA. Phones/tablets: square-photo cards in a snap rail; desktop: rows with a round arrow.
+  const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const TINT = { course2: '#eef2e3', course3: '#f4e8ee', 'course-wing': '#f6eedf' };
+  const ZOOM = { 'course-wing': 1.12 };                             // crops a pale edge baked into that photo
+  const { COURSES } = window.PM.CATALOG;
+  $('#c-list').innerHTML = [0, 2, 4].map(i => COURSES[i]).map(c => `<a class="mn" href="corso.html">
+    <div class="mn-img" style="--tint:${TINT[c.img] || '#f6f3ef'}"><img src="img/${c.img}.jpg" style="--pos:${c.pos}${ZOOM[c.img] ? ';--z:' + ZOOM[c.img] : ''}" alt="" loading="lazy" decoding="async"></div>
+    <div class="mn-body"><h3>${c.title}</h3><p class="mn-txt">${c.txt}</p>
+      <p class="mn-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><span><b>${c.rev}</b> recensioni</span></p>
+      <span class="mn-go" aria-hidden="true">Scopri il corso${arrow}</span></div></a>`).join('');
+  $('#c-all').insertAdjacentHTML('beforeend', arrow);
 
   window.PM.ready();
 })();
