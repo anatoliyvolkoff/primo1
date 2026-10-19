@@ -136,6 +136,7 @@
   document.addEventListener('click', () => { langMenu.hidden = true; langBtn.setAttribute('aria-expanded', 'false'); });
 
   // ---------- cart (persisted, shows free-shipping progress) ----------
+  const here = location.pathname.split('/').pop() || 'index.html';
   let cart = store.get('primo.cart.v1', []).filter(l => Number.isInteger(l.shade) && l.shade >= 0 && l.shade < SHADE_IMG.length && l.qty > 0);
   const cartCount = () => cart.reduce((a, l) => a + l.qty, 0);
   const cartTotal = () => cart.reduce((a, l) => a + l.qty * PRODUCT.price, 0);
@@ -162,7 +163,9 @@
     $('#cart-ship-txt').innerHTML = left ? `Ti mancano <b>${money(left)}</b> per la spedizione gratuita` : '<b>Spedizione gratuita</b> sbloccata';
     $('#cart-ship-fill').style.width = Math.min(100, total / FREE_SHIPPING * 100) + '%';
   }
-  function saveCart(bump) { store.set('primo.cart.v1', cart); renderBadge(bump); renderCart(); }
+  /* Pages that mirror the cart (checkout) listen for 'pm:cart'. */
+  const cartChanged = () => document.dispatchEvent(new CustomEvent('pm:cart'));
+  function saveCart(bump) { store.set('primo.cart.v1', cart); renderBadge(bump); renderCart(); cartChanged(); }
   function addToCart(shade = 0, qty = 1) {
     const line = cart.find(l => l.shade === shade);
     line ? (line.qty += qty) : cart.push({ shade, qty });
@@ -181,8 +184,10 @@
     const best = $('#bestsellers') || $('#grid');
     if (best) best.scrollIntoView({ behavior: smooth() }); else location.href = 'catalogo.html';
   };
-  $('#cart-checkout').onclick = () => toast('Prototype: il checkout non è ancora disegnato');
-  addEventListener('storage', e => { if (e.key === 'primo.cart.v1') { cart = store.get('primo.cart.v1', []); renderBadge(false); renderCart(); } });
+  $('#cart-checkout').onclick = () => { if (here === 'checkout.html') closeOverlay(); else location.href = 'checkout.html'; };
+  const cartLines = () => cart.map(l => ({ ...l }));
+  function clearCart() { cart = []; saveCart(false); }
+  addEventListener('storage', e => { if (e.key === 'primo.cart.v1') { cart = store.get('primo.cart.v1', []); renderBadge(false); renderCart(); cartChanged(); } });
   renderBadge(false); renderCart();
 
   // ---------- rail position indicator ----------
@@ -331,12 +336,11 @@
   }
 
   /* Mark the header link for the current page. */
-  const here = location.pathname.split('/').pop() || 'index.html';
   $$('.dnav a, .drawer a').forEach(a => { if (a.getAttribute('href') === here) a.setAttribute('aria-current', 'page'); });
 
   Object.assign(PM, {
     $, $$, root, reduceMotion, finePointer, desktopMQ, smooth, money, buzz, store, settle,
-    PRODUCT, SHADES, EXTRA, SHADE_IMG, MOODS, CATALOG, toast, openOverlay, closeOverlay, addToCart, flashAdded,
+    PRODUCT, SHADES, EXTRA, SHADE_IMG, MOODS, CATALOG, toast, openOverlay, closeOverlay, addToCart, cartLines, clearCart, flashAdded,
     attachProgress, productCard, fillRail, dragScroll, jumpTo,
   });
   /* Page scripts run after this file; they call PM.ready() so shared setup that depends on their DOM runs last. */

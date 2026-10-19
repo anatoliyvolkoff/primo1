@@ -1,0 +1,136 @@
+<!--page title="Checkout – PriMo Nails" description="Completa il tuo ordine PriMo Nails: dati di contatto, indirizzo di consegna, spedizione GLS e pagamento." css="academy checkout" js="checkout" body="checkout" -->
+  <main id="top" class="co" tabindex="-1">
+    <section class="co-hero">
+      <div class="co-back"><a class="back" href="catalogo.html" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Continua lo shopping</a></div>
+      <div class="co-intro">
+        <p class="cx-eyebrow">Ordine sicuro</p>
+        <h1 id="co-title">Checkout</h1>
+        <ol class="co-steps" aria-label="Passaggi">
+          <li><a href="#co-contact"><span>1</span>Contatti</a></li>
+          <li><a href="#co-address"><span>2</span>Consegna</a></li>
+          <li><a href="#co-pay"><span>3</span>Pagamento</a></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- empty cart -->
+    <section class="co-empty" id="co-empty" hidden aria-labelledby="co-empty-h">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+      <h2 id="co-empty-h">Il tuo carrello è vuoto</h2>
+      <p>Aggiungi i tuoi colori preferiti e torna qui per completare l’ordine.</p>
+      <a class="cx-btn" href="catalogo.html">Scopri i prodotti</a>
+    </section>
+
+    <!-- checkout -->
+    <div class="co-wrap" id="co-wrap" hidden>
+      <aside class="co-sum" aria-labelledby="sum-h">
+        <button type="button" class="co-sum-t" id="sum-toggle" aria-expanded="false" aria-controls="sum-body">
+          <span class="co-sum-l"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 7h12l-1 13H7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span id="sum-toggle-txt">Mostra riepilogo</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
+          <b data-total>€0,00</b></button>
+        <div class="co-sum-b" id="sum-body">
+          <div class="co-sum-h"><h2 id="sum-h">Riepilogo ordine</h2><button type="button" class="co-edit" id="sum-edit">Modifica</button></div>
+          <ul class="co-items" id="sum-items"></ul>
+          <form class="co-code" id="code-form" novalidate>
+            <label class="co-f"><span class="sr">Codice sconto</span><input id="code" name="code" placeholder="Codice sconto" autocomplete="off" autocapitalize="characters" spellcheck="false"></label>
+            <button type="submit" class="co-apply">Applica</button>
+          </form>
+          <p class="co-code-msg" id="code-msg" role="status" aria-live="polite"></p>
+          <dl class="co-tot">
+            <div><dt>Subtotale</dt><dd id="sum-sub">€0,00</dd></div>
+            <div class="co-disc" id="sum-disc-row" hidden><dt>Sconto <span id="sum-disc-code"></span></dt><dd id="sum-disc">−€0,00</dd></div>
+            <div><dt>Spedizione <span class="co-zone" id="sum-zone"></span></dt><dd id="sum-ship">—</dd></div>
+            <div class="co-grand"><dt>Totale <small>IVA inclusa</small></dt><dd data-total>€0,00</dd></div>
+          </dl>
+          <div class="co-free" id="sum-free"><p id="sum-free-txt"></p><div class="ship-bar" aria-hidden="true"><i id="sum-free-fill"></i></div></div>
+          <ul class="co-trust">
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7h12v10H2zM14 10h4l4 4v3h-8"/><circle cx="6.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>Spedito da Milano con GLS</li>
+            <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Reso entro 14 giorni · <a href="spedizioni.html#condizioni">condizioni</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <form class="co-form" id="co-form" novalidate aria-labelledby="co-title">
+        <section class="co-card" id="co-contact" aria-labelledby="contact-h">
+          <h2 id="contact-h"><span class="co-n">1</span>Contatti</h2>
+          <div class="co-grid">
+            <label class="co-f span"><span>Email</span><input name="email" type="email" autocomplete="email" inputmode="email" placeholder="nome@esempio.it" required><em class="co-err"></em></label>
+            <label class="co-f span"><span>Telefono <i>per il corriere</i></span><input name="tel" type="tel" autocomplete="tel" inputmode="tel" placeholder="+39 333 123 4567" required><em class="co-err"></em></label>
+          </div>
+          <label class="co-check"><input type="checkbox" name="news"><span>Voglio ricevere novità, nuove collezioni e date dei corsi</span></label>
+        </section>
+
+        <section class="co-card" id="co-address" aria-labelledby="addr-h">
+          <h2 id="addr-h"><span class="co-n">2</span>Indirizzo di consegna</h2>
+          <div class="co-grid">
+            <label class="co-f"><span>Nome</span><input name="nome" autocomplete="given-name" required><em class="co-err"></em></label>
+            <label class="co-f"><span>Cognome</span><input name="cognome" autocomplete="family-name" required><em class="co-err"></em></label>
+            <label class="co-f span"><span>Paese</span><select name="paese" id="country" autocomplete="country"></select></label>
+            <label class="co-f span"><span>Indirizzo</span><input name="via" autocomplete="address-line1" placeholder="Via e numero civico" required><em class="co-err"></em></label>
+            <label class="co-f span"><span>Scala, piano, interno <i>facoltativo</i></span><input name="via2" autocomplete="address-line2"></label>
+            <label class="co-f co-cap"><span>CAP</span><input name="cap" autocomplete="postal-code" inputmode="numeric" required><em class="co-err"></em></label>
+            <label class="co-f co-city"><span>Città</span><input name="citta" autocomplete="address-level2" required><em class="co-err"></em></label>
+            <label class="co-f span" id="region-fld"><span>Regione</span><select name="regione" id="region" autocomplete="address-level1"></select></label>
+          </div>
+          <label class="co-check"><input type="checkbox" name="fattura" id="invoice-toggle" aria-controls="invoice"><span>Richiedi fattura (P. IVA o codice fiscale)</span></label>
+          <div class="co-grid co-invoice" id="invoice" hidden>
+            <label class="co-f span"><span>Ragione sociale <i>facoltativo</i></span><input name="azienda" autocomplete="organization"></label>
+            <label class="co-f span"><span>Partita IVA o codice fiscale</span><input name="piva" autocapitalize="characters" spellcheck="false" data-req-if="fattura"><em class="co-err"></em></label>
+            <label class="co-f span"><span>Codice SDI o PEC <i>facoltativo</i></span><input name="sdi" autocapitalize="characters" spellcheck="false"></label>
+          </div>
+
+          <h3 class="co-h3">Metodo di spedizione</h3>
+          <div class="co-opts" role="radiogroup" aria-label="Metodo di spedizione">
+            <label class="co-opt"><input type="radio" name="spedizione" value="gls" checked>
+              <span class="co-opt-b"><b>GLS Standard</b><small id="ship-eta">Consegna in 3–5 giorni lavorativi</small></span>
+              <span class="co-opt-p" id="ship-price">—</span></label>
+          </div>
+          <p class="co-note">Tariffe in base a zona e peso, come nella pagina <a href="spedizioni.html#tariffe">Spedizioni e resi</a>.</p>
+        </section>
+
+        <section class="co-card" id="co-pay" aria-labelledby="pay-h">
+          <h2 id="pay-h"><span class="co-n">3</span>Pagamento</h2>
+          <p class="co-sub"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Tutte le transazioni sono protette e crittografate.</p>
+          <div class="co-opts co-payopts">
+            <label class="co-opt"><input type="radio" name="pagamento" value="carta" checked>
+              <span class="co-opt-b"><b>Carta di credito o debito</b><small>Visa, Mastercard, American Express</small></span>
+              <span class="co-cards" aria-hidden="true"><i class="visa">VISA</i><i class="mc"><b></b><b></b></i><i class="amex">AMEX</i></span></label>
+            <div class="co-cardform" id="card-form">
+              <div class="co-grid">
+                <label class="co-f span"><span>Numero della carta</span><input name="cc" id="cc" autocomplete="cc-number" inputmode="numeric" placeholder="1234 5678 9012 3456" maxlength="23" data-req-if="carta"><em class="co-err"></em></label>
+                <label class="co-f"><span>Scadenza</span><input name="exp" id="exp" autocomplete="cc-exp" inputmode="numeric" placeholder="MM / AA" maxlength="7" data-req-if="carta"><em class="co-err"></em></label>
+                <label class="co-f"><span>CVC</span><input name="cvc" autocomplete="cc-csc" inputmode="numeric" placeholder="123" maxlength="4" data-req-if="carta"><em class="co-err"></em></label>
+                <label class="co-f span"><span>Titolare della carta</span><input name="ccname" autocomplete="cc-name" data-req-if="carta"><em class="co-err"></em></label>
+              </div>
+            </div>
+            <label class="co-opt"><input type="radio" name="pagamento" value="paypal">
+              <span class="co-opt-b"><b>PayPal</b><small>Verrai reindirizzata/o su PayPal per pagare</small></span>
+              <span class="co-pp" aria-hidden="true">Pay<b>Pal</b></span></label>
+            <label class="co-opt"><input type="radio" name="pagamento" value="bonifico">
+              <span class="co-opt-b"><b>Bonifico bancario</b><small>Spediamo quando riceviamo il pagamento</small></span>
+              <svg class="co-opt-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18L12 4zM5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg></label>
+          </div>
+        </section>
+
+        <div class="co-place">
+          <label class="co-check"><input type="checkbox" name="terms" required><span>Ho letto e accetto le <a href="spedizioni.html#condizioni">condizioni di vendita</a> e il diritto di recesso</span></label>
+          <p class="co-err co-terms-err" id="terms-err"></p>
+          <button type="submit" class="cx-btn co-pay-btn" id="pay-btn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span id="pay-txt">Paga ora</span></button>
+          <p class="co-proto">Prototype: nessun pagamento reale viene addebitato.</p>
+        </div>
+      </form>
+    </div>
+
+    <!-- confirmation -->
+    <section class="co-done" id="co-done" hidden tabindex="-1" aria-labelledby="done-h">
+      <div class="co-tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+      <p class="cx-eyebrow">Ordine <span id="done-n"></span></p>
+      <h2 id="done-h">Grazie<span id="done-name"></span>!</h2>
+      <p class="co-done-lead" id="done-lead"></p>
+      <dl class="co-done-dl" id="done-dl"></dl>
+      <ul class="co-items co-done-items" id="done-items"></ul>
+      <div class="co-done-ctas">
+        <a class="cx-btn" href="catalogo.html">Continua lo shopping</a>
+        <a class="cx-ghost" href="index.html">Torna alla home</a>
+      </div>
+    </section>
+  </main>
