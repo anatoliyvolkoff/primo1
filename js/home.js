@@ -74,6 +74,14 @@
     if (to === undefined || i < 0) return;
     e.preventDefault(); selectTab(list[(to + list.length) % list.length], true);
   });
+  // hover preview: the white ghost pill appears under the first tab the mouse enters, then glides between tabs
+  tabs.addEventListener('pointerover', e => {
+    const b = e.target.closest('[role=tab]');
+    if (!b || e.pointerType !== 'mouse') return;
+    tabs.style.setProperty('--hx', b.offsetLeft + 'px'); tabs.style.setProperty('--hw', b.offsetWidth + 'px');
+    if (!tabs.classList.contains('hov')) { tabs.classList.add('hov'); requestAnimationFrame(() => tabs.classList.add('glide')); }
+  });
+  tabs.addEventListener('pointerleave', () => tabs.classList.remove('hov', 'glide'));
   $('#bs-rail').style.transition = 'opacity .16s';
   addEventListener('resize', placePill); document.fonts && document.fonts.ready.then(placePill); placePill();
 
