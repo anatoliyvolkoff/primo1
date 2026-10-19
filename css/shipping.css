@@ -59,8 +59,6 @@
 /* closing panel: a second, outline button on black */
 .shp-final-ctas{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:28px}
 .shp-final-ctas .cx-btn{margin:0}
-.cx-ghost.dark{border-color:#4a4643;color:#fff;font-family:var(--fi);font-size:14px}
-.cx-ghost.dark:hover{border-color:#fff}
 
 @media (hover:hover) and (pointer:fine){
   .shp .cx-faq a:hover{text-decoration-color:#111}

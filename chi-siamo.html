@@ -7,7 +7,7 @@
 <meta name="color-scheme" content="light">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="PriMo Nails">
-<meta name="description" content="PriMo Nails: la visione di Irina PriMo e del suo studio, tra rigore architettonico e forme organiche.">
+<meta name="description" content="PriMo Nails e PriMo Academy: la storia di Irina PriMo, International Nail Trainer e giudice dal 2005, e dei prodotti professionali per la ricostruzione e il design delle unghie.">
 <title>Chi siamo – PriMo Nails</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -15,7 +15,8 @@
 <link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css?v=c7978bb5">
 <link rel="stylesheet" href="css/search.css?v=b89386fe">
-<link rel="stylesheet" href="css/about.css?v=3fe2ff9d">
+<link rel="stylesheet" href="css/academy.css?v=81ab524e">
+<link rel="stylesheet" href="css/about.css?v=5322e11c">
 </head>
 <body class="about">
 <div class="page" id="page">
@@ -60,31 +61,92 @@
     <div class="progress" id="progress" aria-hidden="true"></div>
   </header>
 
-  <main id="top" class="about" tabindex="-1">
-    <div class="ab-hero d-only" aria-hidden="true"><img src="img/about-hero.jpg" alt=""></div>
-    <div class="ab-blocks">
-      <section class="ab-block b1">
-        <div class="ab-img"><picture><source media="(min-width:1024px)" srcset="img/founder.jpg"><img src="img/founder.jpg" alt="Irina PriMo in studio"></picture></div>
-        <div class="ab-txt">
-          <h2>The Visionary Behind<br class="d-br"> the<br>Craft</h2>
-          <p>Founded on the principle that true luxury whispers rather than<br>shouts, our studio is dedicated to the pursuit of bespoke quality.<br>Every piece is an exploration of form, function, and the subtle<br>beauty of restraint, crafted meticulously by a single set of hands.<br>Our approach merges architectural rigor with intimate organic<br>forms, creating a distinct dialogue between space and material.</p>
-        </div>
-      </section>
-      <section class="ab-block b2">
-        <div class="ab-img"><img src="img/about-portrait.jpg" alt="Ritratto con manicure PriMo Nails" loading="lazy"></div>
-        <div class="ab-txt">
-          <h2>The Visionary Behind<br class="d-br"> the<br>Craft</h2>
-          <p>Founded on the principle that true luxury whispers rather than<br>shouts, our studio is dedicated to the pursuit of bespoke quality.<br>Every piece is an exploration of form, function, and the subtle<br>beauty of restraint, crafted meticulously by a single set of hands.<br>Our approach merges architectural rigor with intimate organic<br>forms, creating a distinct dialogue between space and material.</p>
-        </div>
-      </section>
-      <section class="ab-block b3">
-        <div class="ab-img"><picture><source media="(min-width:1024px)" srcset="img/about-bw.jpg"><img src="img/product.jpg" alt="Gel polish PriMo Nails" loading="lazy"></picture></div>
-        <div class="ab-txt">
-          <h2>The Visionary Behind<br class="d-br"> the<br>Craft</h2>
-          <p>Founded on the principle that true luxury whispers rather than<br>shouts, our studio is dedicated to the pursuit of bespoke quality.<br>Every piece is an exploration of form, function, and the subtle<br>beauty of restraint, crafted meticulously by a single set of hands.<br>Our approach merges architectural rigor with intimate organic<br>forms, creating a distinct dialogue between space and material.</p>
-        </div>
-      </section>
-    </div>
+  <main id="top" class="abc" tabindex="-1">
+    <section class="abc-hero">
+      <picture><source media="(min-width:1024px)" srcset="img/academy-hero-d.jpg"><img src="img/academy-hero-m.jpg" alt="Irina PriMo durante un'intervista in studio" fetchpriority="high"></picture>
+      <div class="abc-back cx-back"><a class="back" href="index.html" data-back><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Indietro</a></div>
+      <div class="abc-title">
+        <p class="cx-eyebrow">PriMo Nails · Milano</p>
+        <h1>Chi <br>siamo</h1>
+      </div>
+    </section>
+
+    <section class="abc-intro" aria-label="In breve">
+      <p>Prodotti professionali e una scuola per chi fa delle unghie il proprio mestiere. <span>Nati dall'esperienza di Irina PriMo, International Nail Trainer e giudice dal 2005.</span></p>
+    </section>
+
+    <section class="abc-time" aria-labelledby="time-h">
+      <div class="abc-time-head"><p class="cx-eyebrow">Il percorso</p><h2 id="time-h">Vent'anni in quattro capitoli</h2></div>
+      <ol class="abc-track" data-drag tabindex="0" aria-label="Il percorso di PriMo Nails">
+        <li><span class="abc-yr">2005</span><h3>In gara e in aula</h3><p>Irina PriMo diventa International Nail Trainer e giudice di campionati internazionali.</p></li>
+        <li><span class="abc-yr">20<sup>+</sup></span><h3>Tecniche firmate</h3><p>Anni di ricerca nella ricostruzione e nel design danno vita a tecniche esclusive.</p></li>
+        <li><span class="abc-yr">10 000<sup>+</sup></span><h3>Studenti nel mondo</h3><p>Professionisti formati con un metodo preciso, dal corso base al livello master.</p></li>
+        <li><span class="abc-yr">Oggi</span><h3>PriMo Nails</h3><p>I prodotti che usa ogni giorno, per chi lavora in salone. E la sua scuola, PriMo Academy.</p></li>
+      </ol>
+    </section>
+
+    <section class="abc-founder" id="storia" aria-labelledby="founder-h">
+      <div class="abc-founder-img"><img src="img/founder-d.jpg" alt="Irina PriMo, fondatrice di PriMo Nails" loading="lazy"></div>
+      <div class="abc-founder-txt">
+        <p class="cx-eyebrow">La fondatrice</p>
+        <h2 id="founder-h" class="sr">Irina PriMo</h2>
+        <p class="abc-words">“Sono Irina PriMo Prijilevscaia-Mosenscaia, artista professionista di livello internazionale, giudice di campionati mondiali e autrice di tecniche esclusive nel mondo della ricostruzione e del design.”</p>
+        <p class="abc-name">Irina PriMo<span>Fondatrice, PriMo Nails e PriMo Academy</span></p>
+      </div>
+    </section>
+
+    <section class="abc-gal" id="lavoro" aria-labelledby="cg-h">
+      <div class="abc-gal-head"><p class="cx-eyebrow">Il nostro lavoro</p><h2 id="cg-h">Dettagli che parlano</h2></div>
+      <div class="abc-strip" data-drag tabindex="0" aria-label="Galleria lavori">
+        <figure><img src="img/about-portrait.jpg" alt="Manicure a mandorla con nail art grafica" loading="lazy"><figcaption>Nail art grafica</figcaption></figure>
+        <figure><img src="img/course2.jpg" alt="Nail art a farfalla dipinta a mano" loading="lazy"><figcaption>Farfalla dipinta a mano</figcaption></figure>
+        <figure><img src="img/gallery-dots.jpg" alt="Manicure bianca a pois neri" loading="lazy"><figcaption>Pois su base lattea</figcaption></figure>
+        <figure><img src="img/course3.jpg" alt="Unghie stiletto con decorazione multicolore" loading="lazy"><figcaption>Stiletto multicolore</figcaption></figure>
+        <figure><img src="img/hero2.jpg" alt="Gel color petrolio PriMo Nails" loading="lazy"><figcaption>Il colore PriMo</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="abc-values" id="valori" aria-labelledby="values-h">
+      <p class="cx-eyebrow">In cosa crediamo</p>
+      <h2 id="values-h" class="sr">I nostri valori</h2>
+      <ul>
+        <li><h3>Precisione</h3><p>Formule pensate per chi lavora ogni giorno sulle unghie: tenuta, coprenza e risultati impeccabili.</p></li>
+        <li><h3>Eleganza</h3><p>Rigore architettonico e forme organiche. Il bello nasce dall'equilibrio, mai dall'eccesso.</p></li>
+        <li><h3>Formazione</h3><p>Tecniche e metodo condivisi con PriMo Academy, dal corso base al livello master.</p></li>
+      </ul>
+    </section>
+
+    <section class="abc-paths" aria-labelledby="paths-h">
+      <p class="cx-eyebrow">Cosa facciamo</p>
+      <h2 id="paths-h">Due mondi, una sola cura</h2>
+      <div class="abc-tiles">
+        <a class="abc-tile" href="catalogo.html">
+          <img src="img/product.jpg" alt="" loading="lazy">
+          <div class="abc-tile-txt"><p class="cx-eyebrow">Il prodotto</p><h3>Prodotti professionali</h3><p>Gel, semipermanente, base e top per risultati da salone.</p></div>
+          <span class="abc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <span class="sr">Scopri i prodotti</span>
+        </a>
+        <a class="abc-tile school" href="academy.html">
+          <img src="img/course1.jpg" alt="" loading="lazy">
+          <div class="abc-tile-txt"><p class="cx-eyebrow">La scuola</p><h3>PriMo Academy</h3><p>Corsi di Irina PriMo per professionisti, in aula e su misura.</p></div>
+          <span class="abc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          <span class="sr">Scopri i corsi</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="abc-contact" aria-labelledby="end-h">
+      <div class="abc-contact-txt">
+        <p class="cx-eyebrow">Contatti</p>
+        <h2 id="end-h">Parliamone</h2>
+        <p>Prodotti, ordini all'ingrosso o corsi: siamo a un messaggio di distanza.</p>
+      </div>
+      <ul class="abc-lines">
+        <li><a href="https://wa.me/393893193049" target="_blank" rel="noopener"><span class="abc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 20.5 5 16a8.5 8.5 0 1 1 3.2 3.1z"/><path d="M9 9.5c.3 2 2.5 4.6 5.5 5.3l1.2-1.4-1.8-1-1 .8c-1-.5-2-1.5-2.4-2.4l.8-1-1-1.8z"/></svg></span><span><small>WhatsApp</small>+39 389 319 3049</span><svg class="abc-go2" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+        <li><a href="mailto:primonailspro@gmail.com"><span class="abc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span><span><small>Email</small>primonailspro@gmail.com</span><svg class="abc-go2" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></li>
+        <li><span class="abc-row"><span class="abc-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span><span><small>Sede</small>Milano, Italia</span></span></li>
+      </ul>
+    </section>
   </main>
 
   <!-- ===== Footer ===== -->
@@ -132,6 +194,8 @@
     <button class="ib close" id="drawer-close" aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     <button type="button" class="d-search" id="drawer-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Cerca prodotti, colori, corsi…</button>
     <nav class="d-nav" aria-label="Sezioni">
+      <p class="d-h">In questa pagina</p>
+      <a href="#storia">La fondatrice</a><a href="#valori">In cosa crediamo</a><a href="#lavoro">Il nostro lavoro</a>
       <p class="d-h">Shop</p>
       <a href="catalogo.html">Tutti i prodotti</a><a href="catalogo.html?cat=semipermanente">Semipermanente</a><a href="catalogo.html?cat=gel">Gel</a>
       <a href="catalogo.html?cat=acrygel">Acrygel</a><a href="catalogo.html?cat=nail-art">Nail art</a><a href="catalogo.html?cat=accessori">Accessori</a>
