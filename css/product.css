@@ -42,6 +42,13 @@
 .psw.all{background:var(--c);color:#fff;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase}
 .psw[aria-pressed=true]{box-shadow:0 0 0 2.5px #fff,0 0 0 5px #000}
 .psw:active{transform:scale(.94)}
+.psw::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid #000;opacity:0;transform:scale(.88);transition:opacity .2s,transform .25s var(--ease);pointer-events:none}
+/* hover (mouse only): the swatch lifts and a faint ring previews the selection, press squishes */
+@media (hover:hover) and (pointer:fine){
+  .psw:hover{transform:translateY(-2px) scale(1.08)}
+  .psw:hover:active{transform:scale(.92)}
+  .psw:not([aria-pressed=true]):hover::after{opacity:.28;transform:none}
+}
 .wholesale{margin-top:49.6px;align-self:stretch;height:66px;display:flex;align-items:center;gap:13px;padding:0 0 0 18px;border:1.5px solid #999;border-radius:16px}
 .ws-ic{flex:none;width:38px;height:38px;border-radius:50%;border:1.5px solid #222;display:grid;place-items:center}
 .ws-ic svg{width:20px;height:20px;stroke-width:1.6}
@@ -56,8 +63,19 @@
 .p-acc details+details{margin-top:4px}
 .p-acc summary{list-style:none;height:66px;display:flex;align-items:center;justify-content:space-between;padding-right:8px;font-size:16px;font-weight:400;color:#555;cursor:pointer}
 .p-acc summary::-webkit-details-marker{display:none}
-.p-acc summary svg{width:18px;height:18px;stroke:#222;stroke-width:2;transition:transform .25s}
+.p-acc summary svg{width:18px;height:18px;stroke:#222;stroke-width:2;border-radius:50%;transition:transform .25s var(--ease),background .2s,box-shadow .2s}
+.p-acc details{transition:border-color .25s}
+.p-acc summary span{display:inline-block;transform-origin:left center;transition:transform .25s var(--ease),color .2s}
 .p-acc details[open] summary svg{transform:rotate(180deg)}
+/* hover (mouse only): the label slides in and darkens, the chevron gets a soft disc and nudges the way it will turn, press squishes */
+@media (hover:hover) and (pointer:fine){
+  .p-acc details:has(>summary:hover){border-top-color:#d4d4d8}
+  .p-acc summary:hover span{transform:translateX(6px);color:#000}
+  .p-acc summary:hover svg{background:#f2f2f4;box-shadow:0 0 0 7px #f2f2f4;transform:translateY(2px)}
+  .p-acc details[open] summary:hover svg{transform:rotate(180deg) translateY(2px)}
+  .p-acc summary:hover:active span{transform:translateX(6px) scale(.97)}
+  .p-acc summary:hover:active svg{background:#e6e6ea;box-shadow:0 0 0 6px #e6e6ea}
+}
 .p-acc p{margin:0 0 18px;font-size:14px;line-height:21px;color:#555}
 
 /* stepper + add to cart */
