@@ -327,5 +327,27 @@
       <p class="c-date">${cal}<span>9 settembre</span></p>
       <a class="c-cta" href="corso.html"><span class="m-only">SCOPRI</span><span class="d-only">DETTAGLI</span></a></div></article>`).join('');
 
+  // Variant C (?corsi=c): upcoming courses as tickets, date stub + perforation. Draft for comparison.
+  if (new URLSearchParams(location.search).get('corsi') === 'c') {
+    const sec = $('#courses'), { COURSES } = window.PM.CATALOG;
+    const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    const book = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg>';
+    const ticket = c => {
+      const [day, month] = c.date.split(' ');
+      return `<a class="tk" href="corso.html">
+        <div class="tk-img"><img src="img/${c.img}.jpg" style="--pos:${c.pos}" alt="" loading="lazy" decoding="async"></div>
+        <span class="tk-cut" aria-hidden="true"></span>
+        <p class="tk-stub"><b>${day.padStart(2, '0')}</b><span aria-hidden="true">${month.slice(0, 3)}</span><span class="sr"> ${month}</span></p>
+        <div class="tk-body"><p class="tk-lvl">${c.tag}</p><h3>${c.title}</h3><p class="tk-txt">${c.txt}</p>
+          <p class="tk-meta"><span>${book}${c.les} lezioni</span><span class="tk-rate"><span class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</span><b>${c.rev}</b></span></p></div>
+        <span class="tk-go" aria-hidden="true">${arrow}</span></a>`;
+    };
+    sec.classList.add('v-c');
+    sec.innerHTML = `<div class="tk-head"><div><p class="cx-eyebrow">PriMo Academy</p><h2>Prossimi corsi</h2><p class="tk-sub">Eleva la tua arte con Irina PriMo e il suo team.</p></div>
+      <a class="tk-all d-only" href="academy.html">Tutti i corsi${arrow}</a></div>
+      <div class="tk-list" id="c-list">${[0, 2, 3, 4].map(i => ticket(COURSES[i])).join('')}</div>
+      <a class="tk-all m-only" href="academy.html">Tutti i corsi${arrow}</a>`;
+  }
+
   window.PM.ready();
 })();
