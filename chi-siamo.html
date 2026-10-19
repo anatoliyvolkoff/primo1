@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="css/site.css?v=c7978bb5">
 <link rel="stylesheet" href="css/search.css?v=b89386fe">
 <link rel="stylesheet" href="css/academy.css?v=81ab524e">
-<link rel="stylesheet" href="css/about.css?v=8da96cd0">
+<link rel="stylesheet" href="css/about.css?v=bf7f2323">
 </head>
 <body class="about">
 <div class="page" id="page">
@@ -154,7 +154,7 @@
       </div>
     </section>
   </main>
-  <!-- Variant C (?v=c, or ?v=d for the alternative lower half): a cinematic version kept for comparison; swapped in before first paint. -->
+  <!-- Variant C (?v=c, or ?v=d / ?v=e for the alternative lower halves): a cinematic version kept for comparison; swapped in before first paint. -->
   <template id="ab-c">
     <section class="abc-hero">
       <picture><source media="(min-width:1024px)" srcset="img/academy-hero-d.jpg"><img src="img/academy-hero-m.jpg" alt="Irina PriMo durante un'intervista in studio" fetchpriority="high"></picture>
@@ -270,8 +270,50 @@
       </div>
     </section>
     </div>
+    <div class="abc-low" data-low="e">
+    <section class="abe-values" id="valori" aria-labelledby="ev-h">
+      <div class="abe-values-head"><p class="cx-eyebrow">Perché PriMo</p><h2 id="ev-h">Tre promesse, ogni giorno</h2></div>
+      <ol>
+        <li><span class="abe-n">1</span><div><h3>Precisione</h3><p>Formule pensate per chi lavora ogni giorno sulle unghie: tenuta, coprenza e risultati impeccabili.</p></div></li>
+        <li><span class="abe-n">2</span><div><h3>Eleganza</h3><p>Rigore architettonico e forme organiche. Il bello nasce dall'equilibrio, mai dall'eccesso.</p></div></li>
+        <li><span class="abe-n">3</span><div><h3>Formazione</h3><p>Tecniche e metodo condivisi con PriMo Academy, dal corso base al livello master.</p></div></li>
+      </ol>
+    </section>
+
+    <section class="abe-banner" id="lavoro" aria-labelledby="eb-h">
+      <img src="img/hero3.jpg" alt="" loading="lazy">
+      <div class="abe-banner-in">
+        <p class="cx-eyebrow">Cosa facciamo</p>
+        <h2 id="eb-h">Dal salone all'aula</h2>
+        <p>I prodotti che Irina usa ogni giorno e la scuola dove insegna come usarli al meglio.</p>
+        <div class="abe-banner-ctas">
+          <a class="cx-btn light" href="catalogo.html">Vai allo shop</a>
+          <a class="cx-ghost" href="academy.html">Scopri l'Academy</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="abe-contact" aria-labelledby="ec-h">
+      <div class="abe-contact-txt">
+        <p class="cx-eyebrow">Contatti</p>
+        <h2 id="ec-h">Scrivici</h2>
+        <p>Prodotti, ordini all'ingrosso o corsi: lasciaci un messaggio e ti ricontattiamo entro 24 ore.</p>
+        <ul class="abe-direct">
+          <li><a href="https://wa.me/393893193049" target="_blank" rel="noopener"><small>WhatsApp</small>+39 389 319 3049</a></li>
+          <li><a href="mailto:primonailspro@gmail.com"><small>Email</small>primonailspro@gmail.com</a></li>
+        </ul>
+      </div>
+      <form class="req abe-form" id="abe-form" novalidate>
+        <label class="fld"><span class="sr">Nome</span><input name="nome" autocomplete="name" placeholder="Nome" required></label>
+        <label class="fld"><span class="sr">Email</span><input name="email" type="email" autocomplete="email" placeholder="Email" required></label>
+        <label class="fld area"><span class="sr">Messaggio</span><textarea name="msg" placeholder="Come possiamo aiutarti?" rows="3" required></textarea></label>
+        <p class="req-err" id="abe-err" role="alert"></p>
+        <button type="submit" class="cx-btn req-btn">Invia messaggio</button>
+      </form>
+    </section>
+    </div>
   </template>
-  <script>(() => { const v = new URLSearchParams(location.search).get('v'); if (v !== 'c' && v !== 'd') return; const m = document.getElementById('top'), f = document.getElementById('ab-c').content.cloneNode(true); f.querySelectorAll('.abc-low').forEach(l => { if (l.dataset.low === v) l.replaceWith(...l.childNodes); else l.remove(); }); m.className = 'abc'; m.replaceChildren(f); })();</script>
+  <script>(() => { const v = new URLSearchParams(location.search).get('v'); if (!['c', 'd', 'e'].includes(v)) return; const m = document.getElementById('top'), f = document.getElementById('ab-c').content.cloneNode(true); f.querySelectorAll('.abc-low').forEach(l => { if (l.dataset.low === v) l.replaceWith(...l.childNodes); else l.remove(); }); m.className = 'abc'; m.replaceChildren(f); })();</script>
 
   <!-- ===== Footer ===== -->
   <footer class="footer">
@@ -356,6 +398,6 @@
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
 <script src="js/site.js?v=19800cf5"></script>
 <script src="js/search.js?v=c0be1f3b"></script>
-<script src="js/about.js?v=f5f2bc13"></script>
+<script src="js/about.js?v=d5a1a4e8"></script>
 </body>
 </html>

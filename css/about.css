@@ -364,3 +364,56 @@
   .abc-strip figure:nth-child(even){transform:translateY(48px)}
   .abc-strip img{border-radius:24px}
 }
+
+/* E (?v=e): C's top with a third lower half: numbered promises, a dark photo banner for shop + academy, a contact form */
+.abe-values{padding:72px 24px 0}
+.abe-values h2,.abe-contact h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111}
+.abe-values ol{display:grid;gap:12px;margin:28px 0 0;padding:0;list-style:none}
+.abe-values li{display:grid;grid-template-columns:56px 1fr;gap:4px;padding:22px 20px;border:1px solid var(--cx-line);border-radius:24px;background:#fff}
+.abe-n{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--cx-warm);font-size:15px;font-weight:600;color:var(--accent)}
+.abe-values h3{margin:6px 0 0;font-size:20px;line-height:26px;font-weight:600;letter-spacing:-.4px;color:#111}
+.abe-values li p{margin:6px 0 0;font-family:var(--fi);font-size:14.5px;line-height:22px;color:#555}
+
+.abe-banner{position:relative;margin-top:72px;min-height:520px;display:flex;align-items:flex-end;background:#111;color:#fff;overflow:hidden}
+.abe-banner img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;filter:brightness(.7)}
+.abe-banner::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.05) 20%,rgba(0,0,0,.8))}
+.abe-banner-in{position:relative;z-index:1;padding:40px 24px}
+.abe-banner .cx-eyebrow{color:#e8b07c}
+.abe-banner h2{margin:8px 0 0;font-size:40px;line-height:44px;font-weight:700;letter-spacing:-1.6px;color:#fff}
+.abe-banner-in>p:not(.cx-eyebrow){margin:12px 0 0;max-width:420px;font-family:var(--fi);font-size:15.5px;line-height:23px;color:#ddd8d3}
+.abe-banner-ctas{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+.abe-banner .cx-ghost{border-color:rgba(255,255,255,.5);color:#fff}
+.abe-banner .cx-ghost:hover{border-color:#fff}
+
+.abe-contact{padding:72px 24px 80px}
+.abe-contact-txt>p:not(.cx-eyebrow){margin:12px 0 0;font-family:var(--fi);font-size:15px;line-height:23px;color:#555}
+.abe-direct{display:grid;gap:10px;margin:22px 0 0;padding:0;list-style:none}
+.abe-direct a{display:block;padding:14px 18px;border-radius:18px;background:var(--cx-warm);font-size:15px;font-weight:600;color:#111;overflow-wrap:anywhere;transition:background .2s}
+.abe-direct small{display:block;margin-bottom:2px;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#8a8580}
+.abe-form{margin-top:24px}
+.abe-form .fld:first-of-type{margin-top:0}
+@media (hover:hover) and (pointer:fine){ .abe-direct a:hover{background:#ece6df} }
+
+@media (min-width:1024px){
+  .abe-values{display:grid;grid-template-columns:300px 1fr;gap:72px;align-items:start;max-width:976px;margin:0 auto;padding:140px 0 0}
+  .abe-values-head{position:sticky;top:130px}
+  .abe-values h2,.abe-contact h2{font-size:38px;line-height:44px;letter-spacing:-1.2px}
+  .abe-values ol{gap:16px;margin:0}
+  .abe-values li{grid-template-columns:72px 1fr;padding:30px 32px;border-radius:28px}
+  .abe-n{width:48px;height:48px;font-size:17px}
+  .abe-values h3{font-size:24px;line-height:30px}
+  .abe-values li p{font-size:15px;line-height:24px}
+
+  .abe-banner{margin-top:140px;min-height:620px;align-items:center}
+  .abe-banner img{object-position:70% 50%}
+  .abe-banner::after{background:linear-gradient(90deg,rgba(0,0,0,.85) 30%,rgba(0,0,0,.1) 75%)}
+  .abe-banner-in{width:100%;max-width:976px;margin:0 auto;padding:0}
+  .abe-banner h2{font-size:64px;line-height:66px;letter-spacing:-3px}
+  .abe-banner-in>p:not(.cx-eyebrow){font-size:17px;line-height:26px}
+  .abe-banner-ctas{flex-direction:row;margin-top:34px}
+
+  .abe-contact{display:grid;grid-template-columns:1fr 480px;gap:80px;align-items:start;max-width:976px;margin:0 auto;padding:140px 0 120px}
+  .abe-contact-txt>p:not(.cx-eyebrow){font-size:16px;line-height:25px;max-width:380px}
+  .abe-direct{max-width:380px}
+  .abe-form{margin:0;padding:40px 40px 32px;border-radius:32px}
+}
