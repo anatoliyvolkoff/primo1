@@ -3,7 +3,7 @@
 (() => {
   'use strict';
   const { $, $$, money, store, toast, buzz, smooth, reduceMotion, openOverlay, cartLines, clearCart } = window.PM;
-  const { BY_ID, CAT_LABEL, swatchBg, label } = window.PM.CATALOG;
+  const { BY_ID, CAT_LABEL, swatchBg, label, imgOf } = window.PM.CATALOG;
 
   // ---------- shipping: GLS rates per zone, [max kg, €] (spedizioni.html#tariffe) ----------
   const ZONES = {
@@ -50,12 +50,12 @@
   const eta = z => { const now = new Date(); return [addWorkdays(now, 1 + z.days[0]), addWorkdays(now, 2 + z.days[1])].map(d => fmt.format(d)); };
 
   const itemsHTML = lines => lines.map(l => { const p = BY_ID[l.id]; return `<li class="co-item">
-      <span class="co-thumb"><img src="img/product.jpg" alt="" width="60" height="60"><b aria-label="Quantità ${l.qty}">${l.qty}</b></span>
+      <span class="co-thumb"><img src="${imgOf(p)}" alt="" width="60" height="60"><b aria-label="Quantità ${l.qty}">${l.qty}</b></span>
       <span class="co-item-b"><b>${label(p)}</b><small>${p.cell ? `<i class="ci-dot" style="${swatchBg(p.cell)}"></i>` : ''}${CAT_LABEL[p.cat]} · ${p.size}</small></span>
       <span class="co-item-p">${money(p.price * l.qty)}</span></li>`; }).join('');
 
   function render() {
-    if (!done.hidden) return;
+    if (ordered) return;
     const lines = cartLines(), q = quote(lines);
     wrap.hidden = !q.n; empty.hidden = !!q.n;
     $('.co-steps').hidden = !q.n;
@@ -169,11 +169,32 @@
   });
 
   function placeOrder() {
-    const lines = cartLines(), q = quote(lines), d = Object.fromEntries(new FormData(form));
-    const num = 'PN-' + String(Date.now()).slice(-6);
-    const [a, b] = eta(q.z);
-    const pay = { carta: `Carta •••• ${(d.cc || '').replace(/\s/g, '').slice(-4)}`, paypal: 'PayPal', bonifico: 'Bonifico bancario' }[d.pagamento];
-    const place = [d.via, d.via2, `${d.cap} ${d.citta}`, d.paese === 'IT' ? `${d.regione ? d.regione + ', ' : ''}Italia` : d.paese].filter(Boolean).map(esc).join('<br>');
+    const lines = cartLines(), d = Object.fromEntries(new FormData(form));
+    showOrder({ num: 'PN-' + String(Date.now()).slice(-6), d, lines, q: quote(lines) });
+    store.set('primo.checkout.code', '');
+    clearCart();
+  }
+
+  /* The confirmation has two designs: B (dark hero + order tracker, the default) and A (the white card, ?conferma=a).
+     ?anteprima opens the confirmation straight away with a demo order, without touching the cart. */
+  const qs = new URLSearchParams(location.search);
+  const variant = qs.get('conferma') === 'a' ? 'a' : 'b';
+  let ordered = false;
+  function showOrder(o) {
+    ordered = true;
+    o.eta = eta(o.q.z);
+    o.pay = { carta: `Carta •••• ${(o.d.cc || '').replace(/\s/g, '').slice(-4)}`, paypal: 'PayPal', bonifico: 'Bonifico bancario' }[o.d.pagamento];
+    o.place = [o.d.via, o.d.via2, `${o.d.cap} ${o.d.citta}`, o.d.paese === 'IT' ? `${o.d.regione ? o.d.regione + ', ' : ''}Italia` : o.d.paese].filter(Boolean).map(esc).join('<br>');
+    wrap.hidden = true; empty.hidden = true; $('.co-steps').hidden = true;
+    document.title = 'Ordine confermato – PriMo Nails';
+    const view = variant === 'b' ? renderB(o) : renderA(o);
+    view.hidden = false;
+    scrollTo({ top: 0, behavior: smooth() });
+    view.focus({ preventScroll: true });
+    if (!qs.has('anteprima')) buzz([12, 60, 12]);
+  }
+
+  function renderA({ num, d, lines, q, eta: [a, b], pay, place }) {
     $('#done-n').textContent = num;
     $('#done-name').textContent = d.nome ? `, ${d.nome.trim()}` : '';
     $('#done-lead').innerHTML = d.pagamento === 'bonifico'
@@ -184,15 +205,82 @@
       <div><dt>Pagamento</dt><dd>${pay}</dd></div>
       <div><dt>Totale</dt><dd><b>${money(q.total)}</b>${q.ship ? ` <small>di cui spedizione ${money(q.ship)}</small>` : ' <small>spedizione gratuita</small>'}</dd></div>`;
     $('#done-items').innerHTML = itemsHTML(lines);
-    store.set('primo.checkout.code', '');
-    wrap.hidden = true; $('.co-steps').hidden = true; done.hidden = false;
     $('#co-title').textContent = 'Ordine confermato';
-    document.title = 'Ordine confermato – PriMo Nails';
-    clearCart();
-    scrollTo({ top: 0, behavior: smooth() });
-    done.focus({ preventScroll: true });
-    buzz([12, 60, 12]);
+    return done;
   }
+
+  const day = new Intl.DateTimeFormat('it-IT', { day: 'numeric', month: 'short' });
+  const TICK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+  function renderB({ num, d, lines, q, eta: [a, b], pay, place }) {
+    const now = new Date(), wire = d.pagamento === 'bonifico', name = (d.nome || '').trim();
+    const steps = [
+      [wire ? 'In attesa del bonifico' : 'Ordine confermato', wire ? 'Spediamo quando arriva il pagamento' : `Oggi, ${day.format(now)}`, wire ? 'now' : 'done'],
+      ['In preparazione', `Nel nostro laboratorio di Milano, entro ${day.format(addWorkdays(now, 2))}`, wire ? '' : 'now'],
+      ['Spedito con GLS', 'Ti inviamo il link di tracciamento', ''],
+      ['Consegna', `${a} – ${b}`, ''],
+    ];
+    const n = lines.reduce((s, l) => s + l.qty, 0);
+    const sec = $('#co-done-b');
+    sec.innerHTML = `
+      <div class="cb-hero">
+        <div class="cb-hero-in">
+          <div class="cb-badge" aria-hidden="true">${TICK}</div>
+          <p class="cx-eyebrow">${wire ? 'Ordine ricevuto' : 'Pagamento riuscito'}</p>
+          <h1 id="cb-h">Grazie${name ? `, ${esc(name)}` : ''}.<span>${wire ? 'Il tuo ordine ti aspetta.' : 'I tuoi colori sono in arrivo.'}</span></h1>
+          <p class="cb-lead">${wire ? 'Ti abbiamo inviato le coordinate per il bonifico a' : 'Abbiamo inviato la conferma a'} <b>${esc(d.email)}</b>.</p>
+          <div class="cb-num"><span>Ordine <b>${num}</b></span><button type="button" class="cb-copy" data-copy="${num}" aria-label="Copia il numero d’ordine"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></button></div>
+          <div class="cb-stack" aria-label="${n} ${n === 1 ? 'articolo' : 'articoli'}, ${money(q.total)}">
+            <span class="cb-thumbs" aria-hidden="true">${lines.slice(0, 3).map(l => { const p = BY_ID[l.id]; return p.cell ? `<i style="${swatchBg(p.cell)}"></i>` : '<i class="kit"></i>'; }).join('')}</span>
+            <span>${n} ${n === 1 ? 'articolo' : 'articoli'} · <b>${money(q.total)}</b></span></div>
+        </div>
+      </div>
+      <div class="cb-body">
+        <section class="cb-card cb-track" aria-labelledby="cb-track-h">
+          <div class="cb-card-h"><h2 id="cb-track-h">Stato dell’ordine</h2><p>Consegna stimata <b>${a} – ${b}</b></p></div>
+          <ol>${steps.map(([t, s, st], i) => `<li class="${st}"${st === 'now' ? ' aria-current="step"' : ''} style="--i:${i}"><span class="cb-dot">${st === 'done' ? TICK : i + 1}</span><div><b>${t}</b><small>${s}</small></div></li>`).join('')}</ol>
+        </section>
+        ${wire ? `<section class="cb-card cb-wire" aria-labelledby="cb-wire-h"><h2 id="cb-wire-h">Coordinate per il bonifico</h2>
+          <dl><div><dt>Intestatario</dt><dd>PriMo Nails</dd></div><div><dt>IBAN</dt><dd><span class="todo-note" lang="en">[[IBAN]]</span></dd></div>
+          <div><dt>Causale</dt><dd>${num}</dd></div><div><dt>Importo</dt><dd><b>${money(q.total)}</b></dd></div></dl></section>` : ''}
+        <div class="cb-cols">
+          <section class="cb-card cb-info" aria-label="Dettagli di consegna e pagamento">
+            <div><h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Spedizione a</h3><p>${esc(`${d.nome} ${d.cognome}`)}<br>${place}</p></div>
+            <div><h3><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18"/></svg>Pagamento</h3><p>${pay}</p></div>
+            <div><h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7h12v10H2zM14 10h4l4 4v3h-8"/><circle cx="6.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>Corriere</h3><p>GLS Standard · ${q.z.label}</p></div>
+          </section>
+          <section class="cb-card cb-order" aria-labelledby="cb-order-h">
+            <h2 id="cb-order-h">Il tuo ordine</h2>
+            <ul class="co-items">${itemsHTML(lines)}</ul>
+            <dl class="co-tot">
+              <div><dt>Subtotale</dt><dd>${money(q.sub)}</dd></div>
+              ${q.disc ? `<div class="co-disc"><dt>Sconto</dt><dd>−${money(q.disc)}</dd></div>` : ''}
+              <div><dt>Spedizione</dt><dd class="${q.ship ? '' : 'free'}">${q.ship ? money(q.ship) : 'Gratis'}</dd></div>
+              <div class="co-grand"><dt>Totale <small>IVA inclusa</small></dt><dd>${money(q.total)}</dd></div>
+            </dl>
+          </section>
+        </div>
+        <section class="cb-next" aria-labelledby="cb-next-h">
+          <p class="cx-eyebrow">Nel frattempo</p>
+          <h2 id="cb-next-h">Porta i tuoi colori in salone</h2>
+          <a class="cb-academy" href="corso.html">
+            <img src="img/course2.jpg" alt="" loading="lazy" width="440" height="300">
+            <span class="cb-academy-b"><small>PriMo Academy</small><b>Onicotecnica Corso Base</b><span>Scopri il corso<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
+          </a>
+          <a class="cb-ig" href="https://www.instagram.com/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg><span>Condividi i tuoi lavori con <b>#primonails</b></span></a>
+        </section>
+        <div class="cb-ctas">
+          <a class="cx-btn" href="catalogo.html">Continua lo shopping</a>
+          <a class="cx-ghost" href="mailto:primonailspro@gmail.com?subject=Ordine%20${num}">Serve aiuto con l’ordine?</a>
+        </div>
+      </div>`;
+    $('.co-hero').hidden = true;
+    return sec;
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-copy]'); if (!b) return;
+    navigator.clipboard?.writeText(b.dataset.copy).then(() => toast('Numero d’ordine copiato'), () => toast(b.dataset.copy));
+  });
+
   const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   // back link: return to the previous page when it was ours
@@ -200,5 +288,16 @@
 
   document.addEventListener('pm:cart', render);
   syncCountry();
+  if (qs.has('anteprima')) {
+    const wire = qs.get('pagamento') === 'bonifico';
+    const demo = PM.CATALOG.PRODUCTS.filter(p => p.cell).slice(0, 3).map((p, i) => ({ id: p.id, qty: i === 1 ? 2 : 1 }));
+    showOrder({ num: 'PN-482913', lines: demo, q: quote(demo),
+      d: { nome: 'Giulia', cognome: 'Rossi', email: 'giulia@esempio.it', via: 'Via Torino 12', cap: '20123', citta: 'Milano', regione: 'Lombardia', paese: 'IT',
+        pagamento: wire ? 'bonifico' : 'carta', cc: '4242 4242 4242 4242' } });
+    const sw = document.createElement('nav');
+    sw.className = 'cb-switch'; sw.setAttribute('aria-label', 'Variante della conferma');
+    sw.innerHTML = ['a', 'b'].map(v => `<a href="?anteprima&conferma=${v}"${v === variant ? ' aria-current="page"' : ''}>Variante ${v.toUpperCase()}</a>`).join('');
+    document.body.append(sw);
+  }
   PM.ready();
 })();

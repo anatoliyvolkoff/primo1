@@ -39,16 +39,19 @@
   const swatchBg = ([r, c]) => `background:url(${SPRITE}) ${((c - 1) / 9 * 100).toFixed(3)}% ${((r - 1) / 10 * 100).toFixed(3)}%/1000% 1100% no-repeat`;
   const cellOf = i => [(i / 10 | 0) + 1, i % 10 + 1];
 
-  // semipermanente shades: number (the swatch file's name), colour filter, effect (s = shimmer, h = holographic), and a descriptive colour name
-  // (the sheet has no names for these yet)
-  const SEMI = `01 bw - Nero|02 bw - Bianco|03 grigio - Grigio Scuro|04 grigio - Grigio Azzurro|011 nude - Nude|012 nude - Malva|013 viola - Lilla Grigio|021 viola - Lilla|022 magenta - Prugna|023 viola - Prugna Scuro|
-024 marsala - Rosa Antico|025 rosa - Rosa|026 rosa - Rosa Cipria|031 marrone - Cioccolato|033 bordo - Rosso Scuro|034 rosso - Rosso|035 rosso - Rosso Vivo|036 rosso - Rosso Classico|037 rosso - Rosso Fuoco|038 rosso - Rosso Ciliegia|
-039 rosso - Rosso Lampone|041 marrone - Cacao|042 marrone - Marrone|051 nude - Rosa Legno|052 nude - Rosa Legno Chiaro|053 marsala - Lampone|054 bordo - Bordeaux|061 bordo - Mattone|062 marrone - Marrone Scuro|063 marrone - Caffè|
-071 bordo - Bordeaux Scuro|072 rosso - Rosso Rubino|073 marsala - Lampone Scuro|074 rosa - Rosa Intenso|081 viola - Viola|082 viola - Viola Orchidea|083 viola - Indaco|084 viola - Viola Ametista|085 viola - Lavanda|086 viola - Lavanda Chiaro|
-087 viola - Lilla Chiaro|091 rosa s Glitter Rosa|092 grigio s Glitter Argento|093 rosso s Glitter Rosso|094 nude s Glitter Oro Rosa|095 rosa s Glitter Rosa Chiaro|096 viola h Glitter Olografico Scuro|097 grigio h Glitter Olografico|101 grigio s Glitter Petrolio|102 nude s Glitter Rame|
-103 oy s Glitter Oro|111 bw s Glitter Nero|112 blu s Glitter Blu|121 blu - Blu Notte|122 blu - Petrolio|123 blu - Blu Indaco|124 blu - Blu Cobalto|131 verde - Verde Scuro|132 verde - Verde Oliva|133 verde - Verde Smeraldo|
+  // semipermanente shades: number (the swatch file's name), colour filter, effect (s = shimmer, h = holographic), and a name:
+  // the name on the bottle where the shade has a photo, otherwise a descriptive colour name (the sheet has no names for these yet)
+  const SEMI = `01 bw - Jet Black|02 bw - Extra White|03 grigio - Graphite Gray|04 grigio - Light Gray|011 nude - Nude Shake|012 nude - Elegant Nude|013 viola - Smoky Nude|021 viola - Cotton Rose|022 magenta - Dusty Rose|023 viola - Cashmere Rose|
+024 marsala - Powder Rose|025 rosa - Tea Rose|026 rosa - Rose Pastel|031 marrone - Burgundy Luxury|033 bordo - Elegance Dark Red|034 rosso - Chic Red|035 rosso - Red Velvet|036 rosso - Sensation Red|037 rosso - Hot Red|038 rosso - Kiss Red|
+039 rosso - Coral Red|041 marrone - Cacao|042 marrone - Cherry Chocolate|051 nude - Marsala|052 nude - Calm Charme|053 marsala - Vintage|054 bordo - Nobility|061 bordo - Berry Chocolate|062 marrone - Olive Chocolate|063 marrone - Milk Chocolate|
+071 bordo - Berry Cocktail|072 rosso - Sweet Strawberry|073 marsala - Light Magenta|074 rosa - Neutral Pink|081 viola - Plum|082 viola - Orchidea|083 viola - Iris|084 viola - Amethyst|085 viola - Crocus|086 viola - Lavender|
+087 viola - Lilac|091 rosa s Virgin Shine|092 grigio s Pearl Sparkling|093 rosso s Pink Sparkling|094 nude s Holographic Tender|095 rosa s Holographic Charm|096 viola h Holographic Dream|097 grigio h Holographic Mood|101 grigio s Silver Silk|102 nude s Ivory Silk|
+103 oy s Light Gold Silk|111 bw s Night Glow|112 blu s Ultramarine Glow|121 blu - Night Blue|122 blu - Emerald Blue|123 blu - Blu Indaco|124 blu - Blu Cobalto|131 verde - Verde Scuro|132 verde - Verde Oliva|133 verde - Verde Smeraldo|
 141 verde - Turchese|142 blu - Turchese Intenso|151 oy - Giallo|152 rosa - Rosa Pastello|153 verde - Verde Mela|154 viola - Lilla Pastello|156 verde - Acquamarina|161 magenta - Rosa Shocking|162 rosso - Rosso Neon|163 oy - Corallo|
-164 oy - Arancio|165 rosa - Rosa Corallo|166 rosa - Rosa Confetto|171 verde - Verde Bosco|172 blu - Blu Notte Scuro|173 marrone - Cioccolato Fondente`.split('|').map(x => { const [num, color, fx, ...name] = x.trim().split(' '); return [num, color, fx === '-' ? null : fx, name.join(' ')]; });
+164 oy - Arancio|165 rosa - Rosa Corallo|166 rosa - Rosa Confetto|171 verde - Verde Bosco|172 blu - Viola Blue|173 marrone - Rouge Noir`.split('|').map(x => { const [num, color, fx, ...name] = x.trim().split(' '); return [num, color, fx === '-' ? null : fx, name.join(' ')]; });
+  // shades with their own photo (img/p/<num>.webp, from Sir's "76 COLORS" folder); the rest show the generic img/product.jpg
+  const PHOTOS = new Set('01 011 012 013 02 021 022 023 024 025 026 03 031 033 034 035 036 037 038 039 04 042 051 052 053 054 061 062 063 071 072 073 074 081 082 083 084 085 086 087 091 092 093 094 095 096 097 101 102 103 111 112 121 122 172 173'.split(' '));
+  const imgOf = p => (p.num && PHOTOS.has(p.num) ? `img/p/${p.num}.webp` : 'img/product.jpg');
   const SEMI_PRICE = 14.99;                                    // not in the product sheet yet
   // the four season kits (not in the sheet): nine shades each, picked by season palette
   const KITS = {
@@ -123,7 +126,7 @@
     { lvl: 'master', tag: 'Master', title: 'Nail art Farfalla', txt: 'La tecnica firma di Irina PriMo: ali dipinte a mano, colore e volume.', img: 'course1', pos: '40% 10%', date: '26 ottobre', les: 4, rev: '207+' },
     { lvl: 'master', tag: 'Master · 2° livello', title: 'Premium Top Master', txt: 'Perfeziona design e velocità con le tecniche esclusive del team PriMo.', img: 'course-wing', pos: '60% 50%', date: '9 novembre', les: 7, rev: '594+' },
   ];
-  const CATALOG = { COLORS, MOOD_TO_COLOR, COLLS, FX, CATS, CAT_LABEL, PRODUCTS, BY_ID, BY_NUM, KITS, COURSES, swatchBg, family, label };
+  const CATALOG = { COLORS, MOOD_TO_COLOR, COLLS, FX, CATS, CAT_LABEL, PRODUCTS, BY_ID, BY_NUM, KITS, COURSES, swatchBg, family, label, imgOf };
 
   // ---------- toast ----------
   const toastEl = $('#toast');
@@ -214,7 +217,7 @@
   function renderCart() {
     const n = cartCount(), total = cartTotal(), left = Math.max(0, FREE_SHIPPING - total);
     $('#cart-list').innerHTML = cart.map(l => { const p = BY_ID[l.id]; return `<li class="ci">
-      <img src="img/product.jpg" alt="" width="64" height="64">
+      <img src="${imgOf(p)}" alt="" width="64" height="64">
       <div><p class="ci-name">${label(p)}</p>
         <p class="ci-meta">${p.cell ? `<span class="ci-dot" style="${swatchBg(p.cell)}"></span>` : ''}${metaOf(p)}</p>
         <p class="ci-price">${money(p.price * l.qty)}</p></div>
@@ -289,7 +292,7 @@
   }
   const productCard = p => `
     <article class="pcard" data-id="${p.id}">
-      <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli"><img src="img/product.jpg" alt="${label(p)}, ${CAT_LABEL[p.cat].toLowerCase()}" loading="lazy" decoding="async" draggable="false">${p.old ? `<span class="disc" aria-label="Sconto ${disc(p)}%">${disc(p)}%</span>` : ''}</a>
+      <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli"><img src="${imgOf(p)}" alt="${label(p)}, ${CAT_LABEL[p.cat].toLowerCase()}" loading="lazy" decoding="async" draggable="false">${p.old ? `<span class="disc" aria-label="Sconto ${disc(p)}%">${disc(p)}%</span>` : ''}</a>
       <div class="pbody">
         <div class="phead"><h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p></div>
@@ -321,6 +324,7 @@
     h.innerHTML = `${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span>`;
     $$('a', card).forEach(a => { if (a.closest('.pimg') || a.closest('h3')) a.href = href(p); });
     $('.pimg', card).setAttribute('aria-label', `${label(p)} – dettagli`);
+    const img = $('.pimg img', card), src = imgOf(p); if (img.getAttribute('src') !== src) { img.src = src; $('.pimg source', card)?.setAttribute('srcset', src); }
     $('.price', card).outerHTML = priceHtml(p);
     const ml = $('.ml', card); if (ml) ml.textContent = p.size;
     $('.add', card).setAttribute('aria-label', `Aggiungi al carrello – ${label(p)}`);
