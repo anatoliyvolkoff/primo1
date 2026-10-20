@@ -8,7 +8,7 @@
   'use strict';
   const PM = window.PM;
   const { $, $$, store, desktopMQ, openOverlay, closeOverlay, MOODS, CATALOG } = PM;
-  const { COLORS, MOOD_TO_COLOR, COLLS, CATS, CAT_LABEL, PRODUCTS, KITS, NAMES, COLOR_OF, COURSES } = CATALOG;
+  const { COLORS, MOOD_TO_COLOR, COLLS, CATS, CAT_LABEL, PRODUCTS, KITS, COURSES, swatchBg, label } = CATALOG;
 
   // ---------- text helpers ----------
   const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’'`]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
@@ -31,19 +31,15 @@
   const KIT_COLL = { inverno: 'winter', primavera: 'spring', estate: 'summer', autunno: 'autumn' };
   const colorOf = k => COLORS.find(c => c[0] === k);
 
-  const productWords = p => words(`112 ultramarine glow ${p.shade} ${p.color} ${colorOf(p.color)[1]} ${COLOR_WORDS[p.color]} ${CAT_LABEL[p.cat]} ${CAT_WORDS[p.cat]} ${p.coll} ${COLL_WORDS[p.coll]} ${p.fx === 'holo' ? 'olografico holo holographic' : p.fx === 'shimmer' ? 'shimmer perlato' : ''}`);
+  const productWords = p => words(`${p.num || ''} ${p.name} ${p.size} ${p.color || ''} ${p.color ? colorOf(p.color)[1] + ' ' + COLOR_WORDS[p.color] : ''} ${CAT_LABEL[p.cat]} ${CAT_WORDS[p.cat]} ${p.coll || ''} ${COLL_WORDS[p.coll] || ''} ${p.fx === 'holo' ? 'olografico holo holographic' : p.fx === 'shimmer' ? 'shimmer perlato' : ''}`);
   const PWORDS = new Map(PRODUCTS.map(p => [p, productWords(p)]));
 
   const INDEX = [];
   const add = e => { e.words = words(`${e.label} ${e.extra || ''}`); INDEX.push(e); };
-  // one entry per shade (the catalogue repeats shades across its 96 cards)
-  NAMES.forEach((shade, i) => {
-    const p = PRODUCTS.find(x => x.shade === shade), col = colorOf(COLOR_OF[i]);
-    add({ type: 'prod', label: '№112 Ultramarine Glow', sub: `${shade} · ${CAT_LABEL.semipermanente}`, href: 'prodotto.html', bg: col[2], price: p.price, pop: p.pop,
-      extra: `${shade} ${col[1]} ${COLOR_WORDS[col[0]]} semipermanente ${CAT_WORDS.semipermanente}` });
-  });
-  Object.entries(KITS).forEach(([k, v]) => add({ type: 'prod', label: v.name, sub: `Kit · ${v.shades.length} tonalità`, href: `prodotto.html?kit=${k}`, bg: v.all, price: 14.99, pop: 1,
-    extra: `kit set ${k} ${COLL_WORDS[KIT_COLL[k]]} ${v.shades.map(s => s[1]).join(' ')}` }));
+  // one entry per product: the sheet's products, every semipermanente shade and the four kits
+  const href = p => (p.kit ? `prodotto.html?kit=${p.kit}` : `prodotto.html?id=${p.id}`);
+  PRODUCTS.forEach(p => add({ type: 'prod', label: label(p), sub: `${CAT_LABEL[p.cat]} · ${p.size}`, href: href(p), sw: p.cell ? swatchBg(p.cell) : null, bg: p.kit ? KITS[p.kit].all : null,
+    price: p.price, pop: p.pop, extra: PWORDS.get(p).join(' ') + (p.kit ? ` kit set ${COLL_WORDS[p.coll]} ${KITS[p.kit].shades.map(q => q.num).join(' ')}` : '') }));
   CATS.forEach(k => add({ type: 'cat', label: CAT_LABEL[k], href: `catalogo.html?cat=${k}`, extra: CAT_WORDS[k], n: PRODUCTS.filter(p => p.cat === k).length }));
   // colours are the site's own swatches ("Shop by color"); picking one goes through PM.onColorPick so each page can handle it its own way
   MOODS.forEach(([name, f]) => {
@@ -135,7 +131,7 @@
     return safe.replace(re, '$1<mark>$2</mark>');
   }
   const prodCard = (e, toks) => `<a class="sx-prod" role="option" id="${id()}" data-opt data-save href="${e.href}">
-      <span class="sx-img"><img src="img/product-card-m.jpg" alt="" loading="lazy" decoding="async"><i class="sx-dot" style="--bg:${e.bg}"></i></span>
+      <span class="sx-img"><img src="img/product-card-m.jpg" alt="" loading="lazy" decoding="async">${e.sw || e.bg ? `<i class="sx-dot" style="${e.sw || `--bg:${e.bg}`}"></i>` : ''}</span>
       <span class="sx-pt"><b>${hl(e.label, toks)}</b><small>${hl(e.sub, toks)}</small><em>${price(e.price)}</em></span></a>`;
   const icon = e => e.type === 'color' ? `<img class="sx-sw" src="${e.img}" alt="">` : e.img ? `<img class="sx-th" src="${e.img}" style="object-position:${e.pos}" alt="" loading="lazy">` : TYPE[e.type][1];
   const rowInner = (e, toks) => `<span class="sx-ic">${icon(e)}</span>
