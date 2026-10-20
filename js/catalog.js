@@ -126,7 +126,7 @@
     if (st.colls.size === 1) u.set('coll', [...st.colls][0]);
     if (st.colors.size === 1) u.set('colore', [...st.colors][0]);
     if (st.page > 1) u.set('pagina', st.page);
-    if (hdr !== '0') u.set('hdr', hdr);
+    if (hdr !== HDR_DEFAULT) u.set('hdr', hdr);
     history.replaceState(null, '', u.toString() ? '?' + u : location.pathname);
     if (scroll === 'shop') scrollTo({ top: Math.max(0, $('#cat-shop').getBoundingClientRect().top + scrollY - $('.topbar').offsetHeight), behavior: smooth() });
     else if (scroll) $('#fbar-wrap').scrollIntoView({ behavior: smooth() });
@@ -176,7 +176,8 @@
   const MOOD_SOFT = { 'b & w': '#f0f0f0', grigio: '#eeeef1', nude: '#f7ede9', rosa: '#fde6f0', rosso: '#fbe3e5', bordeaux: '#f4e3e2', lampone: '#f9e1e7', fucsia: '#fde2ef',
     lilla: '#efe6fa', cioccolato: '#f0e7e4', glitter: '#f6eae6', blu: '#e4eaf7', verde: '#e6f1e0', giallo: '#fbf4d6' };
   const shop = $('#cat-shop'), HDRS = ['0', 'i', 'j', 'k', 'l', 'm', 'n'];
-  let hdr = HDRS.includes(qs.get('hdr')) ? qs.get('hdr') : '0';
+  const HDR_DEFAULT = 'm';
+  let hdr = HDRS.includes(qs.get('hdr')) ? qs.get('hdr') : HDR_DEFAULT;
   function setHdr(v) {
     hdr = v; shop.dataset.hdr = v; shop.classList.toggle('carded', 'jklmn'.includes(v));
     $$('.cs-v', shop).forEach((el, i) => { el.hidden = el.dataset.v !== (v === '0' ? '0' : 'd'); const h = $('h1', el); h.id = 'cat-shop-h' + i; if (!el.hidden) shop.setAttribute('aria-labelledby', h.id); });
