@@ -90,6 +90,8 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
 .sh:active{transform:scale(.9)}
 .sh.pop{animation:pop .3s var(--ease) both;animation-delay:calc(var(--i)*30ms)}
 .plus{position:relative;width:30px;height:30px;margin-left:4px;border-radius:50%;border:1.5px solid #555;background:none;padding:0;font-size:11.5px;font-weight:600;color:#444;flex:none}
+/* whatever sits above the button soaks up the spare height, so buttons line up across a row */
+.pcard .pbody>:nth-last-child(2){margin-bottom:auto}
 .add{margin-top:17px;width:100%;height:44px;border:0;border-radius:99px;background:#000;color:#fff;font-size:18px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:transform .15s,background .3s}
 .add:active{transform:scale(.98)}
 .add.ok{background:#1f7a3a}
@@ -285,7 +287,7 @@ html.lock,html.lock body{overflow:hidden}
   .pimg{height:203.8px;background:#fff}
   .pimg img{position:absolute;left:-.6px;top:-3.7px;width:242.4px;height:242.4px;max-width:none;object-fit:fill}
   .disc{top:11px;left:10px;height:16px;padding:0 9px;font-size:11px;line-height:16px;font-weight:600;background:#fe3c3c}
-  .pbody{padding:8.4px 16.9px 0}
+  .pbody{padding:8.4px 16.9px 18.3px}
   .pbody h3{font-size:17.5px;line-height:22px;font-weight:600;letter-spacing:-.15px;color:#2e2e2e}
   .type{margin:1.7px 0 0;font-size:11px;line-height:15px;font-weight:600;letter-spacing:.35px;color:#8a8a8a}
   .ml{margin:4px 0 0;font-size:10.5px;line-height:14px;font-weight:600;color:#8a8a8a}

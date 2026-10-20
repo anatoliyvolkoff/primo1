@@ -146,7 +146,7 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
 .qv-btn{position:absolute;top:10px;right:10.1px;width:25.3px;height:25.3px;padding:0;border:0;border-radius:50%;background:#fcfcfc;box-shadow:0 1px 4px rgba(0,0,0,.16);display:grid;place-items:center;color:#555}
 .qv-btn::before{content:"";position:absolute;inset:-9px}
 .qv-btn svg{width:13px;height:13px;stroke-width:2}
-.gcard .pbody{padding:3.1px 0 0 15.2px}
+.gcard .pbody{padding:3.1px 0 20.3px 15.2px}
 .gcard h3{font-size:14px;line-height:16px;font-weight:700;letter-spacing:.05px;color:#1e1e1e}
 .gcard .type{margin:1.7px 0 0;font-size:10px;line-height:12px;font-weight:500;letter-spacing:.2px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gcard .ml{margin:1.7px 0 0;font-size:7.5px;line-height:9px;font-weight:500;color:#8f8f8f}
@@ -189,6 +189,7 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .cat-shop-row{padding:0 6px;column-gap:0}
   .grid{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:10px;padding-left:14px;padding-right:14px}
   .gcard{width:auto;height:auto;padding-bottom:16px}
+  .gcard .pbody{padding-bottom:0}
   .gcard .pimg{height:auto;aspect-ratio:190/177;overflow:hidden;border-radius:17px 17px 0 0}
   .gcard .pimg img{position:static;width:100%;height:100%}
   .gcard .shades{overflow:hidden;margin-right:8px}
@@ -254,7 +255,7 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .gcard .disc{top:11px;left:10px;height:16px;padding:0 9px;font-size:11px;line-height:16px;font-weight:600;background:#fe3c3c}
   .qv-btn{top:11px;right:11px;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
   .gcard:hover .qv-btn,.qv-btn:focus-visible{opacity:1;transform:none}
-  .gcard .pbody{padding:8.4px 16.9px 0}
+  .gcard .pbody{padding:8.4px 16.9px 18.3px}
   .gcard h3{font-size:17.5px;line-height:22px;font-weight:600;letter-spacing:-.15px;color:#2e2e2e}
   .gcard .type{margin:1.7px 0 0;font-size:11px;line-height:15px;font-weight:600;letter-spacing:.35px;color:#8a8a8a}
   .gcard .ml{margin:4px 0 0;font-size:10.5px;line-height:14px;font-weight:600;color:#8a8a8a}
