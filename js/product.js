@@ -5,7 +5,7 @@
   const PM = window.PM;
   const { $, $$, money, toast, addToCart, flashAdded, buzz } = PM;
 
-  const { KITS, BY_ID, PRODUCTS, CAT_LABEL, swatchBg, family, label } = PM.CATALOG;
+  const { KITS, BY_ID, PRODUCTS, CAT_LABEL, swatchBg, family, label, imgOf } = PM.CATALOG;
   const chev = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
   // descriptions per category until the sheet's own copy is in (PRODUCTS: DESCRIPTION / APPLICATION / INGREDIENTS IT)
   const ACC = [
@@ -40,8 +40,8 @@
     root.innerHTML = `
       <div class="gallery" aria-roledescription="carousel" aria-label="Foto prodotto">
         <div class="g-track" tabindex="0" aria-label="Foto prodotto: scorri per vedere le altre">
-          <figure class="g-slide"><img src="img/product.jpg" alt="${p.name}: flacone e unghia campione" draggable="false"></figure>
-          <figure class="g-slide g-zoom"><img src="img/product.jpg" alt="${p.name}: dettaglio del colore" draggable="false" loading="lazy"></figure>
+          <figure class="g-slide"><img src="${imgOf(p)}" alt="${p.name}: flacone e unghia campione" draggable="false"></figure>
+          <figure class="g-slide g-zoom"><img src="${imgOf(p)}" alt="${p.name}: dettaglio del colore" draggable="false" loading="lazy"></figure>
         </div>
         <div class="g-dots"><button type="button" aria-label="Foto 1" aria-current="true"></button><button type="button" aria-label="Foto 2"></button></div>
       </div>
@@ -84,6 +84,7 @@
     const sn = $('[data-shade-name]', root); if (sn) sn.textContent = q.kit ? 'set completo' : shadeName(q);
     if (!v.all) {
       $('[data-p-title]', root).textContent = label(q);
+      $$('.g-slide img', root).forEach(img => { img.src = imgOf(q); img.alt = img.alt.replace(/^[^:]*/, q.name); });
       $('[data-p-cat]', root).textContent = CAT_LABEL[q.cat];
       $('.p-price', root).outerHTML = priceHtml(q);
       $('[data-p-size]', root).outerHTML = sizesHtml(q);

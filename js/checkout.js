@@ -3,7 +3,7 @@
 (() => {
   'use strict';
   const { $, $$, money, store, toast, buzz, smooth, reduceMotion, openOverlay, cartLines, clearCart } = window.PM;
-  const { BY_ID, CAT_LABEL, swatchBg, label } = window.PM.CATALOG;
+  const { BY_ID, CAT_LABEL, swatchBg, label, imgOf } = window.PM.CATALOG;
 
   // ---------- shipping: GLS rates per zone, [max kg, €] (spedizioni.html#tariffe) ----------
   const ZONES = {
@@ -50,7 +50,7 @@
   const eta = z => { const now = new Date(); return [addWorkdays(now, 1 + z.days[0]), addWorkdays(now, 2 + z.days[1])].map(d => fmt.format(d)); };
 
   const itemsHTML = lines => lines.map(l => { const p = BY_ID[l.id]; return `<li class="co-item">
-      <span class="co-thumb"><img src="img/product.jpg" alt="" width="60" height="60"><b aria-label="Quantità ${l.qty}">${l.qty}</b></span>
+      <span class="co-thumb"><img src="${imgOf(p)}" alt="" width="60" height="60"><b aria-label="Quantità ${l.qty}">${l.qty}</b></span>
       <span class="co-item-b"><b>${label(p)}</b><small>${p.cell ? `<i class="ci-dot" style="${swatchBg(p.cell)}"></i>` : ''}${CAT_LABEL[p.cat]} · ${p.size}</small></span>
       <span class="co-item-p">${money(p.price * l.qty)}</span></li>`; }).join('');
 
