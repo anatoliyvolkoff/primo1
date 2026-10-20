@@ -219,10 +219,11 @@
   const page = $('#pdp');
   if (!page) return;
   const params = new URLSearchParams(location.search);
-  // drafts: ?layout=b / ?layout=c show the alternative phone layouts (css/product.css ".pdp.lb" / ".pdp.lc")
-  const layout = ['b', 'c', 'd'].includes(params.get('layout')) ? params.get('layout') : '';
-  const lay = layout ? '&layout=' + layout : '';
-  if (layout) $('.pdp').classList.add('l' + layout);
+  // phone layout: d (pinned photo, details on a card) is the default; ?layout=a|b|c keeps the other drafts reachable (css/product.css ".pdp.lb" / ".lc" / ".ld")
+  const asked = params.get('layout');
+  const layout = ['a', 'b', 'c'].includes(asked) ? asked : 'd';
+  const lay = layout !== 'd' ? '&layout=' + layout : '';
+  if (layout !== 'a') $('.pdp').classList.add('l' + layout);
   // layout c: on phones the swatches ride on the photo, so picking a colour and seeing it happen in one place
   const phoneMQ = matchMedia('(max-width:1023.98px)');
   const placeSwatches = () => {
