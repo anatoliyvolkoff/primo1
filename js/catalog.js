@@ -168,20 +168,17 @@
     st.page = 1; buzz(6); apply(hdr === '0' ? true : 'shop');
   });
 
-  // ---------- header variants above the swatches, for review: ?hdr=d|g|h|i|j (0 = current). All share one markup:
-  // the title turns into the picked colour's name and part of the block takes a soft shade of it —
-  // d glow behind the title, g gel-filled title, h fade from the top, i spotlight under the picked nail, j tinted card behind the title
-  const MOOD_HEX = { 'b & w': 'linear-gradient(90deg,#040404 50%,#e6e9e8 50%)', grigio: '#72737b', nude: '#cbaaa3', rosa: '#f68cbd', rosso: '#b0001c', bordeaux: '#4a0a08',
-    lampone: '#a61433', fucsia: '#d61576', lilla: '#a062d4', cioccolato: '#341210', glitter: 'linear-gradient(90deg,#a27169,#e9cfc4,#a27169)', blu: '#264996', verde: '#478328', giallo: '#e7d06f' };
+  // ---------- header variants above the swatches, for review: ?hdr=i|j|k|l|m|n (0 = current). All share one markup:
+  // the title turns into the picked colour's name and part of the block takes shades of it —
+  // i spotlight under the picked nail; j–n a card behind the title: j flat, k radial, l mesh, m aurora, n gloss
   const MOOD_DEEP = { 'b & w': '#111', grigio: '#55565d', nude: '#8f6b62', rosa: '#c94f8a', rosso: '#b0001c', bordeaux: '#4a0a08', lampone: '#a61433', fucsia: '#c0136a',
     lilla: '#7d43b3', cioccolato: '#341210', glitter: '#8a5c55', blu: '#264996', verde: '#3b6e21', giallo: '#8a7316' };
   const MOOD_SOFT = { 'b & w': '#f0f0f0', grigio: '#eeeef1', nude: '#f7ede9', rosa: '#fde6f0', rosso: '#fbe3e5', bordeaux: '#f4e3e2', lampone: '#f9e1e7', fucsia: '#fde2ef',
     lilla: '#efe6fa', cioccolato: '#f0e7e4', glitter: '#f6eae6', blu: '#e4eaf7', verde: '#e6f1e0', giallo: '#fbf4d6' };
-  const ALL_HEX = `linear-gradient(90deg,${['#040404', '#72737b', '#cbaaa3', '#f68cbd', '#b0001c', '#a61433', '#d61576', '#a062d4', '#264996', '#478328', '#e7d06f'].join(',')})`;
-  const shop = $('#cat-shop'), HDRS = ['0', 'd', 'g', 'h', 'i', 'j'];
+  const shop = $('#cat-shop'), HDRS = ['0', 'i', 'j', 'k', 'l', 'm', 'n'];
   let hdr = HDRS.includes(qs.get('hdr')) ? qs.get('hdr') : '0';
   function setHdr(v) {
-    hdr = v; shop.dataset.hdr = v;
+    hdr = v; shop.dataset.hdr = v; shop.classList.toggle('carded', 'jklmn'.includes(v));
     $$('.cs-v', shop).forEach((el, i) => { el.hidden = el.dataset.v !== (v === '0' ? '0' : 'd'); const h = $('h1', el); h.id = 'cat-shop-h' + i; if (!el.hidden) shop.setAttribute('aria-labelledby', h.id); });
     $$('[data-hdr]', $('#cs-switch')).forEach(b => b.setAttribute('aria-pressed', b.dataset.hdr === v));
   }
@@ -202,8 +199,7 @@
     $$('[data-cs-hint]', shop).forEach(b => { b.hidden = !!name; });
     $$('[data-cs-picked]', shop).forEach(b => { b.hidden = !name; });
     $$('[data-cs-clear]', shop).forEach(b => { b.hidden = !name; });
-    shop.style.setProperty('--tint', name ? MOOD_HEX[name] || (c && COLORS.find(x => x[0] === c)[2]) || '#e2dfdd' : ALL_HEX);
-    shop.style.setProperty('--deep', name ? MOOD_DEEP[name] || '#111' : '#111');
+    if (name) shop.style.setProperty('--deep', MOOD_DEEP[name] || '#111'); else shop.style.removeProperty('--deep');
     if (name) shop.style.setProperty('--soft', MOOD_SOFT[name] || '#f3efeb'); else shop.style.removeProperty('--soft');
     shop.classList.toggle('picked', !!name);
     spot();

@@ -27,28 +27,31 @@
 .cs-bg{display:none}
 .cat-shop:not([data-hdr="0"]){position:relative;isolation:isolate;overflow:hidden}
 .cat-shop:not([data-hdr="0"]) .cs-bg{position:absolute;inset:0;z-index:-1;display:block;overflow:hidden;pointer-events:none}
-.cs-glow{position:absolute;left:50%;top:-70px;width:520px;height:300px;border-radius:50%;background:var(--tint);opacity:0;filter:blur(60px);transform:translateX(-50%);transition:opacity .6s var(--ease)}
-/* d: soft glow behind the title */
-[data-hdr=d] .cs-glow{opacity:.16}
-[data-hdr=d].picked .cs-glow{opacity:.32}
-/* h, i, j: a pastel of the picked colour (--soft, set per colour in catalog.js) on part of the block only */
-@property --deep{syntax:"<color>";inherits:true;initial-value:#111}
-@property --soft{syntax:"<color>";inherits:true;initial-value:#fbf8f5}
+/* a pastel of the picked colour (--soft, set per colour in catalog.js) plus deeper and lighter shades of it */
+@property --deep{syntax:"<color>";inherits:true;initial-value:#b9aa9b}
+@property --soft{syntax:"<color>";inherits:true;initial-value:#f5f1ec}
 @property --sx{syntax:"<length-percentage>";inherits:true;initial-value:50%}
 @property --sy{syntax:"<length-percentage>";inherits:true;initial-value:50%}
-.cat-shop{--soft:#fbf8f5;transition:--deep .5s var(--ease),--soft .5s var(--ease),--sx .5s var(--ease),--sy .5s var(--ease)}
-/* h: the shade fades down from the top and is gone before the nails */
-[data-hdr=h] .cs-bg{background:linear-gradient(180deg,var(--soft) 0,var(--soft) 22%,rgba(251,248,245,0) 62%)}
+.cat-shop{--soft:#f5f1ec;--s1:color-mix(in oklab,var(--soft),#fff 60%);--s2:color-mix(in oklab,var(--soft),var(--deep) 16%);--s3:color-mix(in oklab,var(--soft),var(--deep) 34%);
+  transition:--deep .6s var(--ease),--soft .6s var(--ease),--sx .5s var(--ease),--sy .5s var(--ease)}
 /* i: a spotlight under the picked nail */
-[data-hdr=i] .cs-bg{opacity:0;background:radial-gradient(110px 130px at var(--sx) var(--sy),color-mix(in oklab,var(--soft),var(--deep) 12%),rgba(255,255,255,0));transition:opacity .4s var(--ease)}
+[data-hdr=i]{--soft:#fbf8f5}
+[data-hdr=i] .cs-bg{opacity:0;background:radial-gradient(110px 130px at var(--sx) var(--sy),var(--s2),rgba(255,255,255,0));transition:opacity .4s var(--ease)}
 [data-hdr=i].picked .cs-bg{opacity:1}
-/* j: a tinted card behind the title only */
-.cat-shop[data-hdr=j]{padding-top:20px}
-.cat-shop[data-hdr=j]:not(.picked){--soft:#f5f1ec}
-[data-hdr=j] .cs-d{margin:0 16px;padding:24px 8px 22px;border-radius:32px;background:var(--soft)}
-/* g: the title is filled like glossy gel polish */
-[data-hdr=g] .cs-glow{opacity:.1}
-[data-hdr=g] .cs-title [data-cs-big]{background:linear-gradient(172deg,rgba(255,255,255,.55) 0 18%,rgba(255,255,255,0) 46%),var(--tint);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 1px rgba(0,0,0,.18))}
+/* j–n: a rounded card behind the title only, filled differently */
+.cat-shop.carded{padding-top:20px}
+.carded .cs-d{position:relative;isolation:isolate;overflow:hidden;margin:0 16px;padding:24px 8px 22px;border-radius:32px;background:var(--soft)}
+/* k: radial, deepest at the bottom centre and lightening outwards */
+[data-hdr=k] .cs-d{background:radial-gradient(120% 140% at 50% 118%,var(--s3) 0,var(--s2) 32%,var(--soft) 62%,var(--s1) 100%)}
+/* l: mesh, four soft blobs of light and deep shades */
+[data-hdr=l] .cs-d{background:radial-gradient(60% 95% at 0% 0%,var(--s2),transparent 70%),radial-gradient(55% 85% at 100% 10%,var(--s1),transparent 70%),
+  radial-gradient(70% 100% at 88% 100%,var(--s3),transparent 72%),radial-gradient(60% 90% at 8% 100%,var(--s1),transparent 70%),var(--soft)}
+/* m: aurora, the shades swirl slowly behind the title */
+[data-hdr=m] .cs-d{background:var(--s1)}
+[data-hdr=m] .cs-d::before{content:"";position:absolute;inset:-60% -20%;z-index:-1;background:conic-gradient(from 0deg,var(--soft),var(--s3),var(--s1),var(--s2),var(--s1),var(--s3),var(--soft));filter:blur(30px);animation:cs-spin 18s linear infinite}
+@keyframes cs-spin{to{transform:rotate(1turn)}}
+/* n: gloss, a gel-polish surface with a light streak across it */
+[data-hdr=n] .cs-d{background:radial-gradient(90% 70% at 16% 0%,rgba(255,255,255,.8),rgba(255,255,255,0) 60%),linear-gradient(140deg,var(--s1) 0,var(--soft) 34%,var(--s2) 68%,var(--s3) 100%)}
 .cs-switch{display:none}
 .cat-semi .cs-switch{position:fixed;left:50%;bottom:16px;z-index:40;display:flex;align-items:center;gap:2px;padding:4px 4px 4px 14px;border-radius:99px;background:#111;color:#fff;box-shadow:0 10px 30px -18px rgba(0,0,0,.6);transform:translateX(-50%);font:600 10px/1 var(--f);letter-spacing:1.2px;text-transform:uppercase}
 .cs-switch span{margin-right:6px;opacity:.6}
@@ -194,10 +197,9 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .cs-title{font-size:56px;line-height:62px;letter-spacing:-2.4px}
   .cs-meta{margin-top:14px;font-size:17px;line-height:27px}
   .cs-clear{height:34px;padding:0 16px;font-size:13.5px}
-  [data-hdr=i] .cs-bg{background:radial-gradient(150px 190px at var(--sx) var(--sy),color-mix(in oklab,var(--soft),var(--deep) 12%),rgba(255,255,255,0))}
-  .cat-shop[data-hdr=j]{padding-top:48px}
-  [data-hdr=j] .cs-d{width:820px;margin:0 auto;padding:42px 0 36px;border-radius:44px}
-  .cs-glow{top:-110px;width:1100px;height:300px;filter:blur(80px)}
+  [data-hdr=i] .cs-bg{background:radial-gradient(150px 190px at var(--sx) var(--sy),var(--s2),rgba(255,255,255,0))}
+  .cat-shop.carded{padding-top:48px}
+  .carded .cs-d{width:820px;margin:0 auto;padding:42px 0 36px;border-radius:44px}
   .cat-semi .fbar-wrap{margin-top:80px}
   .fbar-wrap{width:992px;margin:120px auto 0}
   .fbar{padding:0 13px 0 13px}
