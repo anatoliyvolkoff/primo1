@@ -168,32 +168,32 @@
     st.page = 1; buzz(6); apply(hdr === '0' ? true : 'shop');
   });
 
-  // ---------- header variants above the swatches, for review: ?hdr=d|e|f|g (0 = current). All four share one markup:
-  // the title turns into the picked colour's name and the block reacts in that colour — d glow, e wash, f ripple from the nail, g gel-filled title
+  // ---------- header variants above the swatches, for review: ?hdr=d|g|h|i|j (0 = current). All share one markup:
+  // the title turns into the picked colour's name and part of the block takes a soft shade of it —
+  // d glow behind the title, g gel-filled title, h fade from the top, i spotlight under the picked nail, j tinted card behind the title
   const MOOD_HEX = { 'b & w': 'linear-gradient(90deg,#040404 50%,#e6e9e8 50%)', grigio: '#72737b', nude: '#cbaaa3', rosa: '#f68cbd', rosso: '#b0001c', bordeaux: '#4a0a08',
     lampone: '#a61433', fucsia: '#d61576', lilla: '#a062d4', cioccolato: '#341210', glitter: 'linear-gradient(90deg,#a27169,#e9cfc4,#a27169)', blu: '#264996', verde: '#478328', giallo: '#e7d06f' };
   const MOOD_DEEP = { 'b & w': '#111', grigio: '#55565d', nude: '#8f6b62', rosa: '#c94f8a', rosso: '#b0001c', bordeaux: '#4a0a08', lampone: '#a61433', fucsia: '#c0136a',
     lilla: '#7d43b3', cioccolato: '#341210', glitter: '#8a5c55', blu: '#264996', verde: '#3b6e21', giallo: '#8a7316' };
+  const MOOD_SOFT = { 'b & w': '#f0f0f0', grigio: '#eeeef1', nude: '#f7ede9', rosa: '#fde6f0', rosso: '#fbe3e5', bordeaux: '#f4e3e2', lampone: '#f9e1e7', fucsia: '#fde2ef',
+    lilla: '#efe6fa', cioccolato: '#f0e7e4', glitter: '#f6eae6', blu: '#e4eaf7', verde: '#e6f1e0', giallo: '#fbf4d6' };
   const ALL_HEX = `linear-gradient(90deg,${['#040404', '#72737b', '#cbaaa3', '#f68cbd', '#b0001c', '#a61433', '#d61576', '#a062d4', '#264996', '#478328', '#e7d06f'].join(',')})`;
-  const shop = $('#cat-shop'), bg = $('.cs-bg', shop), HDRS = ['0', 'd', 'e', 'f', 'g'];
+  const shop = $('#cat-shop'), HDRS = ['0', 'd', 'g', 'h', 'i', 'j'];
   let hdr = HDRS.includes(qs.get('hdr')) ? qs.get('hdr') : '0';
   function setHdr(v) {
     hdr = v; shop.dataset.hdr = v;
     $$('.cs-v', shop).forEach((el, i) => { el.hidden = el.dataset.v !== (v === '0' ? '0' : 'd'); const h = $('h1', el); h.id = 'cat-shop-h' + i; if (!el.hidden) shop.setAttribute('aria-labelledby', h.id); });
     $$('[data-hdr]', $('#cs-switch')).forEach(b => b.setAttribute('aria-pressed', b.dataset.hdr === v));
-    $$('.cs-rip', bg).forEach(r => r.remove());
   }
   $('#cs-switch').addEventListener('click', e => { const b = e.target.closest('[data-hdr]'); if (b) { setHdr(b.dataset.hdr); apply(); } });
   shop.addEventListener('click', e => { if (e.target.closest('[data-cs-clear]')) { st.mood = null; st.colors.clear(); st.page = 1; buzz(6); apply(); } });
-  // f: the colour spreads out from the nail that was tapped
-  shopRow.addEventListener('click', e => {
-    const m = e.target.closest('[data-mood]'); if (!m || hdr !== 'f' || !st.mood) return;
-    const s = shop.getBoundingClientRect(), n = $('img', m).getBoundingClientRect(), x = n.left + n.width / 2 - s.left, y = n.top + n.height / 2 - s.top;
-    const r = Math.hypot(Math.max(x, s.width - x), Math.max(y, s.height - y)), rip = document.createElement('i');
-    rip.className = 'cs-rip'; rip.style.cssText = `left:${x - r}px;top:${y - r}px;width:${2 * r}px;height:${2 * r}px;background:${MOOD_HEX[st.mood]}`;
-    bg.append(rip);
-    rip.addEventListener('animationend', () => $$('.cs-rip', bg).forEach(o => o !== rip && o.remove()), { once: true });
-  });
+  // i: the spotlight sits under the picked nail
+  function spot() {
+    const m = $('.cs-item[aria-pressed=true] img', shop); if (!m) return;
+    const r = shop.getBoundingClientRect(), n = m.getBoundingClientRect();
+    shop.style.setProperty('--sx', `${n.left + n.width / 2 - r.left}px`); shop.style.setProperty('--sy', `${n.top + n.height / 2 - r.top}px`);
+  }
+  addEventListener('resize', spot);
   let shownBig = null;
   function syncHead(n) {
     const c = st.colors.size === 1 ? [...st.colors][0] : null;
@@ -204,8 +204,9 @@
     $$('[data-cs-clear]', shop).forEach(b => { b.hidden = !name; });
     shop.style.setProperty('--tint', name ? MOOD_HEX[name] || (c && COLORS.find(x => x[0] === c)[2]) || '#e2dfdd' : ALL_HEX);
     shop.style.setProperty('--deep', name ? MOOD_DEEP[name] || '#111' : '#111');
+    if (name) shop.style.setProperty('--soft', MOOD_SOFT[name] || '#f3efeb'); else shop.style.removeProperty('--soft');
     shop.classList.toggle('picked', !!name);
-    if (!name) $$('.cs-rip', bg).forEach(r => r.classList.add('out'));
+    spot();
     const big = $('[data-cs-big]', shop), bigTxt = name ? name[0].toUpperCase() + name.slice(1) : 'Scegli il tuo colore';
     if (bigTxt !== shownBig) { big.textContent = bigTxt; big.classList.remove('swap'); void big.offsetWidth; if (shownBig !== null) big.classList.add('swap'); shownBig = bigTxt; }
   }

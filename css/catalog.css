@@ -31,18 +31,21 @@
 /* d: soft glow behind the title */
 [data-hdr=d] .cs-glow{opacity:.16}
 [data-hdr=d].picked .cs-glow{opacity:.32}
-/* e: the whole block is washed in the colour, the title is written in a deep shade of it */
-.cat-shop[data-hdr=e]{padding-bottom:34px}
-[data-hdr=e] .cs-bg{border-radius:0 0 36px 36px}
-[data-hdr=e] .cs-bg::before{content:"";position:absolute;inset:0;background:var(--tint);opacity:.07;transition:opacity .5s var(--ease)}
-[data-hdr=e].picked .cs-bg::before{opacity:.17}
-[data-hdr=e] .cs-title{color:var(--deep);transition:color .4s var(--ease)}
-/* f: on tap the colour ripples out from the nail and stays as a pale wash */
-.cat-shop[data-hdr=f]{padding-bottom:34px}
-[data-hdr=f] .cs-bg{border-radius:0 0 36px 36px}
-.cs-rip{position:absolute;border-radius:50%;opacity:.16;animation:cs-rip .9s var(--ease) both}
-.cs-rip.out{opacity:0;transition:opacity .4s var(--ease)}
-@keyframes cs-rip{from{transform:scale(0);opacity:.45}}
+/* h, i, j: a pastel of the picked colour (--soft, set per colour in catalog.js) on part of the block only */
+@property --deep{syntax:"<color>";inherits:true;initial-value:#111}
+@property --soft{syntax:"<color>";inherits:true;initial-value:#fbf8f5}
+@property --sx{syntax:"<length-percentage>";inherits:true;initial-value:50%}
+@property --sy{syntax:"<length-percentage>";inherits:true;initial-value:50%}
+.cat-shop{--soft:#fbf8f5;transition:--deep .5s var(--ease),--soft .5s var(--ease),--sx .5s var(--ease),--sy .5s var(--ease)}
+/* h: the shade fades down from the top and is gone before the nails */
+[data-hdr=h] .cs-bg{background:linear-gradient(180deg,var(--soft) 0,var(--soft) 22%,rgba(251,248,245,0) 62%)}
+/* i: a spotlight under the picked nail */
+[data-hdr=i] .cs-bg{opacity:0;background:radial-gradient(110px 130px at var(--sx) var(--sy),color-mix(in oklab,var(--soft),var(--deep) 12%),rgba(255,255,255,0));transition:opacity .4s var(--ease)}
+[data-hdr=i].picked .cs-bg{opacity:1}
+/* j: a tinted card behind the title only */
+.cat-shop[data-hdr=j]{padding-top:20px}
+.cat-shop[data-hdr=j]:not(.picked){--soft:#f5f1ec}
+[data-hdr=j] .cs-d{margin:0 16px;padding:24px 8px 22px;border-radius:32px;background:var(--soft)}
 /* g: the title is filled like glossy gel polish */
 [data-hdr=g] .cs-glow{opacity:.1}
 [data-hdr=g] .cs-title [data-cs-big]{background:linear-gradient(172deg,rgba(255,255,255,.55) 0 18%,rgba(255,255,255,0) 46%),var(--tint);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 1px 1px rgba(0,0,0,.18))}
@@ -191,8 +194,9 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .cs-title{font-size:56px;line-height:62px;letter-spacing:-2.4px}
   .cs-meta{margin-top:14px;font-size:17px;line-height:27px}
   .cs-clear{height:34px;padding:0 16px;font-size:13.5px}
-  .cat-shop[data-hdr=e],.cat-shop[data-hdr=f]{padding-bottom:48px}
-  [data-hdr=e] .cs-bg,[data-hdr=f] .cs-bg{left:24px;right:24px;border-radius:0 0 48px 48px}
+  [data-hdr=i] .cs-bg{background:radial-gradient(150px 190px at var(--sx) var(--sy),color-mix(in oklab,var(--soft),var(--deep) 12%),rgba(255,255,255,0))}
+  .cat-shop[data-hdr=j]{padding-top:48px}
+  [data-hdr=j] .cs-d{width:820px;margin:0 auto;padding:42px 0 36px;border-radius:44px}
   .cs-glow{top:-110px;width:1100px;height:300px;filter:blur(80px)}
   .cat-semi .fbar-wrap{margin-top:80px}
   .fbar-wrap{width:992px;margin:120px auto 0}
