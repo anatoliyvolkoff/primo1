@@ -12,6 +12,54 @@
 .cs-item:active img{transform:translateY(-4px) scale(1.04)}
 .cs-item[aria-pressed=true] img{transform:translateY(-6px)}
 .cs-item[aria-pressed=true] span{font-weight:800;box-shadow:inset 0 -2px 0 #000}
+/* header variants above the swatches (?hdr=d|e|f|g, switched by .cs-switch); the row itself is shared */
+.cs-eyebrow{margin:0;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
+.cs-title{margin:6px 0 0;font-size:40px;line-height:46px;font-weight:700;letter-spacing:-1.6px;color:#111;text-wrap:balance}
+.cs-title [data-cs-big]{display:inline-block;padding:0 .04em}
+.cs-title .swap{animation:cs-in .45s var(--ease)}
+@keyframes cs-in{from{opacity:0;transform:translateY(8px)}}
+.cs-meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 10px;min-height:32px;margin:10px 0 0;padding:0 24px;font-family:var(--fi);font-size:14px;line-height:20px;color:var(--gray)}
+.cs-meta b{color:var(--ink);font-weight:600}
+.cs-clear{position:relative;display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 13px;border:1px solid #c9c4bf;border-radius:99px;background:#fff;font:500 12.5px/1 var(--f);color:var(--ink);cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease)}
+.cs-clear::before{content:"";position:absolute;inset:-7px -4px}
+.cs-clear svg{width:13px;height:13px;stroke-width:2}
+.cs-clear:active{transform:scale(.97)}
+.cs-bg{display:none}
+.cat-shop:not([data-hdr="0"]){position:relative;isolation:isolate;overflow:hidden}
+.cat-shop:not([data-hdr="0"]) .cs-bg{position:absolute;inset:0;z-index:-1;display:block;overflow:hidden;pointer-events:none}
+/* a pastel of the picked colour (--soft, set per colour in catalog.js) plus deeper and lighter shades of it */
+@property --deep{syntax:"<color>";inherits:true;initial-value:#b9aa9b}
+@property --soft{syntax:"<color>";inherits:true;initial-value:#f5f1ec}
+@property --sx{syntax:"<length-percentage>";inherits:true;initial-value:50%}
+@property --sy{syntax:"<length-percentage>";inherits:true;initial-value:50%}
+.cat-shop{--soft:#f5f1ec;--s1:color-mix(in oklab,var(--soft),#fff 60%);--s2:color-mix(in oklab,var(--soft),var(--deep) 16%);--s3:color-mix(in oklab,var(--soft),var(--deep) 34%);
+  transition:--deep .6s var(--ease),--soft .6s var(--ease),--sx .5s var(--ease),--sy .5s var(--ease)}
+/* i: a spotlight under the picked nail */
+[data-hdr=i]{--soft:#fbf8f5}
+[data-hdr=i] .cs-bg{opacity:0;background:radial-gradient(110px 130px at var(--sx) var(--sy),var(--s2),rgba(255,255,255,0));transition:opacity .4s var(--ease)}
+[data-hdr=i].picked .cs-bg{opacity:1}
+/* j–n: a rounded card behind the title only, filled differently */
+.cat-shop.carded{padding-top:20px}
+.carded .cs-d{position:relative;isolation:isolate;overflow:hidden;margin:0 16px;padding:24px 8px 22px;border-radius:32px;background:var(--soft)}
+/* k: radial, deepest at the bottom centre and lightening outwards */
+[data-hdr=k] .cs-d{background:radial-gradient(120% 140% at 50% 118%,var(--s3) 0,var(--s2) 32%,var(--soft) 62%,var(--s1) 100%)}
+/* l: mesh, four soft blobs of light and deep shades */
+[data-hdr=l] .cs-d{background:radial-gradient(60% 95% at 0% 0%,var(--s2),transparent 70%),radial-gradient(55% 85% at 100% 10%,var(--s1),transparent 70%),
+  radial-gradient(70% 100% at 88% 100%,var(--s3),transparent 72%),radial-gradient(60% 90% at 8% 100%,var(--s1),transparent 70%),var(--soft)}
+/* m: aurora, the shades swirl slowly behind the title */
+[data-hdr=m] .cs-d{background:var(--s1)}
+[data-hdr=m] .cs-d::before{content:"";position:absolute;inset:-60% -20%;z-index:-1;background:conic-gradient(from 0deg,var(--soft),var(--s3),var(--s1),var(--s2),var(--s1),var(--s3),var(--soft));filter:blur(30px);animation:cs-spin 18s linear infinite}
+@keyframes cs-spin{to{transform:rotate(1turn)}}
+/* n: gloss, a gel-polish surface with a light streak across it */
+[data-hdr=n] .cs-d{background:radial-gradient(90% 70% at 16% 0%,rgba(255,255,255,.8),rgba(255,255,255,0) 60%),linear-gradient(140deg,var(--s1) 0,var(--soft) 34%,var(--s2) 68%,var(--s3) 100%)}
+.cs-switch{display:none}
+.cat-semi .cs-switch{position:fixed;left:50%;bottom:16px;z-index:40;display:flex;align-items:center;gap:2px;padding:4px 4px 4px 14px;border-radius:99px;background:#111;color:#fff;box-shadow:0 10px 30px -18px rgba(0,0,0,.6);transform:translateX(-50%);font:600 10px/1 var(--f);letter-spacing:1.2px;text-transform:uppercase}
+.cs-switch span{margin-right:6px;opacity:.6}
+.cs-switch button{min-width:36px;height:32px;padding:0 10px;border:0;border-radius:99px;background:none;color:#fff;font:600 12px/1 var(--f);cursor:pointer}
+.cs-switch button[aria-pressed=true]{background:#fff;color:#111}
+@media (hover:hover) and (pointer:fine){
+  .cs-clear:hover{background:#000;border-color:#000;color:#fff}
+}
 .cat-nav{padding:17px 26px 0}
 .back{display:inline-flex;align-items:center;height:28.2px;font-family:var(--fi);font-size:13px;line-height:16px;color:#555}
 .back svg{width:22.6px;height:22.6px;stroke-width:1.6;margin-right:1px}
@@ -146,6 +194,12 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .cs-item img{width:51px;height:122px}
   .cs-item:hover img{transform:translateY(-6px)}
   .cs-item span{margin-top:45px;font-size:12px;line-height:15px;font-weight:700}
+  .cs-title{font-size:56px;line-height:62px;letter-spacing:-2.4px}
+  .cs-meta{margin-top:14px;font-size:17px;line-height:27px}
+  .cs-clear{height:34px;padding:0 16px;font-size:13.5px}
+  [data-hdr=i] .cs-bg{background:radial-gradient(150px 190px at var(--sx) var(--sy),var(--s2),rgba(255,255,255,0))}
+  .cat-shop.carded{padding-top:48px}
+  .carded .cs-d{width:820px;margin:0 auto;padding:42px 0 36px;border-radius:44px}
   .cat-semi .fbar-wrap{margin-top:80px}
   .fbar-wrap{width:992px;margin:120px auto 0}
   .fbar{padding:0 13px 0 13px}
