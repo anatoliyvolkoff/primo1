@@ -46,16 +46,21 @@
 /* l: mesh, four soft blobs of light and deep shades */
 [data-hdr=l] .cs-d{background:radial-gradient(60% 95% at 0% 0%,var(--s2),transparent 70%),radial-gradient(55% 85% at 100% 10%,var(--s1),transparent 70%),
   radial-gradient(70% 100% at 88% 100%,var(--s3),transparent 72%),radial-gradient(60% 90% at 8% 100%,var(--s1),transparent 70%),var(--soft)}
-/* m: aurora, the shades keep swirling and drifting behind the title (stopped by the global reduced-motion rule); before a pick it swirls through pastels of all the colours */
-[data-hdr=m] .cs-d{background:var(--s1)}
-[data-hdr=m] .cs-d::before,[data-hdr=m] .cs-d::after{content:"";position:absolute;z-index:-1;pointer-events:none}
-[data-hdr=m] .cs-d::before{inset:-70% -25%;background:conic-gradient(from 0deg,var(--s1),var(--s3),var(--soft),var(--s2),var(--s1),var(--s3),var(--s1));filter:blur(26px);animation:cs-spin 9s linear infinite}
-[data-hdr=m] .cs-d::after{inset:-40%;background:radial-gradient(28% 34% at 30% 40%,var(--s3),transparent 70%),radial-gradient(26% 32% at 70% 60%,var(--s1),transparent 70%),radial-gradient(24% 30% at 55% 30%,var(--s2),transparent 70%);filter:blur(14px);animation:cs-drift 6s ease-in-out infinite alternate}
-[data-hdr=m]:not(.picked) .cs-d{background:#fbf4f8}
-[data-hdr=m]:not(.picked) .cs-d::before{background:conic-gradient(from 0deg,#fde6f0,#d9e2f6,#fbf2cf,#e7d9f8,#dcedd3,#f9dbe0,#fde6f0)}
-[data-hdr=m]:not(.picked) .cs-d::after{background:radial-gradient(28% 34% at 30% 40%,#f5c6da,transparent 70%),radial-gradient(26% 32% at 70% 60%,#cdd8f3,transparent 70%),radial-gradient(24% 30% at 55% 30%,#e2d0f6,transparent 70%)}
-@keyframes cs-spin{to{transform:rotate(1turn)}}
-@keyframes cs-drift{0%{transform:translate(-14%,-6%) rotate(0)}50%{transform:translate(8%,10%) rotate(25deg)}100%{transform:translate(14%,-8%) rotate(-15deg)}}
+/* m: aurora, a gradient of the colour's shades that keeps flowing across the card while blobs drift over it;
+   before a pick it flows through pastels of all the colours. With reduced motion it only breathes (opacity), nothing travels. */
+[data-hdr=m] .cs-d{--a1:var(--s1);--a2:var(--s3);--a3:var(--soft);--a4:var(--s2);
+  background:linear-gradient(115deg,var(--a1),var(--a2),var(--a3),var(--a4),var(--a1),var(--a2));background-size:400% 400%;animation:cs-flow 9s ease-in-out infinite}
+[data-hdr=m] .cs-d::after{content:"";position:absolute;inset:-40%;z-index:-1;pointer-events:none;
+  background:radial-gradient(26% 32% at 30% 40%,var(--a2),transparent 70%),radial-gradient(24% 30% at 70% 60%,#fff,transparent 70%),radial-gradient(22% 28% at 55% 30%,var(--a4),transparent 70%);
+  opacity:.75;filter:blur(12px);animation:cs-drift 5s ease-in-out infinite alternate}
+[data-hdr=m]:not(.picked) .cs-d{--a1:#fbe0ec;--a2:#c9d6f5;--a3:#f8eab0;--a4:#dccaf5}
+@keyframes cs-flow{0%,100%{background-position:0% 30%}50%{background-position:100% 70%}}
+@keyframes cs-drift{0%{transform:translate(-16%,-8%) rotate(0)}50%{transform:translate(8%,12%) rotate(30deg)}100%{transform:translate(16%,-10%) rotate(-20deg)}}
+@keyframes cs-breathe{from{opacity:.25}to{opacity:.85}}
+@media (prefers-reduced-motion:reduce){
+  [data-hdr=m] .cs-d{background-position:50% 50%}
+  [data-hdr=m] .cs-d::after{transform:none;animation:cs-breathe 4s ease-in-out infinite alternate!important}
+}
 /* n: gloss, a gel-polish surface with a light streak across it */
 [data-hdr=n] .cs-d{background:radial-gradient(90% 70% at 16% 0%,rgba(255,255,255,.8),rgba(255,255,255,0) 60%),linear-gradient(140deg,var(--s1) 0,var(--soft) 34%,var(--s2) 68%,var(--s3) 100%)}
 .cs-switch{display:none}
