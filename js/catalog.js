@@ -5,7 +5,7 @@
   const { $, $$, toast, buzz, smooth, desktopMQ, MOODS, money, priceHtml, shadesHtml } = PM;
 
   // ---------- data: shared with search (js/site.js → PM.CATALOG) ----------
-  const { COLORS, MOOD_TO_COLOR, COLLS, FX, CATS, CAT_LABEL, PRODUCTS, label } = PM.CATALOG;
+  const { COLORS, MOOD_TO_COLOR, COLLS, FX, CATS, CAT_LABEL, PRODUCTS, label, imgOf } = PM.CATALOG;
 
   const PMAX = 25;                                                   // price slider top (€); at the top it means no limit
   // ---------- state from the URL ----------
@@ -86,7 +86,7 @@
     const off = p.old ? Math.round((1 - p.price / p.old) * 100) : 0;
     return `
     <article class="pcard gcard" data-id="${p.id}">
-      <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli"><picture><source media="(min-width:1024px)" srcset="img/product.jpg"><img src="img/product-card-m.jpg" alt="" loading="lazy" decoding="async" draggable="false"></picture>${off ? `<span class="disc" aria-label="Sconto ${off}%">${off}%</span>` : ''}</a>
+      <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli"><picture><source media="(min-width:1024px)" srcset="${imgOf(p)}"><img src="${imgOf(p) === 'img/product.jpg' ? 'img/product-card-m.jpg' : imgOf(p)}" alt="" loading="lazy" decoding="async" draggable="false"></picture>${off ? `<span class="disc" aria-label="Sconto ${off}%">${off}%</span>` : ''}</a>
       <button type="button" class="qv-btn" data-qv="${p.id}" aria-label="Anteprima rapida: ${label(p)}"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg></button>
       <div class="pbody">
         <h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>

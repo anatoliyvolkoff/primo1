@@ -49,6 +49,9 @@
 103 oy s Glitter Oro|111 bw s Glitter Nero|112 blu s Glitter Blu|121 blu - Blu Notte|122 blu - Petrolio|123 blu - Blu Indaco|124 blu - Blu Cobalto|131 verde - Verde Scuro|132 verde - Verde Oliva|133 verde - Verde Smeraldo|
 141 verde - Turchese|142 blu - Turchese Intenso|151 oy - Giallo|152 rosa - Rosa Pastello|153 verde - Verde Mela|154 viola - Lilla Pastello|156 verde - Acquamarina|161 magenta - Rosa Shocking|162 rosso - Rosso Neon|163 oy - Corallo|
 164 oy - Arancio|165 rosa - Rosa Corallo|166 rosa - Rosa Confetto|171 verde - Verde Bosco|172 blu - Blu Notte Scuro|173 marrone - Cioccolato Fondente`.split('|').map(x => { const [num, color, fx, ...name] = x.trim().split(' '); return [num, color, fx === '-' ? null : fx, name.join(' ')]; });
+  // shades with their own photo (img/p/<num>.webp, from Sir's "76 COLORS" folder); the rest show the generic img/product.jpg
+  const PHOTOS = new Set('01 011 012 013 02 021 022 023 024 025 026 03 031 033 034 035 036 037 038 039 04 042 051 052 053 054 061 062 063 071 072 073 074 081 082 083 084 085 086 087 091 092 093 094 095 096 097 101 102 103 111 112 121 122 172 173'.split(' '));
+  const imgOf = p => (p.num && PHOTOS.has(p.num) ? `img/p/${p.num}.webp` : 'img/product.jpg');
   const SEMI_PRICE = 14.99;                                    // not in the product sheet yet
   // the four season kits (not in the sheet): nine shades each, picked by season palette
   const KITS = {
@@ -123,7 +126,7 @@
     { lvl: 'master', tag: 'Master', title: 'Nail art Farfalla', txt: 'La tecnica firma di Irina PriMo: ali dipinte a mano, colore e volume.', img: 'course1', pos: '40% 10%', date: '26 ottobre', les: 4, rev: '207+' },
     { lvl: 'master', tag: 'Master · 2° livello', title: 'Premium Top Master', txt: 'Perfeziona design e velocità con le tecniche esclusive del team PriMo.', img: 'course-wing', pos: '60% 50%', date: '9 novembre', les: 7, rev: '594+' },
   ];
-  const CATALOG = { COLORS, MOOD_TO_COLOR, COLLS, FX, CATS, CAT_LABEL, PRODUCTS, BY_ID, BY_NUM, KITS, COURSES, swatchBg, family, label };
+  const CATALOG = { COLORS, MOOD_TO_COLOR, COLLS, FX, CATS, CAT_LABEL, PRODUCTS, BY_ID, BY_NUM, KITS, COURSES, swatchBg, family, label, imgOf };
 
   // ---------- toast ----------
   const toastEl = $('#toast');
@@ -214,7 +217,7 @@
   function renderCart() {
     const n = cartCount(), total = cartTotal(), left = Math.max(0, FREE_SHIPPING - total);
     $('#cart-list').innerHTML = cart.map(l => { const p = BY_ID[l.id]; return `<li class="ci">
-      <img src="img/product.jpg" alt="" width="64" height="64">
+      <img src="${imgOf(p)}" alt="" width="64" height="64">
       <div><p class="ci-name">${label(p)}</p>
         <p class="ci-meta">${p.cell ? `<span class="ci-dot" style="${swatchBg(p.cell)}"></span>` : ''}${metaOf(p)}</p>
         <p class="ci-price">${money(p.price * l.qty)}</p></div>
@@ -289,7 +292,7 @@
   }
   const productCard = p => `
     <article class="pcard" data-id="${p.id}">
-      <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli"><img src="img/product.jpg" alt="${label(p)}, ${CAT_LABEL[p.cat].toLowerCase()}" loading="lazy" decoding="async" draggable="false">${p.old ? `<span class="disc" aria-label="Sconto ${disc(p)}%">${disc(p)}%</span>` : ''}</a>
+      <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli"><img src="${imgOf(p)}" alt="${label(p)}, ${CAT_LABEL[p.cat].toLowerCase()}" loading="lazy" decoding="async" draggable="false">${p.old ? `<span class="disc" aria-label="Sconto ${disc(p)}%">${disc(p)}%</span>` : ''}</a>
       <div class="pbody">
         <h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p>
@@ -321,6 +324,7 @@
     h.innerHTML = `${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span>`;
     $$('a', card).forEach(a => { if (a.closest('.pimg') || a.closest('h3')) a.href = href(p); });
     $('.pimg', card).setAttribute('aria-label', `${label(p)} – dettagli`);
+    const img = $('.pimg img', card), src = imgOf(p); if (img.getAttribute('src') !== src) { img.src = src; $('.pimg source', card)?.setAttribute('srcset', src); }
     $('.price', card).outerHTML = priceHtml(p);
     const ml = $('.ml', card); if (ml) ml.textContent = p.size;
     $('.add', card).setAttribute('aria-label', `Aggiungi al carrello – ${label(p)}`);
