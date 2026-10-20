@@ -172,7 +172,7 @@
   const MOOD_HEX = { 'b & w': 'linear-gradient(90deg,#040404 50%,#e6e9e8 50%)', grigio: '#72737b', nude: '#cbaaa3', rosa: '#f68cbd', rosso: '#b0001c', bordeaux: '#4a0a08',
     lampone: '#a61433', fucsia: '#d61576', lilla: '#a062d4', cioccolato: '#341210', glitter: 'linear-gradient(90deg,#a27169,#e9cfc4,#a27169)', blu: '#264996', verde: '#478328', giallo: '#e7d06f' };
   const ALL_HEX = `linear-gradient(90deg,${['#040404', '#72737b', '#cbaaa3', '#f68cbd', '#b0001c', '#a61433', '#d61576', '#a062d4', '#264996', '#478328', '#e7d06f'].join(',')})`;
-  const shop = $('#cat-shop'), HDRS = ['0', 'a', 'b', 'c'];
+  const shop = $('#cat-shop'), HDRS = ['0', 'a', 'b', 'c', 'd'];
   let hdr = HDRS.includes(qs.get('hdr')) ? qs.get('hdr') : '0';
   function setHdr(v) {
     hdr = v; shop.dataset.hdr = v;
@@ -192,6 +192,10 @@
     $$('[data-cs-clear]', shop).forEach(b => { b.hidden = !name; });
     const w = $('[data-cs-word]', shop), word = name || 'in tutti i colori';
     w.style.setProperty('--c', name ? MOOD_HEX[name] || (c && COLORS.find(x => x[0] === c)[2]) || '#111' : ALL_HEX);
+    shop.style.setProperty('--tint', name ? MOOD_HEX[name] || (c && COLORS.find(x => x[0] === c)[2]) || '#e2dfdd' : ALL_HEX);
+    shop.classList.toggle('picked', !!name);
+    const big = $('[data-cs-big]', shop), bigTxt = name ? name[0].toUpperCase() + name.slice(1) : 'Scegli il tuo colore';
+    if (big.textContent !== bigTxt) { big.textContent = bigTxt; big.classList.remove('swap'); void big.offsetWidth; if (shownWord !== null) big.classList.add('swap'); }
     if (word !== shownWord) { w.textContent = word; w.classList.remove('swap'); void w.offsetWidth; if (shownWord !== null) w.classList.add('swap'); shownWord = word; }
   }
   setHdr(hdr);
