@@ -379,7 +379,20 @@
 .seasons[data-bg=mesh] .bg-layer:not(.on) .panel{animation-play-state:paused}
 @keyframes drift{to{transform:translate3d(4%,-3%,0) scale(1.05)}}
 /* hover=quiet on phones: side cards shrink and fade less while swiping */
-.seasons[data-hover=quiet] .s-card{transform:scale(calc(1 - .04*var(--t,0)));opacity:calc(1 - .3*var(--t,0))}
+.seasons:is([data-hover=quiet],[data-hover=gentle]) .s-card{transform:scale(calc(1 - .04*var(--t,0)));opacity:calc(1 - .3*var(--t,0))}
+/* bg=airy: pastel colour clouds (Shop by color palette) that drift slowly; all hues mix until a season is picked */
+.blobs,.bg-layer.all{display:none}
+.seasons[data-bg=airy] .blobs{display:block;position:absolute;inset:0;overflow:hidden}
+.seasons[data-bg=airy] .bg-layer.all{display:block;opacity:1;transition:opacity 1.6s cubic-bezier(.4,0,.2,1)}
+.seasons[data-bg=airy][data-season] .bg-layer.all{opacity:0}
+.seasons[data-bg=airy] .panel,.seasons[data-bg=airy] .particles{display:none}
+.seasons[data-bg=airy] .bg-layer{transition:opacity 1.6s cubic-bezier(.4,0,.2,1)}
+.seasons[data-bg=airy] .bg-layer.on{z-index:1}
+.blob{position:absolute;left:var(--x);top:var(--y);width:var(--w);aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,var(--b),rgba(255,255,255,0));opacity:.7;
+  transform:translate(-50%,-50%);animation:float var(--d) ease-in-out var(--dl) infinite alternate;will-change:transform}
+.bg-layer:not(.on):not(.all) .blob,.seasons[data-season] .bg-layer.all .blob{animation-play-state:paused}
+@keyframes float{to{transform:translate(-44%,-56%) scale(1.1)}}
+@media (max-width:1023.98px){.blob{width:calc(var(--w)*1.9)}}
 /* bg=glow: no full-section swap; a soft halo of the season colour glides behind the card */
 .seasons .aura{display:none}
 .seasons[data-bg=glow] .bg-layer{display:none}
@@ -400,14 +413,20 @@
   .seasons[data-hover=frame][data-season] .s-card:not(.active){opacity:.85;filter:saturate(.6)}
   /* hover=quiet: hovering touches only that card (small lift, shadow, slow photo zoom, "Scopri" fades in);
      the section colour changes only when a season is clicked, and the other cards never dim */
-  .seasons[data-hover=quiet] .s-card:hover{transform:translate3d(0,-4px,0)!important;box-shadow:0 20px 36px -24px rgba(20,20,30,.32)}
-  .seasons[data-hover=quiet] .s-card:hover .s-photo img{transform:scale(1.03)}
-  .seasons[data-hover=quiet] .s-card:hover .s-go{opacity:1;transform:translate(-50%,0)}
-  .seasons[data-hover=quiet][data-season] .s-card:not(.active){opacity:1}
-  .seasons[data-hover=quiet][data-season] .s-card.active{transform:none!important;box-shadow:0 20px 36px -24px rgba(20,20,30,.32)}
-  .seasons[data-hover=quiet][data-season] .s-card.active:hover{transform:translate3d(0,-4px,0)!important}
-  .seasons[data-hover=quiet]:not([data-season]) .s-shade{opacity:1}
-  .seasons[data-hover=quiet] .s-card:not(:hover) .s-photo img{transform:none}
+  .seasons:is([data-hover=quiet],[data-hover=gentle]) .s-card:hover{transform:translate3d(0,-4px,0)!important;box-shadow:0 20px 36px -24px rgba(20,20,30,.32)}
+  .seasons:is([data-hover=quiet],[data-hover=gentle]) .s-card:hover .s-photo img{transform:scale(1.03)}
+  .seasons:is([data-hover=quiet],[data-hover=gentle]) .s-card:hover .s-go{opacity:1;transform:translate(-50%,0)}
+  .seasons:is([data-hover=quiet],[data-hover=gentle])[data-season] .s-card:not(.active){opacity:1}
+  .seasons:is([data-hover=quiet],[data-hover=gentle])[data-season] .s-card.active{transform:none!important;box-shadow:0 20px 36px -24px rgba(20,20,30,.32)}
+  .seasons:is([data-hover=quiet],[data-hover=gentle])[data-season] .s-card.active:hover{transform:translate3d(0,-4px,0)!important}
+  .seasons:is([data-hover=quiet],[data-hover=gentle]):not([data-season]) .s-shade{opacity:1}
+  .seasons:is([data-hover=quiet],[data-hover=gentle]) .s-card:not(:hover) .s-photo img{transform:none}
+  /* hover=gentle: same card behaviour as quiet, slower and softer; the season colour follows a resting pointer */
+  .seasons[data-hover=gentle] .s-card{transition:transform .9s cubic-bezier(.22,1,.36,1),opacity .9s ease,border-color .9s ease,box-shadow .9s ease}
+  .seasons[data-hover=gentle] .s-card:hover,.seasons[data-hover=gentle][data-season] .s-card.active:hover{transform:translate3d(0,-3px,0)!important}
+  .seasons[data-hover=gentle] .s-photo img{transition:transform 1.8s cubic-bezier(.22,1,.36,1)}
+  .seasons[data-hover=gentle] .s-card:hover .s-photo img{transform:scale(1.025)}
+  .seasons[data-hover=gentle] .s-go{transition:opacity .6s ease,transform .8s cubic-bezier(.22,1,.36,1),background-color .3s,color .3s}
   /* hover=focus: a smaller zoom than now, the others step back slightly */
   .seasons[data-hover=focus][data-season] .s-card.active{transform:scale(1.03)!important}
   .seasons[data-hover=focus][data-season] .s-card:not(.active){opacity:.6;transform:scale(.985)!important}
@@ -419,3 +438,4 @@
 .lab b{width:46px;color:#6f6f74}
 .lab button{height:28px;padding:0 11px;border-radius:99px;border:1px solid #c4c4c4;background:#fff;font:inherit;color:#1e1e1e}
 .lab button[aria-pressed=true]{background:#1e1e1e;border-color:#1e1e1e;color:#fff}
+@media (max-width:1023.98px){.lab{right:12px;padding:8px 10px;gap:6px}.lab p{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.lab button{flex:none}.lab b{flex:none;width:40px}}
