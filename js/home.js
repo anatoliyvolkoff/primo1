@@ -158,7 +158,7 @@
   };
   SEASONS.forEach(s => {
     const layer = document.createElement('div');
-    layer.className = 'bg-layer'; layer.dataset.season = s.id;
+    layer.className = 'bg-layer'; layer.dataset.season = s.id; layer.style.setProperty('--c', s.color);
     let p = '';
     if (!reduceMotion) for (let i = 0; i < (s.id === 'autumn' ? 14 : 10); i++) {
       const k = kinds[s.id](), dur = rnd(10, 18);
@@ -170,8 +170,8 @@
   const layers = [...bg.children];
   bg.insertAdjacentHTML('beforeend', '<div class="aura"></div>');
 
-  // motion variants to compare: ?bg=soft|rise|calm|glow and ?hover=lift|frame|focus (none = the current motion); ?lab shows a switcher
-  const VARIANTS = { bg: ['now', 'soft', 'rise', 'calm', 'glow'], hover: ['now', 'lift', 'frame', 'focus'] };
+  // motion variants to compare: ?bg=soft|rise|calm|glow|wash|horizon|mesh and ?hover=lift|frame|focus (none = the current motion); ?lab shows a switcher
+  const VARIANTS = { bg: ['now', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['now', 'lift', 'frame', 'focus'] };
   const qs = new URLSearchParams(location.search);
   const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; };
   setVariant('bg', qs.get('bg')); setVariant('hover', qs.get('hover'));
