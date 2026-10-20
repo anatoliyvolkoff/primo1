@@ -19,7 +19,7 @@
   const settle = (fn, ms = 140) => { let t; return () => { clearTimeout(t); t = setTimeout(fn, ms); }; };
 
   // ---------- data ----------
-  const FREE_SHIPPING = 199;                                   // matches the "Spedizione gratuita a partire da 199€" bar
+  const FREE_SHIPPING = 99;                                    // mainland Italy, as on spedizioni.html (the checkout prices every zone)
   const MOODS = [['b & w', 'bw'], ['grigio', 'grigio'], ['nude', 'nude'], ['rosa', 'rosa'], ['rosso', 'rosso'], ['bordeaux', 'bordeaux'], ['lampone', 'lampone'],
     ['fucsia', 'fucsia'], ['lilla', 'lilla'], ['cioccolato', 'cioccolato'], ['glitter', 'glitter'], ['blu', 'blu'], ['verde', 'verde'], ['giallo', 'giallo']];
 
@@ -227,7 +227,7 @@
     $('#cart-empty').hidden = n > 0;
     $('#cart-total').textContent = money(total);
     $('#cart-ship').classList.toggle('done', n > 0 && left === 0);
-    $('#cart-ship-txt').innerHTML = left ? `Ti mancano <b>${money(left)}</b> per la spedizione gratuita` : '<b>Spedizione gratuita</b> sbloccata';
+    $('#cart-ship-txt').innerHTML = left ? `Ti mancano <b>${money(left)}</b> per la spedizione gratuita in Italia` : '<b>Spedizione gratuita</b> in Italia sbloccata';
     $('#cart-ship-fill').style.width = Math.min(100, total / FREE_SHIPPING * 100) + '%';
   }
   /* Pages that mirror the cart (checkout) listen for 'pm:cart'. */
@@ -373,7 +373,7 @@
   };
   $$('.marquee').forEach(m => {
     const one = m.dataset.kind === 'ship'
-      ? `<span class="mq-item">${ICON.ship}<span>Spedizione gratuita a partire da <em>199€</em></span></span>`
+      ? `<span class="mq-item">${ICON.ship}<span>Spedizione gratuita in Italia a partire da <em>99€</em></span></span>`
       : `<span class="mq-item">${ICON.free}<span>TPO &amp; HEMA <em>FREE</em></span></span>`;
     const n = m.dataset.kind === 'ship' ? 5 : 8;
     m.innerHTML = `<div class="mq-track">${one.repeat(n)}${one.repeat(n)}</div>`;
