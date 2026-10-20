@@ -107,16 +107,21 @@
   function buildQv() {
     document.body.insertAdjacentHTML('beforeend', `<div class="qv" id="qv" hidden>
     <div class="qv-modal" role="dialog" aria-modal="true" aria-label="Anteprima rapida">
-      <button type="button" class="qv-close ib" id="qv-close" aria-label="Chiudi anteprima"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
-      <div class="qv-tabs season-tabs" id="qv-tabs" role="tablist" aria-label="Collezione">
-        <span class="st-pill" aria-hidden="true"></span>${Object.entries(KITS).map(([k, v]) => `<button type="button" role="tab" data-kit="${k}" aria-selected="false" style="--glow:${v.glow}">${v.tab}</button>`).join('')}
+      <div class="qv-head">
+        <div class="qv-tabs season-tabs" id="qv-tabs" role="tablist" aria-label="Collezione">
+          <span class="st-pill" aria-hidden="true"></span>${Object.entries(KITS).map(([k, v]) => `<button type="button" role="tab" data-kit="${k}" aria-selected="false" style="--glow:${v.glow}">${v.tab}</button>`).join('')}
+        </div>
+        <button type="button" class="qv-close ib" id="qv-close" aria-label="Chiudi anteprima"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
       </div>
-      <div class="qv-body" id="qv-body"></div>
-      <a class="qv-more" href="prodotto.html">Vai alla scheda prodotto</a>
+      <div class="qv-scroll" id="qv-scroll">
+        <div class="qv-body" id="qv-body"></div>
+        <a class="qv-more" href="prodotto.html">Vai alla scheda prodotto</a>
+      </div>
     </div></div>`);
     qv = $('#qv');
     const tabs = $('#qv-tabs');
     $('#qv-close').onclick = closeQv;
+    $('#qv-scroll').addEventListener('scroll', e => $('.qv-head', qv).classList.toggle('scrolled', e.target.scrollTop > 0), { passive: true });
     qv.addEventListener('click', e => { if (e.target === qv) closeQv(); });
     addEventListener('keydown', e => { if (e.key === 'Escape' && !qv.hidden) closeQv(); });
     tabs.addEventListener('click', e => { const b = e.target.closest('[data-kit]'); if (b && b.dataset.kit !== qvKit) { qvKit = b.dataset.kit; renderQv(0); } });
@@ -134,6 +139,7 @@
     $$('#qv-tabs [data-kit]').forEach(t => t.setAttribute('aria-selected', t.dataset.kit === qvKit));
     placeQv();
     PM.renderProduct($('#qv-body'), { kit: qvKit, sale: true, idp: 'qv' });
+    $('#qv-scroll').scrollTop = 0;
     pickPsw($('#qv-body'), shade);
     const sel = $('#qv-body .psw[aria-pressed=true]');
     $('.qv-more').href = `prodotto.html?kit=${qvKit}${sel && sel.dataset.i !== '0' ? '&shade=' + sel.dataset.i : ''}`;
