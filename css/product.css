@@ -32,6 +32,10 @@
 .p-price.nosale b{color:#000}
 .p-price s{color:#7f7f7f;text-decoration-thickness:2.5px}
 .p-size{margin-top:25px;display:grid;place-items:center;min-width:60px;padding:0 10px;white-space:nowrap;height:25px;border:1.5px solid #7f7f7f;border-radius:13px;font-size:15px;font-weight:500;line-height:1}
+.p-sizes{margin-top:25px;display:flex;flex-wrap:wrap;gap:8px}
+.p-sizes .p-size{margin-top:0;background:none;color:inherit;font-family:inherit;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease)}
+.p-sizes .p-size[aria-pressed=true]{background:#000;border-color:#000;color:#fff}
+.p-sizes .p-size:focus-visible{outline:2px solid #000;outline-offset:2px}
 .p-shades-h{margin-top:25px;align-self:stretch;height:39px;display:flex;justify-content:space-between;padding-top:6px;border-bottom:1px solid #f2f2f4;font-size:16px;line-height:19px;letter-spacing:-.13px}
 .p-shades-h b,.p-shades-h b span{font-weight:700;color:#1e1e1e;font-size:16px}
 .p-shades-h>span{font-size:15px;font-weight:400;color:#a0a0a0}
@@ -207,6 +211,8 @@
   .qv .p-title{font-size:26px;line-height:32px;letter-spacing:.2px}
   .qv .p-price{margin-top:12px;font-size:21px;line-height:24px;gap:12px;letter-spacing:1.6px}
   .qv .p-size{margin-top:16px;min-width:56px;height:24px;font-size:13px}
+  .qv .p-sizes{margin-top:16px}
+  .qv .p-sizes .p-size{margin-top:0}
   .qv .p-shades-h{margin-top:20px;height:34px;padding-top:0;font-size:14px}
   .qv .p-shades-h b,.qv .p-shades-h b span{font-size:14px}
   .qv .p-shades-h>span{font-size:13px}

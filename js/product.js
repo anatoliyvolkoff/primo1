@@ -5,7 +5,7 @@
   const PM = window.PM;
   const { $, $$, money, toast, addToCart, flashAdded, buzz } = PM;
 
-  const { KITS, BY_ID, CAT_LABEL, swatchBg, family, label } = PM.CATALOG;
+  const { KITS, BY_ID, PRODUCTS, CAT_LABEL, swatchBg, family, label } = PM.CATALOG;
   const chev = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
   // descriptions per category until the sheet's own copy is in (PRODUCTS: DESCRIPTION / APPLICATION / INGREDIENTS IT)
   const ACC = [
@@ -24,6 +24,13 @@
   };
   const swatch = (q, sel) => `<button type="button" class="psw" data-id="${q.id}" aria-pressed="${sel}" aria-label="${label(q)}" style="${swatchBg(q.cell)}"></button>`;
   const priceHtml = p => `<p class="p-price${p.old ? '' : ' nosale'}"><b>${money(p.price)}</b>${p.old ? `<s>${money(p.old)}</s>` : ''}</p>`;
+  // the same product sold in more than one size (e.g. Cleaner Emotion 100 ml / 1000 ml): one chip per size
+  const sizesOf = p => (p.num || p.kit ? [] : PRODUCTS.filter(x => x.name === p.name && x.cat === p.cat).sort((a, b) => a.price - b.price));
+  const sizesHtml = p => {
+    const s = sizesOf(p);
+    if (s.length < 2) return `<span class="p-size" data-p-size>${p.size}</span>`;
+    return `<div class="p-sizes" role="group" aria-label="Formato" data-p-size>${s.map(q => `<button type="button" class="p-size" data-id="${q.id}" aria-pressed="${q === p}">${q.size}</button>`).join('')}</div>`;
+  };
   const badgeHtml = p => (p.old ? `<span class="p-badge">${Math.round((1 - p.price / p.old) * 100)}%</span>` : '');
 
   /** Fills `root` with gallery + details. opts: { kit } or { id }, idp = id prefix for the accordions. The picked product is root.dataset.id. */
@@ -42,7 +49,7 @@
         ${badgeHtml(p)}
         <h1 class="p-title" data-p-title>${label(p)}</h1>
         ${priceHtml(p)}
-        <span class="p-size" data-p-size>${p.size}</span>
+        ${sizesHtml(p)}
         ${v.shades.length ? `<div class="p-shades-h"><b>Sfumature: <span data-shade-name>${v.all ? 'set completo' : shadeName(p)}</span></b><span><em>${v.shades.length}</em> Colori</span></div>
         <div class="p-grid" role="group" aria-label="Sfumature">
           ${v.all ? `<button type="button" class="psw all" data-id="${p.id}" aria-pressed="true" aria-label="Set completo" style="--c:${v.all}">all</button>` : ''}
@@ -71,11 +78,11 @@
   function showPicked(root, v, q) {
     root.dataset.id = q.id;
     $$('.psw', root).forEach(x => x.setAttribute('aria-pressed', x.dataset.id === q.id));
-    $('[data-shade-name]', root).textContent = q.kit ? 'set completo' : shadeName(q);
+    const sn = $('[data-shade-name]', root); if (sn) sn.textContent = q.kit ? 'set completo' : shadeName(q);
     if (!v.all) {
       $('[data-p-title]', root).textContent = label(q);
       $('.p-price', root).outerHTML = priceHtml(q);
-      $('[data-p-size]', root).textContent = q.size;
+      $('[data-p-size]', root).outerHTML = sizesHtml(q);
       $('.p-badge', root)?.remove(); $('[data-p-title]', root).insertAdjacentHTML('beforebegin', badgeHtml(q));
       $('[data-p-acc]', root).innerHTML = accHtml(q, root.id === 'qv-body' ? 'qv' : 'p');
     }
@@ -93,6 +100,12 @@
     // shades
     $('.p-grid', root)?.addEventListener('click', e => {
       const b = e.target.closest('.psw'); if (!b) return;
+      showPicked(root, v, BY_ID[b.dataset.id]);
+      if (e.isTrusted) buzz(6);
+    });
+    // sizes: the chips live in .pinfo, which showPicked re-renders, so listen on root
+    root.addEventListener('click', e => {
+      const b = e.target.closest('.p-sizes .p-size'); if (!b || b.getAttribute('aria-pressed') === 'true') return;
       showPicked(root, v, BY_ID[b.dataset.id]);
       if (e.isTrusted) buzz(6);
     });
