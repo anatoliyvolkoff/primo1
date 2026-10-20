@@ -155,16 +155,18 @@
     spring: () => ({ cls: 'petal', size: rnd(9, 15), html: '', o: rnd(.55, .85) }),
     summer: () => ({ cls: 'bubble rise', size: rnd(8, 24), html: '', o: rnd(.5, .85) }),
   };
-  // bg=airy: soft pastel colour clouds in the Shop by color palette; before a season is picked all the hues mix
+  // bg=airy: soft colour clouds that drift slowly, each season in its own colour family; before a season is picked
+  // each card has a faint cloud of its own season colour behind it
   const AIRY = {
-    all: ['#f7a8c8', '#c9a8f5', '#9db8f0', '#b5e8a0', '#f9e27d', '#f4c3b0'],
-    autumn: ['#f6c89a', '#f2a96b', '#ecd08a', '#f4b6a6', '#f8dcc0'],
-    winter: ['#a9c7f5', '#c9b8f2', '#b8e0f0', '#d4d9ea', '#9db8f0'],
-    spring: ['#f7a8c8', '#d7b4f3', '#ffc6d9', '#fbe3a4', '#f5b8d0'],
-    summer: ['#b5e8a0', '#f9e27d', '#9fe3dc', '#ffc1d6', '#c8f0a8'],
+    autumn: ['#f6c08a', '#f2a65e', '#f7d3a8', '#eba77c', '#f9dcb8'],
+    winter: ['#a8c8f4', '#c4dafa', '#9fc0ee', '#d6e4f7', '#b6d0f5'],
+    spring: ['#f7a8c4', '#fbc4d6', '#f49ab8', '#fcd6e2', '#f6b6cc'],
+    summer: ['#b4e89c', '#cdf2b6', '#a4e08a', '#dcf6cc', '#bfeca8'],
   };
-  const BLOB_AT = [[12, 62, 46], [88, 38, 50], [50, 92, 58], [30, 22, 36], [72, 78, 44], [55, 45, 40]];
-  const blobs = cs => `<div class="blobs">${cs.map((c, i) => `<i class="blob" style="--b:${c};--x:${BLOB_AT[i][0]}%;--y:${BLOB_AT[i][1]}%;--w:${BLOB_AT[i][2]}%;--d:${16 + i * 3}s;--dl:${-i * 4}s"></i>`).join('')}</div>`;
+  const BLOB_AT = [[12, 62, 46], [88, 38, 50], [50, 92, 58], [30, 22, 36], [72, 78, 44]];
+  const blob = (c, [x, y, w], i) => `<i class="blob" style="--b:${c};--x:${x}%;--y:${y}%;--w:${w}%;--d:${16 + i * 3}s;--dl:${-i * 4}s"></i>`;
+  const blobs = cs => `<div class="blobs">${cs.map((c, i) => blob(c, BLOB_AT[i], i)).join('')}</div>`;
+  const neutralBlobs = `<div class="blobs">${SEASONS.map((s, i) => blob(AIRY[s.id][0], [26 + i * 16, 60, 30], i)).join('')}</div>`;
   SEASONS.forEach(s => {
     const layer = document.createElement('div');
     layer.className = 'bg-layer'; layer.dataset.season = s.id; layer.style.setProperty('--c', s.color);
@@ -177,7 +179,7 @@
     bg.appendChild(layer);
   });
   const layers = [...bg.children];
-  bg.insertAdjacentHTML('beforeend', `<div class="aura"></div><div class="bg-layer all">${blobs(AIRY.all)}</div>`);
+  bg.insertAdjacentHTML('beforeend', `<div class="aura"></div><div class="bg-layer all">${neutralBlobs}</div>`);
 
   // motion variants to compare: ?bg=airy|soft|rise|calm|glow|wash|horizon|mesh and ?hover=gentle|quiet|lift|frame|focus (none = the current motion); ?lab shows a switcher
   const VARIANTS = { bg: ['now', 'airy', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['now', 'gentle', 'quiet', 'lift', 'frame', 'focus'] };
