@@ -183,7 +183,7 @@
   const HDR_DEFAULT = 'm';
   let hdr = HDRS.includes(qs.get('hdr')) ? qs.get('hdr') : HDR_DEFAULT;
   function setHdr(v) {
-    hdr = v; shop.dataset.hdr = v; shop.classList.toggle('carded', 'jklmn'.includes(v));
+    hdr = v; shop.dataset.hdr = v; shop.classList.toggle('carded', 'jkln'.includes(v));
     $$('.cs-v', shop).forEach((el, i) => { el.hidden = el.dataset.v !== (v === '0' ? '0' : 'd'); const h = $('h1', el); h.id = 'cat-shop-h' + i; if (!el.hidden) shop.setAttribute('aria-labelledby', h.id); });
     $$('[data-hdr]', $('#cs-switch')).forEach(b => b.setAttribute('aria-pressed', b.dataset.hdr === v));
   }
