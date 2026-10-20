@@ -29,8 +29,8 @@
 .tabs button>span{display:inline-block;transition:transform .2s var(--ease)}
 .tabs button:active>span{transform:scale(.94)}
 .tabs:has([aria-selected=true]:active) .tab-pill{scale:.97}
-/* hover preview (mouse only): a white pill glides under the tab the pointer is on, the label lifts 1px and the black pill leans in */
-.tab-ghost{position:absolute;z-index:0;top:5px;bottom:5px;left:0;width:var(--hw,0);transform:translateX(var(--hx,0));border-radius:999px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.06),0 6px 14px -8px rgba(0,0,0,.22);opacity:0;scale:.92;pointer-events:none;transition:opacity .2s var(--ease),scale .25s var(--ease)}
+/* hover preview (mouse only): a faint grey tint glides under the tab the pointer is on, the label lifts 1px and the black pill leans in */
+.tab-ghost{position:absolute;z-index:0;top:5px;bottom:5px;left:0;width:var(--hw,0);transform:translateX(var(--hx,0));border-radius:999px;background:rgba(0,0,0,.06);opacity:0;scale:.96;pointer-events:none;transition:opacity .2s var(--ease),scale .25s var(--ease)}
 @media (hover:hover) and (pointer:fine){
   .tabs.hov .tab-ghost{opacity:1;scale:1}
   .tabs.hov.glide .tab-ghost{transition:opacity .2s var(--ease),scale .25s var(--ease),transform .3s var(--ease),width .3s var(--ease)}
