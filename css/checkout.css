@@ -225,7 +225,7 @@
   .co-done-ctas{flex-direction:row;justify-content:center}
 }
 
-/* ===== Confirmation, variant B (?conferma=b): dark hero, order tracker, details, "nel frattempo" ===== */
+/* ===== Confirmation, variant B (default; A is ?conferma=a): dark hero, order tracker, details, "nel frattempo" ===== */
 .cb{outline:none}
 .cb-hero{position:relative;overflow:hidden;padding:44px 24px 76px;background:#111;color:#fff;
   background-image:radial-gradient(120% 80% at 100% 0,rgba(200,116,45,.32),transparent 60%),radial-gradient(90% 70% at 0 100%,rgba(255,255,255,.07),transparent 60%)}
@@ -249,6 +249,7 @@
 .cb-thumbs{display:flex}
 .cb-thumbs i{width:30px;height:30px;border-radius:50%;background-size:cover;box-shadow:0 0 0 2px #111}
 .cb-thumbs i+i{margin-left:-9px}
+.cb-thumbs i.kit{background:linear-gradient(135deg,#c8742d,#2f80e9)}
 
 .cb-body{position:relative;margin-top:-44px;padding:0 16px}
 .cb-card{padding:24px 20px;border:1px solid var(--cx-line);border-radius:28px;background:#fff;box-shadow:0 30px 60px -36px rgba(0,0,0,.3)}

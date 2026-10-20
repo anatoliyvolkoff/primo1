@@ -64,7 +64,7 @@
     if (focus) b.focus();
     placePill();
     const rail = $('#bs-rail'), mine = ++fillToken; rail.style.opacity = 0;
-    setTimeout(() => { if (mine !== fillToken) return; fillRail(rail, { best: 6, new: 4, sale: 5 }[b.dataset.tab]); rail.style.opacity = 1; }, 160);
+    setTimeout(() => { if (mine !== fillToken) return; fillRail(rail, { best: 6, new: 6, sale: 6 }[b.dataset.tab], b.dataset.tab); rail.style.opacity = 1; }, 160);
   }
   tabList().forEach(t => { t.tabIndex = t.getAttribute('aria-selected') === 'true' ? 0 : -1; t.setAttribute('aria-controls', 'bs-rail'); });
   tabs.addEventListener('click', e => { const b = e.target.closest('[role=tab]'); if (b) selectTab(b); });
@@ -74,6 +74,14 @@
     if (to === undefined || i < 0) return;
     e.preventDefault(); selectTab(list[(to + list.length) % list.length], true);
   });
+  // hover preview: the white ghost pill appears under the first tab the mouse enters, then glides between tabs
+  tabs.addEventListener('pointerover', e => {
+    const b = e.target.closest('[role=tab]');
+    if (!b || e.pointerType !== 'mouse') return;
+    tabs.style.setProperty('--hx', b.offsetLeft + 'px'); tabs.style.setProperty('--hw', b.offsetWidth + 'px');
+    if (!tabs.classList.contains('hov')) { tabs.classList.add('hov'); requestAnimationFrame(() => tabs.classList.add('glide')); }
+  });
+  tabs.addEventListener('pointerleave', () => tabs.classList.remove('hov', 'glide'));
   $('#bs-rail').style.transition = 'opacity .16s';
   addEventListener('resize', placePill); document.fonts && document.fonts.ready.then(placePill); placePill();
 
@@ -115,20 +123,22 @@
   // ---------- The Seasons ----------
   // Each season opens its kit in the quick-view pop-up (product.js), on the shade picked here; the kit page link is the fallback.
   const SEASONS = [
-    { id: 'autumn', kit: 'autunno', color: '#c8742d', cta: '#fcf5eb', isNew: false, shades: [['#e9860f', 'Zucca'], ['#e1332a', 'Acero'], ['#8c3a12', 'Castagna'], ['#f0b429', 'Ocra'], ['#c2521e', 'Ruggine'], ['#a8391f', 'Mattone'], ['#6b4a2b', 'Cacao'], ['#d8a15a', 'Caramello']] },
-    { id: 'winter', kit: 'inverno', color: '#2f80e9', cta: '#f2f3f7', isNew: false, shades: [['#22305e', 'Night Blue'], ['#1f6f78', 'Emerald Blue'], ['#5b4a9e', 'Viola Blue'], ['#2a7fc0', 'Ocean Blue'], ['#5aa9e6', 'Azure'], ['#2747a8', 'Cobalto'], ['#1f3f8a', 'Zaffiro'], ['#2b3f9e', 'Oltremare']] },
-    { id: 'spring', kit: 'primavera', color: '#e5668f', cta: '#fdf1f5', isNew: false, shades: [['#f6c9d6', 'Cipria'], ['#e98aa8', 'Peonia'], ['#f3b8a0', 'Pesca'], ['#d9b6e0', 'Lilla'], ['#c7d9a8', 'Menta'], ['#f4a3bd', 'Rosa'], ['#e7738f', 'Fragola'], ['#f0c7b5', 'Nude']] },
-    { id: 'summer', kit: 'estate', color: '#44c232', cta: '#f2fdec', isNew: true, shades: [['#ff8a5c', 'Corallo'], ['#ffc247', 'Mango'], ['#f2545b', 'Anguria'], ['#6cc551', 'Lime'], ['#3fb6b2', 'Laguna'], ['#ff6f91', 'Flamingo'], ['#ffd166', 'Sole'], ['#2ec4b6', 'Turchese']] },
+    { id: 'autumn', kit: 'autunno', color: '#c8742d', cta: '#fcf5eb', isNew: false },
+    { id: 'winter', kit: 'inverno', color: '#2f80e9', cta: '#f2f3f7', isNew: false },
+    { id: 'spring', kit: 'primavera', color: '#e5668f', cta: '#fdf1f5', isNew: false },
+    { id: 'summer', kit: 'estate', color: '#44c232', cta: '#f2fdec', isNew: true },
   ];
+  // each season shows the first eight shades of its kit (js/site.js KITS), as [product, label]
+  SEASONS.forEach(s => { s.shades = PM.CATALOG.KITS[s.kit].shades.slice(0, 8).map(q => [q, PM.CATALOG.label(q)]); });
   // active: the season shown now (hover preview on desktop); pinned: the one picked with a click / tap / key (-1 = neutral)
   const sState = { active: -1, pinned: -1, sel: SEASONS.map(() => 0), expanded: SEASONS.map(() => false) };
   const sec = $('#seasons'), track = $('#track'), dotsEl = $('#dots'), bg = $('#bg'), cta = $('#cta');
-  const kitHref = i => `prodotto.html?kit=${SEASONS[i].kit}&shade=${sState.sel[i] + 1}`;
+  const kitHref = i => `prodotto.html?kit=${SEASONS[i].kit}&shade=${SEASONS[i].shades[sState.sel[i]][0].id}`;
 
   const swRow = s => {
     const open = sState.expanded[s], n = open ? 8 : 3;
     let h = '';
-    for (let i = 0; i < n; i++) h += `<button type="button" class="sw ${sState.sel[s] === i ? 'sel' : ''} ${open && i >= 3 ? 'pop' : ''}" style="--sw:${SEASONS[s].shades[i][0]};--i:${i}" data-shade="${i}" aria-label="${SEASONS[s].shades[i][1]}" aria-pressed="${sState.sel[s] === i}"></button>`;
+    for (let i = 0; i < n; i++) h += `<button type="button" class="sw ${sState.sel[s] === i ? 'sel' : ''} ${open && i >= 3 ? 'pop' : ''}" style="${PM.CATALOG.swatchBg(SEASONS[s].shades[i][0].cell)};--i:${i}" data-shade="${i}" aria-label="${SEASONS[s].shades[i][1]}" aria-pressed="${sState.sel[s] === i}"></button>`;
     return h + (open ? '' : '<button type="button" class="more" data-more aria-label="Mostra altre 5 sfumature">+5</button>');
   };
   SEASONS.forEach((s, i) => {
@@ -249,7 +259,7 @@
   function openSeason(i) {
     if (!PM.quickView) { location.href = kitHref(i); return; }
     sState.pinned = i; setActive(i);
-    PM.quickView(SEASONS[i].kit, sState.sel[i] + 1);
+    PM.quickView(SEASONS[i].kit, SEASONS[i].shades[sState.sel[i]][0].id);
   }
   cta.addEventListener('click', e => { if (sState.active >= 0) { e.preventDefault(); openSeason(sState.active); } });
   track.addEventListener('keydown', e => {

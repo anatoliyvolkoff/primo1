@@ -2,7 +2,8 @@
    tables as spedizioni.html), validates the form and simulates the payment, ending on an order confirmation. */
 (() => {
   'use strict';
-  const { $, $$, money, store, toast, buzz, smooth, reduceMotion, openOverlay, PRODUCT, SHADE_IMG, cartLines, clearCart } = window.PM;
+  const { $, $$, money, store, toast, buzz, smooth, reduceMotion, openOverlay, cartLines, clearCart } = window.PM;
+  const { BY_ID, CAT_LABEL, swatchBg, label } = window.PM.CATALOG;
 
   // ---------- shipping: GLS rates per zone, [max kg, €] (spedizioni.html#tariffe) ----------
   const ZONES = {
@@ -35,7 +36,7 @@
     return region.value === 'Sardegna' ? 'sar' : region.value === 'Sicilia' || region.value === 'Calabria' ? 'sud' : 'it';
   };
   function quote(lines) {
-    const n = lines.reduce((a, l) => a + l.qty, 0), sub = n * PRODUCT.price;
+    const n = lines.reduce((a, l) => a + l.qty, 0), sub = lines.reduce((a, l) => a + l.qty * BY_ID[l.id].price, 0);
     const disc = Math.round(sub * (CODES[code] || 0) * 100) / 100;
     const z = ZONES[zoneKey()], kg = KG_BOX + n * KG_ITEM;
     const row = z.rates.find(r => kg <= r[0]) || z.rates[z.rates.length - 1];
@@ -48,10 +49,10 @@
   const addWorkdays = (d, n) => { d = new Date(d); while (n > 0) { d.setDate(d.getDate() + 1); if (d.getDay() % 6) n--; } return d; };
   const eta = z => { const now = new Date(); return [addWorkdays(now, 1 + z.days[0]), addWorkdays(now, 2 + z.days[1])].map(d => fmt.format(d)); };
 
-  const itemsHTML = lines => lines.map(l => `<li class="co-item">
+  const itemsHTML = lines => lines.map(l => { const p = BY_ID[l.id]; return `<li class="co-item">
       <span class="co-thumb"><img src="img/product.jpg" alt="" width="60" height="60"><b aria-label="Quantità ${l.qty}">${l.qty}</b></span>
-      <span class="co-item-b"><b>${PRODUCT.name}</b><small><i class="ci-dot" style="background-image:url(img/shade-${SHADE_IMG[l.shade]}.jpg)"></i>Tonalità ${l.shade + 1} · 12 ml</small></span>
-      <span class="co-item-p">${money(PRODUCT.price * l.qty)}</span></li>`).join('');
+      <span class="co-item-b"><b>${label(p)}</b><small>${p.cell ? `<i class="ci-dot" style="${swatchBg(p.cell)}"></i>` : ''}${CAT_LABEL[p.cat]} · ${p.size}</small></span>
+      <span class="co-item-p">${money(p.price * l.qty)}</span></li>`; }).join('');
 
   function render() {
     if (ordered) return;
@@ -174,10 +175,10 @@
     clearCart();
   }
 
-  /* The confirmation has two designs to compare: A (the card, default) and B (?conferma=b, dark hero + order tracker).
+  /* The confirmation has two designs: B (dark hero + order tracker, the default) and A (the white card, ?conferma=a).
      ?anteprima opens the confirmation straight away with a demo order, without touching the cart. */
   const qs = new URLSearchParams(location.search);
-  const variant = qs.get('conferma') === 'b' ? 'b' : 'a';
+  const variant = qs.get('conferma') === 'a' ? 'a' : 'b';
   let ordered = false;
   function showOrder(o) {
     ordered = true;
@@ -229,7 +230,7 @@
           <p class="cb-lead">${wire ? 'Ti abbiamo inviato le coordinate per il bonifico a' : 'Abbiamo inviato la conferma a'} <b>${esc(d.email)}</b>.</p>
           <div class="cb-num"><span>Ordine <b>${num}</b></span><button type="button" class="cb-copy" data-copy="${num}" aria-label="Copia il numero d’ordine"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6a2 2 0 0 1 2-2h8"/></svg></button></div>
           <div class="cb-stack" aria-label="${n} ${n === 1 ? 'articolo' : 'articoli'}, ${money(q.total)}">
-            <span class="cb-thumbs" aria-hidden="true">${lines.slice(0, 3).map(l => `<i style="background-image:url(img/shade-${SHADE_IMG[l.shade]}.jpg)"></i>`).join('')}</span>
+            <span class="cb-thumbs" aria-hidden="true">${lines.slice(0, 3).map(l => { const p = BY_ID[l.id]; return p.cell ? `<i style="${swatchBg(p.cell)}"></i>` : '<i class="kit"></i>'; }).join('')}</span>
             <span>${n} ${n === 1 ? 'articolo' : 'articoli'} · <b>${money(q.total)}</b></span></div>
         </div>
       </div>
@@ -289,7 +290,8 @@
   syncCountry();
   if (qs.has('anteprima')) {
     const wire = qs.get('pagamento') === 'bonifico';
-    showOrder({ num: 'PN-482913', lines: [{ shade: 0, qty: 1 }, { shade: 2, qty: 2 }], q: quote([{ shade: 0, qty: 1 }, { shade: 2, qty: 2 }]),
+    const demo = PM.CATALOG.PRODUCTS.filter(p => p.cell).slice(0, 3).map((p, i) => ({ id: p.id, qty: i === 1 ? 2 : 1 }));
+    showOrder({ num: 'PN-482913', lines: demo, q: quote(demo),
       d: { nome: 'Giulia', cognome: 'Rossi', email: 'giulia@esempio.it', via: 'Via Torino 12', cap: '20123', citta: 'Milano', regione: 'Lombardia', paese: 'IT',
         pagamento: wire ? 'bonifico' : 'carta', cc: '4242 4242 4242 4242' } });
     const sw = document.createElement('nav');

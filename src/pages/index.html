@@ -16,10 +16,11 @@
       <h2 class="h2 m-only">I Più Venduti</h2>
       <p class="sub">I prodotti preferiti dai nostri professionisti.</p>
       <div class="tabs" id="bs-tabs" role="tablist">
+        <span class="tab-ghost" aria-hidden="true"></span>
         <span class="tab-pill" aria-hidden="true"></span>
-        <button role="tab" aria-selected="true" data-tab="best">I Più Venduti</button>
-        <button role="tab" aria-selected="false" data-tab="new">Novità</button>
-        <button role="tab" aria-selected="false" data-tab="sale">Saldi</button>
+        <button role="tab" aria-selected="true" data-tab="best"><span>I Più Venduti</span></button>
+        <button role="tab" aria-selected="false" data-tab="new"><span>Novità</span></button>
+        <button role="tab" aria-selected="false" data-tab="sale"><span>Saldi</span></button>
       </div>
       <div class="rail" data-products id="bs-rail" role="tabpanel" aria-label="Prodotti"></div>
     </section>
@@ -48,7 +49,7 @@
     <section class="block m-only" id="new">
       <h2 class="h2">Nuovi Arrivi</h2>
       <p class="sub xl">Scopri le ultime novità della collezione PriMo Nails.</p>
-      <div class="rail" data-products></div>
+      <div class="rail" data-products="new"></div>
     </section>
 
     <div class="marquee m-only" data-kind="ship" aria-label="Spedizione gratuita a partire da 199€"></div>
@@ -74,7 +75,7 @@
     <section class="block" id="for-you">
       <h2 class="h2"><span class="m-only">Consigliati per te</span><span class="d-only">I Più Venduti</span></h2>
       <p class="sub"><span class="m-only">Selezionati appositamente per il tuo stile.</span><span class="d-only">I prodotti preferiti dai nostri professionisti.</span></p>
-      <div class="rail" data-products></div>
+      <div class="rail" data-products="foryou"></div>
     </section>
 
     <div class="marquee" data-kind="free" aria-label="TPO &amp; HEMA free"></div>
@@ -83,7 +84,7 @@
     <section class="block" id="loved">
       <h2 class="h2"><span class="m-only">I Più Amati</span><span class="d-only">I Più Venduti</span></h2>
       <p class="sub">I prodotti preferiti dai nostri professionisti.</p>
-      <div class="rail" data-products></div>
+      <div class="rail" data-products="loved"></div>
     </section>
 
     <div class="marquee" data-kind="free" aria-label="TPO &amp; HEMA free"></div>
@@ -128,6 +129,6 @@
     <!-- ===== Visti di Recente ===== -->
     <section class="block recent m-only" id="recent">
       <h2 class="h2 left">Visti di Recente</h2>
-      <div class="rail" data-products></div>
+      <div class="rail" data-products="recent"></div>
     </section>
   </main>

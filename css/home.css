@@ -25,7 +25,23 @@
 .tabs{position:relative;margin:17px 16px 0;height:48px;padding:0 6px;border-radius:999px;background:#f4f4f4;display:grid;grid-template-columns:1.35fr 1fr 1fr;align-items:center;--x:0;--w:0}
 .tabs button{position:relative;z-index:1;height:44px;border:0;background:none;font-size:14px;font-weight:600;transition:color .25s}
 .tabs [aria-selected=true]{color:#fff}
-.tab-pill{position:absolute;z-index:0;top:5px;bottom:5px;left:0;width:var(--w);transform:translateX(var(--x));border-radius:999px;background:#000;transition:transform .35s var(--ease),width .35s var(--ease)}
+.tab-pill{position:absolute;z-index:0;top:5px;bottom:5px;left:0;width:var(--w);transform:translateX(var(--x));border-radius:999px;background:#000;transition:transform .35s var(--ease),width .35s var(--ease),scale .2s var(--ease),box-shadow .25s var(--ease)}
+.tabs button>span{display:inline-block;transition:transform .2s var(--ease)}
+.tabs button:active>span{transform:scale(.94)}
+.tabs:has([aria-selected=true]:active) .tab-pill{scale:.97}
+/* hover preview (mouse only): a faint grey tint glides under the tab the pointer is on, the label lifts 1px and the black pill leans in */
+.tab-ghost{position:absolute;z-index:0;top:5px;bottom:5px;left:0;width:var(--hw,0);transform:translateX(var(--hx,0));border-radius:999px;background:rgba(0,0,0,.06);opacity:0;scale:.96;pointer-events:none;transition:opacity .2s var(--ease),scale .25s var(--ease)}
+@media (hover:hover) and (pointer:fine){
+  .tabs.hov .tab-ghost{opacity:1;scale:1}
+  .tabs.hov.glide .tab-ghost{transition:opacity .2s var(--ease),scale .25s var(--ease),transform .3s var(--ease),width .3s var(--ease)}
+  .tabs button:not([aria-selected=true]){color:#555;transition:color .25s}
+  .tabs button:hover{color:#000}
+  .tabs button[aria-selected=true]:hover{color:#fff}
+  .tabs button:hover>span{transform:translateY(-1px)}
+  .tabs button:hover:active>span{transform:scale(.94)}
+  .tabs:has([aria-selected=true]:hover) .tab-pill{scale:1.03;box-shadow:0 8px 18px -10px rgba(0,0,0,.55)}
+  .tabs:has([aria-selected=true]:hover:active) .tab-pill{scale:.97;box-shadow:none}
+}
 
 /* ---------- mood ---------- */
 .mood{padding-top:0;padding-bottom:0;margin-top:34px}
@@ -205,7 +221,7 @@
   .marquee.d-only{display:flex!important;margin-top:120px}
   .tabs{width:524px;height:50px;margin:39px auto 0;padding:0 6px;grid-template-columns:166px 1fr 1fr;box-shadow:0 10px 30px -18px rgba(0,0,0,.18)}
   .tabs button{height:38px;font-size:14px;font-weight:600}
-  .tab-pill{top:6px;bottom:6px}
+  .tab-pill,.tab-ghost{top:6px;bottom:6px}
   #bs-rail{margin-top:50px}
   #bs-rail .pcard:nth-child(n+5){display:none}
 

@@ -13,10 +13,10 @@
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon.svg">
 <link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.css?v=c7978bb5">
+<link rel="stylesheet" href="css/site.css?v=7252174b">
 <link rel="stylesheet" href="css/search.css?v=b89386fe">
-<link rel="stylesheet" href="css/catalog.css?v=6b8cff4b">
-<link rel="stylesheet" href="css/product.css?v=e49ec2be">
+<link rel="stylesheet" href="css/catalog.css?v=4367410a">
+<link rel="stylesheet" href="css/product.css?v=d291bc78">
 </head>
 <body class="catalog">
 <div class="page" id="page">
@@ -64,10 +64,22 @@
   <main id="top" class="cat" tabindex="-1">
     <script>if (new URLSearchParams(location.search).get('cat') === 'semipermanente') document.documentElement.classList.add('cat-semi');</script>
     <section class="cat-shop" id="cat-shop" aria-labelledby="cat-shop-h">
-      <h1 class="h2" id="cat-shop-h">Shop by color</h1>
-      <p class="sub">Choose your colour, go straight to the product selection you are looking for.</p>
+      <!-- header variants for review (?hdr=i|j|k|l|m|n); the swatch row below is the same for all -->
+      <div class="cs-bg" aria-hidden="true"></div>
+      <div class="cs-v" data-v="0">
+        <h1 class="h2" lang="en">Shop by color</h1>
+        <p class="sub" lang="en">Choose your colour, go straight to the product selection you are looking for.</p>
+      </div>
+      <div class="cs-v cs-d" data-v="d" hidden>
+        <p class="cs-eyebrow" lang="en">Shop by color</p>
+        <h1 class="cs-title"><span data-cs-big>Scegli il tuo colore</span></h1>
+        <p class="cs-meta"><span data-cs-hint>Semipermanente, <b data-cs-n></b> tonalità</span><span data-cs-picked hidden><b data-cs-n></b> prodotti</span><button type="button" class="cs-clear" data-cs-clear hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Tutti i colori</button></p>
+      </div>
       <div class="cat-shop-row" id="cat-shop-row" role="group" aria-label="Colori"></div>
     </section>
+    <div class="cs-switch" id="cs-switch" role="group" aria-label="Prototype: varianti intestazione">
+      <span>Intestazione</span><button type="button" data-hdr="0">Attuale</button><button type="button" data-hdr="i">I</button><button type="button" data-hdr="j">J</button><button type="button" data-hdr="k">K</button><button type="button" data-hdr="l">L</button><button type="button" data-hdr="m">M</button><button type="button" data-hdr="n">N</button>
+    </div>
     <section class="cat-hero" aria-label="PriMo Nails">
       <picture><source media="(min-width:1024px)" srcset="img/hero-catalog.jpg"><img src="img/catalog-hero-m.jpg" alt="" fetchpriority="high"></picture>
       <div class="cat-hero-txt d-only"><h1>L'Eleganza nelle Tue Mani</h1><p>Scopri la collezione di gel polish professionali PriMo Nails.</p></div>
@@ -97,10 +109,10 @@
           <fieldset class="fp-coll"><legend>Collezioni</legend><div class="fchips" id="fcoll"></div></fieldset>
           <fieldset class="fp-fx"><legend>Effetti</legend><div class="fchips" id="ffx"></div></fieldset>
           <fieldset class="fp-price"><legend>Prezzo</legend>
-            <div class="pr-vals"><output id="pr-min">0,00 €</output><output id="pr-max">10,00 €</output></div>
+            <div class="pr-vals"><output id="pr-min">0,00 €</output><output id="pr-max">25,00 €</output></div>
             <div class="pr-track" id="pr-track"><i id="pr-fill"></i>
-              <input type="range" id="pr-a" min="0" max="10" step="0.5" value="0" aria-label="Prezzo minimo">
-              <input type="range" id="pr-b" min="0" max="10" step="0.5" value="10" aria-label="Prezzo massimo"></div>
+              <input type="range" id="pr-a" min="0" max="25" step="1" value="0" aria-label="Prezzo minimo">
+              <input type="range" id="pr-b" min="0" max="25" step="1" value="25" aria-label="Prezzo massimo"></div>
           </fieldset>
         </div>
         <div class="fp-foot">
@@ -206,9 +218,9 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </div>
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
-<script src="js/site.js?v=24891c10"></script>
-<script src="js/search.js?v=c0be1f3b"></script>
-<script src="js/product.js?v=c374d68a"></script>
-<script src="js/catalog.js?v=cd8cba80"></script>
+<script src="js/site.js?v=b2044d26"></script>
+<script src="js/search.js?v=bdfd2a0e"></script>
+<script src="js/product.js?v=41b405aa"></script>
+<script src="js/catalog.js?v=a8670509"></script>
 </body>
 </html>
