@@ -182,6 +182,27 @@
   .pdp.lc .wholesale{margin-top:24px}
 }
 
+/* draft layout D (phone, ?layout=d): the photo stays pinned under the header and the details slide over it on a card that opens with the colours */
+@media (max-width:1023.98px){
+  .pdp.ld .gallery{position:sticky;top:60px;z-index:0;height:min(104vw,440px)}
+  .kit .pdp.ld .gallery{height:min(92vw,400px)}
+  .pdp.ld .g-dots{bottom:44px}
+  .pdp.ld .pinfo{position:relative;z-index:1;margin-top:-28px;padding-top:26px;background:#fff;border-radius:28px 28px 0 0;box-shadow:0 -14px 30px -20px rgba(0,0,0,.3)}
+  .pdp.ld .pinfo::before{content:"";position:absolute;top:9px;left:50%;width:38px;height:4px;margin-left:-19px;border-radius:2px;background:#dcdcdf}
+  .pdp.ld .p-shades-h{order:-3;margin-top:0;height:auto;border:0}
+  .pdp.ld .p-grid{order:-2;display:flex;gap:10px;margin:10px -33px 18px;padding:6px 33px 16px;border-bottom:1px solid #f0f0f2;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding:0 33px;scrollbar-width:none;overscroll-behavior-x:contain}
+  .pdp.ld .p-grid::-webkit-scrollbar{display:none}
+  .pdp.ld .psw{flex:none;width:48px;height:48px;scroll-snap-align:start}
+  .pdp.ld .p-title{font-size:24px;line-height:30px}
+  .pdp.ld .p-badge{margin-bottom:10px}
+  .pdp.ld .p-badge+.p-title{margin-top:0}
+  .pdp.ld .wholesale{margin-top:24px}
+  .pdp.ld+.related,.pdp.ld .related{position:relative;z-index:1;background:#fff}
+}
+@media (max-width:439.98px){
+  .pdp.ld .p-grid{margin:10px -20px 18px;padding:6px 20px 16px;scroll-padding:0 20px}
+}
+
 /* related */
 .related{padding:37px 0 0}
 .rel-h{margin:0;padding:0 33px;font-size:25px;line-height:40px;font-weight:700;letter-spacing:.35px;color:#1e1e1e}

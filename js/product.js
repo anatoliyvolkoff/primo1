@@ -220,7 +220,7 @@
   if (!page) return;
   const params = new URLSearchParams(location.search);
   // drafts: ?layout=b / ?layout=c show the alternative phone layouts (css/product.css ".pdp.lb" / ".pdp.lc")
-  const layout = ['b', 'c'].includes(params.get('layout')) ? params.get('layout') : '';
+  const layout = ['b', 'c', 'd'].includes(params.get('layout')) ? params.get('layout') : '';
   const lay = layout ? '&layout=' + layout : '';
   if (layout) $('.pdp').classList.add('l' + layout);
   // layout c: on phones the swatches ride on the photo, so picking a colour and seeing it happen in one place
@@ -249,6 +249,8 @@
   };
   page.addEventListener('pm:pick', e => {
     const q = e.detail; setHead(q);
+    // layout d: the card slides back down after a pick, so the pinned photo shows the colour in full
+    if (layout === 'd' && phoneMQ.matches && scrollY > 0) scrollTo({ top: 0, behavior: PM.smooth() });
     history.replaceState(null, '', (kit ? `?kit=${kit}${q.kit ? '' : '&shade=' + q.id}` : `?id=${q.id}`) + lay);
   });
   if (kit) {                                              // the seasonal kit page shows the season switcher (design "product seasons")
