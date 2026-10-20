@@ -343,3 +343,50 @@
   .marquee+.footer,.courses~.marquee.d-only{margin-bottom:0}
   main{padding-bottom:120px}
 }
+
+/* ---------- The Seasons: motion variants to compare (?bg=…&hover=…, switcher with ?lab) ---------- */
+@property --ax{syntax:"<percentage>";inherits:true;initial-value:50%}
+@property --ac{syntax:"<color>";inherits:true;initial-value:rgba(255,255,255,0)}
+/* bg=soft: the new season fades in over the old one, which lets go a beat later, so the white never flashes through */
+.seasons[data-bg=soft] .bg-layer{transition:opacity 1.1s cubic-bezier(.4,0,.2,1) .25s}
+.seasons[data-bg=soft] .bg-layer.on{z-index:1;transition:opacity .9s cubic-bezier(.4,0,.2,1)}
+.seasons[data-bg=soft] .particles,.seasons[data-bg=rise] .particles{opacity:0;transition:opacity .6s}
+.seasons[data-bg=soft] .on .particles,.seasons[data-bg=rise] .on .particles{opacity:1;transition:opacity 1.4s .5s}
+/* bg=rise: the colour pours up from the bottom of the section */
+.seasons[data-bg=rise] .bg-layer{transition:opacity .9s cubic-bezier(.4,0,.2,1) .15s}
+.seasons[data-bg=rise] .bg-layer.on{z-index:1;transition:opacity .7s cubic-bezier(.4,0,.2,1)}
+.seasons[data-bg=rise] .bg-layer .panel{transform:translate3d(0,14%,0);transition:transform 1.2s cubic-bezier(.22,1,.36,1)}
+.seasons[data-bg=rise] .bg-layer.on .panel{transform:none}
+/* bg=calm: soft fade, paler tint, no falling leaves / flakes / petals / bubbles */
+.seasons[data-bg=calm] .bg-layer{transition:opacity 1.1s cubic-bezier(.4,0,.2,1) .25s}
+.seasons[data-bg=calm] .bg-layer.on{z-index:1;opacity:.6;transition:opacity .9s cubic-bezier(.4,0,.2,1)}
+.seasons[data-bg=calm] .particles{display:none}
+/* bg=glow: no full-section swap; a soft halo of the season colour glides behind the card */
+.seasons .aura{display:none}
+.seasons[data-bg=glow] .bg-layer{display:none}
+.seasons[data-bg=glow] .aura{display:block;position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(30% 62% at var(--ax) 70%,var(--ac),transparent 75%);
+  transition:--ax .9s cubic-bezier(.22,1,.36,1),--ac .9s ease}
+@media (max-width:1023.98px){.seasons[data-bg=glow] .aura{background:radial-gradient(75% 42% at 50% 60%,var(--ac),transparent 75%)}}
+
+@media (min-width:1024px){
+  /* the preview follows the pointer only after it rests on a card for a moment (js), and these ease in slower */
+  .seasons[data-hover] .s-card{transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .6s ease,filter .6s ease,border-color .5s,box-shadow .6s ease}
+  .seasons[data-hover] .s-photo img{transition:transform 1.4s cubic-bezier(.22,1,.36,1)}
+  /* hover=lift: the card rises a little; the others stay readable */
+  .seasons[data-hover=lift][data-season] .s-card.active{transform:translate3d(0,-8px,0)!important;box-shadow:0 26px 40px -22px rgba(20,20,30,.28)}
+  .seasons[data-hover=lift][data-season] .s-card:not(.active){opacity:.75}
+  /* hover=frame: nothing moves; colour border, tinted shadow and a slow photo zoom; the others soften */
+  .seasons[data-hover=frame][data-season] .s-card.active{transform:none!important;box-shadow:0 18px 44px -20px var(--c)}
+  .seasons[data-hover=frame][data-season] .s-card:not(.active){opacity:.85;filter:saturate(.6)}
+  /* hover=focus: a smaller zoom than now, the others step back slightly */
+  .seasons[data-hover=focus][data-season] .s-card.active{transform:scale(1.03)!important}
+  .seasons[data-hover=focus][data-season] .s-card:not(.active){opacity:.6;transform:scale(.985)!important}
+}
+
+/* variant switcher (only with ?lab) */
+.lab{position:fixed;left:12px;bottom:12px;z-index:90;display:grid;gap:8px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.96);box-shadow:0 10px 30px rgba(0,0,0,.18);font-size:12px;font-weight:600;max-width:calc(100vw - 24px)}
+.lab p{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:5px}
+.lab b{width:46px;color:#6f6f74}
+.lab button{height:28px;padding:0 11px;border-radius:99px;border:1px solid #c4c4c4;background:#fff;font:inherit;color:#1e1e1e}
+.lab button[aria-pressed=true]{background:#1e1e1e;border-color:#1e1e1e;color:#fff}
