@@ -2,10 +2,22 @@
   <main id="top" class="cat" tabindex="-1">
     <script>if (new URLSearchParams(location.search).get('cat') === 'semipermanente') document.documentElement.classList.add('cat-semi');</script>
     <section class="cat-shop" id="cat-shop" aria-labelledby="cat-shop-h">
-      <h1 class="h2" id="cat-shop-h">Shop by color</h1>
-      <p class="sub">Choose your colour, go straight to the product selection you are looking for.</p>
+      <!-- header variants for review (?hdr=i|j|k|l|m|n); the swatch row below is the same for all -->
+      <div class="cs-bg" aria-hidden="true"></div>
+      <div class="cs-v" data-v="0">
+        <h1 class="h2" lang="en">Shop by color</h1>
+        <p class="sub" lang="en">Choose your colour, go straight to the product selection you are looking for.</p>
+      </div>
+      <div class="cs-v cs-d" data-v="d" hidden>
+        <p class="cs-eyebrow" lang="en">Shop by color</p>
+        <h1 class="cs-title"><span data-cs-big>Scegli il tuo colore</span></h1>
+        <p class="cs-meta"><span data-cs-hint>Semipermanente, <b data-cs-n></b> tonalità</span><span data-cs-picked hidden><b data-cs-n></b> prodotti</span><button type="button" class="cs-clear" data-cs-clear hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>Tutti i colori</button></p>
+      </div>
       <div class="cat-shop-row" id="cat-shop-row" role="group" aria-label="Colori"></div>
     </section>
+    <div class="cs-switch" id="cs-switch" role="group" aria-label="Prototype: varianti intestazione">
+      <span>Intestazione</span><button type="button" data-hdr="0">Attuale</button><button type="button" data-hdr="i">I</button><button type="button" data-hdr="j">J</button><button type="button" data-hdr="k">K</button><button type="button" data-hdr="l">L</button><button type="button" data-hdr="m">M</button><button type="button" data-hdr="n">N</button>
+    </div>
     <section class="cat-hero" aria-label="PriMo Nails">
       <picture><source media="(min-width:1024px)" srcset="img/hero-catalog.jpg"><img src="img/catalog-hero-m.jpg" alt="" fetchpriority="high"></picture>
       <div class="cat-hero-txt d-only"><h1>L'Eleganza nelle Tue Mani</h1><p>Scopri la collezione di gel polish professionali PriMo Nails.</p></div>

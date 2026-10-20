@@ -117,6 +117,7 @@
     $('#sort-cur').textContent = SORT_LABEL[st.sort]; $('#sort-btn-m b').textContent = SORT_LABEL[st.sort];
     $$('li', menu).forEach(li => li.setAttribute('aria-selected', li.dataset.sort === st.sort));
     $('#results-live').textContent = `${list.length} prodotti`;
+    syncHead(list.length);
     renderPager(pages, list.length);
     // keep the URL shareable
     const u = new URLSearchParams();
@@ -125,8 +126,10 @@
     if (st.colls.size === 1) u.set('coll', [...st.colls][0]);
     if (st.colors.size === 1) u.set('colore', [...st.colors][0]);
     if (st.page > 1) u.set('pagina', st.page);
+    if (hdr !== HDR_DEFAULT) u.set('hdr', hdr);
     history.replaceState(null, '', u.toString() ? '?' + u : location.pathname);
-    if (scroll) $('#fbar-wrap').scrollIntoView({ behavior: smooth() });
+    if (scroll === 'shop') scrollTo({ top: Math.max(0, $('#cat-shop').getBoundingClientRect().top + scrollY - $('.topbar').offsetHeight), behavior: smooth() });
+    else if (scroll) $('#fbar-wrap').scrollIntoView({ behavior: smooth() });
   }
   function renderPager(pages, total) {
     const pg = $('#pager'); pg.hidden = pages < 2 && !desktopMQ.matches;
@@ -162,8 +165,49 @@
     const m = e.target.closest('[data-mood]'); if (!m) return;
     if (m.getAttribute('aria-pressed') === 'true') { st.mood = null; st.colors.clear(); }
     else { st.mood = m.dataset.mood; st.colors = new Set([MOOD_TO_COLOR[st.mood]]); }
-    st.page = 1; buzz(6); apply(true);
+    st.page = 1; buzz(6); apply(hdr === '0' ? true : 'shop');
   });
+
+  // ---------- header variants above the swatches, for review: ?hdr=i|j|k|l|m|n (0 = current). All share one markup:
+  // the title turns into the picked colour's name and part of the block takes shades of it —
+  // i spotlight under the picked nail; j–n a card behind the title: j flat, k radial, l mesh, m aurora, n gloss
+  const MOOD_DEEP = { 'b & w': '#111', grigio: '#55565d', nude: '#8f6b62', rosa: '#c94f8a', rosso: '#b0001c', bordeaux: '#4a0a08', lampone: '#a61433', fucsia: '#c0136a',
+    lilla: '#7d43b3', cioccolato: '#341210', glitter: '#8a5c55', blu: '#264996', verde: '#3b6e21', giallo: '#8a7316' };
+  const MOOD_SOFT = { 'b & w': '#f0f0f0', grigio: '#eeeef1', nude: '#f7ede9', rosa: '#fde6f0', rosso: '#fbe3e5', bordeaux: '#f4e3e2', lampone: '#f9e1e7', fucsia: '#fde2ef',
+    lilla: '#efe6fa', cioccolato: '#f0e7e4', glitter: '#f6eae6', blu: '#e4eaf7', verde: '#e6f1e0', giallo: '#fbf4d6' };
+  const shop = $('#cat-shop'), HDRS = ['0', 'i', 'j', 'k', 'l', 'm', 'n'];
+  const HDR_DEFAULT = 'm';
+  let hdr = HDRS.includes(qs.get('hdr')) ? qs.get('hdr') : HDR_DEFAULT;
+  function setHdr(v) {
+    hdr = v; shop.dataset.hdr = v; shop.classList.toggle('carded', 'jklmn'.includes(v));
+    $$('.cs-v', shop).forEach((el, i) => { el.hidden = el.dataset.v !== (v === '0' ? '0' : 'd'); const h = $('h1', el); h.id = 'cat-shop-h' + i; if (!el.hidden) shop.setAttribute('aria-labelledby', h.id); });
+    $$('[data-hdr]', $('#cs-switch')).forEach(b => b.setAttribute('aria-pressed', b.dataset.hdr === v));
+  }
+  $('#cs-switch').addEventListener('click', e => { const b = e.target.closest('[data-hdr]'); if (b) { setHdr(b.dataset.hdr); apply(); } });
+  shop.addEventListener('click', e => { if (e.target.closest('[data-cs-clear]')) { st.mood = null; st.colors.clear(); st.page = 1; buzz(6); apply(); } });
+  // i: the spotlight sits under the picked nail
+  function spot() {
+    const m = $('.cs-item[aria-pressed=true] img', shop); if (!m) return;
+    const r = shop.getBoundingClientRect(), n = m.getBoundingClientRect();
+    shop.style.setProperty('--sx', `${n.left + n.width / 2 - r.left}px`); shop.style.setProperty('--sy', `${n.top + n.height / 2 - r.top}px`);
+  }
+  addEventListener('resize', spot);
+  let shownBig = null;
+  function syncHead(n) {
+    const c = st.colors.size === 1 ? [...st.colors][0] : null;
+    const name = c && st.mood && MOOD_TO_COLOR[st.mood] === c ? st.mood : c ? COLORS.find(x => x[0] === c)[1] : st.colors.size ? `${st.colors.size} colori` : null;
+    $$('[data-cs-n]', shop).forEach(b => { b.textContent = n; });
+    $$('[data-cs-hint]', shop).forEach(b => { b.hidden = !!name; });
+    $$('[data-cs-picked]', shop).forEach(b => { b.hidden = !name; });
+    $$('[data-cs-clear]', shop).forEach(b => { b.hidden = !name; });
+    if (name) shop.style.setProperty('--deep', MOOD_DEEP[name] || '#111'); else shop.style.removeProperty('--deep');
+    if (name) shop.style.setProperty('--soft', MOOD_SOFT[name] || '#f3efeb'); else shop.style.removeProperty('--soft');
+    shop.classList.toggle('picked', !!name);
+    spot();
+    const big = $('[data-cs-big]', shop), bigTxt = name ? name[0].toUpperCase() + name.slice(1) : 'Scegli il tuo colore';
+    if (bigTxt !== shownBig) { big.textContent = bigTxt; big.classList.remove('swap'); void big.offsetWidth; if (shownBig !== null) big.classList.add('swap'); shownBig = bigTxt; }
+  }
+  setHdr(hdr);
   if (st.colors.size && !document.documentElement.classList.contains('cat-semi')) setPanel(true);
   apply(!!st.q);                                                     // arriving from search: go straight to the results
   PM.ready();
