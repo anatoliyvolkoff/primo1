@@ -65,7 +65,7 @@
       </div>`;
     wire(root, v);
   };
-  const accHtml = (p, id) => accOf(p).map(([h, t], i) => `<details><summary><span>${h}</span>${chev}</summary><p id="${id}-acc${i}">${t}</p></details>`).join('');
+  const accHtml = (p, id) => accOf(p).map(([h, t], i) => `<details><summary><span>${h}</span>${chev}</summary><p id="${id}-acc${i}">${t.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>')}</p></details>`).join('');
 
   /* a swatch was picked: in a kit only the shade line changes (the title stays the kit's); for a product the whole panel becomes the sibling */
   function showPicked(root, v, q) {
