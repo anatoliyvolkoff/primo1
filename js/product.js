@@ -46,10 +46,13 @@
         <div class="g-dots"><button type="button" aria-label="Foto 1" aria-current="true"></button><button type="button" aria-label="Foto 2"></button></div>
       </div>
       <div class="pinfo">
+        <p class="p-eyebrow" data-p-cat>${CAT_LABEL[p.cat]}</p>
         ${badgeHtml(p)}
         <h1 class="p-title" data-p-title>${label(p)}</h1>
-        ${priceHtml(p)}
-        ${sizesHtml(p)}
+        <div class="p-row">
+          ${priceHtml(p)}
+          ${sizesHtml(p)}
+        </div>
         ${v.shades.length ? `<div class="p-shades-h"><b>Sfumature: <span data-shade-name>${v.all ? 'set completo' : shadeName(p)}</span></b><span><em>${v.shades.length}</em> Colori</span></div>
         <div class="p-grid" role="group" aria-label="Sfumature">
           ${v.all ? `<button type="button" class="psw all" data-id="${p.id}" aria-pressed="true" aria-label="Set completo" style="--c:${v.all}">all</button>` : ''}
@@ -81,6 +84,7 @@
     const sn = $('[data-shade-name]', root); if (sn) sn.textContent = q.kit ? 'set completo' : shadeName(q);
     if (!v.all) {
       $('[data-p-title]', root).textContent = label(q);
+      $('[data-p-cat]', root).textContent = CAT_LABEL[q.cat];
       $('.p-price', root).outerHTML = priceHtml(q);
       $('[data-p-size]', root).outerHTML = sizesHtml(q);
       $('.p-badge', root)?.remove(); $('[data-p-title]', root).insertAdjacentHTML('beforebegin', badgeHtml(q));
@@ -211,6 +215,9 @@
   const page = $('#pdp');
   if (!page) return;
   const params = new URLSearchParams(location.search);
+  // draft: ?layout=b shows the alternative phone layout (css/product.css ".pdp.lb")
+  const lay = params.get('layout') === 'b' ? '&layout=b' : '';
+  if (lay) $('.pdp').classList.add('lb');
   const kitParam = (params.get('kit') || '').toLowerCase();
   let kit = KITS[kitParam] ? kitParam : null;
   const tabs = $('#season-tabs');
@@ -228,7 +235,7 @@
   };
   page.addEventListener('pm:pick', e => {
     const q = e.detail; setHead(q);
-    history.replaceState(null, '', kit ? `?kit=${kit}${q.kit ? '' : '&shade=' + q.id}` : `?id=${q.id}`);
+    history.replaceState(null, '', (kit ? `?kit=${kit}${q.kit ? '' : '&shade=' + q.id}` : `?id=${q.id}`) + lay);
   });
   if (kit) {                                              // the seasonal kit page shows the season switcher (design "product seasons")
     document.body.classList.add('kit');
@@ -242,7 +249,7 @@
       kit = b.dataset.kit;
       $$('[data-kit]', tabs).forEach(t => t.setAttribute('aria-selected', t === b));
       place(); render();
-      history.replaceState(null, '', `?kit=${kit}`);
+      history.replaceState(null, '', `?kit=${kit}` + lay);
     });
     tabs.addEventListener('keydown', e => {
       const list = $$('[data-kit]', tabs), i = list.indexOf(document.activeElement), s = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
