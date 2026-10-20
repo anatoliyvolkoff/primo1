@@ -46,10 +46,16 @@
 /* l: mesh, four soft blobs of light and deep shades */
 [data-hdr=l] .cs-d{background:radial-gradient(60% 95% at 0% 0%,var(--s2),transparent 70%),radial-gradient(55% 85% at 100% 10%,var(--s1),transparent 70%),
   radial-gradient(70% 100% at 88% 100%,var(--s3),transparent 72%),radial-gradient(60% 90% at 8% 100%,var(--s1),transparent 70%),var(--soft)}
-/* m: aurora, the shades swirl slowly behind the title */
+/* m: aurora, the shades keep swirling and drifting behind the title (stopped by the global reduced-motion rule); before a pick it swirls through pastels of all the colours */
 [data-hdr=m] .cs-d{background:var(--s1)}
-[data-hdr=m] .cs-d::before{content:"";position:absolute;inset:-60% -20%;z-index:-1;background:conic-gradient(from 0deg,var(--soft),var(--s3),var(--s1),var(--s2),var(--s1),var(--s3),var(--soft));filter:blur(30px);animation:cs-spin 18s linear infinite}
+[data-hdr=m] .cs-d::before,[data-hdr=m] .cs-d::after{content:"";position:absolute;z-index:-1;pointer-events:none}
+[data-hdr=m] .cs-d::before{inset:-70% -25%;background:conic-gradient(from 0deg,var(--s1),var(--s3),var(--soft),var(--s2),var(--s1),var(--s3),var(--s1));filter:blur(26px);animation:cs-spin 9s linear infinite}
+[data-hdr=m] .cs-d::after{inset:-40%;background:radial-gradient(28% 34% at 30% 40%,var(--s3),transparent 70%),radial-gradient(26% 32% at 70% 60%,var(--s1),transparent 70%),radial-gradient(24% 30% at 55% 30%,var(--s2),transparent 70%);filter:blur(14px);animation:cs-drift 6s ease-in-out infinite alternate}
+[data-hdr=m]:not(.picked) .cs-d{background:#fbf4f8}
+[data-hdr=m]:not(.picked) .cs-d::before{background:conic-gradient(from 0deg,#fde6f0,#d9e2f6,#fbf2cf,#e7d9f8,#dcedd3,#f9dbe0,#fde6f0)}
+[data-hdr=m]:not(.picked) .cs-d::after{background:radial-gradient(28% 34% at 30% 40%,#f5c6da,transparent 70%),radial-gradient(26% 32% at 70% 60%,#cdd8f3,transparent 70%),radial-gradient(24% 30% at 55% 30%,#e2d0f6,transparent 70%)}
 @keyframes cs-spin{to{transform:rotate(1turn)}}
+@keyframes cs-drift{0%{transform:translate(-14%,-6%) rotate(0)}50%{transform:translate(8%,10%) rotate(25deg)}100%{transform:translate(14%,-8%) rotate(-15deg)}}
 /* n: gloss, a gel-polish surface with a light streak across it */
 [data-hdr=n] .cs-d{background:radial-gradient(90% 70% at 16% 0%,rgba(255,255,255,.8),rgba(255,255,255,0) 60%),linear-gradient(140deg,var(--s1) 0,var(--soft) 34%,var(--s2) 68%,var(--s3) 100%)}
 .cs-switch{display:none}
