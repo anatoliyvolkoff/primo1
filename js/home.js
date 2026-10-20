@@ -86,16 +86,16 @@
   addEventListener('resize', placePill); document.fonts && document.fonts.ready.then(placePill); placePill();
 
   // ---------- colour picker (mobile "Scegli il tuo Mood", desktop "Shop by color") ----------
+  // every swatch opens the Semipermanente catalogue with that colour already picked (catalog.js reads ?colore=)
+  const shadeHref = label => `catalogo.html?cat=semipermanente&colore=${encodeURIComponent(label)}`;
   const moodRow = $('#mood-row');
-  moodRow.innerHTML = MOODS.map(([label, f]) => `<button class="mood-item" data-name="${label}" aria-pressed="false">
-    <img src="img/mood-${f}.webp?v=3" alt="" width="53" height="125" loading="lazy" decoding="async"><span>${label}</span></button>`).join('');
+  moodRow.innerHTML = MOODS.map(([label, f]) => `<a class="mood-item" href="${shadeHref(label)}" data-name="${label}">
+    <img src="img/mood-${f}.webp?v=3" alt="" width="53" height="125" loading="lazy" decoding="async"><span>${label}</span></a>`).join('');
   attachProgress(moodRow);
   const colorRow = $('#color-row');
-  colorRow.innerHTML = MOODS.map(([label, f]) => `<a class="color-item" href="catalogo.html?colore=${encodeURIComponent(label)}" aria-label="${label}">
+  colorRow.innerHTML = MOODS.map(([label, f]) => `<a class="color-item" href="${shadeHref(label)}" aria-label="${label}">
     <img src="img/mood-${f}.webp?v=3" alt="" width="50" height="122" loading="lazy" decoding="async"><span>color</span></a>`).join('');
   function pickMood(item, { scroll = false } = {}) {
-    $$('.mood-item').forEach(m => m.setAttribute('aria-pressed', m === item));
-    toast(`Colore: ${item.dataset.name}`);
     if (scroll) {
       $('#mood').scrollIntoView({ behavior: smooth() });
       setTimeout(() => {
@@ -105,7 +105,6 @@
       }, reduceMotion ? 0 : 450);
     }
   }
-  moodRow.addEventListener('click', e => { const m = e.target.closest('.mood-item'); if (m) pickMood(m); });
   const moodAll = $('#mood-all');
   moodAll.onclick = () => {
     const grid = moodRow.classList.toggle('grid');

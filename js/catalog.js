@@ -128,7 +128,7 @@
     if (st.q) u.set('q', st.q);
     if (st.cat) u.set('cat', st.cat);
     if (st.colls.size === 1) u.set('coll', [...st.colls][0]);
-    if (st.colors.size === 1) u.set('colore', [...st.colors][0]);
+    if (st.colors.size === 1) { const c = [...st.colors][0]; u.set('colore', st.mood && MOOD_TO_COLOR[st.mood] === c ? st.mood : c); }   // keep the swatch name so a reload re-selects it
     if (st.page > 1) u.set('pagina', st.page);
     if (hdr !== HDR_DEFAULT) u.set('hdr', hdr);
     history.replaceState(null, '', u.toString() ? '?' + u : location.pathname);
