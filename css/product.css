@@ -150,15 +150,36 @@
   .pdp .related{padding-bottom:140px}
 }
 
-/* quick view: the product panel in a dialog (catalogue "eye" button, home The Seasons). Phones: a bottom sheet; desktop: a centred card. */
+/* quick view: the product panel in a dialog (catalogue "eye" button, home The Seasons).
+   Phones: a bottom sheet with the tabs and close button on one fixed row and a sticky add-to-cart bar.
+   From 768px: a centred two-column card; only the body scrolls, the photo stays put while the details scroll. */
 .qv{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:rgba(20,20,20,.55);animation:fadein .2s both}
 .qv[hidden]{display:none}
-.qv-modal{position:relative;width:100%;max-width:440px;max-height:92dvh;overflow:auto;overscroll-behavior:contain;background:#fff;border-radius:26px 26px 0 0;padding:18px 0 28px;animation:qvup .3s var(--ease) both}
-.qv-close{position:absolute;top:10px;right:12px;z-index:3;background:#fff;box-shadow:0 0 0 1px #ececec}
-.qv-tabs{margin:56px auto 0}
-.qv .gallery{margin-top:12px;height:400px}
-.qv .pinfo{padding-top:20px}
-.qv-more{display:block;margin:18px auto 0;width:fit-content;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.qv-modal{position:relative;display:flex;flex-direction:column;width:100%;max-width:440px;max-height:92dvh;overflow:hidden;background:#fff;border-radius:26px 26px 0 0;animation:qvup .3s var(--ease) both}
+.qv-head{flex:none;display:flex;align-items:center;gap:8px;padding:12px 12px 12px 16px;border-bottom:1px solid transparent;transition:border-color .2s}
+.qv-head.scrolled{border-bottom-color:#f0f0f2}
+.qv-tabs.season-tabs{flex:1;display:flex;width:auto;min-width:0;height:42px;margin:0;padding:5.5px;column-gap:0}
+.qv-tabs.season-tabs button{flex:1 1 auto;padding:0 8px;white-space:nowrap}
+.qv .st-pill{top:5.5px}
+.qv-close{flex:none;background:#fff;box-shadow:0 0 0 1px #ececec}
+.qv-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding-bottom:20px}
+.qv .gallery{margin:0;height:clamp(280px,92vw,400px)}
+.qv .g-track{height:100%;margin:0}
+.qv .g-dots{top:auto;bottom:10px}
+.qv .pinfo{padding:20px 20px 0}
+.qv .p-grid{margin-top:14px;width:100%;grid-template-columns:repeat(5,minmax(0,56px));justify-content:start;gap:12px}
+.qv .psw{width:100%;height:auto;aspect-ratio:1}
+.qv .wholesale{margin:24px 0 0;height:auto;min-height:64px;padding:12px 14px}
+.qv .ship-note{margin-top:12px;text-align:left}
+.qv .wholesale a{white-space:nowrap}
+.qv .p-acc{margin-top:16px}
+.qv .p-acc summary{height:54px;font-size:15px}
+/* phones have no page buy bar here, so the panel's own stepper + button stick to the bottom of the sheet */
+.qv .p-buy.d-only{display:flex!important;order:9;position:sticky;bottom:0;z-index:2;align-self:stretch;align-items:center;gap:12px;margin:16px -20px 0;padding:12px 20px calc(12px + env(safe-area-inset-bottom,0px));background:#fff;box-shadow:0 -8px 24px -12px rgba(0,0,0,.14)}
+.qv .p-buy .stepper svg{width:36px;height:36px}
+.qv .p-buy .stepper output{margin:0 4px}
+.qv .p-buy .buy{flex:1;height:48px;margin:0;font-size:15px}
+.qv-more{display:block;margin:20px auto 0;width:fit-content;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px}
 @keyframes qvup{from{transform:translateY(100%)}}
 .qv-close{transition:transform .25s var(--ease),background-color .2s}
 .qv.out{animation:fadeout .24s ease-in both}
@@ -166,31 +187,52 @@
 @keyframes fadeout{to{opacity:0}}
 @keyframes qvdown{to{transform:translateY(100%)}}
 @media (hover:hover) and (pointer:fine){.qv-close:hover{transform:rotate(90deg);background:#f3f3f3}.qv-more:hover{color:#555}}
-@media (min-width:1024px){
-  .qv{align-items:center}
-  .qv-modal{max-width:792px;border-radius:40px;padding:0 0 30px;max-height:90vh}
-  .qv-close{top:36px;right:28px}
-  .qv-tabs{margin:24px auto 0}
-  .qv .pdp-grid,.qv-body{display:grid;grid-template-columns:404px 288px;column-gap:16px;padding:0 42px;margin-top:22px}
-  .qv .gallery{margin:0;height:404px}
-  .qv .g-track{height:404px;margin:0}
-  .qv .g-dots{top:auto;bottom:8px}
-  .qv .pinfo{padding:0}
-  .qv .p-title{font-size:21px;line-height:28px}
-  .qv .p-price{font-size:17px;gap:10px;letter-spacing:1.6px;margin-top:8px}
-  .qv .p-size{margin-top:12px;transform:scale(.8);transform-origin:left}
-  .qv .p-shades-h{margin-top:12px;font-size:11px}
-  .qv .p-grid{grid-template-columns:repeat(6,36px);column-gap:4.6px;row-gap:5px;width:auto;justify-content:start}
-  .qv .psw{width:36px;height:36px}
-  .qv .p-buy{padding:0 0 0 6px;margin-top:20px;height:44px}
-  .qv .p-buy .stepper svg{width:30px;height:30px}
-  .qv .p-buy .buy{width:162px;height:34px;font-size:13px}
-  .qv .wholesale{margin:16px 0 0;height:52px;padding-left:10px}
-  .qv .wholesale b{font-size:12px}.qv .wholesale p span{font-size:11px}
-  .qv .ws-ic{width:30px;height:30px}
-  .qv .p-acc summary{height:44px;font-size:12.5px}
+@media (max-width:389.98px){.qv-tabs.season-tabs button{padding:0 6px;font-size:12px}}
+
+/* tablets and desktop: a centred card, photo left, details right */
+@media (min-width:768px){
+  .qv{align-items:center;padding:24px}
+  .qv-modal{width:min(960px,100%);max-width:none;max-height:min(90dvh,820px);border-radius:32px}
+  .qv-head{display:grid;grid-template-columns:44px 1fr 44px;padding:20px 24px 16px}
+  .qv-tabs.season-tabs{grid-column:2;justify-self:center;display:grid;grid-template-columns:repeat(4,96.4px);column-gap:4.27px;width:411px;height:42.4px;padding:5.7px 6.3px}
+  .qv-tabs.season-tabs button{padding:0}
+  .qv .st-pill{top:5.7px}
+  .qv-close{grid-column:3}
+  .qv-scroll{padding:8px 32px 28px}
+  .qv .pdp-grid,.qv-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:32px;align-items:start}
+  .qv .gallery{position:sticky;top:0;height:auto;aspect-ratio:1;border-radius:24px;overflow:hidden;background:#fefefe}
+  .qv .pinfo{padding:4px 0 0}
+  .qv .p-badge{width:59.4px;height:25.1px;border-radius:13px;font-size:14px}
+  .qv .p-badge+.p-title{margin-top:14px}
+  .qv .p-title{font-size:26px;line-height:32px;letter-spacing:.2px}
+  .qv .p-price{margin-top:12px;font-size:21px;line-height:24px;gap:12px;letter-spacing:1.6px}
+  .qv .p-size{margin-top:16px;width:56px;height:24px;font-size:13px}
+  .qv .p-shades-h{margin-top:20px;height:34px;padding-top:0;font-size:14px}
+  .qv .p-shades-h b,.qv .p-shades-h b span{font-size:14px}
+  .qv .p-shades-h>span{font-size:13px}
+  .qv .p-grid{width:auto;align-self:stretch;margin-top:14px;grid-template-columns:repeat(5,minmax(0,52px));gap:12px}
+  .qv .p-buy.d-only{order:0;position:static;margin:24px 0 0;padding:0;height:auto;box-shadow:none;background:none;gap:8px}
+  .qv .p-buy .stepper svg{width:34px;height:34px}
+  .qv .p-buy .buy{height:48px;margin-left:8px}
+  .qv .wholesale{margin:20px 0 0;gap:12px}
+  .qv .ws-ic{width:34px;height:34px}
+  .qv .wholesale b{font-size:14px;line-height:17px}
+  .qv .wholesale p{gap:4px}
+  .qv .wholesale p span{font-size:13px;line-height:16px}
+  .qv .ship-note{font-size:12px}
+  .qv .p-acc{margin-top:16px}
+  .qv .p-acc summary{height:50px;font-size:14px}
+  .qv .p-acc p{font-size:13.5px}
+  .qv-more{margin-top:24px}
   .qv-modal{animation:qvin .34s var(--ease) both}
   .qv.out .qv-modal{animation:qvout .22s ease-in both}
   @keyframes qvin{from{opacity:0;transform:translateY(24px) scale(.97)}}
   @keyframes qvout{to{opacity:0;transform:translateY(16px) scale(.98)}}
+}
+@media (min-width:1024px){
+  .qv-modal{border-radius:40px}
+  .qv-head{padding:24px 28px 16px}
+  .qv-scroll{padding:8px 48px 32px}
+  .qv .pdp-grid,.qv-body{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);column-gap:40px}
+  .qv .p-title{font-size:28px;line-height:34px}
 }
