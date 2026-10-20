@@ -135,6 +135,23 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
 .sort-menu li{padding:10px 14px;font-size:13px;font-weight:500;border-radius:9px;cursor:pointer;white-space:nowrap}
 .sort-menu li:hover,.sort-menu li[aria-selected=true]{background:#f3f3f3}
 .sort-menu li[aria-selected=true]{font-weight:700}
+/* phone + tablet: one column so chips, slider and sort fit inside the card */
+@media (max-width:1023.98px){
+  .fpanel{padding:22px 20px 20px}
+  .fp-grid{grid-template-columns:minmax(0,1fr);row-gap:22px}
+  .fc{grid-template-columns:repeat(auto-fill,32px);gap:10px;margin-top:12px}
+  .fdot{width:32px;height:32px}
+  .fchips{flex-direction:row;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .fchip,.fp-fx .fchip{height:36px;max-width:100%;padding:0 13px 0 16px;border-radius:18px}
+  .fp-price .pr-vals,.fp-price .pr-track{margin-left:0}
+  .pr-vals output{height:24px;padding:0 10px;border-radius:12px;font-size:11px}
+  .pr-track input::-webkit-slider-thumb{width:22px;height:22px;margin-top:3.5px}
+  .pr-track input::-moz-range-thumb{width:22px;height:22px}
+  .fp-foot{flex-direction:column;align-items:stretch;gap:6px;margin-top:24px;padding-top:18px;border-top:1px solid #efefef}
+  .m-sort{width:100%;height:44px;border-radius:22px;justify-content:space-between}
+  .m-sort span{margin-right:auto}
+  .fp-reset{align-self:center;height:40px}
+}
 .results-live{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
 
 /* product grid: phone card 190.4 × 353.3 (fluid below the 440 design width) */
