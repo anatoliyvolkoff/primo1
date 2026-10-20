@@ -146,18 +146,19 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
 .qv-btn{position:absolute;top:10px;right:10.1px;width:25.3px;height:25.3px;padding:0;border:0;border-radius:50%;background:#fcfcfc;box-shadow:0 1px 4px rgba(0,0,0,.16);display:grid;place-items:center;color:#555}
 .qv-btn::before{content:"";position:absolute;inset:-9px}
 .qv-btn svg{width:13px;height:13px;stroke-width:2}
-.gcard .pbody{padding:3.1px 0 20.3px 15.2px}
+.gcard .pbody{padding:3.1px 0 17.3px 15.2px}
+.gcard .phead{min-height:56.4px}
 .gcard h3{font-size:14px;line-height:16px;font-weight:700;letter-spacing:.05px;color:#1e1e1e}
 .gcard .type{margin:1.7px 0 0;font-size:10px;line-height:12px;font-weight:500;letter-spacing:.2px;color:#8f8f8f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .gcard .ml{margin:1.7px 0 0;font-size:7.5px;line-height:9px;font-weight:500;color:#8f8f8f}
 .gcard .price{margin:7px 0 0;gap:4.4px;font-size:13.5px;line-height:18.3px;font-weight:800;letter-spacing:1.3px}
 .gcard .price s{text-decoration-thickness:1.5px}
-.gcard .shades{flex:none;margin:12.1px 0 0 .9px;gap:2.6px;flex-wrap:nowrap}
-.gcard .sh{width:20.2px;height:20.2px;box-shadow:none}
-.gcard .sh[aria-pressed=true]{width:21.5px;height:21.5px}
+.gcard .shades{flex:none;margin:12.1px 0 0 .9px;gap:2px;flex-wrap:nowrap}
+.gcard .sh{width:22px;height:22px;box-shadow:none}
+.gcard .sh[aria-pressed=true]{width:23.5px;height:23.5px}
 .gcard .sh::after{inset:-1.5px;border-width:1.5px}
 .gcard .shades .extra{display:none}
-.gcard .plus{width:20.2px;height:20.2px;margin:0;border-width:1px;font-size:7.5px;font-weight:600;color:#333}
+.gcard .plus{width:22px;height:22px;margin:0;border-width:1px;font-size:7.5px;font-weight:600;color:#333}
 .gcard .add{margin:7.5px 0 0 -.3px;width:160.6px;height:28px;font-size:9.5px;font-weight:600;letter-spacing:.35px;display:flex;align-items:center;justify-content:center}
 .gcard .add svg{width:9px;height:9px;stroke-width:3;margin-right:4.5px;vertical-align:-1px}
 .empty{padding:40px 24px 0;text-align:center;color:#666}
@@ -255,14 +256,15 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .gcard .disc{top:11px;left:10px;height:16px;padding:0 9px;font-size:11px;line-height:16px;font-weight:600;background:#fe3c3c}
   .qv-btn{top:11px;right:11px;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
   .gcard:hover .qv-btn,.qv-btn:focus-visible{opacity:1;transform:none}
-  .gcard .pbody{padding:8.4px 16.9px 18.3px}
+  .gcard .pbody{padding:8.4px 16.9px 15.3px}
+  .gcard .phead{min-height:78.7px}
   .gcard h3{font-size:17.5px;line-height:22px;font-weight:600;letter-spacing:-.15px;color:#2e2e2e}
   .gcard .type{margin:1.7px 0 0;font-size:11px;line-height:15px;font-weight:600;letter-spacing:.35px;color:#8a8a8a}
   .gcard .ml{margin:4px 0 0;font-size:10.5px;line-height:14px;font-weight:600;color:#8a8a8a}
   .gcard .price{margin:10.9px 0 0;font-size:15.5px;line-height:19px;font-weight:700;letter-spacing:.2px}
   .gcard .shades{margin:11.6px 0 0 6.9px;gap:0}
-  .gcard .sh,.gcard .sh[aria-pressed=true]{width:23px;height:23px;margin:1.65px}
-  .gcard .plus{width:19px;height:19px;margin:3.65px;font-size:6.5px}
+  .gcard .sh,.gcard .sh[aria-pressed=true]{width:26px;height:26px;margin:1.65px}
+  .gcard .plus{width:22px;height:22px;margin:3.65px;font-size:6.5px}
   .gcard .add{margin:11.7px 0 0 6.9px;width:184.4px;height:31.4px;font-size:15px;font-weight:500;letter-spacing:.4px}
   .pager{flex-direction:row;justify-content:space-between;width:860px;height:72px;margin:40px auto 0;padding:0 72px;border:1px solid #eee;border-radius:36px;background:#fff;box-shadow:0 10px 30px -18px rgba(0,0,0,.18)}
   .pg-core{height:auto;padding:0;border:0;box-shadow:none;gap:32px}
