@@ -221,7 +221,7 @@
   const params = new URLSearchParams(location.search);
   // phone layout: d (pinned photo, details on a card) is the default; ?layout=a|b|c keeps the other drafts reachable (css/product.css ".pdp.lb" / ".lc" / ".ld")
   const asked = params.get('layout');
-  const layout = ['a', 'b', 'c'].includes(asked) ? asked : 'd';
+  const layout = ['a', 'b', 'c', 'e'].includes(asked) ? asked : 'd';
   const lay = layout !== 'd' ? '&layout=' + layout : '';
   if (layout !== 'a') $('.pdp').classList.add('l' + layout);
   // layout c: on phones the swatches ride on the photo, so picking a colour and seeing it happen in one place
@@ -251,7 +251,7 @@
   page.addEventListener('pm:pick', e => {
     const q = e.detail; setHead(q);
     // layout d: the card slides back down after a pick, so the pinned photo shows the colour in full
-    if (layout === 'd' && phoneMQ.matches && scrollY > 0) scrollTo({ top: 0, behavior: PM.smooth() });
+    if ((layout === 'd' || layout === 'e') && phoneMQ.matches && scrollY > 0) scrollTo({ top: 0, behavior: PM.smooth() });
     history.replaceState(null, '', (kit ? `?kit=${kit}${q.kit ? '' : '&shade=' + q.id}` : `?id=${q.id}`) + lay);
   });
   if (kit) {                                              // the seasonal kit page shows the season switcher (design "product seasons")

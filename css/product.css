@@ -203,6 +203,29 @@
   .pdp.ld .p-grid{margin:10px -20px 18px;padding:6px 20px 16px;scroll-padding:0 20px}
 }
 
+/* draft layout E (phone, ?layout=e): a flat page, no card; the colours come straight under the photo, then name, price and size */
+@media (max-width:1023.98px){
+  .pdp.le .gallery{height:min(96vw,420px)}
+  .kit .pdp.le .gallery{height:min(84vw,370px)}
+  .pdp.le .pinfo{padding-top:14px}
+  .pdp.le .p-shades-h{order:-3;margin-top:0;height:auto;border:0}
+  .pdp.le .p-grid{order:-2;display:flex;gap:10px;margin:8px -33px 18px;padding:6px 33px 16px;border-bottom:1px solid #f0f0f2;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding:0 33px;scrollbar-width:none;overscroll-behavior-x:contain}
+  .pdp.le .p-grid::-webkit-scrollbar{display:none}
+  .pdp.le .psw{flex:none;width:48px;height:48px;scroll-snap-align:start}
+  .pdp.le .p-badge{margin-bottom:10px}
+  .pdp.le .p-badge+.p-title{margin-top:0}
+  .pdp.le .p-title{font-size:24px;line-height:30px}
+  .pdp.le .p-row{display:flex;align-self:stretch;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+  .pdp.le .p-row .p-price{margin:0}
+  .pdp.le .p-row .p-size,.pdp.le .p-row .p-sizes{margin:0;flex:none}
+  .pdp.le .p-sizes{gap:6px}
+  .pdp.le .p-sizes .p-size{padding:0 12px}
+  .pdp.le .wholesale{margin-top:24px}
+}
+@media (max-width:439.98px){
+  .pdp.le .p-grid{margin:8px -20px 18px;padding:6px 20px 16px;scroll-padding:0 20px}
+}
+
 /* related */
 .related{padding:37px 0 0}
 .rel-h{margin:0;padding:0 33px;font-size:25px;line-height:40px;font-weight:700;letter-spacing:.35px;color:#1e1e1e}
