@@ -169,8 +169,8 @@
   const layers = [...bg.children];
   bg.insertAdjacentHTML('beforeend', '<div class="aura"></div>');
 
-  // motion variants to compare: ?bg=soft|rise|calm|glow|wash|horizon|mesh and ?hover=lift|frame|focus (none = the current motion); ?lab shows a switcher
-  const VARIANTS = { bg: ['now', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['now', 'lift', 'frame', 'focus'] };
+  // motion variants to compare: ?bg=soft|rise|calm|glow|wash|horizon|mesh and ?hover=quiet|lift|frame|focus (none = the current motion); ?lab shows a switcher
+  const VARIANTS = { bg: ['now', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['now', 'quiet', 'lift', 'frame', 'focus'] };
   const qs = new URLSearchParams(location.search);
   const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; };
   setVariant('bg', qs.get('bg')); setVariant('hover', qs.get('hover'));
@@ -231,9 +231,14 @@
         if (d < bestD) { bestD = d; best = k; }
         c.style.setProperty('--t', sec.dataset.idle === 'true' ? 0 : Math.min(1, d / pitch).toFixed(3));
       });
-      if (sec.dataset.idle !== 'true' && sNav < 0) { sState.pinned = best; setActive(best); }
+      if (sec.dataset.idle !== 'true' && sNav < 0) {
+        sState.pinned = best;
+        if (sec.dataset.hover === 'quiet') { sBest = best; sCommit(); } else setActive(best);   // quiet: the season changes once the swipe settles
+      }
     });
   }
+  let sBest = 0;
+  const sCommit = settle(() => { if (sNav < 0 && sec.dataset.idle !== 'true') setActive(sBest); }, 120);
   track.addEventListener('scroll', () => { if (sNav >= 0) sUnlock(); onSScroll(); }, { passive: true });
   addEventListener('resize', onSScroll);
 
@@ -256,9 +261,10 @@
   track.classList.add('free');
   const placeIdle = () => { if (sec.dataset.idle === 'true' && !desktopMQ.matches) { track.scrollLeft = centerLeft(0) + ((track.clientWidth - sCards[0].offsetWidth) / 2 - 24); onSScroll(); } };
   placeIdle(); addEventListener('load', placeIdle);
+  if (sec.dataset.hover === 'quiet' && !desktopMQ.matches) sGoTo(0, false);   // quiet: start settled on autumn, no intro slide
   new IntersectionObserver((ents, ob) => {
     if (desktopMQ.matches) return;
-    if (ents.some(e => e.isIntersecting)) { ob.disconnect(); introTimer = setTimeout(() => sGoTo(0), 900); }
+    if (ents.some(e => e.isIntersecting)) { ob.disconnect(); if (sec.dataset.idle === 'true') introTimer = setTimeout(() => sGoTo(0), 900); }
   }, { threshold: .5 }).observe($('.s-carousel'));
   ['pointerdown', 'wheel', 'keydown', 'touchstart'].forEach(ev => track.addEventListener(ev, () => { if (!desktopMQ.matches) { leaveIdle(); sNav = -1; } }, { passive: true }));
 
@@ -301,8 +307,9 @@
   const later = (fn, ms) => { clearTimeout(hoverT); if (sec.dataset.hover) hoverT = setTimeout(fn, ms); else fn(); };
   const restore = () => { if (desktopMQ.matches) setActive(sState.pinned); };
   sCards.forEach((c, i) => {
-    c.addEventListener('mouseenter', () => { if (desktopMQ.matches) later(() => setActive(i), 110); });
-    c.addEventListener('focusin', () => { clearTimeout(hoverT); if (desktopMQ.matches) setActive(i); });
+    // hover=quiet: hovering previews nothing; the season changes only on a click
+    c.addEventListener('mouseenter', () => { if (desktopMQ.matches && sec.dataset.hover !== 'quiet') later(() => setActive(i), 110); });
+    c.addEventListener('focusin', () => { clearTimeout(hoverT); if (desktopMQ.matches && sec.dataset.hover !== 'quiet') setActive(i); });
   });
   track.addEventListener('mouseleave', () => later(restore, 220));
   track.addEventListener('focusout', e => { if (!track.contains(e.relatedTarget) && !track.matches(':hover')) restore(); });
