@@ -43,7 +43,6 @@
           <figure class="g-slide"><img src="img/product.jpg" alt="${p.name}: flacone e unghia campione" draggable="false"></figure>
           <figure class="g-slide g-zoom"><img src="img/product.jpg" alt="${p.name}: dettaglio del colore" draggable="false" loading="lazy"></figure>
         </div>
-        <span class="g-chip" data-g-chip${p.cell ? '' : ' hidden'}><i style="${p.cell ? swatchBg(p.cell) : ''}"></i><b>${p.cell ? shadeName(p) : ''}</b></span>
         <div class="g-dots"><button type="button" aria-label="Foto 1" aria-current="true"></button><button type="button" aria-label="Foto 2"></button></div>
       </div>
       <div class="pinfo">
@@ -82,9 +81,6 @@
   function showPicked(root, v, q) {
     root.dataset.id = q.id;
     $$('.psw', root).forEach(x => x.setAttribute('aria-pressed', x.dataset.id === q.id));
-    // the photo carries a chip with the picked colour, so the choice shows next to the picture
-    const chip = $('[data-g-chip]', root);
-    if (chip) { chip.hidden = !q.cell; if (q.cell) { $('i', chip).style.cssText = swatchBg(q.cell); $('b', chip).textContent = shadeName(q); chip.classList.remove('pop'); void chip.offsetWidth; chip.classList.add('pop'); } }
     const sn = $('[data-shade-name]', root); if (sn) sn.textContent = q.kit ? 'set completo' : shadeName(q);
     if (!v.all) {
       $('[data-p-title]', root).textContent = label(q);
@@ -219,10 +215,10 @@
   const page = $('#pdp');
   if (!page) return;
   const params = new URLSearchParams(location.search);
-  // phone layout: d (pinned photo, details on a card) is the default; ?layout=a|b|c keeps the other drafts reachable (css/product.css ".pdp.lb" / ".lc" / ".ld")
+  // phone layout: e (flat page, colours straight under the photo) is the default; ?layout=a|b|c|d keeps the other drafts reachable (css/product.css ".pdp.lb" / ".lc" / ".ld")
   const asked = params.get('layout');
-  const layout = ['a', 'b', 'c', 'e'].includes(asked) ? asked : 'd';
-  const lay = layout !== 'd' ? '&layout=' + layout : '';
+  const layout = ['a', 'b', 'c', 'd'].includes(asked) ? asked : 'e';
+  const lay = layout !== 'e' ? '&layout=' + layout : '';
   if (layout !== 'a') $('.pdp').classList.add('l' + layout);
   // layout c: on phones the swatches ride on the photo, so picking a colour and seeing it happen in one place
   const phoneMQ = matchMedia('(max-width:1023.98px)');
@@ -250,7 +246,7 @@
   };
   page.addEventListener('pm:pick', e => {
     const q = e.detail; setHead(q);
-    // layout d: the card slides back down after a pick, so the pinned photo shows the colour in full
+    // layouts d and e: a pick made further down scrolls back up, so the photo shows the new colour
     if ((layout === 'd' || layout === 'e') && phoneMQ.matches && scrollY > 0) scrollTo({ top: 0, behavior: PM.smooth() });
     history.replaceState(null, '', (kit ? `?kit=${kit}${q.kit ? '' : '&shade=' + q.id}` : `?id=${q.id}`) + lay);
   });
