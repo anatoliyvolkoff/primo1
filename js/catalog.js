@@ -92,7 +92,7 @@
         <div class="phead"><h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p></div>
         ${priceHtml(p)}
-        ${shadesHtml(p, desktopMQ.matches || innerWidth >= 440 ? 6 : 5)}
+        ${shadesHtml(p, desktopMQ.matches || innerWidth >= 440 ? 6 : innerWidth >= 375 ? 5 : 4)}
         <button class="add" aria-label="Aggiungi al carrello – ${label(p)}"><span class="m-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>add to cart</span><span class="d-only">add to cart</span></button>
       </div>
     </article>`;
