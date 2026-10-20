@@ -82,7 +82,8 @@
     root.dataset.id = q.id;
     $$('.psw', root).forEach(x => x.setAttribute('aria-pressed', x.dataset.id === q.id));
     const sn = $('[data-shade-name]', root); if (sn) sn.textContent = q.kit ? 'set completo' : shadeName(q);
-    if (!v.all) {
+    if (v.all) $('[data-p-size]', root).textContent = q.size;   // "9 × 12 ml" for the whole set, "12 ml" for one shade
+    else {
       $('[data-p-title]', root).textContent = label(q);
       $$('.g-slide img', root).forEach(img => { img.src = imgOf(q); img.alt = img.alt.replace(/^[^:]*/, q.name); });
       $('[data-p-cat]', root).textContent = CAT_LABEL[q.cat];
