@@ -277,7 +277,7 @@
   }
 
   // ---------- product cards: one product each; its swatches are its family (same line or same colour), picking one turns the card into that product ----------
-  const SH_SHOWN = 6;
+  const SH_SHOWN = 5;
   const href = p => (p.kit ? `prodotto.html?kit=${p.kit}` : `prodotto.html?id=${p.id}`);
   const shadeBtn = (q, sel, extra = false, k = 0) => `<button class="sh${extra ? ' pop extra' : ''}" data-id="${q.id}" style="${swatchBg(q.cell)};--i:${k}" aria-label="${label(q)}" aria-pressed="${sel}"></button>`;
   const priceHtml = p => `<p class="price${p.old ? '' : ' nosale'}" aria-label="${money(p.price)}${p.old ? `, prezzo originale ${money(p.old)}` : ''}"><b>${money(p.price)}</b>${p.old ? `<s>${money(p.old)}</s>` : ''}</p>`;
