@@ -157,7 +157,7 @@
   };
   SEASONS.forEach(s => {
     const layer = document.createElement('div');
-    layer.className = 'bg-layer'; layer.dataset.season = s.id;
+    layer.className = 'bg-layer'; layer.dataset.season = s.id; layer.style.setProperty('--c', s.color);
     let p = '';
     if (!reduceMotion) for (let i = 0; i < (s.id === 'autumn' ? 14 : 10); i++) {
       const k = kinds[s.id](), dur = rnd(10, 18);
@@ -167,6 +167,28 @@
     bg.appendChild(layer);
   });
   const layers = [...bg.children];
+  bg.insertAdjacentHTML('beforeend', '<div class="aura"></div>');
+
+  // motion variants to compare: ?bg=soft|rise|calm|glow|wash|horizon|mesh and ?hover=lift|frame|focus (none = the current motion); ?lab shows a switcher
+  const VARIANTS = { bg: ['now', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['now', 'lift', 'frame', 'focus'] };
+  const qs = new URLSearchParams(location.search);
+  const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; };
+  setVariant('bg', qs.get('bg')); setVariant('hover', qs.get('hover'));
+  if (qs.has('lab') || qs.has('bg') || qs.has('hover')) {
+    const lab = document.createElement('div');
+    lab.className = 'lab'; lab.setAttribute('aria-label', 'Seasons motion variants');
+    const row = k => `<p><b>${k}</b>${VARIANTS[k].map(v => `<button type="button" data-k="${k}" data-v="${v}" aria-pressed="${(sec.dataset[k] || 'now') === v}">${v}</button>`).join('')}</p>`;
+    lab.innerHTML = row('bg') + row('hover');
+    lab.addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      setVariant(b.dataset.k, b.dataset.v);
+      $$(`button[data-k="${b.dataset.k}"]`, lab).forEach(x => x.setAttribute('aria-pressed', x === b));
+      const u = new URL(location.href); u.searchParams.set(b.dataset.k, b.dataset.v); history.replaceState(null, '', u);
+    });
+    document.body.appendChild(lab);
+  }
+  const auraX = c => { const r = c.getBoundingClientRect(), b = bg.getBoundingClientRect(); return ((r.left + r.width / 2 - b.left) / b.width * 100).toFixed(1); };
+  const rgba = (hex, a) => `rgba(${hex.slice(1).match(/../g).map(h => parseInt(h, 16)).join(',')},${a})`;
 
   // i = -1 brings back the neutral frame (desktop only)
   function setActive(i) {
@@ -175,8 +197,10 @@
     sCards.forEach((c, k) => c.classList.toggle('active', k === i));
     sDots.forEach((d, k) => d.setAttribute('aria-selected', k === i));
     layers.forEach((l, k) => l.classList.toggle('on', k === i));
-    if (i < 0) { delete sec.dataset.season; return; }
+    if (i < 0) { delete sec.dataset.season; sec.style.setProperty('--ac', rgba(sec.style.getPropertyValue('--accent') || '#ffffff', 0)); return; }
     const s = SEASONS[i];
+    sec.style.setProperty('--ac', rgba(s.color, .4));
+    sec.style.setProperty('--ax', desktopMQ.matches ? `${auraX(sCards[i])}%` : '50%');
     sec.style.setProperty('--accent', s.color); sec.style.setProperty('--cta-bg', s.cta);
     sec.dataset.season = s.id;
     cta.href = kitHref(i);
@@ -272,12 +296,15 @@
     if (desktopMQ.matches) { sec.dataset.idle = 'false'; sCards.forEach(c => c.style.removeProperty('--t')); setActive(sState.pinned); return; }
     if (sec.dataset.idle === 'true') placeIdle(); else sGoTo(sState.pinned < 0 ? 0 : sState.pinned, false);
   });
+  // with a hover variant the preview waits until the pointer rests on a card, so sweeping across the row doesn't flash every season
+  let hoverT;
+  const later = (fn, ms) => { clearTimeout(hoverT); if (sec.dataset.hover) hoverT = setTimeout(fn, ms); else fn(); };
   const restore = () => { if (desktopMQ.matches) setActive(sState.pinned); };
   sCards.forEach((c, i) => {
-    c.addEventListener('mouseenter', () => { if (desktopMQ.matches) setActive(i); });
-    c.addEventListener('focusin', () => { if (desktopMQ.matches) setActive(i); });
+    c.addEventListener('mouseenter', () => { if (desktopMQ.matches) later(() => setActive(i), 110); });
+    c.addEventListener('focusin', () => { clearTimeout(hoverT); if (desktopMQ.matches) setActive(i); });
   });
-  track.addEventListener('mouseleave', restore);
+  track.addEventListener('mouseleave', () => later(restore, 220));
   track.addEventListener('focusout', e => { if (!track.contains(e.relatedTarget) && !track.matches(':hover')) restore(); });
 
   // ---------- testimonials ----------
