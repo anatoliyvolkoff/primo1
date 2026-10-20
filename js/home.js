@@ -181,11 +181,13 @@
   const layers = [...bg.children];
   bg.insertAdjacentHTML('beforeend', `<div class="aura"></div><div class="bg-layer all">${neutralBlobs}</div>`);
 
-  // motion variants to compare: ?bg=airy|soft|rise|calm|glow|wash|horizon|mesh and ?hover=gentle|quiet|lift|frame|focus (none = the current motion); ?lab shows a switcher
-  const VARIANTS = { bg: ['now', 'airy', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['now', 'gentle', 'quiet', 'lift', 'frame', 'focus'] };
+  // motion variants to compare: ?bg=airy|soft|rise|calm|glow|wash|horizon|mesh and ?hover=gentle|float|glass|halo|sheen|tilt|quiet|lift|frame|focus (none = the current motion); ?lab shows a switcher
+  const VARIANTS = { bg: ['now', 'airy', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['now', 'gentle', 'float', 'glass', 'halo', 'sheen', 'tilt', 'quiet', 'lift', 'frame', 'focus'] };
   const qs = new URLSearchParams(location.search);
-  const calm = () => /^(quiet|gentle)$/.test(sec.dataset.hover || '');
-  const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; };
+  // calm hovers: only the hovered card reacts; on phones the season changes once a swipe settles
+  const CALM = ['quiet', 'gentle', 'float', 'glass', 'halo', 'sheen', 'tilt'];
+  const calm = () => CALM.includes(sec.dataset.hover);
+  const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; sec.toggleAttribute('data-calm', calm()); };
   setVariant('bg', qs.get('bg')); setVariant('hover', qs.get('hover'));
   if (qs.has('lab') || qs.has('bg') || qs.has('hover')) {
     const lab = document.createElement('div');
@@ -321,11 +323,24 @@
   const restore = () => { if (desktopMQ.matches) setActive(sState.pinned); };
   sCards.forEach((c, i) => {
     // hover=quiet: hovering previews nothing; the season changes only on a click
-    // gentle: the season shows only after the pointer has rested on the card a little longer
-    c.addEventListener('mouseenter', () => { if (desktopMQ.matches && sec.dataset.hover !== 'quiet') later(() => setActive(i), sec.dataset.hover === 'gentle' ? 280 : 110); });
+    // calm hovers: the season shows only after the pointer has rested on the card a little longer
+    c.addEventListener('mouseenter', () => { if (desktopMQ.matches && sec.dataset.hover !== 'quiet') later(() => setActive(i), calm() ? 280 : 110); });
     c.addEventListener('focusin', () => { clearTimeout(hoverT); if (desktopMQ.matches && sec.dataset.hover !== 'quiet') setActive(i); });
   });
-  track.addEventListener('mouseleave', () => later(restore, sec.dataset.hover === 'gentle' ? 450 : 220));
+  track.addEventListener('mouseleave', () => later(restore, calm() ? 450 : 220));
+  // sheen / tilt follow the pointer across the card
+  let tiltRaf = 0;
+  track.addEventListener('pointermove', e => {
+    const h = sec.dataset.hover;
+    if ((h !== 'sheen' && h !== 'tilt') || !desktopMQ.matches || reduceMotion || tiltRaf) return;
+    const card = e.target.closest('.s-card'); if (!card) return;
+    tiltRaf = requestAnimationFrame(() => {
+      tiltRaf = 0;
+      const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      card.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`); card.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
+      card.style.setProperty('--rx', `${((.5 - y) * 4).toFixed(2)}deg`); card.style.setProperty('--ry', `${((x - .5) * 4).toFixed(2)}deg`);
+    });
+  });
   track.addEventListener('focusout', e => { if (!track.contains(e.relatedTarget) && !track.matches(':hover')) restore(); });
 
   // ---------- testimonials ----------
