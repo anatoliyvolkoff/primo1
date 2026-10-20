@@ -172,7 +172,8 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
 .gcard .price s{text-decoration-thickness:1.5px}
 .gcard .shades{--sw:22px;flex:none;margin:12.1px 0 0 -.3px;width:160.6px}
 .gcard .sh{width:22px;height:22px;box-shadow:none}
-.gcard .sh::after{inset:-1.5px;border-width:1.5px}
+.gcard .sh::after{border-width:1.5px}
+.gcard .sh[aria-pressed=true]::after{box-shadow:inset 0 0 0 1.5px #fff}
 .gcard .shades .extra{display:none}
 .gcard .plus{width:22px;height:22px;margin:0;font-size:8.5px}
 .gcard .add{margin:10px 0 0 -.3px;width:160.6px;height:28px;font-size:9.5px;font-weight:600;letter-spacing:.35px;display:flex;align-items:center;justify-content:center}
