@@ -219,9 +219,18 @@
   const page = $('#pdp');
   if (!page) return;
   const params = new URLSearchParams(location.search);
-  // draft: ?layout=b shows the alternative phone layout (css/product.css ".pdp.lb")
-  const lay = params.get('layout') === 'b' ? '&layout=b' : '';
-  if (lay) $('.pdp').classList.add('lb');
+  // drafts: ?layout=b / ?layout=c show the alternative phone layouts (css/product.css ".pdp.lb" / ".pdp.lc")
+  const layout = ['b', 'c'].includes(params.get('layout')) ? params.get('layout') : '';
+  const lay = layout ? '&layout=' + layout : '';
+  if (layout) $('.pdp').classList.add('l' + layout);
+  // layout c: on phones the swatches ride on the photo, so picking a colour and seeing it happen in one place
+  const phoneMQ = matchMedia('(max-width:1023.98px)');
+  const placeSwatches = () => {
+    const grid = $('.p-grid', page); if (layout !== 'c' || !grid) return;
+    const onPhoto = phoneMQ.matches;
+    (onPhoto ? $('.gallery', page) : $('.p-shades-h', page)).insertAdjacentElement(onPhoto ? 'beforeend' : 'afterend', grid);
+  };
+  phoneMQ.addEventListener('change', placeSwatches);
   const kitParam = (params.get('kit') || '').toLowerCase();
   let kit = KITS[kitParam] ? kitParam : null;
   const tabs = $('#season-tabs');
@@ -236,6 +245,7 @@
   const render = () => {
     PM.renderProduct(page, kit ? { kit } : { id: params.get('id') });
     setHead(BY_ID[page.dataset.id]);
+    placeSwatches();
   };
   page.addEventListener('pm:pick', e => {
     const q = e.detail; setHead(q);
