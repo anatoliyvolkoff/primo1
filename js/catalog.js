@@ -2,17 +2,17 @@
 (() => {
   'use strict';
   const PM = window.PM;
-  const { $, $$, toast, addToCart, flashAdded, buzz, smooth, desktopMQ, openOverlay, MOODS } = PM;
+  const { $, $$, toast, buzz, smooth, desktopMQ, MOODS, money, priceHtml, shadesHtml } = PM;
 
   // ---------- data: shared with search (js/site.js → PM.CATALOG) ----------
-  const { COLORS, MOOD_TO_COLOR, COLLS, FX, CATS, CAT_LABEL, PRODUCTS } = PM.CATALOG;
-  const SW = ['night', 'night', 'emerald', 'viola', 'ocean', null];        // swatches printed on every catalogue card
+  const { COLORS, MOOD_TO_COLOR, COLLS, FX, CATS, CAT_LABEL, PRODUCTS, label } = PM.CATALOG;
 
+  const PMAX = 25;                                                   // price slider top (€); at the top it means no limit
   // ---------- state from the URL ----------
   const qs = new URLSearchParams(location.search);
   const st = {
     colors: new Set((qs.get('colore') ? [MOOD_TO_COLOR[qs.get('colore')] || qs.get('colore')] : []).filter(c => COLORS.some(x => x[0] === c))),
-    colls: new Set(COLLS.some(c => c[0] === qs.get('coll')) ? [qs.get('coll')] : []), fx: new Set(), q: (qs.get('q') || '').trim().slice(0, 80), min: 0, max: 10, sort: qs.get('ordina') === 'novita' ? 'new' : 'pop',
+    colls: new Set(COLLS.some(c => c[0] === qs.get('coll')) ? [qs.get('coll')] : []), fx: new Set(), q: (qs.get('q') || '').trim().slice(0, 80), min: 0, max: PMAX, sort: qs.get('ordina') === 'novita' ? 'new' : 'pop',
     cat: CATS.includes(qs.get('cat')) ? qs.get('cat') : null, page: Math.max(1, +qs.get('pagina') || 1), sale: qs.get('ordina') === 'offerte',
     mood: qs.get('colore'),                                            // swatch picked in "Shop by color" (several share one filter colour)
   };
@@ -56,11 +56,11 @@
     if (lo > hi) { if (e && e.target === a) a.value = lo = hi; else b.value = hi = lo; }
     st.min = lo; st.max = hi; st.page = 1;
     $('#pr-min').textContent = fmt(lo); $('#pr-max').textContent = fmt(hi);
-    $('#pr-fill').style.left = lo * 10 + '%'; $('#pr-fill').style.right = (100 - hi * 10) + '%';
+    $('#pr-fill').style.left = lo / PMAX * 100 + '%'; $('#pr-fill').style.right = (100 - hi / PMAX * 100) + '%';
     apply();
   }
   a.addEventListener('input', onRange); b.addEventListener('input', onRange);
-  const reset = () => { st.q = ''; showQuery(); st.colors.clear(); st.colls.clear(); st.fx.clear(); a.value = 0; b.value = 10; st.cat = null; st.sale = false; onRange(); };
+  const reset = () => { st.q = ''; showQuery(); st.colors.clear(); st.colls.clear(); st.fx.clear(); a.value = 0; b.value = PMAX; st.cat = null; st.sale = false; onRange(); };
   $('#fp-reset').onclick = reset; $('#empty-reset').onclick = reset;
 
   // sort
@@ -81,22 +81,26 @@
 
   // ---------- grid ----------
   const grid = $('#grid');
-  const card = p => `
+  const href = p => (p.kit ? `prodotto.html?kit=${p.kit}` : `prodotto.html?id=${p.id}`);
+  const card = p => {
+    const off = p.old ? Math.round((1 - p.price / p.old) * 100) : 0;
+    return `
     <article class="pcard gcard" data-id="${p.id}">
-      <a class="pimg" href="prodotto.html" aria-label="№${p.num} ${p.name} – dettagli"><picture><source media="(min-width:1024px)" srcset="img/product.jpg"><img src="img/product-card-m.jpg" alt="" loading="lazy" decoding="async" draggable="false"></picture><span class="disc" aria-label="Sconto 28%">28%</span></a>
-      <button type="button" class="qv-btn" data-qv="${p.id}" aria-label="Anteprima rapida: №${p.num} ${p.name}"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg></button>
+      <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli"><picture><source media="(min-width:1024px)" srcset="img/product.jpg"><img src="img/product-card-m.jpg" alt="" loading="lazy" decoding="async" draggable="false"></picture>${off ? `<span class="disc" aria-label="Sconto ${off}%">${off}%</span>` : ''}</a>
+      <button type="button" class="qv-btn" data-qv="${p.id}" aria-label="Anteprima rapida: ${label(p)}"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg></button>
       <div class="pbody">
-        <h3><a href="prodotto.html"><span>№${p.num}</span><span>${p.name}</span></a></h3>
-        <p class="type">${st.q ? `${CAT_LABEL[p.cat]} · ${p.shade}`.toUpperCase() : 'SEMIPERMANENTE'}</p><p class="ml">12 ml</p>
-        <p class="price" aria-label="€155,00, prezzo originale €211,00"><b>€155,00</b><s>€211,00</s></p>
-        <div class="shades" role="group" aria-label="Tonalità">${SW.map((s, i) => `<button class="sh${s ? '' : ' turq'}" data-i="${i}" ${s ? `style="background-image:url(img/sw/${s}.png)"` : ''} aria-label="Tonalità ${i + 1}" aria-pressed="${i === 0}"></button>`).join('')}<button class="plus" aria-expanded="false" aria-label="Mostra altre 5 tonalità">+5</button></div>
-        <button class="add" aria-label="Aggiungi al carrello – №${p.num} ${p.name}"><span class="m-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>add to cart — ${p.price.toFixed(2)}€</span><span class="d-only">add to cart</span></button>
+        <h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>
+        <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p>
+        ${priceHtml(p)}
+        ${shadesHtml(p, desktopMQ.matches || innerWidth >= 440 ? 6 : 5)}
+        <button class="add" aria-label="Aggiungi al carrello – ${label(p)}"><span class="m-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>add to cart</span><span class="d-only">add to cart</span></button>
       </div>
     </article>`;
+  };
 
   function filtered() {
     let list = PRODUCTS.filter(p => (!st.colors.size || st.colors.has(p.color)) && (!st.colls.size || st.colls.has(p.coll)) &&
-      (!st.fx.size || st.fx.has(p.fx)) && p.price >= st.min && (st.max >= 10 || p.price <= st.max) && (!st.cat || p.cat === st.cat) && (!st.q || PM.search.matchProduct(p, st.q)));
+      (!st.fx.size || st.fx.has(p.fx)) && p.price >= st.min && (st.max >= PMAX || p.price <= st.max) && (!st.cat || p.cat === st.cat) && (!st.q || PM.search.matchProduct(p, st.q)));
     const by = { pop: (x, y) => x.pop - y.pop, new: (x, y) => (y.isNew - x.isNew) || (y.id - x.id), asc: (x, y) => x.price - y.price, desc: (x, y) => y.price - x.price }[st.sort];
     return list.sort(by);
   }
@@ -112,7 +116,7 @@
     $$('[data-coll]').forEach(d => d.setAttribute('aria-pressed', st.colls.has(d.dataset.coll)));
     $$('[data-fx]').forEach(d => d.setAttribute('aria-pressed', st.fx.has(d.dataset.fx)));
     $$('[data-mood]').forEach(d => d.setAttribute('aria-pressed', d.dataset.mood === st.mood && st.colors.size === 1 && st.colors.has(MOOD_TO_COLOR[st.mood])));
-    const n = st.colors.size + st.colls.size + st.fx.size + (st.min > 0 || st.max < 10 ? 1 : 0) + (st.cat ? 1 : 0);
+    const n = st.colors.size + st.colls.size + st.fx.size + (st.min > 0 || st.max < PMAX ? 1 : 0) + (st.cat ? 1 : 0);
     $('#f-count').hidden = !n; $('#f-count').textContent = n; $('#fp-reset').hidden = !n;
     $('#sort-cur').textContent = SORT_LABEL[st.sort]; $('#sort-btn-m b').textContent = SORT_LABEL[st.sort];
     $$('li', menu).forEach(li => li.setAttribute('aria-selected', li.dataset.sort === st.sort));
@@ -151,7 +155,7 @@
   desktopMQ.addEventListener('change', () => apply());
 
   // ---------- quick view (desktop design "product seasons (with sale)"; on phones it opens as a sheet) ----------
-  grid.addEventListener('click', e => { if (e.target.closest('[data-qv]')) PM.quickView(); });
+  grid.addEventListener('click', e => { const q = e.target.closest('[data-qv]'); if (q) PM.quickView(q.closest('.gcard').dataset.id); });
 
   $$('[data-back]').forEach(l => l.addEventListener('click', e => { if (document.referrer.startsWith(location.origin) && history.length > 1) { e.preventDefault(); history.back(); } }));
   // a colour picked in search stays on this page

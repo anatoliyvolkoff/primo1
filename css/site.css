@@ -82,7 +82,7 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
 .type{margin:1px 0 0;font-size:14px;line-height:20px;font-weight:600;letter-spacing:0;color:var(--gray)}
 .ml{margin:3px 0 0;font-size:12.5px;line-height:16px;font-weight:600;color:var(--gray)}
 .price{margin:15px 0 0;display:flex;gap:6px;align-items:baseline;font-size:18px;font-weight:800;line-height:24px;letter-spacing:.04em}
-.price b{color:var(--red);font-weight:800}.price s{color:var(--gray-2);text-decoration-thickness:2px}
+.price b{color:var(--red);font-weight:800}.price.nosale b{color:var(--ink)}.price s{color:var(--gray-2);text-decoration-thickness:2px}
 .shades{margin:15px 0 0;display:flex;flex:1 0 auto;flex-wrap:wrap;gap:8px 3.5px;align-items:center;align-content:flex-start}
 .sh{width:31px;height:31px;border-radius:50%;padding:0;border:0;background-size:cover;background-position:center;box-shadow:0 0 0 1px rgba(0,0,0,.12);position:relative;flex:none;transition:transform .2s var(--ease)}
 .sh::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid transparent;transition:border-color .2s}
@@ -227,7 +227,7 @@ html.lock,html.lock body{overflow:hidden}
 .ci img{width:64px;height:64px;object-fit:cover;object-position:50% 14%;border-radius:14px;border:1px solid #eee;background:#fdfdfd}
 .ci-name{margin:0;font-size:15px;line-height:19px;font-weight:700}
 .ci-meta{margin:2px 0 0;display:flex;align-items:center;gap:6px;font-size:12.5px;line-height:17px;color:var(--gray);white-space:nowrap}
-.ci-dot{width:12px;height:12px;border-radius:50%;background-size:cover;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
+.ci-dot{flex:none;width:12px;height:12px;border-radius:50%;background-size:cover;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
 .ci-price{margin:4px 0 0;font-size:15px;font-weight:800;color:var(--red)}
 .qty{display:flex;align-items:center;border:1.5px solid #d6d6d6;border-radius:99px}
 .qty button{width:44px;height:44px;padding:0;border:0;background:none;font-size:20px;line-height:1;font-weight:500}

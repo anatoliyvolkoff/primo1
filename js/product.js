@@ -5,42 +5,56 @@
   const PM = window.PM;
   const { $, $$, money, toast, addToCart, flashAdded, buzz } = PM;
 
-  const KITS = PM.CATALOG.KITS;
-  const PRICE = 14.99, OLD = 20.99;
-  const euro = n => n.toFixed(2) + '€';
+  const { KITS, BY_ID, PRODUCTS, CAT_LABEL, swatchBg, family, label } = PM.CATALOG;
   const chev = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+  // descriptions per category until the sheet's own copy is in (PRODUCTS: DESCRIPTION / APPLICATION / INGREDIENTS IT)
   const ACC = [
     ['Descrizione', 'Gel polish semipermanente ad alta pigmentazione: copertura piena in due passate, brillantezza a lunga durata e rimozione semplice. Formula TPO & HEMA free.'],
     ['Applicazione', '1. Prepara l’unghia e applica la base. 2. Stendi due strati sottili di colore, catalizzando ciascuno 60 s in lampada LED. 3. Sigilla con il top coat e catalizza.'],
     ['Ingredienti', 'Di(trimethylolpropane) tetraacrylate, Hydroxypropyl methacrylate, Ethyl trimethylbenzoyl phenylphosphinate, Pigmenti (CI 77891, CI 77007).'],
   ];
+  const accOf = p => (p.acc ? [['Descrizione', p.acc[0]], ['Applicazione', p.acc[1]], ['Ingredienti', p.acc[2]]].filter(x => x[1]) : p.cat === 'semipermanente' || p.cat === 'kit' ? ACC : []);
+  const shadeName = p => (p.num ? `${p.num} ${p.name}` : p.name);
 
-  const swatch = (kit, [s, label], i) => {
-    const img = s.startsWith('#') ? `style="--c:${s}"` : `style="background-image:url(img/sw/${s}.png)"`;
-    return `<button type="button" class="psw${s.startsWith('#') ? ' gloss' : ''}" data-i="${i + 1}" aria-pressed="false" aria-label="${label}" ${img}></button>`;
+  /* What the panel shows. A kit: its nine shades plus "all" (the kit itself). A product: its family as swatches, itself selected. */
+  const viewOf = opts => {
+    if (KITS[opts.kit]) { const k = KITS[opts.kit]; return { main: BY_ID['k-' + opts.kit], shades: k.shades, all: k.all }; }
+    const p = BY_ID[opts.id] || BY_ID.s112, f = family(p);
+    return { main: p, shades: f.length > 1 ? f : [], all: null };
   };
+  const swatch = (q, sel) => `<button type="button" class="psw" data-id="${q.id}" aria-pressed="${sel}" aria-label="${label(q)}" style="${swatchBg(q.cell)}"></button>`;
+  const priceHtml = p => `<p class="p-price${p.old ? '' : ' nosale'}"><b>${money(p.price)}</b>${p.old ? `<s>${money(p.old)}</s>` : ''}</p>`;
+  // the same product sold in more than one size (e.g. Cleaner Emotion 100 ml / 1000 ml): one chip per size
+  const sizesOf = p => (p.num || p.kit ? [] : PRODUCTS.filter(x => x.name === p.name && x.cat === p.cat).sort((a, b) => a.price - b.price));
+  const sizesHtml = p => {
+    const s = sizesOf(p);
+    if (s.length < 2) return `<span class="p-size" data-p-size>${p.size}</span>`;
+    return `<div class="p-sizes" role="group" aria-label="Formato" data-p-size>${s.map(q => `<button type="button" class="p-size" data-id="${q.id}" aria-pressed="${q === p}">${q.size}</button>`).join('')}</div>`;
+  };
+  const badgeHtml = p => (p.old ? `<span class="p-badge">${Math.round((1 - p.price / p.old) * 100)}%</span>` : '');
 
-  /** Fills `root` with gallery + details. opts: { kit, sale, buyInline, idp } */
+  /** Fills `root` with gallery + details. opts: { kit } or { id }, idp = id prefix for the accordions. The picked product is root.dataset.id. */
   PM.renderProduct = (root, opts) => {
-    const k = KITS[opts.kit] || KITS.inverno, sale = opts.sale !== false, id = opts.idp || 'p';
+    const v = viewOf(opts), p = v.main, id = opts.idp || 'p';
+    root.dataset.id = p.id;
     root.innerHTML = `
       <div class="gallery" aria-roledescription="carousel" aria-label="Foto prodotto">
         <div class="g-track" tabindex="0" aria-label="Foto prodotto: scorri per vedere le altre">
-          <figure class="g-slide"><img src="img/product.jpg" alt="${k.name}: flacone e unghia campione" draggable="false"></figure>
-          <figure class="g-slide g-zoom"><img src="img/product.jpg" alt="${k.name}: dettaglio del colore" draggable="false" loading="lazy"></figure>
+          <figure class="g-slide"><img src="img/product.jpg" alt="${p.name}: flacone e unghia campione" draggable="false"></figure>
+          <figure class="g-slide g-zoom"><img src="img/product.jpg" alt="${p.name}: dettaglio del colore" draggable="false" loading="lazy"></figure>
         </div>
         <div class="g-dots"><button type="button" aria-label="Foto 1" aria-current="true"></button><button type="button" aria-label="Foto 2"></button></div>
       </div>
       <div class="pinfo">
-        ${sale ? '<span class="p-badge">28%</span>' : ''}
-        <h1 class="p-title" data-p="name">${k.name}</h1>
-        <p class="p-price${sale ? '' : ' nosale'}"><b>${euro(PRICE)}</b>${sale ? `<s>${euro(OLD)}</s>` : ''}</p>
-        <span class="p-size">12 ml</span>
-        <div class="p-shades-h"><b>Sfumature: <span data-shade-name>091</span></b><span><em>4</em> Colori</span></div>
+        ${badgeHtml(p)}
+        <h1 class="p-title" data-p-title>${label(p)}</h1>
+        ${priceHtml(p)}
+        ${sizesHtml(p)}
+        ${v.shades.length ? `<div class="p-shades-h"><b>Sfumature: <span data-shade-name>${v.all ? 'set completo' : shadeName(p)}</span></b><span><em>${v.shades.length}</em> Colori</span></div>
         <div class="p-grid" role="group" aria-label="Sfumature">
-          <button type="button" class="psw all" data-i="0" aria-pressed="true" aria-label="Set completo" style="--c:${k.all}">all</button>
-          ${k.shades.map((s, i) => swatch(k, s, i)).join('')}
-        </div>
+          ${v.all ? `<button type="button" class="psw all" data-id="${p.id}" aria-pressed="true" aria-label="Set completo" style="--c:${v.all}">all</button>` : ''}
+          ${v.shades.map(q => swatch(q, q === p)).join('')}
+        </div>` : ''}
         <div class="p-buy d-only">
           <div class="stepper" role="group" aria-label="Quantità">
             <button type="button" data-q="-1" aria-label="Diminuisci quantità"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg></button>
@@ -54,12 +68,28 @@
           <p><b>Vuoi acquistare all’ingrosso?</b><span>Contattaci Su <a href="https://wa.me/393893193049" target="_blank" rel="noopener">WhatsApp</a> O Via <a href="mailto:primonailspro@gmail.com">e-mail.</a></span></p>
         </div>
         <p class="ship-note">Spedizione calcolata al checkout. <a href="spedizioni.html">Tariffe e resi</a></p>
-        <div class="p-acc">${ACC.map(([h, t], i) => `<details><summary><span>${h}</span>${chev}</summary><p id="${id}-acc${i}">${t}</p></details>`).join('')}</div>
+        <div class="p-acc" data-p-acc>${accHtml(p, id)}</div>
       </div>`;
-    wire(root, k);
+    wire(root, v);
   };
+  const accHtml = (p, id) => accOf(p).map(([h, t], i) => `<details><summary><span>${h}</span>${chev}</summary><p id="${id}-acc${i}">${t.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>')}</p></details>`).join('');
 
-  function wire(root, k) {
+  /* a swatch was picked: in a kit only the shade line changes (the title stays the kit's); for a product the whole panel becomes the sibling */
+  function showPicked(root, v, q) {
+    root.dataset.id = q.id;
+    $$('.psw', root).forEach(x => x.setAttribute('aria-pressed', x.dataset.id === q.id));
+    const sn = $('[data-shade-name]', root); if (sn) sn.textContent = q.kit ? 'set completo' : shadeName(q);
+    if (!v.all) {
+      $('[data-p-title]', root).textContent = label(q);
+      $('.p-price', root).outerHTML = priceHtml(q);
+      $('[data-p-size]', root).outerHTML = sizesHtml(q);
+      $('.p-badge', root)?.remove(); $('[data-p-title]', root).insertAdjacentHTML('beforebegin', badgeHtml(q));
+      $('[data-p-acc]', root).innerHTML = accHtml(q, root.id === 'qv-body' ? 'qv' : 'p');
+    }
+    root.dispatchEvent(new CustomEvent('pm:pick', { bubbles: true, detail: q }));
+  }
+
+  function wire(root, v) {
     // gallery: swipe/scroll, dots, arrow keys
     const track = $('.g-track', root), dots = $$('.g-dots button', root);
     const setDot = () => { const i = Math.round(track.scrollLeft / track.clientWidth); dots.forEach((d, j) => (j === i ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current'))); };
@@ -68,17 +98,21 @@
     track.addEventListener('keydown', e => { const s = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (s) { e.preventDefault(); track.scrollBy({ left: s * track.clientWidth, behavior: PM.smooth() }); } });
     if (PM.finePointer) PM.dragScroll(track);
     // shades
-    $('.p-grid', root).addEventListener('click', e => {
+    $('.p-grid', root)?.addEventListener('click', e => {
       const b = e.target.closest('.psw'); if (!b) return;
-      $$('.psw', root).forEach(x => x.setAttribute('aria-pressed', x === b));
-      const n = +b.dataset.i;
-      $('[data-shade-name]', root).textContent = n ? `${String(90 + n).padStart(3, '0')} ${b.getAttribute('aria-label')}` : '091';
+      showPicked(root, v, BY_ID[b.dataset.id]);
+      if (e.isTrusted) buzz(6);
+    });
+    // sizes: the chips live in .pinfo, which showPicked re-renders, so listen on root
+    root.addEventListener('click', e => {
+      const b = e.target.closest('.p-sizes .p-size'); if (!b || b.getAttribute('aria-pressed') === 'true') return;
+      showPicked(root, v, BY_ID[b.dataset.id]);
       if (e.isTrusted) buzz(6);
     });
     // accordions: one open at a time
-    const acc = $$('.p-acc details', root);
-    acc.forEach(d => d.addEventListener('toggle', () => { if (d.open) acc.forEach(o => { if (o !== d) o.open = false; }); }));
+    root.addEventListener('toggle', e => { if (e.target.open) $$('.p-acc details', root).forEach(o => { if (o !== e.target) o.open = false; }); }, true);
   }
+  PM.pickShade = (root, id) => { const b = $(`.psw[data-id="${id}"]`, root); if (b) b.click(); };
 
   // quantity steppers + add to cart (page bar, inline desktop row, quick view) share one quantity per scope
   document.addEventListener('click', e => {
@@ -94,16 +128,15 @@
     if (buy) {
       const scope = buy.closest('.qv-modal') || document;
       const qty = +($('[data-q-out]', scope)?.textContent || 1);
-      addToCart(0, qty);
+      addToCart((scope === document ? $('#pdp') : $('#qv-body', scope)).dataset.id, qty);
       flashAdded(buy, '✓ Aggiunto');
       toast(`${qty} × aggiunto al carrello`);
     }
   });
 
   // ---------- quick view: the product panel in a dialog (catalogue "eye" button, home The Seasons) ----------
-  // PM.quickView(kit, shade): kit = 'inverno' | 'primavera' | 'estate' | 'autunno', shade = 1…9 to pre-select a colour (0 = full set)
-  let qv, qvKit = 'inverno', qvReturn = null, qvClosing = 0;
-  const pickPsw = (root, n) => { const b = n > 0 && $(`.psw[data-i="${n}"]`, root); if (b) b.click(); };
+  // PM.quickView(what, shade): what = a kit ('inverno' | 'primavera' | 'estate' | 'autunno') or a product id; shade = a shade's product id to pre-select in a kit
+  let qv, qvKit = 'inverno', qvId = null, qvReturn = null, qvClosing = 0;
   function buildQv() {
     document.body.insertAdjacentHTML('beforeend', `<div class="qv" id="qv" hidden>
     <div class="qv-modal" role="dialog" aria-modal="true" aria-label="Anteprima rapida">
@@ -124,7 +157,7 @@
     $('#qv-scroll').addEventListener('scroll', e => $('.qv-head', qv).classList.toggle('scrolled', e.target.scrollTop > 0), { passive: true });
     qv.addEventListener('click', e => { if (e.target === qv) closeQv(); });
     addEventListener('keydown', e => { if (e.key === 'Escape' && !qv.hidden) closeQv(); });
-    tabs.addEventListener('click', e => { const b = e.target.closest('[data-kit]'); if (b && b.dataset.kit !== qvKit) { qvKit = b.dataset.kit; renderQv(0); } });
+    tabs.addEventListener('click', e => { const b = e.target.closest('[data-kit]'); if (b && b.dataset.kit !== qvKit) { qvKit = b.dataset.kit; renderQv(); } });
     tabs.addEventListener('keydown', e => {
       const list = $$('[data-kit]', tabs), i = list.indexOf(document.activeElement), s = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
       if (s && i >= 0) { e.preventDefault(); const n = list[(i + s + list.length) % list.length]; n.focus(); n.click(); }
@@ -133,21 +166,26 @@
   }
   function placeQv() {
     const tabs = $('#qv-tabs'), b = $('[aria-selected=true]', tabs), pill = $('.st-pill', tabs);
+    if (!b) return;
     pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft}px)`; tabs.style.setProperty('--glow', KITS[qvKit].glow);
   }
+  const pageHref = q => (q.kit ? `prodotto.html?kit=${q.kit}` : `prodotto.html?id=${q.id}`);
   function renderQv(shade) {
-    $$('#qv-tabs [data-kit]').forEach(t => t.setAttribute('aria-selected', t.dataset.kit === qvKit));
+    const body = $('#qv-body');
+    $('#qv-tabs').hidden = !!qvId;
+    $$('#qv-tabs [data-kit]').forEach(t => t.setAttribute('aria-selected', !qvId && t.dataset.kit === qvKit));
     placeQv();
-    PM.renderProduct($('#qv-body'), { kit: qvKit, sale: true, idp: 'qv' });
+    PM.renderProduct(body, qvId ? { id: qvId, idp: 'qv' } : { kit: qvKit, idp: 'qv' });
     $('#qv-scroll').scrollTop = 0;
-    pickPsw($('#qv-body'), shade);
-    const sel = $('#qv-body .psw[aria-pressed=true]');
-    $('.qv-more').href = `prodotto.html?kit=${qvKit}${sel && sel.dataset.i !== '0' ? '&shade=' + sel.dataset.i : ''}`;
+    if (shade) PM.pickShade(body, shade);
+    $('.qv-more').href = qvId ? pageHref(BY_ID[body.dataset.id]) : `prodotto.html?kit=${qvKit}${body.dataset.id.startsWith('k-') ? '' : '&shade=' + body.dataset.id}`;
   }
-  PM.quickView = (kit, shade = 0) => {
+  PM.quickView = (what, shade) => {
     if (!qv) buildQv();
     clearTimeout(qvClosing); qv.classList.remove('out');
-    if (KITS[kit]) qvKit = kit;                                           // no kit: reopen on the last one shown
+    const p = BY_ID[what];
+    if (KITS[what] || p?.kit) { qvKit = KITS[what] ? what : p.kit; qvId = null; }
+    else if (p) qvId = what;                                              // nothing given: reopen on what was shown last
     if (qv.hidden) qvReturn = document.activeElement;
     qv.hidden = false; PM.root.classList.add('lock');
     [$('.topbar'), $('#top'), $('.footer')].forEach(n => { if (n) n.inert = true; });
@@ -162,10 +200,11 @@
     [$('.topbar'), $('#top'), $('.footer')].forEach(n => { if (n) n.inert = false; });
     qvReturn?.focus({ preventScroll: true });
   }
-  // the shade link in the panel keeps the picked colour when going to the full product page
-  document.addEventListener('click', e => {
-    const b = e.target.closest('#qv-body .psw'); if (!b) return;
-    $('.qv-more').href = `prodotto.html?kit=${qvKit}${b.dataset.i !== '0' ? '&shade=' + b.dataset.i : ''}`;
+  // the link to the full page follows the colour picked in the panel
+  document.addEventListener('pm:pick', e => {
+    if (e.target.id !== 'qv-body') return;
+    const q = e.detail;
+    $('.qv-more').href = qvId || q.kit ? pageHref(q) : `prodotto.html?kit=${qvKit}&shade=${q.id}`;
   });
 
   // ---------- the product page itself ----------
@@ -173,15 +212,25 @@
   if (!page) return;
   const params = new URLSearchParams(location.search);
   const kitParam = (params.get('kit') || '').toLowerCase();
-  let kit = KITS[kitParam] ? kitParam : 'inverno';
-  const sale = params.get('sale') !== '0';
+  let kit = KITS[kitParam] ? kitParam : null;
   const tabs = $('#season-tabs');
-  const render = () => {
-    PM.renderProduct(page, { kit, sale });
-    document.title = `${KITS[kit].name} – PriMo Nails`;
-    $$('[data-p=name]').forEach(n => { n.textContent = KITS[kit].name; });
+  /* page title, breadcrumb and description follow the product shown (a kit page keeps the kit's name while a shade is picked) */
+  const setHead = p => {
+    const main = kit ? BY_ID['k-' + kit] : p;
+    document.title = `${label(main)} – PriMo Nails`;
+    $$('[data-p=name]').forEach(n => { n.textContent = label(main); });
+    $$('[data-p=cat]').forEach(a => { a.textContent = CAT_LABEL[main.cat]; a.href = `catalogo.html?cat=${main.cat}`; });
+    $('meta[name=description]')?.setAttribute('content', `${label(main)}: ${CAT_LABEL[main.cat].toLowerCase()} PriMo Nails, ${main.size}.`);
   };
-  if (KITS[kitParam]) {                                   // the seasonal kit page shows the season switcher (design "product seasons")
+  const render = () => {
+    PM.renderProduct(page, kit ? { kit } : { id: params.get('id') });
+    setHead(BY_ID[page.dataset.id]);
+  };
+  page.addEventListener('pm:pick', e => {
+    const q = e.detail; setHead(q);
+    history.replaceState(null, '', kit ? `?kit=${kit}${q.kit ? '' : '&shade=' + q.id}` : `?id=${q.id}`);
+  });
+  if (kit) {                                              // the seasonal kit page shows the season switcher (design "product seasons")
     document.body.classList.add('kit');
     tabs.hidden = false;
     tabs.innerHTML = '<span class="st-pill" aria-hidden="true"></span>' + Object.entries(KITS).map(([key, v]) =>
@@ -193,7 +242,7 @@
       kit = b.dataset.kit;
       $$('[data-kit]', tabs).forEach(t => t.setAttribute('aria-selected', t === b));
       place(); render();
-      history.replaceState(null, '', `?kit=${kit}${sale ? '' : '&sale=0'}`);
+      history.replaceState(null, '', `?kit=${kit}`);
     });
     tabs.addEventListener('keydown', e => {
       const list = $$('[data-kit]', tabs), i = list.indexOf(document.activeElement), s = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
@@ -202,9 +251,10 @@
     addEventListener('resize', place); document.fonts.ready.then(place); place();
   }
   render();
-  // a shade picked on the home page's The Seasons arrives pre-selected (?shade=1…9)
-  const shade = $(`.psw[data-i="${parseInt(params.get('shade'), 10) || 0}"]`, page);
-  if (shade && shade.dataset.i !== '0') shade.click();
+  // remember what was viewed ("Visti di Recente")
+  PM.store.set('primo.seen', [page.dataset.id, ...PM.store.get('primo.seen', []).filter(id => id !== page.dataset.id)].slice(0, 8));
+  // a shade picked on the home page's The Seasons arrives pre-selected (?shade=<id>)
+  if (kit && params.get('shade')) PM.pickShade(page, params.get('shade'));
   // "Indietro" goes back when we came from inside the site
   $$('[data-back]').forEach(a => a.addEventListener('click', e => { if (document.referrer.startsWith(location.origin) && history.length > 1) { e.preventDefault(); history.back(); } }));
   // the phone add-to-cart bar hides while the footer is on screen so it never covers the links
