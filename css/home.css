@@ -380,7 +380,7 @@
 @keyframes drift{to{transform:translate3d(4%,-3%,0) scale(1.05)}}
 /* hover=quiet on phones: side cards shrink and fade less while swiping */
 .seasons:is([data-hover=quiet],[data-hover=gentle]) .s-card{transform:scale(calc(1 - .04*var(--t,0)));opacity:calc(1 - .3*var(--t,0))}
-/* bg=airy: pastel colour clouds (Shop by color palette) that drift slowly; all hues mix until a season is picked */
+/* bg=airy: soft colour clouds in each season's own colours that drift slowly; before a pick each card has its season's cloud */
 .blobs,.bg-layer.all{display:none}
 .seasons[data-bg=airy] .blobs{display:block;position:absolute;inset:0;overflow:hidden}
 .seasons[data-bg=airy] .bg-layer.all{display:block;opacity:1;transition:opacity 1.6s cubic-bezier(.4,0,.2,1)}
