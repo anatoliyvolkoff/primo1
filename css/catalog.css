@@ -46,20 +46,29 @@
 /* l: mesh, four soft blobs of light and deep shades */
 [data-hdr=l] .cs-d{background:radial-gradient(60% 95% at 0% 0%,var(--s2),transparent 70%),radial-gradient(55% 85% at 100% 10%,var(--s1),transparent 70%),
   radial-gradient(70% 100% at 88% 100%,var(--s3),transparent 72%),radial-gradient(60% 90% at 8% 100%,var(--s1),transparent 70%),var(--soft)}
-/* m: aurora, a gradient of the colour's shades that keeps flowing across the card while blobs drift over it;
-   before a pick it flows through pastels of all the colours. With reduced motion it only breathes (opacity), nothing travels. */
-[data-hdr=m] .cs-d{--a1:var(--s1);--a2:var(--s3);--a3:var(--soft);--a4:var(--s2);
-  background:linear-gradient(115deg,var(--a1),var(--a2),var(--a3),var(--a4),var(--a1),var(--a2));background-size:400% 400%;animation:cs-flow 9s ease-in-out infinite}
-[data-hdr=m] .cs-d::after{content:"";position:absolute;inset:-40%;z-index:-1;pointer-events:none;
-  background:radial-gradient(26% 32% at 30% 40%,var(--a2),transparent 70%),radial-gradient(24% 30% at 70% 60%,#fff,transparent 70%),radial-gradient(22% 28% at 55% 30%,var(--a4),transparent 70%);
-  opacity:.75;filter:blur(12px);animation:cs-drift 5s ease-in-out infinite alternate}
-[data-hdr=m]:not(.picked) .cs-d{--a1:#fbe0ec;--a2:#c9d6f5;--a3:#f8eab0;--a4:#dccaf5}
-@keyframes cs-flow{0%,100%{background-position:0% 30%}50%{background-position:100% 70%}}
-@keyframes cs-drift{0%{transform:translate(-16%,-8%) rotate(0)}50%{transform:translate(8%,12%) rotate(30deg)}100%{transform:translate(16%,-10%) rotate(-20deg)}}
-@keyframes cs-breathe{from{opacity:.25}to{opacity:.85}}
+/* m: airy aurora, no card: big blurred pastel lights float freely behind the title on white and fade out at every edge.
+   Before a pick they are pastels of all the colours; after a pick, light shades of that colour. */
+@property --b1x{syntax:"<percentage>";inherits:false;initial-value:30%}
+@property --b1y{syntax:"<percentage>";inherits:false;initial-value:30%}
+@property --b2x{syntax:"<percentage>";inherits:false;initial-value:70%}
+@property --b2y{syntax:"<percentage>";inherits:false;initial-value:40%}
+[data-hdr=m]{--a1:var(--s1);--a2:var(--s2);--a3:var(--soft);--a4:color-mix(in oklab,var(--soft),var(--deep) 24%)}
+[data-hdr=m]:not(.picked){--a1:#f9c8dd;--a2:#bfd0f8;--a3:#f8e7a0;--a4:#d8c3f8}
+[data-hdr=m] .cs-bg{bottom:auto;height:min(100%,330px);
+  -webkit-mask:radial-gradient(75% 56% at 50% 43%,#000 35%,transparent 100%);mask:radial-gradient(75% 56% at 50% 43%,#000 35%,transparent 100%);
+  background:radial-gradient(34% 44% at var(--b1x) var(--b1y),var(--a1),transparent 72%),radial-gradient(30% 40% at var(--b2x) var(--b2y),var(--a3),transparent 72%);
+  animation:cs-pan 11s ease-in-out infinite alternate}
+[data-hdr=m] .cs-bg::before,[data-hdr=m] .cs-bg::after{content:"";position:absolute;width:62%;aspect-ratio:1;border-radius:50%;filter:blur(28px)}
+[data-hdr=m] .cs-bg::before{left:-6%;top:-4%;background:radial-gradient(closest-side,var(--a2),transparent);animation:cs-float1 9s ease-in-out infinite alternate}
+[data-hdr=m] .cs-bg::after{right:-8%;top:8%;background:radial-gradient(closest-side,var(--a4),transparent);animation:cs-float2 12s ease-in-out infinite alternate}
+@keyframes cs-pan{0%{--b1x:22%;--b1y:30%;--b2x:78%;--b2y:62%}50%{--b1x:58%;--b1y:62%;--b2x:40%;--b2y:24%}100%{--b1x:80%;--b1y:28%;--b2x:20%;--b2y:58%}}
+@keyframes cs-float1{0%{transform:translate(0,0) scale(1)}50%{transform:translate(38%,22%) scale(1.25)}100%{transform:translate(70%,-6%) scale(.9)}}
+@keyframes cs-float2{0%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-40%,26%) scale(.85)}100%{transform:translate(-72%,4%) scale(1.2)}}
+/* reduced motion: the same lights, drifting much slower */
 @media (prefers-reduced-motion:reduce){
-  [data-hdr=m] .cs-d{background-position:50% 50%}
-  [data-hdr=m] .cs-d::after{transform:none;animation:cs-breathe 4s ease-in-out infinite alternate!important}
+  [data-hdr=m] .cs-bg{animation-duration:28s!important;animation-iteration-count:infinite!important}
+  [data-hdr=m] .cs-bg::before{animation-duration:24s!important;animation-iteration-count:infinite!important}
+  [data-hdr=m] .cs-bg::after{animation-duration:32s!important;animation-iteration-count:infinite!important}
 }
 /* n: gloss, a gel-polish surface with a light streak across it */
 [data-hdr=n] .cs-d{background:radial-gradient(90% 70% at 16% 0%,rgba(255,255,255,.8),rgba(255,255,255,0) 60%),linear-gradient(140deg,var(--s1) 0,var(--soft) 34%,var(--s2) 68%,var(--s3) 100%)}
@@ -211,6 +220,11 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   [data-hdr=i] .cs-bg{background:radial-gradient(150px 190px at var(--sx) var(--sy),var(--s2),rgba(255,255,255,0))}
   .cat-shop.carded{padding-top:48px}
   .carded .cs-d{width:820px;margin:0 auto;padding:42px 0 36px;border-radius:44px}
+  [data-hdr=m] .cs-bg{height:400px}
+  [data-hdr=m] .cs-bg{-webkit-mask:radial-gradient(44% 52% at 50% 46%,#000 30%,transparent 100%);mask:radial-gradient(44% 52% at 50% 46%,#000 30%,transparent 100%)}
+  [data-hdr=m] .cs-bg::before,[data-hdr=m] .cs-bg::after{width:420px;filter:blur(40px)}
+  [data-hdr=m] .cs-bg::before{left:28%}
+  [data-hdr=m] .cs-bg::after{right:26%}
   .cat-semi .fbar-wrap{margin-top:80px}
   .fbar-wrap{width:992px;margin:120px auto 0}
   .fbar{padding:0 13px 0 13px}
