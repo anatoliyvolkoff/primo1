@@ -145,7 +145,6 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
 .gcard .price s{text-decoration-thickness:1.5px}
 .gcard .shades{flex:none;margin:12.1px 0 0 .9px;gap:2.6px;flex-wrap:nowrap}
 .gcard .sh{width:20.2px;height:20.2px;box-shadow:none}
-.gcard .sh.turq{background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.7) 0 8%,transparent 20%),#05ada2}
 .gcard .sh[aria-pressed=true]{width:21.5px;height:21.5px}
 .gcard .sh::after{inset:-1.5px;border-width:1.5px}
 .gcard .shades .extra{display:none}
@@ -257,11 +256,6 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .cat>.marquee{margin-top:140px;width:100vw;margin-left:calc(50% - 50vw)}
 }
 @media (min-width:1024px){
-  /* desktop catalogue cards use the same shade photos as the home cards */
-  .gcard .sh:nth-child(1),.gcard .sh:nth-child(2),.gcard .sh:nth-child(6){background-image:url(../img/shade-gold.jpg)!important}
-  .gcard .sh:nth-child(3){background-image:url(../img/shade-rose.jpg)!important}
-  .gcard .sh:nth-child(4){background-image:url(../img/shade-night.jpg)!important}
-  .gcard .sh:nth-child(5){background-image:url(../img/shade-blue.jpg)!important;background-color:transparent}
   .gcard .sh{box-shadow:0 0 0 .6px rgba(0,0,0,.25)}
 }
 @media (min-width:1024px){

@@ -2,7 +2,8 @@
    tables as spedizioni.html), validates the form and simulates the payment, ending on an order confirmation. */
 (() => {
   'use strict';
-  const { $, $$, money, store, toast, buzz, smooth, reduceMotion, openOverlay, PRODUCT, SHADE_IMG, cartLines, clearCart } = window.PM;
+  const { $, $$, money, store, toast, buzz, smooth, reduceMotion, openOverlay, cartLines, clearCart } = window.PM;
+  const { BY_ID, CAT_LABEL, swatchBg, label } = window.PM.CATALOG;
 
   // ---------- shipping: GLS rates per zone, [max kg, €] (spedizioni.html#tariffe) ----------
   const ZONES = {
@@ -35,7 +36,7 @@
     return region.value === 'Sardegna' ? 'sar' : region.value === 'Sicilia' || region.value === 'Calabria' ? 'sud' : 'it';
   };
   function quote(lines) {
-    const n = lines.reduce((a, l) => a + l.qty, 0), sub = n * PRODUCT.price;
+    const n = lines.reduce((a, l) => a + l.qty, 0), sub = lines.reduce((a, l) => a + l.qty * BY_ID[l.id].price, 0);
     const disc = Math.round(sub * (CODES[code] || 0) * 100) / 100;
     const z = ZONES[zoneKey()], kg = KG_BOX + n * KG_ITEM;
     const row = z.rates.find(r => kg <= r[0]) || z.rates[z.rates.length - 1];
@@ -48,10 +49,10 @@
   const addWorkdays = (d, n) => { d = new Date(d); while (n > 0) { d.setDate(d.getDate() + 1); if (d.getDay() % 6) n--; } return d; };
   const eta = z => { const now = new Date(); return [addWorkdays(now, 1 + z.days[0]), addWorkdays(now, 2 + z.days[1])].map(d => fmt.format(d)); };
 
-  const itemsHTML = lines => lines.map(l => `<li class="co-item">
+  const itemsHTML = lines => lines.map(l => { const p = BY_ID[l.id]; return `<li class="co-item">
       <span class="co-thumb"><img src="img/product.jpg" alt="" width="60" height="60"><b aria-label="Quantità ${l.qty}">${l.qty}</b></span>
-      <span class="co-item-b"><b>${PRODUCT.name}</b><small><i class="ci-dot" style="background-image:url(img/shade-${SHADE_IMG[l.shade]}.jpg)"></i>Tonalità ${l.shade + 1} · 12 ml</small></span>
-      <span class="co-item-p">${money(PRODUCT.price * l.qty)}</span></li>`).join('');
+      <span class="co-item-b"><b>${label(p)}</b><small>${p.cell ? `<i class="ci-dot" style="${swatchBg(p.cell)}"></i>` : ''}${CAT_LABEL[p.cat]} · ${p.size}</small></span>
+      <span class="co-item-p">${money(p.price * l.qty)}</span></li>`; }).join('');
 
   function render() {
     if (!done.hidden) return;
