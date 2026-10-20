@@ -12,6 +12,33 @@
 .cs-item:active img{transform:translateY(-4px) scale(1.04)}
 .cs-item[aria-pressed=true] img{transform:translateY(-6px)}
 .cs-item[aria-pressed=true] span{font-weight:800;box-shadow:inset 0 -2px 0 #000}
+/* header variants above the swatches (?hdr=a|b|c, switched by .cs-switch); the row itself is shared */
+.cs-eyebrow{margin:0;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
+.cs-title{margin:6px 0 0;font-size:40px;line-height:42px;font-weight:700;letter-spacing:-1.6px;color:#111;text-wrap:balance}
+.cs-meta{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 10px;min-height:32px;margin:10px 0 0;padding:0 24px;font-family:var(--fi);font-size:14px;line-height:20px;color:var(--gray)}
+.cs-meta b,.cs-count b{color:var(--ink);font-weight:600}
+.cs-clear{position:relative;display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 13px;border:1px solid #c9c4bf;border-radius:99px;background:#fff;font:500 12.5px/1 var(--f);color:var(--ink);cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease),border-color .2s var(--ease)}
+.cs-clear::before{content:"";position:absolute;inset:-7px -4px}
+.cs-clear svg{width:13px;height:13px;stroke-width:2}
+.cs-clear:active{transform:scale(.97)}
+.cs-b .cs-sent{margin:0;padding:0 20px;font-size:30px;line-height:40px;font-weight:600;letter-spacing:-.035em;color:#111;text-wrap:balance}
+.cs-word{position:relative;display:inline-block;white-space:nowrap;z-index:0}
+.cs-word::after{content:"";position:absolute;left:-2px;right:-2px;bottom:3px;height:9px;border-radius:5px;background:var(--c,#e2dfdd);opacity:.55;z-index:-1;transition:background .3s var(--ease)}
+.cs-word.swap{animation:cs-in .45s var(--ease)}
+@keyframes cs-in{from{opacity:0;transform:translateY(8px)}}
+.cs-c{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:0 24px;text-align:left}
+.cs-c[hidden]{display:none}
+.cs-c .cs-title{margin-top:4px;font-size:32px;line-height:36px;letter-spacing:-1.1px}
+.cs-count{display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin:0 0 4px;font-family:var(--fi);font-size:13px;line-height:16px;color:var(--gray);white-space:nowrap}
+.cat-shop[data-hdr=c]{padding-top:28px}
+.cs-switch{display:none}
+.cat-semi .cs-switch{position:fixed;left:50%;bottom:16px;z-index:40;display:flex;align-items:center;gap:2px;padding:4px 4px 4px 14px;border-radius:99px;background:#111;color:#fff;box-shadow:0 10px 30px -18px rgba(0,0,0,.6);transform:translateX(-50%);font:600 10px/1 var(--f);letter-spacing:1.2px;text-transform:uppercase}
+.cs-switch span{margin-right:6px;opacity:.6}
+.cs-switch button{min-width:36px;height:32px;padding:0 10px;border:0;border-radius:99px;background:none;color:#fff;font:600 12px/1 var(--f);cursor:pointer}
+.cs-switch button[aria-pressed=true]{background:#fff;color:#111}
+@media (hover:hover) and (pointer:fine){
+  .cs-clear:hover{background:#000;border-color:#000;color:#fff}
+}
 .cat-nav{padding:17px 26px 0}
 .back{display:inline-flex;align-items:center;height:28.2px;font-family:var(--fi);font-size:13px;line-height:16px;color:#555}
 .back svg{width:22.6px;height:22.6px;stroke-width:1.6;margin-right:1px}
@@ -146,6 +173,16 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .cs-item img{width:51px;height:122px}
   .cs-item:hover img{transform:translateY(-6px)}
   .cs-item span{margin-top:45px;font-size:12px;line-height:15px;font-weight:700}
+  .cs-title{font-size:56px;line-height:58px;letter-spacing:-2.4px}
+  .cs-meta{margin-top:14px;font-size:17px;line-height:27px}
+  .cs-clear{height:34px;padding:0 16px;font-size:13.5px}
+  .cs-b .cs-sent{font-size:52px;line-height:64px;font-weight:700;letter-spacing:-1.8px}
+  .cs-word::after{bottom:6px;height:14px;border-radius:7px}
+  .cs-c{width:976px;margin:0 auto;padding:0}
+  .cs-c .cs-title{font-size:48px;line-height:50px;letter-spacing:-1.6px}
+  .cs-count{flex-direction:row;align-items:center;gap:14px;margin-bottom:6px;font-size:15px}
+  .cat-shop[data-hdr=c]{padding-top:64px}
+  .cat-shop[data-hdr=c] .cat-shop-row{margin-top:44px}
   .cat-semi .fbar-wrap{margin-top:80px}
   .fbar-wrap{width:992px;margin:120px auto 0}
   .fbar{padding:0 13px 0 13px}

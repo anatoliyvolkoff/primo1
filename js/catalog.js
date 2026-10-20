@@ -117,6 +117,7 @@
     $('#sort-cur').textContent = SORT_LABEL[st.sort]; $('#sort-btn-m b').textContent = SORT_LABEL[st.sort];
     $$('li', menu).forEach(li => li.setAttribute('aria-selected', li.dataset.sort === st.sort));
     $('#results-live').textContent = `${list.length} prodotti`;
+    syncHead(list.length);
     renderPager(pages, list.length);
     // keep the URL shareable
     const u = new URLSearchParams();
@@ -125,8 +126,10 @@
     if (st.colls.size === 1) u.set('coll', [...st.colls][0]);
     if (st.colors.size === 1) u.set('colore', [...st.colors][0]);
     if (st.page > 1) u.set('pagina', st.page);
+    if (hdr !== '0') u.set('hdr', hdr);
     history.replaceState(null, '', u.toString() ? '?' + u : location.pathname);
-    if (scroll) $('#fbar-wrap').scrollIntoView({ behavior: smooth() });
+    if (scroll === 'shop') scrollTo({ top: Math.max(0, $('#cat-shop').getBoundingClientRect().top + scrollY - $('.topbar').offsetHeight), behavior: smooth() });
+    else if (scroll) $('#fbar-wrap').scrollIntoView({ behavior: smooth() });
   }
   function renderPager(pages, total) {
     const pg = $('#pager'); pg.hidden = pages < 2 && !desktopMQ.matches;
@@ -162,8 +165,36 @@
     const m = e.target.closest('[data-mood]'); if (!m) return;
     if (m.getAttribute('aria-pressed') === 'true') { st.mood = null; st.colors.clear(); }
     else { st.mood = m.dataset.mood; st.colors = new Set([MOOD_TO_COLOR[st.mood]]); }
-    st.page = 1; buzz(6); apply(true);
+    st.page = 1; buzz(6); apply(hdr === '0' ? true : 'shop');
   });
+
+  // ---------- header variants above the swatches, for review: ?hdr=a|b|c (0 = current) ----------
+  const MOOD_HEX = { 'b & w': 'linear-gradient(90deg,#040404 50%,#e6e9e8 50%)', grigio: '#72737b', nude: '#cbaaa3', rosa: '#f68cbd', rosso: '#b0001c', bordeaux: '#4a0a08',
+    lampone: '#a61433', fucsia: '#d61576', lilla: '#a062d4', cioccolato: '#341210', glitter: 'linear-gradient(90deg,#a27169,#e9cfc4,#a27169)', blu: '#264996', verde: '#478328', giallo: '#e7d06f' };
+  const ALL_HEX = `linear-gradient(90deg,${['#040404', '#72737b', '#cbaaa3', '#f68cbd', '#b0001c', '#a61433', '#d61576', '#a062d4', '#264996', '#478328', '#e7d06f'].join(',')})`;
+  const shop = $('#cat-shop'), HDRS = ['0', 'a', 'b', 'c'];
+  let hdr = HDRS.includes(qs.get('hdr')) ? qs.get('hdr') : '0';
+  function setHdr(v) {
+    hdr = v; shop.dataset.hdr = v;
+    $$('.cs-v', shop).forEach((el, i) => { el.hidden = el.dataset.v !== v; const h = $('h1', el); h.id = 'cat-shop-h' + i; if (!el.hidden) shop.setAttribute('aria-labelledby', h.id); });
+    $$('[data-hdr]', $('#cs-switch')).forEach(b => b.setAttribute('aria-pressed', b.dataset.hdr === v));
+  }
+  $('#cs-switch').addEventListener('click', e => { const b = e.target.closest('[data-hdr]'); if (b) { setHdr(b.dataset.hdr); apply(); } });
+  shop.addEventListener('click', e => { if (e.target.closest('[data-cs-clear]')) { st.mood = null; st.colors.clear(); st.page = 1; buzz(6); apply(); } });
+  let shownWord = null;
+  function syncHead(n) {
+    const c = st.colors.size === 1 ? [...st.colors][0] : null;
+    const name = c && st.mood && MOOD_TO_COLOR[st.mood] === c ? st.mood : c ? COLORS.find(x => x[0] === c)[1] : st.colors.size ? `${st.colors.size} colori` : null;
+    $$('[data-cs-n]', shop).forEach(b => { b.textContent = n; });
+    $$('[data-cs-name]', shop).forEach(b => { b.textContent = name || ''; });
+    $$('[data-cs-hint]', shop).forEach(b => { b.hidden = !!name; });
+    $$('[data-cs-picked]', shop).forEach(b => { b.hidden = !name; });
+    $$('[data-cs-clear]', shop).forEach(b => { b.hidden = !name; });
+    const w = $('[data-cs-word]', shop), word = name || 'in tutti i colori';
+    w.style.setProperty('--c', name ? MOOD_HEX[name] || (c && COLORS.find(x => x[0] === c)[2]) || '#111' : ALL_HEX);
+    if (word !== shownWord) { w.textContent = word; w.classList.remove('swap'); void w.offsetWidth; if (shownWord !== null) w.classList.add('swap'); shownWord = word; }
+  }
+  setHdr(hdr);
   if (st.colors.size && !document.documentElement.classList.contains('cat-semi')) setPanel(true);
   apply(!!st.q);                                                     // arriving from search: go straight to the results
   PM.ready();
