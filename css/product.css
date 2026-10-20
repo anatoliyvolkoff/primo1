@@ -17,12 +17,6 @@
 .g-slide{flex:none;width:100%;height:100%;margin:0;scroll-snap-align:start;overflow:hidden}
 .g-slide img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
 .g-zoom img{transform:scale(1.9);transform-origin:76% 52%}
-.g-chip{position:absolute;left:14px;top:14px;z-index:1;display:flex;align-items:center;gap:8px;max-width:calc(100% - 28px);height:40px;padding:0 14px 0 5px;border-radius:99px;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 10px 30px -18px rgba(0,0,0,.35);pointer-events:none}
-.g-chip[hidden]{display:none}
-.g-chip i{flex:none;width:30px;height:30px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.1)}
-.g-chip b{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:600;color:#1e1e1e}
-.g-chip.pop{animation:chippop .35s var(--ease)}
-@keyframes chippop{from{transform:scale(.85);opacity:.4}}
 .g-dots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:0}
 .g-dots button{width:20px;height:24px;padding:0;border:0;background:none;display:grid;place-items:center}
 .g-dots button::before{content:"";width:6px;height:6px;border-radius:3px;background:#cfcfcf;transition:width .3s var(--ease),background .3s}
@@ -203,6 +197,29 @@
   .pdp.ld .p-grid{margin:10px -20px 18px;padding:6px 20px 16px;scroll-padding:0 20px}
 }
 
+/* layout E (phone, the default): a flat page, no card; the colours come straight under the photo, then name, price and size */
+@media (max-width:1023.98px){
+  .pdp.le .gallery{height:min(96vw,420px)}
+  .kit .pdp.le .gallery{height:min(84vw,370px)}
+  .pdp.le .pinfo{padding-top:14px}
+  .pdp.le .p-shades-h{order:-3;margin-top:0;height:auto;border:0}
+  .pdp.le .p-grid{order:-2;display:flex;gap:10px;margin:8px -33px 18px;padding:6px 33px 16px;border-bottom:1px solid #f0f0f2;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding:0 33px;scrollbar-width:none;overscroll-behavior-x:contain}
+  .pdp.le .p-grid::-webkit-scrollbar{display:none}
+  .pdp.le .psw{flex:none;width:48px;height:48px;scroll-snap-align:start}
+  .pdp.le .p-badge{margin-bottom:10px}
+  .pdp.le .p-badge+.p-title{margin-top:0}
+  .pdp.le .p-title{font-size:24px;line-height:30px}
+  .pdp.le .p-row{display:flex;align-self:stretch;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+  .pdp.le .p-row .p-price{margin:0}
+  .pdp.le .p-row .p-size,.pdp.le .p-row .p-sizes{margin:0;flex:none}
+  .pdp.le .p-sizes{gap:6px}
+  .pdp.le .p-sizes .p-size{padding:0 12px}
+  .pdp.le .wholesale{margin-top:24px}
+}
+@media (max-width:439.98px){
+  .pdp.le .p-grid{margin:8px -20px 18px;padding:6px 20px 16px;scroll-padding:0 20px}
+}
+
 /* related */
 .related{padding:37px 0 0}
 .rel-h{margin:0;padding:0 33px;font-size:25px;line-height:40px;font-weight:700;letter-spacing:.35px;color:#1e1e1e}
@@ -213,7 +230,6 @@
 @media (min-width:1024px){
   .pdp{max-width:976px;margin:0 auto}
   .pdp-top{padding-top:40px}
-  .pdp .g-chip{display:none}
   .pdp .crumbs{display:flex!important;align-items:center;gap:2px;height:16.5px;font-family:var(--fi);font-size:13px;line-height:16px;color:#8a8a8a}
   .pdp .crumbs svg{width:12px;height:12px;margin:0 2px 0 8px;stroke-width:2}
   .pdp .crumbs a:hover{color:#000}
