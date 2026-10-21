@@ -4,7 +4,9 @@
 .hero-track{position:relative;display:flex;height:100%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
 .hero-track::-webkit-scrollbar{display:none}
 .slide{flex:none;width:100%;height:100%;position:relative;scroll-snap-align:start;color:#fff;overflow:hidden}
-.slide>img{position:absolute;left:0;top:-120px;width:100%;height:calc(100% + 120px);object-fit:cover}
+.slide>img,.slide>video{position:absolute;left:0;top:-120px;width:100%;height:calc(100% + 120px);object-fit:cover}
+.slide>video{top:0;height:100%;background:#c6c5c5}
+a.hbtn{display:inline-grid;place-items:center;text-decoration:none}
 .slide::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.26) 60%,rgba(0,0,0,.5) 100%)}
 .slide-txt{position:absolute;z-index:1;left:33px;right:16px;bottom:76px}
 .slide h1{margin:0;font-size:clamp(25px,6.9vw,30px);line-height:1.15;font-weight:600;letter-spacing:-.035em;text-wrap:balance;text-shadow:0 2px 12px rgba(0,0,0,.4)}
@@ -204,6 +206,7 @@
   /* hero: 600 tall; copy block at x=242, buttons end 99px above the bottom */
   .hero{height:600px;background:#8b8c8c}
   .slide>img{top:0;height:100%;object-position:50% 50%!important}
+  .slide:has(video)::after{background:linear-gradient(90deg,rgba(0,0,0,.6),rgba(0,0,0,.35) 45%,rgba(0,0,0,.05) 75%)}
   .slide::after{background:rgba(0,0,0,.4)}
   .slide-txt{left:calc(50% - 478px);right:auto;bottom:99px;width:700px}
   .slide h1{font-size:35px;line-height:45px;font-weight:700;letter-spacing:-.08px;text-wrap:nowrap;text-shadow:0 2px 8px rgba(0,0,0,.12)}
@@ -459,3 +462,4 @@
 .lab button{height:28px;padding:0 11px;border-radius:99px;border:1px solid #c4c4c4;background:#fff;font:inherit;color:#1e1e1e}
 .lab button[aria-pressed=true]{background:#1e1e1e;border-color:#1e1e1e;color:#fff}
 @media (max-width:1023.98px){.lab{right:12px;padding:8px 10px;gap:6px}.lab p{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}.lab button{flex:none}.lab b{flex:none;width:40px}}
+
