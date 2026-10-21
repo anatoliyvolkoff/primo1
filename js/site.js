@@ -290,16 +290,18 @@
     const more = f.length - shown;
     return `<div class="shades" role="group" aria-label="Tonalità">${f.slice(0, shown).map((q, i) => shadeBtn(q, i === 0)).join('')}${more > 0 ? `<button class="plus" aria-expanded="false" aria-label="Mostra altre ${more} tonalità">+${more}</button>` : ''}</div>`;
   }
-  /* card photo: a two-slide swipe track (the photo, then a close-up of the colour) with dots; `inner` is the <img> or <picture> */
-  const cardPhoto = inner => `<span class="ptrack"><span class="pslide">${inner}</span><span class="pslide pz" aria-hidden="true">${inner.replace(/ alt="[^"]*"/, ' alt=""')}</span></span><span class="pdots" aria-hidden="true"><i></i><i></i></span>`;
+  /* card photo: a two-slide swipe track (the photo, then a close-up of the colour) with dots; `inner` is the <img> or <picture>.
+     The compact card (.cc) and the swipe are phone-only: desktop keeps the full card with a single photo. */
+  const ccClass = () => (desktopMQ.matches ? '' : ' cc');
+  const cardPhoto = inner => desktopMQ.matches ? inner : `<span class="ptrack"><span class="pslide">${inner}</span><span class="pslide pz" aria-hidden="true">${inner.replace(/ alt="[^"]*"/, ' alt=""')}</span></span><span class="pdots" aria-hidden="true"><i></i><i></i></span>`;
   const productCard = p => `
-    <article class="pcard cc" data-id="${p.id}">
+    <article class="pcard${ccClass()}" data-id="${p.id}">
       <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli">${cardPhoto(`<img src="${imgOf(p)}" alt="${label(p)}, ${CAT_LABEL[p.cat].toLowerCase()}" loading="lazy" decoding="async" draggable="false">`)}${p.old ? `<span class="disc" aria-label="Sconto ${disc(p)}%">${disc(p)}%</span>` : ''}</a>
       <div class="pbody">
         <div class="phead"><h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p></div>
         ${priceHtml(p)}
-        ${shadesHtml(p, 4)}
+        ${shadesHtml(p, desktopMQ.matches ? SH_SHOWN : 4)}
         <button class="add" lang="en" aria-label="Aggiungi al carrello – ${label(p)}">add to cart</button>
       </div>
     </article>`;
@@ -462,7 +464,7 @@
   Object.assign(PM, {
     $, $$, root, reduceMotion, finePointer, desktopMQ, smooth, money, buzz, store, settle,
     MOODS, CATALOG, toast, openOverlay, closeOverlay, addToCart, cartLines, clearCart, flashAdded,
-    attachProgress, cardPhoto, productCard, priceHtml, shadesHtml, showOnCard, fillRail, dragScroll, jumpTo,
+    attachProgress, ccClass, cardPhoto, productCard, priceHtml, shadesHtml, showOnCard, fillRail, dragScroll, jumpTo,
   });
   /* Page scripts run after this file; they call PM.ready() so shared setup that depends on their DOM runs last. */
   PM.ready = () => {
