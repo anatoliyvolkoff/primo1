@@ -290,9 +290,11 @@
     const more = f.length - shown;
     return `<div class="shades" role="group" aria-label="Tonalità">${f.slice(0, shown).map((q, i) => shadeBtn(q, i === 0)).join('')}${more > 0 ? `<button class="plus" aria-expanded="false" aria-label="Mostra altre ${more} tonalità">+${more}</button>` : ''}</div>`;
   }
+  /* card photo: a two-slide swipe track (the photo, then a close-up of the colour) with dots; `inner` is the <img> or <picture> */
+  const cardPhoto = inner => `<span class="ptrack"><span class="pslide">${inner}</span><span class="pslide pz" aria-hidden="true">${inner.replace(/ alt="[^"]*"/, ' alt=""')}</span></span><span class="pdots" aria-hidden="true"><i></i><i></i></span>`;
   const productCard = p => `
     <article class="pcard cc" data-id="${p.id}">
-      <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli"><img src="${imgOf(p)}" alt="${label(p)}, ${CAT_LABEL[p.cat].toLowerCase()}" loading="lazy" decoding="async" draggable="false">${p.old ? `<span class="disc" aria-label="Sconto ${disc(p)}%">${disc(p)}%</span>` : ''}</a>
+      <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli">${cardPhoto(`<img src="${imgOf(p)}" alt="${label(p)}, ${CAT_LABEL[p.cat].toLowerCase()}" loading="lazy" decoding="async" draggable="false">`)}${p.old ? `<span class="disc" aria-label="Sconto ${disc(p)}%">${disc(p)}%</span>` : ''}</a>
       <div class="pbody">
         <div class="phead"><h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p></div>
@@ -324,7 +326,8 @@
     h.innerHTML = `${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span>`;
     $$('a', card).forEach(a => { if (a.closest('.pimg') || a.closest('h3')) a.href = href(p); });
     $('.pimg', card).setAttribute('aria-label', `${label(p)} – dettagli`);
-    const img = $('.pimg img', card), src = imgOf(p); if (img.getAttribute('src') !== src) { img.src = src; $('.pimg source', card)?.setAttribute('srcset', src); }
+    const src = imgOf(p);
+    $$('.pimg img', card).forEach(img => { if (img.getAttribute('src') !== src) img.src = src; }); $$('.pimg source', card).forEach(s => s.setAttribute('srcset', src));
     $('.price', card).outerHTML = priceHtml(p);
     const ml = $('.ml', card); if (ml) ml.textContent = p.size;
     $('.add', card).setAttribute('aria-label', `Aggiungi al carrello – ${label(p)}`);
@@ -342,6 +345,16 @@
       if (gone.some(b => b.getAttribute('aria-pressed') === 'true')) showOnCard(card, f[0]);
       gone.forEach(b => b.remove());
     }
+  }
+  /* card photo swipe: the dots follow the track; with a mouse, hovering the photo shows the close-up */
+  document.addEventListener('scroll', e => {
+    const t = e.target; if (!t.classList || !t.classList.contains('ptrack')) return;
+    t.parentNode.classList.toggle('on2', t.scrollLeft > t.clientWidth / 2);
+  }, { capture: true, passive: true });
+  if (finePointer) {
+    const slideTo = (e, i) => { const t = e.target.closest?.('.pimg')?.querySelector('.ptrack'); if (t && !(e.relatedTarget && t.parentNode.contains(e.relatedTarget))) t.scrollTo({ left: i * t.clientWidth, behavior: smooth() }); };
+    document.addEventListener('mouseover', e => slideTo(e, 1));
+    document.addEventListener('mouseout', e => slideTo(e, 0));
   }
   /* "Added" feedback on any add-to-cart button: label swaps briefly, then restores. */
   function flashAdded(btn, okText = '✓ aggiunto') {
@@ -449,7 +462,7 @@
   Object.assign(PM, {
     $, $$, root, reduceMotion, finePointer, desktopMQ, smooth, money, buzz, store, settle,
     MOODS, CATALOG, toast, openOverlay, closeOverlay, addToCart, cartLines, clearCart, flashAdded,
-    attachProgress, productCard, priceHtml, shadesHtml, showOnCard, fillRail, dragScroll, jumpTo,
+    attachProgress, cardPhoto, productCard, priceHtml, shadesHtml, showOnCard, fillRail, dragScroll, jumpTo,
   });
   /* Page scripts run after this file; they call PM.ready() so shared setup that depends on their DOM runs last. */
   PM.ready = () => {
