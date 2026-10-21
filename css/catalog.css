@@ -170,13 +170,13 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
 .gcard .ml{margin:1.7px 0 0;font-size:7.5px;line-height:9px;font-weight:500;color:#8f8f8f}
 .gcard .price{margin:7px 0 0;gap:4.4px;font-size:13.5px;line-height:18.3px;font-weight:800;letter-spacing:1.3px}
 .gcard .price s{text-decoration-thickness:1.5px}
-.gcard .shades{flex:none;margin:10.1px 0 -2px -2px;padding:2px;gap:5px;flex-wrap:nowrap}
+.gcard .shades{--sw:22px;--grow:3px;flex:none;margin:10.6px 0 0 -.3px;width:160.6px}
 .gcard .sh{width:22px;height:22px;box-shadow:none}
-.gcard .sh[aria-pressed=true]{width:23.5px;height:23.5px}
-.gcard .sh::after{inset:-1.5px;border-width:1.5px}
+.gcard .sh::after{border-width:1.5px}
+.gcard .sh[aria-pressed=true]::after{box-shadow:inset 0 0 0 1.5px #fff}
 .gcard .shades .extra{display:none}
 .gcard .plus{width:22px;height:22px;margin:0;font-size:8.5px}
-.gcard .add{margin:10px 0 0 -.3px;width:160.6px;height:28px;font-size:9.5px;font-weight:600;letter-spacing:.35px;display:flex;align-items:center;justify-content:center}
+.gcard .add{margin:8.5px 0 0 -.3px;width:160.6px;height:28px;font-size:9.5px;font-weight:600;letter-spacing:.35px;display:flex;align-items:center;justify-content:center}
 .gcard .add svg{width:9px;height:9px;stroke-width:3;margin-right:4.5px;vertical-align:-1px}
 .empty{padding:40px 24px 0;text-align:center;color:#666}
 /* search query from the header (?q=) */
@@ -210,11 +210,14 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .gcard .pbody{padding-bottom:0}
   .gcard .pimg{height:auto;aspect-ratio:190/177;overflow:hidden;border-radius:17px 17px 0 0}
   .gcard .pimg img{position:static;width:100%;height:100%}
-  .gcard .shades{overflow:hidden;margin-right:8px}
+  .gcard .shades{--slots:5;width:calc(100% - 15px)}
   .gcard .add{width:calc(100% - 15px);white-space:nowrap;font-size:8.5px;letter-spacing:.1px}
   .pager{margin-left:8px;margin-right:8px}
   .pg-core{max-width:100%;gap:6px;padding:0 10px}
   .pg-nums button{min-width:24px}
+}
+@media (max-width:359.98px){
+  .gcard .shades{--slots:4}
 }
 @media (min-width:1024px){
   .q-pill{max-width:976px;margin:28px auto -12px;font-size:15px}
@@ -279,10 +282,10 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .gcard .type{margin:1.7px 0 0;font-size:11px;line-height:15px;font-weight:600;letter-spacing:.35px;color:#8a8a8a}
   .gcard .ml{margin:4px 0 0;font-size:10.5px;line-height:14px;font-weight:600;color:#8a8a8a}
   .gcard .price{margin:10.9px 0 0;font-size:15.5px;line-height:19px;font-weight:700;letter-spacing:.2px}
-  .gcard .shades{margin:12px 0 0;padding:0;gap:6px}
-  .gcard .sh,.gcard .sh[aria-pressed=true]{width:26px;height:26px}
+  .gcard .shades{--sw:26px;--grow:4px;--slots:6;margin:10px 0 0;width:auto}
+  .gcard .sh{width:26px;height:26px}
   .gcard .plus{width:26px;height:26px;font-size:10px}
-  .gcard .add{margin:14.5px 0 0 6.9px;width:184.4px;height:31.4px;font-size:15px;font-weight:500;letter-spacing:.4px}
+  .gcard .add{margin:12.5px 0 0;width:100%;height:31.4px;font-size:15px;font-weight:500;letter-spacing:.4px}
   .pager{flex-direction:row;justify-content:space-between;width:860px;height:72px;margin:40px auto 0;padding:0 72px;border:1px solid #eee;border-radius:36px;background:#fff;box-shadow:0 10px 30px -18px rgba(0,0,0,.18)}
   .pg-core{height:auto;padding:0;border:0;box-shadow:none;gap:32px}
   .pg-nums{gap:20px}
