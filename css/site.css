@@ -102,17 +102,17 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
 .add{margin-top:20px;width:100%;height:44px;border:0;border-radius:99px;background:#000;color:#fff;font-size:18px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:transform .15s,background .3s}
 .add:active{transform:scale(.98)}
 .add.ok{background:#1f7a3a}
-/* phones: rail cards are a 4:5 box drawn at 75% (zoom keeps every proportion); the photo takes two thirds,
+/* phones: rail cards are a tall box (a little taller than 4:5) drawn at 75% (zoom keeps every proportion); the photo takes two thirds,
    name, type, price and swatches the last third (opened "+N" swatches take room from the photo); four swatches share the bottom row
    with a round "+" add button, a little smaller than it */
 @media (max-width:1023.98px){
-  .rail .pcard{zoom:.75;height:359px}
+  .rail .pcard{zoom:.75;height:395px}
   .rail .pcard .pimg{flex:1 1 0;min-height:0;height:auto;aspect-ratio:auto}
-  .rail .pcard .pbody{flex:none;min-height:128px;padding:10px 14px 12px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:space-between;column-gap:10px}
+  .rail .pcard .pbody{flex:none;min-height:140px;padding:10px 14px 12px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:space-between;column-gap:10px}
   .rail .pcard .phead{grid-column:1/-1;min-height:0}
   .rail .pcard .pbody h3{font-size:15px;line-height:19px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .rail .pcard .pbody h3 span{display:inline}.rail .pcard .pbody h3 span+span::before{content:" "}
-  .rail .pcard .type{margin:5px 0 0;font-size:10px;line-height:13px}
+  .rail .pcard .type{margin:11px 0 0;font-size:10px;line-height:13px}
   .rail .pcard .ml{display:none}
   .rail .pcard .pbody>:nth-last-child(2){margin-bottom:0}
   .rail .pcard .price{grid-column:1/-1;align-self:end;margin:0;font-size:15px;line-height:20px;gap:5px}
