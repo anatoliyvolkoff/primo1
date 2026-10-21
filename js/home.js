@@ -6,6 +6,8 @@
 
   // ---------- hero ----------
   const SLIDES = [
+    { vid: 'banner/hand-spray', h: 'Spray Hand Skincare', p: 'Acido ialuronico e cheratina per mani morbide e luminose.', pos: '50% 50%',
+      btns: '<a class="hbtn ghost" href="catalogo.html?cat=care">Vedi tutti</a><a class="hbtn solid" href="prodotto.html?id=p8">Scopri lo spray</a>' },
     { vid: 'banner/acrygel', h: 'Acrygel Nude 1', p: 'Consistenza densa e pastosa per un controllo perfetto.', pos: '50% 50%',
       btns: '<a class="hbtn ghost" href="catalogo.html?cat=acrygel">Vedi tutti</a><a class="hbtn solid" href="prodotto.html?id=p32">Scopri Acrygel</a>' },
     { img: 'hero1.jpg', h: "L'Eleganza nelle Tue Mani", p: 'Scopri la collezione di gel polish professionali PriMo Nails.', pos: '50% 50%' },
@@ -46,9 +48,12 @@
   });
   heroTrack.addEventListener('mouseenter', () => { heroHover = true; });
   heroTrack.addEventListener('mouseleave', () => { heroHover = false; });
-  // the Acrygel clip loops only while its slide is showing and the hero is on screen; reduced motion keeps the poster frame
-  const heroVid = $('.hero-vid', heroTrack);
-  const heroClip = () => { if (!heroVid || reduceMotion) return; heroVisible && !document.hidden && heroI === 0 ? heroVid.play().catch(() => {}) : heroVid.pause(); };
+  // a slide's clip loops only while that slide is showing and the hero is on screen; reduced motion keeps the poster frame
+  const heroSlides = $$('.slide', heroTrack);
+  const heroClip = () => {
+    if (reduceMotion) return;
+    heroSlides.forEach((sl, k) => { const v = $('.hero-vid', sl); if (v) heroVisible && !document.hidden && heroI === k ? v.play().catch(() => {}) : v.pause(); });
+  };
   $('.hero').addEventListener('visibility', e => { heroVisible = e.detail; heroClip(); });
   document.addEventListener('visibilitychange', heroClip);
   setInterval(() => {
