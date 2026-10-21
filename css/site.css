@@ -102,11 +102,11 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
 .add{margin-top:20px;width:100%;height:44px;border:0;border-radius:99px;background:#000;color:#fff;font-size:18px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:transform .15s,background .3s}
 .add:active{transform:scale(.98)}
 .add.ok{background:#1f7a3a}
-/* phones: rail cards are a tall box (a little taller than 4:5) drawn at 75% (zoom keeps every proportion); the photo takes two thirds,
+/* phones: rail cards are a tall box (a little taller than 4:5) drawn at 90% (zoom keeps every proportion); the photo takes two thirds,
    name, type, price and swatches the last third (opened "+N" swatches take room from the photo); four swatches share the bottom row
    with a round "+" add button, a little smaller than it */
 @media (max-width:1023.98px){
-  .rail .pcard{zoom:.75;height:395px}
+  .rail .pcard{zoom:.9;height:395px}
   .rail .pcard .pimg{flex:1 1 0;min-height:0;height:auto;aspect-ratio:auto}
   .rail .pcard .pbody{flex:none;min-height:140px;padding:10px 14px 12px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:space-between;column-gap:10px}
   .rail .pcard .phead{grid-column:1/-1;min-height:0}
