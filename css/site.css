@@ -46,6 +46,9 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
 .lang-menu li{padding:8px 12px;font-size:13px;font-weight:600;border-radius:8px;cursor:pointer}
 .lang-menu li:hover,.lang-menu li[aria-selected=true]{background:#f4f4f4}
 .lang-menu[hidden]{display:none}
+.lang-menu li[aria-disabled=true]{color:#aaa;cursor:default;white-space:nowrap}
+.lang-menu li[aria-disabled=true]:hover{background:none}
+.lang-menu small{font-size:10px;font-weight:500;margin-left:4px}
 .logo{position:absolute;left:50%;top:21px;transform:translateX(-50%);display:block;padding:0}
 .logo img{width:98px;height:auto;margin-top:3px}
 .logo::before{content:"";position:absolute;inset:-14px -6px}            /* 44px tap target */
@@ -113,7 +116,7 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
 .pslide{position:relative;flex:0 0 100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
 .pslide picture{display:block;width:100%;height:100%}
 .pz img{transform:scale(1.7)!important;transform-origin:80% 45%}
-.pdots{position:absolute;left:50%;bottom:8px;translate:-50% 0;display:flex;gap:5px;padding:4px 6px;border-radius:99px;background:rgba(255,255,255,.8);pointer-events:none}
+.pdots{position:absolute;right:8px;bottom:8px;display:flex;gap:5px;padding:4px 6px;border-radius:99px;background:rgba(255,255,255,.8);pointer-events:none}
 .pdots i{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.22);transition:background .2s,width .2s}
 .pimg:not(.on2) .pdots i:first-child,.pimg.on2 .pdots i:last-child{width:14px;border-radius:3px;background:#111}
 .pcard.cc .pimg img{position:static;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 14%}
@@ -267,12 +270,14 @@ html.lock,html.lock body{overflow:hidden}
 .ship-bar i{display:block;height:100%;width:0;border-radius:9px;background:var(--ship);transition:width .5s var(--ease)}
 .ship.done .ship-bar i{background:var(--green)}
 .cart-list{list-style:none;margin:12px 0 0;padding:0 24px;overflow:auto;overscroll-behavior:contain;flex:1 1 auto;min-height:0}
-.ci{display:grid;grid-template-columns:64px 1fr auto;gap:8px 14px;align-items:center;padding:14px 0;border-top:1px solid #eee}
+.ci{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:8px 14px;align-items:center;padding:14px 0;border-top:1px solid #eee}
 .ci img{width:64px;height:64px;object-fit:cover;object-position:50% 14%;border-radius:14px;border:1px solid #eee;background:#fdfdfd}
 .ci-name{margin:0;font-size:15px;line-height:19px;font-weight:700}
-.ci-meta{margin:2px 0 0;display:flex;align-items:center;gap:6px;font-size:12.5px;line-height:17px;color:var(--gray);white-space:nowrap}
+.ci-meta{margin:2px 0 0;display:flex;align-items:center;gap:6px;font-size:12.5px;line-height:17px;color:var(--gray);white-space:nowrap;min-width:0}
+.ci-meta span:last-child{overflow:hidden;text-overflow:ellipsis}
 .ci-dot{flex:none;width:12px;height:12px;border-radius:50%;background-size:cover;box-shadow:0 0 0 1px rgba(0,0,0,.25)}
-.ci-price{margin:4px 0 0;font-size:15px;font-weight:800;color:var(--red)}
+.ci-price{margin:4px 0 0;font-size:15px;font-weight:800}
+.ci-price.sale{color:var(--red)}
 .qty{display:flex;align-items:center;border:1.5px solid #d6d6d6;border-radius:99px}
 .qty button{width:44px;height:44px;padding:0;border:0;background:none;font-size:20px;line-height:1;font-weight:500}
 .qty span{min-width:18px;text-align:center;font-size:15px;font-weight:700}
@@ -284,7 +289,8 @@ html.lock,html.lock body{overflow:hidden}
 .cart-total b{font-size:20px}
 .btn-black{width:100%;height:48px;border:0;border-radius:99px;background:#000;color:#fff;font-size:16px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
 .btn-black:active{transform:scale(.98)}
-@media (max-width:380px){.ci{grid-template-columns:64px 1fr}.qty{grid-column:2;justify-self:start}}
+.ci .qty button{width:38px;height:40px}
+@media (max-width:380px){.ci{grid-template-columns:64px minmax(0,1fr)}.qty{grid-column:2;justify-self:start}}
 
 /* =====================================================================
    Desktop (design: 1440 wide; content column 976 at x=232, header 951 at x=245)
@@ -342,7 +348,7 @@ html.lock,html.lock body{overflow:hidden}
   .sh[aria-pressed=true]::after{box-shadow:inset 0 0 0 1.6px #fff}
   .plus{width:26px;height:26px;font-size:10px}
   .shades .extra{display:none}
-  .add{margin:9px 0 0;width:100%;height:31.4px;font-size:15px;font-weight:500;letter-spacing:.4px}
+  .add{margin:9px 0 0;width:100%;height:31.4px;font-size:13px;font-weight:500;letter-spacing:.2px;white-space:nowrap}
 
   /* marquee */
   .marquee{height:31px}

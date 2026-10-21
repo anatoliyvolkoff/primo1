@@ -93,7 +93,7 @@
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p></div>
         ${priceHtml(p)}
         ${shadesHtml(p, desktopMQ.matches ? 5 : 3)}
-        <button class="add" aria-label="Aggiungi al carrello – ${label(p)}"><span class="m-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>add to cart</span><span class="d-only">add to cart</span></button>
+        <button class="add" aria-label="Aggiungi al carrello – ${label(p)}"><span class="m-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>aggiungi al carrello</span><span class="d-only">aggiungi al carrello</span></button>
       </div>
     </article>`;
   };
@@ -146,10 +146,10 @@
     if (pages > Math.max(...shown)) numHtml += `<span class="pg-gap" aria-hidden="true">…</span>${btn(pages)}`;
     const from = total ? (cur - 1) * perPage() + 1 : 0, to = Math.min(total, cur * perPage());
     pg.innerHTML = `<div class="pg-core">
-      <button type="button" class="pg-prev" data-page="${cur - 1}" ${cur === 1 ? 'disabled' : ''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>Previous</button>
+      <button type="button" class="pg-prev" aria-label="Pagina precedente" data-page="${cur - 1}" ${cur === 1 ? 'disabled' : ''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span class="pg-lbl">Precedente</span></button>
       <div class="pg-nums">${numHtml}</div>
-      <button type="button" class="pg-next" data-page="${cur + 1}" ${cur === pages ? 'disabled' : ''}>Next<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
-      <p class="pg-info">Showing ${to - from + (total ? 1 : 0)} of ${total} results</p>`;
+      <button type="button" class="pg-next" aria-label="Pagina successiva" data-page="${cur + 1}" ${cur === pages ? 'disabled' : ''}><span class="pg-lbl">Successiva</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button></div>
+      <p class="pg-info">${to - from + (total ? 1 : 0)} di ${total} prodotti</p>`;
   }
   $('#pager').addEventListener('click', e => { const b = e.target.closest('[data-page]'); if (b && !b.disabled) { st.page = +b.dataset.page; apply(true); } });
   desktopMQ.addEventListener('change', () => apply());

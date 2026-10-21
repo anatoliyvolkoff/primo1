@@ -8,13 +8,13 @@
   'use strict';
   const PM = window.PM;
   const { $, $$, store, desktopMQ, openOverlay, closeOverlay, MOODS, CATALOG } = PM;
-  const { COLORS, MOOD_TO_COLOR, COLLS, CATS, CAT_LABEL, PRODUCTS, KITS, COURSES, swatchBg, label } = CATALOG;
+  const { COLORS, MOOD_TO_COLOR, COLLS, CATS, CAT_LABEL, PRODUCTS, KITS, COURSES, swatchBg, label, imgOf } = CATALOG;
 
   // ---------- text helpers ----------
   const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[’'`]/g, '').replace(/[^a-z0-9]+/g, ' ').trim();
   const words = s => norm(s).split(' ').filter(Boolean);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const price = n => n.toFixed(2).replace('.', ',') + ' €';
+  const price = n => '€' + n.toFixed(2).replace('.', ',');                // same format as the cards
 
   // ---------- what can be found (synonyms are folded into each entry's words) ----------
   const COLOR_WORDS = {
@@ -38,7 +38,7 @@
   const add = e => { e.words = words(`${e.label} ${e.extra || ''}`); INDEX.push(e); };
   // one entry per product: the sheet's products, every semipermanente shade and the four kits
   const href = p => (p.kit ? `prodotto.html?kit=${p.kit}` : `prodotto.html?id=${p.id}`);
-  PRODUCTS.forEach(p => add({ type: 'prod', label: label(p), sub: `${CAT_LABEL[p.cat]} · ${p.size}`, href: href(p), sw: p.cell ? swatchBg(p.cell) : null, bg: p.kit ? KITS[p.kit].all : null,
+  PRODUCTS.forEach(p => add({ type: 'prod', label: label(p), sub: `${CAT_LABEL[p.cat]} · ${p.size}`, href: href(p), photo: imgOf(p), sw: p.cell ? swatchBg(p.cell) : null, bg: p.kit ? KITS[p.kit].all : null,
     price: p.price, pop: p.pop, extra: PWORDS.get(p).join(' ') + (p.kit ? ` kit set ${COLL_WORDS[p.coll]} ${KITS[p.kit].shades.map(q => q.num).join(' ')}` : '') }));
   CATS.forEach(k => add({ type: 'cat', label: CAT_LABEL[k], href: `catalogo.html?cat=${k}`, extra: CAT_WORDS[k], n: PRODUCTS.filter(p => p.cat === k).length }));
   // colours are the site's own swatches ("Shop by color"); picking one goes through PM.onColorPick so each page can handle it its own way
@@ -131,7 +131,7 @@
     return safe.replace(re, '$1<mark>$2</mark>');
   }
   const prodCard = (e, toks) => `<a class="sx-prod" role="option" id="${id()}" data-opt data-save href="${e.href}">
-      <span class="sx-img"><img src="img/product-card-m.jpg" alt="" loading="lazy" decoding="async">${e.sw || e.bg ? `<i class="sx-dot" style="${e.sw || `--bg:${e.bg}`}"></i>` : ''}</span>
+      <span class="sx-img"><img src="${e.photo}" alt="" loading="lazy" decoding="async">${e.sw || e.bg ? `<i class="sx-dot" style="${e.sw || `--bg:${e.bg}`}"></i>` : ''}</span>
       <span class="sx-pt"><b>${hl(e.label, toks)}</b><small>${hl(e.sub, toks)}</small><em>${price(e.price)}</em></span></a>`;
   const icon = e => e.type === 'color' ? `<img class="sx-sw" src="${e.img}" alt="">` : e.img ? `<img class="sx-th" src="${e.img}" style="object-position:${e.pos}" alt="" loading="lazy">` : TYPE[e.type][1];
   const rowInner = (e, toks) => `<span class="sx-ic">${icon(e)}</span>
