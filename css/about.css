@@ -1,7 +1,7 @@
 /* PriMo Nails – Chi siamo. Cinematic: a full-bleed hero with giant type, a horizontal timeline, the founder in her own words,
    a work gallery, three values, two shop/school tiles and a black contact panel. Uses the system tokens, type and buttons
    (eyebrow, cx-btn, back from academy.css). Phones: one column. Desktop: 976px column. */
-.abc{--cx-warm:#f6f3ef;--cx-line:#e6e1dc;overflow:hidden;overflow:clip}
+.abc{--cx-warm:#f6f3ef;--cx-line:#e6e1dc;overflow:hidden}
 .abc h2{text-wrap:balance}
 .abc-hero{position:relative;height:560px;background:#111;color:#fff;overflow:hidden}
 .abc-hero img{width:100%;height:100%;object-fit:cover;object-position:46% 30%;filter:brightness(.62) contrast(1.05)}
@@ -152,73 +152,28 @@
   .abc-strip img{border-radius:24px}
 }
 
-/* Irina's journey: five chapters. Phones: a copper line with a photo per chapter. Desktop: chapters scroll past a sticky
-   photo frame that crossfades to the chapter in view (about.js); without JS the first photo stays and every chapter is lit. */
-.abj{padding:72px 24px 0}
-.abj-head h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111}
-.abj-head p:last-child{margin:12px 0 0;font-family:var(--fi);font-size:16px;line-height:24px;color:#555}
-.abj-frame{display:none}
-.abj-list{list-style:none;margin:36px 0 0;padding:0 0 0 28px;border-left:1px solid var(--cx-line)}
-.abj-ch{position:relative;padding-bottom:48px}
-.abj-ch:last-child{padding-bottom:0}
-.abj-ch::before{content:"";position:absolute;left:-34px;top:2px;width:11px;height:11px;border-radius:50%;background:#fff;border:1px solid var(--accent);transition:background .3s var(--ease)}
-.abj-ch.on::before{background:var(--accent)}
-.abj-pic{margin-bottom:20px;border-radius:20px;overflow:hidden;background:var(--cx-warm);aspect-ratio:4/3}
-.abj-pic img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
-.abj-pic.fit img,.abj-frame img.fit{object-fit:contain;mix-blend-mode:multiply}
-.abj-n{display:block;font-size:44px;line-height:44px;font-weight:300;letter-spacing:-1.5px;color:var(--accent)}
-.abj-when{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0 0;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:#111}
-.abj-tbd{padding:2px 9px;border:1px dashed #c9c4bf;border-radius:99px;font-family:var(--fi);font-size:10.5px;font-weight:500;letter-spacing:.2px;text-transform:none;color:#8a8580}
-.abj-ch h3{margin:6px 0 0;font-size:22px;line-height:28px;font-weight:600;letter-spacing:-.5px;color:#111;text-wrap:balance}
-.abj-ch h3+p{margin:10px 0 0;font-family:var(--fi);font-size:15px;line-height:23px;color:#555}
-
-/* the path she built: a stepper on phones, a staircase climbing to the right on desktop */
-.abw{margin-top:88px;padding:64px 24px;background:var(--cx-warm)}
-.abw h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111}
-.abw-lead{margin:12px 0 0;font-family:var(--fi);font-size:16px;line-height:24px;color:#555}
-.abw-steps{list-style:none;margin:32px 0 36px;padding:0;counter-reset:st}
-.abw-steps li{position:relative;padding:0 0 28px 52px;counter-increment:st}
-.abw-steps li:last-child{padding-bottom:0}
-.abw-steps li::after{content:"";position:absolute;left:17px;top:38px;bottom:4px;width:1px;background:#d8d1ca}
-.abw-steps li:last-child::after{display:none}
-.abw-dot{position:absolute;left:0;top:0;width:35px;height:35px;border-radius:50%;background:#fff;border:1px solid var(--cx-line)}
-.abw-dot::before{content:counter(st);position:absolute;inset:0;display:grid;place-items:center;font-size:14px;font-weight:600;color:#111}
-.abw-steps li:last-child .abw-dot{background:#111;border-color:#111}
-.abw-steps li:last-child .abw-dot::before{color:#fff}
-.abw-steps .ac-lvl{padding-top:2px}
-.abw-steps h3{margin:4px 0 0;font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.3px;color:#111}
-.abw-steps h3+p{margin:6px 0 0;font-family:var(--fi);font-size:14px;line-height:21px;color:#555}
-
+/* Irina's journey and the path she built: plain text rows on hairlines */
+.abj,.abw{padding:72px 24px 0}
+.abj h2,.abw h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111;text-wrap:balance}
+.abj-list,.abw-steps{list-style:none;margin:28px 0 0;padding:0;border-top:1px solid var(--cx-line)}
+.abj-list li{padding:20px 0;border-bottom:1px solid var(--cx-line)}
+.abj-when{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
+.abj-tbd{padding:1px 8px;border:1px dashed #c9c4bf;border-radius:99px;font-family:var(--fi);font-size:10.5px;font-weight:500;letter-spacing:.2px;text-transform:none;color:#8a8580}
+.abj-list h3{margin:6px 0 0;font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.3px;color:#111}
+.abj-list h3+p{margin:4px 0 0;font-family:var(--fi);font-size:14px;line-height:21px;color:#555}
+.abw-steps li{display:flex;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid var(--cx-line);font-size:16px;line-height:22px;font-weight:500;color:#111}
+.abw-steps span{flex:none;width:84px;font-family:var(--fi);font-size:13px;font-weight:400;color:#8a8580}
+.abw-link{display:inline-flex;align-items:center;gap:8px;margin-top:20px;min-height:44px;font-size:14px;font-weight:600;color:#111}
+.abw-link svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .2s var(--ease)}
+@media (hover:hover) and (pointer:fine){ .abw-link:hover svg{transform:translateX(3px)} }
 @media (min-width:1024px){
-  .abj{max-width:976px;margin:0 auto;padding:140px 0 0}
-  .abj-head{max-width:560px}
-  .abj-head h2{font-size:38px;line-height:44px;letter-spacing:-1.2px}
-  .abj-body{display:grid;grid-template-columns:420px 1fr;gap:96px;margin-top:24px}
-  .abj-frame{display:block;position:sticky;top:calc(50vh - 260px);height:520px;border-radius:28px;overflow:hidden;background:var(--cx-warm)}
-  .abj-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;opacity:0;transform:scale(1.04);transition:opacity .7s var(--ease),transform 1.2s var(--ease)}
-  .abj-frame img.on{opacity:1;transform:none}
-  .abj-count{position:absolute;left:20px;bottom:20px;padding:8px 14px;border-radius:99px;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);font-family:var(--fi);font-size:12px;color:#555}
-  .abj-count b{font-family:var(--f);font-weight:600;color:#111}
-  .abj-pic{display:none}
-  .abj-list{margin:0;padding:0 0 0 36px}
-  .abj-ch{display:flex;flex-direction:column;justify-content:center;min-height:520px;padding:0}
-  .abj-ch::before{left:-42px;top:calc(50% - 74px)}
-  .abj.js .abj-ch>*{opacity:.3;transition:opacity .4s var(--ease)}
-  .abj.js .abj-ch.on>*{opacity:1}
-  .abj-n{font-size:64px;line-height:64px;letter-spacing:-2.4px}
-  .abj-ch h3{font-size:32px;line-height:38px;letter-spacing:-1px}
-  .abj-ch h3+p{max-width:420px;font-size:17px;line-height:27px}
-
-  .abw{margin-top:120px;padding:112px 0}
-  .abw-in{max-width:976px;margin:0 auto}
-  .abw h2{max-width:560px;font-size:38px;line-height:44px;letter-spacing:-1.2px}
-  .abw-lead{font-size:17px;line-height:27px}
-  .abw-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:40px 0 120px}
-  .abw-steps li,.abw-steps li:last-child{padding:24px;border-radius:24px;background:#fff;border:1px solid var(--cx-line)}
-  .abw-steps li:nth-child(1){transform:translateY(72px)}
-  .abw-steps li:nth-child(2){transform:translateY(48px)}
-  .abw-steps li:nth-child(3){transform:translateY(24px)}
-  .abw-steps li::after{display:none}
-  .abw-dot{position:relative;display:block;margin-bottom:28px}
-  .abw-steps h3{font-size:19px}
+  .abj,.abw{max-width:976px;margin:0 auto;padding:140px 0 0}
+  .abj h2,.abw h2{font-size:38px;line-height:44px;letter-spacing:-1.2px}
+  .abj-list,.abw-steps{margin-top:40px}
+  .abj-list li{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:28px 0}
+  .abj-when{align-self:start;padding-top:5px}
+  .abj-list h3{margin:0;font-size:22px;line-height:28px}
+  .abj-list h3+p{font-size:16px;line-height:25px}
+  .abw-steps li{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:22px 0;font-size:20px;line-height:26px}
+  .abw-steps span{width:auto;font-size:14px}
 }
