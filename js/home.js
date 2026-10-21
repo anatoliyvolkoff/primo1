@@ -6,6 +6,8 @@
 
   // ---------- hero ----------
   const SLIDES = [
+    { vid: 'banner/acrygel', h: 'Acrygel Nude 1', p: 'Consistenza densa e pastosa per un controllo perfetto.', pos: '50% 50%',
+      btns: '<a class="hbtn ghost" href="catalogo.html?cat=acrygel">Vedi tutti</a><a class="hbtn solid" href="prodotto.html?id=p32">Scopri Acrygel</a>' },
     { img: 'hero1.jpg', h: "L'Eleganza nelle Tue Mani", p: 'Scopri la collezione di gel polish professionali PriMo Nails.', pos: '50% 50%' },
     { img: 'hero2.jpg', h: 'Colori che Raccontano', p: 'Sfumature intense e brillanti per ogni personalità.', pos: '50% 50%' },
     { img: 'hero3.jpg', h: 'Finish Impeccabile', p: 'Top e base professionali, TPO & HEMA free.', pos: '60% 50%' },
@@ -15,13 +17,15 @@
   heroTrack.setAttribute('aria-label', 'In evidenza: usa le frecce per cambiare slide');
   SLIDES.forEach((s, i) => {
     heroTrack.insertAdjacentHTML('beforeend', `<div class="slide" role="group" aria-roledescription="slide" aria-label="${i + 1} di ${SLIDES.length}">
-      <img src="img/${s.img}" alt="" style="object-position:${s.pos}" decoding="async" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}>
+      ${s.vid ? `<video class="hero-vid" muted loop playsinline preload="metadata" poster="img/${s.vid}.jpg" aria-hidden="true" style="object-position:${s.pos}">
+        <source src="img/${s.vid}.webm" type="video/webm"><source src="img/${s.vid}.mp4" type="video/mp4"></video>`
+        : `<img src="img/${s.img}" alt="" style="object-position:${s.pos}" decoding="async" ${i ? 'loading="lazy"' : 'fetchpriority="high"'}>`}
       <div class="slide-txt"><h1>${s.h}</h1><p>${s.p}</p>
-        <div class="btns"><button class="hbtn ghost" lang="en" data-go="#founder">Learn more</button><button class="hbtn solid" data-go="#bestsellers">Scopri la collezione</button></div></div></div>`);
+        <div class="btns">${s.btns || '<button class="hbtn ghost" lang="en" data-go="#founder">Learn more</button><button class="hbtn solid" data-go="#bestsellers">Scopri la collezione</button>'}</div></div></div>`);
     heroDots.insertAdjacentHTML('beforeend', `<button aria-label="Slide ${i + 1} di ${SLIDES.length}" data-i="${i}"></button>`);
   });
   let heroI = 0, heroNav = -1, heroStopped = reduceMotion, heroVisible = true, heroHover = false;
-  const heroSet = i => { heroI = i; $$('button', heroDots).forEach((d, k) => (k === i ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current'))); };
+  const heroSet = i => { heroI = i; $$('button', heroDots).forEach((d, k) => (k === i ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current'))); heroClip(); };
   const heroUnlock = settle(() => { heroNav = -1; heroSet(Math.round(heroTrack.scrollLeft / heroTrack.clientWidth)); }, 160);
   function heroGo(i) {
     i = Math.max(0, Math.min(SLIDES.length - 1, i));
@@ -42,7 +46,11 @@
   });
   heroTrack.addEventListener('mouseenter', () => { heroHover = true; });
   heroTrack.addEventListener('mouseleave', () => { heroHover = false; });
-  $('.hero').addEventListener('visibility', e => { heroVisible = e.detail; });
+  // the Acrygel clip loops only while its slide is showing and the hero is on screen; reduced motion keeps the poster frame
+  const heroVid = $('.hero-vid', heroTrack);
+  const heroClip = () => { if (!heroVid || reduceMotion) return; heroVisible && !document.hidden && heroI === 0 ? heroVid.play().catch(() => {}) : heroVid.pause(); };
+  $('.hero').addEventListener('visibility', e => { heroVisible = e.detail; heroClip(); });
+  document.addEventListener('visibilitychange', heroClip);
   setInterval(() => {
     if (heroStopped || !heroVisible || heroHover || document.hidden) return;
     if (heroI >= SLIDES.length - 1) { heroStopped = true; return; }
@@ -402,9 +410,6 @@
       <span class="mn-go" aria-hidden="true">Scopri il corso${arrow}</span></div></a>`).join('');
   $('#c-all').insertAdjacentHTML('beforeend', arrow);
 
-  // ---------- Acrygel banner: the clip plays only while on screen, and stays on its poster for reduced motion ----------
-  const promo = $('#promo-video');
-  if (promo && !reduceMotion) new IntersectionObserver(([e]) => { if (e.isIntersecting) promo.play().catch(() => {}); else promo.pause(); }, { threshold: .25 }).observe(promo);
 
   window.PM.ready();
 })();
