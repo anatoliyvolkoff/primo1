@@ -151,3 +151,29 @@
   .abc-strip figure:nth-child(even){transform:translateY(48px)}
   .abc-strip img{border-radius:24px}
 }
+
+/* Irina's journey and the path she built: plain text rows on hairlines */
+.abj,.abw{padding:72px 24px 0}
+.abj h2,.abw h2{margin:8px 0 0;font-size:30px;line-height:36px;font-weight:600;letter-spacing:-.9px;color:#111;text-wrap:balance}
+.abj-list,.abw-steps{list-style:none;margin:28px 0 0;padding:0;border-top:1px solid var(--cx-line)}
+.abj-list li{padding:20px 0;border-bottom:1px solid var(--cx-line)}
+.abj-when{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0;font-size:11px;line-height:16px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
+.abj-tbd{padding:1px 8px;border:1px dashed #c9c4bf;border-radius:99px;font-family:var(--fi);font-size:10.5px;font-weight:500;letter-spacing:.2px;text-transform:none;color:#8a8580}
+.abj-list h3{margin:6px 0 0;font-size:18px;line-height:24px;font-weight:600;letter-spacing:-.3px;color:#111}
+.abj-list h3+p{margin:4px 0 0;font-family:var(--fi);font-size:14px;line-height:21px;color:#555}
+.abw-steps li{display:flex;align-items:baseline;gap:16px;padding:16px 0;border-bottom:1px solid var(--cx-line);font-size:16px;line-height:22px;font-weight:500;color:#111}
+.abw-steps span{flex:none;width:84px;font-family:var(--fi);font-size:13px;font-weight:400;color:#8a8580}
+.abw-link{display:inline-flex;align-items:center;gap:8px;margin-top:20px;min-height:44px;font-size:14px;font-weight:600;color:#111}
+.abw-link svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;transition:transform .2s var(--ease)}
+@media (hover:hover) and (pointer:fine){ .abw-link:hover svg{transform:translateX(3px)} }
+@media (min-width:1024px){
+  .abj,.abw{max-width:976px;margin:0 auto;padding:140px 0 0}
+  .abj h2,.abw h2{font-size:38px;line-height:44px;letter-spacing:-1.2px}
+  .abj-list,.abw-steps{margin-top:40px}
+  .abj-list li{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:28px 0}
+  .abj-when{align-self:start;padding-top:5px}
+  .abj-list h3{margin:0;font-size:22px;line-height:28px}
+  .abj-list h3+p{font-size:16px;line-height:25px}
+  .abw-steps li{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:22px 0;font-size:20px;line-height:26px}
+  .abw-steps span{width:auto;font-size:14px}
+}
