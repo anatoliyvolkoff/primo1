@@ -85,14 +85,14 @@
   const card = p => {
     const off = p.old ? Math.round((1 - p.price / p.old) * 100) : 0;
     return `
-    <article class="pcard gcard cc" data-id="${p.id}">
+    <article class="pcard gcard${PM.ccClass()}" data-id="${p.id}">
       <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli">${PM.cardPhoto(`<picture><source media="(min-width:1024px)" srcset="${imgOf(p)}"><img src="${imgOf(p) === 'img/product.jpg' ? 'img/product-card-m.jpg' : imgOf(p)}" alt="" loading="lazy" decoding="async" draggable="false"></picture>`)}${off ? `<span class="disc" aria-label="Sconto ${off}%">${off}%</span>` : ''}</a>
       <button type="button" class="qv-btn" data-qv="${p.id}" aria-label="Anteprima rapida: ${label(p)}"><svg viewBox="0 0 24 24"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg></button>
       <div class="pbody">
         <div class="phead"><h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p></div>
         ${priceHtml(p)}
-        ${shadesHtml(p, desktopMQ.matches ? 4 : 3)}
+        ${shadesHtml(p, desktopMQ.matches ? 5 : 3)}
         <button class="add" aria-label="Aggiungi al carrello – ${label(p)}"><span class="m-only"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg>add to cart</span><span class="d-only">add to cart</span></button>
       </div>
     </article>`;
