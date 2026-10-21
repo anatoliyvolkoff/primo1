@@ -402,5 +402,9 @@
       <span class="mn-go" aria-hidden="true">Scopri il corso${arrow}</span></div></a>`).join('');
   $('#c-all').insertAdjacentHTML('beforeend', arrow);
 
+  // ---------- Acrygel banner: the clip plays only while on screen, and stays on its poster for reduced motion ----------
+  const promo = $('#promo-video');
+  if (promo && !reduceMotion) new IntersectionObserver(([e]) => { if (e.isIntersecting) promo.play().catch(() => {}); else promo.pause(); }, { threshold: .25 }).observe(promo);
+
   window.PM.ready();
 })();
