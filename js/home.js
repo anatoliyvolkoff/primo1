@@ -86,16 +86,16 @@
   addEventListener('resize', placePill); document.fonts && document.fonts.ready.then(placePill); placePill();
 
   // ---------- colour picker (mobile "Scegli il tuo Mood", desktop "Shop by color") ----------
+  // every swatch opens the Semipermanente catalogue with that colour already picked (catalog.js reads ?colore=)
+  const shadeHref = label => `catalogo.html?cat=semipermanente&colore=${encodeURIComponent(label)}`;
   const moodRow = $('#mood-row');
-  moodRow.innerHTML = MOODS.map(([label, f]) => `<button class="mood-item" data-name="${label}" aria-pressed="false">
-    <img src="img/mood-${f}.webp?v=3" alt="" width="53" height="125" loading="lazy" decoding="async"><span>${label}</span></button>`).join('');
+  moodRow.innerHTML = MOODS.map(([label, f]) => `<a class="mood-item" href="${shadeHref(label)}" data-name="${label}">
+    <img src="img/mood-${f}.webp?v=3" alt="" width="53" height="125" loading="lazy" decoding="async"><span>${label}</span></a>`).join('');
   attachProgress(moodRow);
   const colorRow = $('#color-row');
-  colorRow.innerHTML = MOODS.map(([label, f]) => `<a class="color-item" href="catalogo.html?colore=${encodeURIComponent(label)}" aria-label="${label}">
+  colorRow.innerHTML = MOODS.map(([label, f]) => `<a class="color-item" href="${shadeHref(label)}" aria-label="${label}">
     <img src="img/mood-${f}.webp?v=3" alt="" width="50" height="122" loading="lazy" decoding="async"><span>color</span></a>`).join('');
   function pickMood(item, { scroll = false } = {}) {
-    $$('.mood-item').forEach(m => m.setAttribute('aria-pressed', m === item));
-    toast(`Colore: ${item.dataset.name}`);
     if (scroll) {
       $('#mood').scrollIntoView({ behavior: smooth() });
       setTimeout(() => {
@@ -105,7 +105,6 @@
       }, reduceMotion ? 0 : 450);
     }
   }
-  moodRow.addEventListener('click', e => { const m = e.target.closest('.mood-item'); if (m) pickMood(m); });
   const moodAll = $('#mood-all');
   moodAll.onclick = () => {
     const grid = moodRow.classList.toggle('grid');
@@ -156,18 +155,55 @@
     spring: () => ({ cls: 'petal', size: rnd(9, 15), html: '', o: rnd(.55, .85) }),
     summer: () => ({ cls: 'bubble rise', size: rnd(8, 24), html: '', o: rnd(.5, .85) }),
   };
+  // bg=airy: soft colour clouds that drift slowly, each season in its own colour family; before a season is picked
+  // each card has a faint cloud of its own season colour behind it
+  const AIRY = {
+    autumn: ['#f6c08a', '#f2a65e', '#f7d3a8', '#eba77c', '#f9dcb8'],
+    winter: ['#a8c8f4', '#c4dafa', '#9fc0ee', '#d6e4f7', '#b6d0f5'],
+    spring: ['#f7a8c4', '#fbc4d6', '#f49ab8', '#fcd6e2', '#f6b6cc'],
+    summer: ['#b4e89c', '#cdf2b6', '#a4e08a', '#dcf6cc', '#bfeca8'],
+  };
+  const BLOB_AT = [[12, 62, 46], [88, 38, 50], [50, 92, 58], [30, 22, 36], [72, 78, 44]];
+  const blob = (c, [x, y, w], i) => `<i class="blob" style="--b:${c};--x:${x}%;--y:${y}%;--w:${w}%;--d:${16 + i * 3}s;--dl:${-i * 4}s"></i>`;
+  const blobs = cs => `<div class="blobs">${cs.map((c, i) => blob(c, BLOB_AT[i], i)).join('')}</div>`;
+  const neutralBlobs = `<div class="blobs">${SEASONS.map((s, i) => blob(AIRY[s.id][0], [26 + i * 16, 60, 30], i)).join('')}</div>`;
   SEASONS.forEach(s => {
     const layer = document.createElement('div');
-    layer.className = 'bg-layer'; layer.dataset.season = s.id;
+    layer.className = 'bg-layer'; layer.dataset.season = s.id; layer.style.setProperty('--c', s.color);
     let p = '';
     if (!reduceMotion) for (let i = 0; i < (s.id === 'autumn' ? 14 : 10); i++) {
       const k = kinds[s.id](), dur = rnd(10, 18);
       p += `<i class="p ${k.cls}" style="--x:${rnd(-2, 98).toFixed(1)}%;--s:${k.size.toFixed(1)}px;--dur:${dur.toFixed(1)}s;--delay:${(-rnd(0, dur)).toFixed(1)}s;--sway:${rnd(-70, 70).toFixed(0)}px;--r0:${rnd(-40, 40) | 0}deg;--r1:${rnd(120, 420) | 0}deg;--o:${k.o.toFixed(2)}">${k.html}</i>`;
     }
-    layer.innerHTML = `<div class="panel"></div><div class="particles">${p}</div>`;
+    layer.innerHTML = `<div class="panel"></div>${blobs(AIRY[s.id])}<div class="particles">${p}</div>`;
     bg.appendChild(layer);
   });
   const layers = [...bg.children];
+  bg.insertAdjacentHTML('beforeend', `<div class="aura"></div><div class="bg-layer all">${neutralBlobs}</div>`);
+
+  // motion variants to compare: ?bg=airy|soft|rise|calm|glow|wash|horizon|mesh and ?hover=gentle|float|glass|halo|sheen|tilt|quiet|lift|frame|focus (none = the current motion); ?lab shows a switcher
+  const VARIANTS = { bg: ['now', 'airy', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['now', 'gentle', 'float', 'glass', 'halo', 'sheen', 'tilt', 'quiet', 'lift', 'frame', 'focus'] };
+  const qs = new URLSearchParams(location.search);
+  // calm hovers: only the hovered card reacts; on phones the season changes once a swipe settles
+  const CALM = ['quiet', 'gentle', 'float', 'glass', 'halo', 'sheen', 'tilt'];
+  const calm = () => CALM.includes(sec.dataset.hover);
+  const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; sec.toggleAttribute('data-calm', calm()); };
+  setVariant('bg', qs.get('bg')); setVariant('hover', qs.get('hover'));
+  if (qs.has('lab') || qs.has('bg') || qs.has('hover')) {
+    const lab = document.createElement('div');
+    lab.className = 'lab'; lab.setAttribute('aria-label', 'Seasons motion variants');
+    const row = k => `<p><b>${k}</b>${VARIANTS[k].map(v => `<button type="button" data-k="${k}" data-v="${v}" aria-pressed="${(sec.dataset[k] || 'now') === v}">${v}</button>`).join('')}</p>`;
+    lab.innerHTML = row('bg') + row('hover');
+    lab.addEventListener('click', e => {
+      const b = e.target.closest('button'); if (!b) return;
+      setVariant(b.dataset.k, b.dataset.v);
+      $$(`button[data-k="${b.dataset.k}"]`, lab).forEach(x => x.setAttribute('aria-pressed', x === b));
+      const u = new URL(location.href); u.searchParams.set(b.dataset.k, b.dataset.v); history.replaceState(null, '', u);
+    });
+    document.body.appendChild(lab);
+  }
+  const auraX = c => { const r = c.getBoundingClientRect(), b = bg.getBoundingClientRect(); return ((r.left + r.width / 2 - b.left) / b.width * 100).toFixed(1); };
+  const rgba = (hex, a) => `rgba(${hex.slice(1).match(/../g).map(h => parseInt(h, 16)).join(',')},${a})`;
 
   // i = -1 brings back the neutral frame (desktop only)
   function setActive(i) {
@@ -176,8 +212,10 @@
     sCards.forEach((c, k) => c.classList.toggle('active', k === i));
     sDots.forEach((d, k) => d.setAttribute('aria-selected', k === i));
     layers.forEach((l, k) => l.classList.toggle('on', k === i));
-    if (i < 0) { delete sec.dataset.season; return; }
+    if (i < 0) { delete sec.dataset.season; sec.style.setProperty('--ac', rgba(sec.style.getPropertyValue('--accent') || '#ffffff', 0)); return; }
     const s = SEASONS[i];
+    sec.style.setProperty('--ac', rgba(s.color, .4));
+    sec.style.setProperty('--ax', desktopMQ.matches ? `${auraX(sCards[i])}%` : '50%');
     sec.style.setProperty('--accent', s.color); sec.style.setProperty('--cta-bg', s.cta);
     sec.dataset.season = s.id;
     cta.href = kitHref(i);
@@ -208,9 +246,14 @@
         if (d < bestD) { bestD = d; best = k; }
         c.style.setProperty('--t', sec.dataset.idle === 'true' ? 0 : Math.min(1, d / pitch).toFixed(3));
       });
-      if (sec.dataset.idle !== 'true' && sNav < 0) { sState.pinned = best; setActive(best); }
+      if (sec.dataset.idle !== 'true' && sNav < 0) {
+        sState.pinned = best;
+        if (calm()) { sBest = best; sCommit(); } else setActive(best);   // quiet / gentle: the season changes once the swipe settles
+      }
     });
   }
+  let sBest = 0;
+  const sCommit = settle(() => { if (sNav < 0 && sec.dataset.idle !== 'true') setActive(sBest); }, 120);
   track.addEventListener('scroll', () => { if (sNav >= 0) sUnlock(); onSScroll(); }, { passive: true });
   addEventListener('resize', onSScroll);
 
@@ -233,9 +276,10 @@
   track.classList.add('free');
   const placeIdle = () => { if (sec.dataset.idle === 'true' && !desktopMQ.matches) { track.scrollLeft = centerLeft(0) + ((track.clientWidth - sCards[0].offsetWidth) / 2 - 24); onSScroll(); } };
   placeIdle(); addEventListener('load', placeIdle);
+  if (calm() && !desktopMQ.matches) sGoTo(0, false);   // quiet / gentle: start settled on autumn, no intro slide
   new IntersectionObserver((ents, ob) => {
     if (desktopMQ.matches) return;
-    if (ents.some(e => e.isIntersecting)) { ob.disconnect(); introTimer = setTimeout(() => sGoTo(0), 900); }
+    if (ents.some(e => e.isIntersecting)) { ob.disconnect(); if (sec.dataset.idle === 'true') introTimer = setTimeout(() => sGoTo(0), 900); }
   }, { threshold: .5 }).observe($('.s-carousel'));
   ['pointerdown', 'wheel', 'keydown', 'touchstart'].forEach(ev => track.addEventListener(ev, () => { if (!desktopMQ.matches) { leaveIdle(); sNav = -1; } }, { passive: true }));
 
@@ -273,12 +317,30 @@
     if (desktopMQ.matches) { sec.dataset.idle = 'false'; sCards.forEach(c => c.style.removeProperty('--t')); setActive(sState.pinned); return; }
     if (sec.dataset.idle === 'true') placeIdle(); else sGoTo(sState.pinned < 0 ? 0 : sState.pinned, false);
   });
+  // with a hover variant the preview waits until the pointer rests on a card, so sweeping across the row doesn't flash every season
+  let hoverT;
+  const later = (fn, ms) => { clearTimeout(hoverT); if (sec.dataset.hover) hoverT = setTimeout(fn, ms); else fn(); };
   const restore = () => { if (desktopMQ.matches) setActive(sState.pinned); };
   sCards.forEach((c, i) => {
-    c.addEventListener('mouseenter', () => { if (desktopMQ.matches) setActive(i); });
-    c.addEventListener('focusin', () => { if (desktopMQ.matches) setActive(i); });
+    // hover=quiet: hovering previews nothing; the season changes only on a click
+    // calm hovers: the season shows only after the pointer has rested on the card a little longer
+    c.addEventListener('mouseenter', () => { if (desktopMQ.matches && sec.dataset.hover !== 'quiet') later(() => setActive(i), calm() ? 280 : 110); });
+    c.addEventListener('focusin', () => { clearTimeout(hoverT); if (desktopMQ.matches && sec.dataset.hover !== 'quiet') setActive(i); });
   });
-  track.addEventListener('mouseleave', restore);
+  track.addEventListener('mouseleave', () => later(restore, calm() ? 450 : 220));
+  // sheen / tilt follow the pointer across the card
+  let tiltRaf = 0;
+  track.addEventListener('pointermove', e => {
+    const h = sec.dataset.hover;
+    if ((h !== 'sheen' && h !== 'tilt') || !desktopMQ.matches || reduceMotion || tiltRaf) return;
+    const card = e.target.closest('.s-card'); if (!card) return;
+    tiltRaf = requestAnimationFrame(() => {
+      tiltRaf = 0;
+      const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      card.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`); card.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
+      card.style.setProperty('--rx', `${((.5 - y) * 4).toFixed(2)}deg`); card.style.setProperty('--ry', `${((x - .5) * 4).toFixed(2)}deg`);
+    });
+  });
   track.addEventListener('focusout', e => { if (!track.contains(e.relatedTarget) && !track.matches(':hover')) restore(); });
 
   // ---------- testimonials ----------
