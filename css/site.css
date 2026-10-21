@@ -322,27 +322,27 @@ html.lock,html.lock body{overflow:hidden}
   .h2{font-size:48px;line-height:50px;font-weight:700;letter-spacing:-.01em;padding:0}
   .sub{margin:16px 0 0;font-family:var(--f);font-size:20px;line-height:31px;font-weight:600;color:#8a8a8a;padding:0}
 
-  /* product card: 232 × 394 */
+  /* product card: 232 × 394, photo 210 (the size line is hidden, like on phones) */
   .rail{display:grid;grid-template-columns:repeat(4,232px);gap:16px;justify-content:center;overflow:visible;padding:0;margin:0;scroll-snap-type:none}
   .rail+.rprog{display:none}
   .pcard{width:232px;height:394px;border:1px solid #9a9a9a;border-radius:15px;box-shadow:none}
-  .pimg{height:176px;background:#fcfcfc}
-  .pimg img{position:absolute;left:11.3px;top:-3.2px;width:209.4px;height:209.4px;max-width:none;object-fit:fill}
+  .pimg{height:210px;background:#fcfcfc}
+  .pimg img{position:absolute;left:-8.9px;top:-3.8px;width:249.8px;height:249.8px;max-width:none;object-fit:fill}
   .disc{top:11px;left:10px;height:16px;padding:0 9px;font-size:11px;line-height:16px;font-weight:600;background:#fe3c3c}
-  .pbody{padding:8.4px 16.9px 15.3px}
-  .phead{min-height:78.7px}
-  .pbody h3{font-size:17.5px;line-height:22px;font-weight:600;letter-spacing:-.15px;color:#2e2e2e}
-  .type{margin:1.7px 0 0;font-size:11px;line-height:15px;font-weight:600;letter-spacing:.35px;color:#8a8a8a}
-  .ml{margin:4px 0 0;font-size:10.5px;line-height:14px;font-weight:600;color:#8a8a8a}
-  .price{margin:10.9px 0 0;gap:4.4px;font-size:15.5px;line-height:19px;font-weight:700;letter-spacing:.2px}
+  .pbody{padding:7px 16.9px 13px}
+  .phead{min-height:57px}
+  .pbody h3{font-size:16.5px;line-height:20px;font-weight:600;letter-spacing:-.15px;color:#2e2e2e}
+  .type{margin:2px 0 0;font-size:11px;line-height:15px;font-weight:600;letter-spacing:.35px;color:#8a8a8a}
+  .ml{display:none}
+  .price{margin:7px 0 0;gap:4.4px;font-size:15.5px;line-height:19px;font-weight:700;letter-spacing:.2px}
   .price s{text-decoration-thickness:1.5px;color:#8a8a8a}
-  .shades{--sw:26px;--grow:4px;flex:none;margin:10px 0 0}
+  .shades{--sw:26px;--grow:4px;flex:none;margin:7px 0 0}
   .sh{width:26px;height:26px;box-shadow:0 0 0 .6px rgba(0,0,0,.25)}
   .sh::after{border-width:1.6px}
   .sh[aria-pressed=true]::after{box-shadow:inset 0 0 0 1.6px #fff}
   .plus{width:26px;height:26px;font-size:10px}
   .shades .extra{display:none}
-  .add{margin:12.5px 0 0;width:100%;height:31.4px;font-size:15px;font-weight:500;letter-spacing:.4px}
+  .add{margin:9px 0 0;width:100%;height:31.4px;font-size:15px;font-weight:500;letter-spacing:.4px}
 
   /* marquee */
   .marquee{height:31px}
