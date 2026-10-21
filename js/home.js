@@ -107,7 +107,7 @@
   attachProgress(moodRow);
   const colorRow = $('#color-row');
   colorRow.innerHTML = MOODS.map(([label, f]) => `<a class="color-item" href="${shadeHref(label)}" aria-label="${label}">
-    <img src="img/mood-${f}.webp?v=3" alt="" width="50" height="122" loading="lazy" decoding="async"><span>color</span></a>`).join('');
+    <img src="img/mood-${f}.webp?v=3" alt="" width="50" height="122" loading="lazy" decoding="async"><span>${label}</span></a>`).join('');
   function pickMood(item, { scroll = false } = {}) {
     if (scroll) {
       $('#mood').scrollIntoView({ behavior: smooth() });
@@ -121,7 +121,7 @@
   const moodAll = $('#mood-all');
   moodAll.onclick = () => {
     const grid = moodRow.classList.toggle('grid');
-    moodAll.textContent = grid ? 'show less' : 'see all'; moodAll.setAttribute('aria-expanded', grid);
+    moodAll.textContent = grid ? 'Mostra meno' : 'Vedi tutti'; moodAll.setAttribute('aria-expanded', grid);
     if (!grid) moodRow.scrollLeft = 0;
     moodRow._progress();
   };
@@ -398,7 +398,7 @@
       if (bio.children.length < 2) bio.insertAdjacentHTML('beforeend', "<p>Da oltre vent'anni forma professionisti in tutto il mondo e porta l'eccellenza italiana nel design delle unghie.</p>");
       bio.classList.remove('clamp'); bio.style.maxHeight = bio.scrollHeight + 'px';
     } else { bio.classList.add('clamp'); bio.style.maxHeight = ''; }
-    more.textContent = open ? 'LEGGI MENO' : 'LEGGI DI PIU'; more.setAttribute('aria-expanded', open);
+    more.textContent = open ? 'LEGGI MENO' : 'LEGGI DI PIÙ'; more.setAttribute('aria-expanded', open);
   };
 
   // ---------- courses ----------

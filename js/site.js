@@ -49,9 +49,10 @@
 103 oy s Light Gold Silk|111 bw s Night Glow|112 blu s Ultramarine Glow|121 blu - Night Blue|122 blu - Emerald Blue|123 blu - Blu Indaco|124 blu - Blu Cobalto|131 verde - Verde Scuro|132 verde - Verde Oliva|133 verde - Verde Smeraldo|
 141 verde - Turchese|142 blu - Turchese Intenso|151 oy - Giallo|152 rosa - Rosa Pastello|153 verde - Verde Mela|154 viola - Lilla Pastello|156 verde - Acquamarina|161 magenta - Rosa Shocking|162 rosso - Rosso Neon|163 oy - Corallo|
 164 oy - Arancio|165 rosa - Rosa Corallo|166 rosa - Rosa Confetto|171 verde - Verde Bosco|172 blu - Viola Blue|173 marrone - Rouge Noir`.split('|').map(x => { const [num, color, fx, ...name] = x.trim().split(' '); return [num, color, fx === '-' ? null : fx, name.join(' ')]; });
-  // shades with their own photo (img/p/<num>.webp, from Sir's "76 COLORS" folder); the rest show the generic img/product.jpg
-  const PHOTOS = new Set('01 011 012 013 02 021 022 023 024 025 026 03 031 033 034 035 036 037 038 039 04 042 051 052 053 054 061 062 063 071 072 073 074 081 082 083 084 085 086 087 091 092 093 094 095 096 097 101 102 103 111 112 121 122 172 173'.split(' '));
-  const imgOf = p => (p.num && PHOTOS.has(p.num) ? `img/p/${p.num}.webp` : 'img/product.jpg');
+  // shades with their own photo (img/p/<num>.webp, from Sir's "76 COLORS" folder; 041 and 123–171 are img/product.jpg recoloured to the swatch
+  // until real photos arrive); kits show their season photo, everything else the generic img/product.jpg
+  const PHOTOS = new Set('01 02 03 04 011 012 013 021 022 023 024 025 026 031 033 034 035 036 037 038 039 041 042 051 052 053 054 061 062 063 071 072 073 074 081 082 083 084 085 086 087 091 092 093 094 095 096 097 101 102 103 111 112 121 122 123 124 131 132 133 141 142 151 152 153 154 156 161 162 163 164 165 166 171 172 173'.split(' '));
+  const imgOf = p => (p.num && PHOTOS.has(p.num) ? `img/p/${p.num}.webp` : p.kit ? `img/${p.coll}.jpg` : 'img/product.jpg');
   const SEMI_PRICE = 14.99;                                    // not in the product sheet yet
   // the four season kits (not in the sheet): nine shades each, picked by season palette
   const KITS = {
@@ -195,9 +196,8 @@
   const langBtn = $('#lang-btn'), langMenu = $('#lang-menu');
   langBtn.onclick = e => { e.stopPropagation(); langMenu.hidden = !langMenu.hidden; langBtn.setAttribute('aria-expanded', !langMenu.hidden); };
   langMenu.onclick = e => {
-    const li = e.target.closest('li'); if (!li) return;
+    const li = e.target.closest('li'); if (!li || li.getAttribute('aria-disabled') === 'true') { e.stopPropagation(); return; }   // EN/RU are marked "presto" until translated
     langMenu.hidden = true; langBtn.setAttribute('aria-expanded', 'false');
-    if (li.dataset.lang !== 'IT') toast('Prototype: per ora il sito è disponibile solo in italiano');   // selection stays on IT so the label never lies
   };
   document.addEventListener('click', () => { langMenu.hidden = true; langBtn.setAttribute('aria-expanded', 'false'); });
 
@@ -219,8 +219,8 @@
     $('#cart-list').innerHTML = cart.map(l => { const p = BY_ID[l.id]; return `<li class="ci">
       <img src="${imgOf(p)}" alt="" width="64" height="64">
       <div><p class="ci-name">${label(p)}</p>
-        <p class="ci-meta">${p.cell ? `<span class="ci-dot" style="${swatchBg(p.cell)}"></span>` : ''}${metaOf(p)}</p>
-        <p class="ci-price">${money(p.price * l.qty)}</p></div>
+        <p class="ci-meta">${p.cell ? `<span class="ci-dot" style="${swatchBg(p.cell)}"></span>` : ''}<span>${metaOf(p)}</span></p>
+        <p class="ci-price${p.old ? ' sale' : ''}">${money(p.price * l.qty)}</p></div>
       <div class="qty" role="group" aria-label="Quantità">
         <button data-id="${l.id}" data-d="-1" aria-label="Diminuisci quantità">−</button><span aria-live="polite">${l.qty}</span><button data-id="${l.id}" data-d="1" aria-label="Aumenta quantità">+</button></div></li>`; }).join('');
     $('#cart-list').hidden = $('#cart-ship').hidden = $('#cart-foot').hidden = n === 0;
@@ -302,7 +302,7 @@
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p></div>
         ${priceHtml(p)}
         ${shadesHtml(p, desktopMQ.matches ? SH_SHOWN : 4)}
-        <button class="add" lang="en" aria-label="Aggiungi al carrello – ${label(p)}">add to cart</button>
+        <button class="add" aria-label="Aggiungi al carrello – ${label(p)}">aggiungi al carrello</button>
       </div>
     </article>`;
   /* which products a rail shows: best sellers, new, on sale, or related to a product */
@@ -315,11 +315,17 @@
     new: () => PRODUCTS.filter(p => p.isNew),
     sale: () => PRODUCTS.filter(p => p.old),
     foryou: () => mix(29), loved: () => mix(53),
+    related: rail => {                                         // product page: same colour first, then same category, then best sellers; never the product itself
+      const cur = BY_ID[rail.dataset.of], best = RAIL.best();
+      if (!cur) return best;
+      const pick = [...PRODUCTS.filter(p => p.cat === cur.cat && cur.color && p.color === cur.color), ...PRODUCTS.filter(p => p.cat === cur.cat), ...best];
+      return [...new Set(pick)].filter(p => p !== cur);
+    },
     recent: () => { const seen = store.get('primo.seen', []).map(id => BY_ID[id]).filter(Boolean); return seen.length ? seen : mix(17); },
   };
   const mix = k => PRODUCTS.map((p, i) => [p, (i * k) % PRODUCTS.length]).sort((x, y) => x[1] - y[1]).map(x => x[0]);
   const fillRail = (rail, n = 6, kind = rail.dataset.products || 'best') => {
-    rail.innerHTML = (RAIL[kind] || RAIL.best)().slice(0, n).map(productCard).join(''); rail.scrollLeft = 0; rail._progress && rail._progress();
+    rail.innerHTML = (RAIL[kind] || RAIL.best)(rail).slice(0, n).map(productCard).join(''); rail.scrollLeft = 0; rail._progress && rail._progress();
   };
   /* a swatch picked on a card: the card now shows that product (name, price, links) */
   function showOnCard(card, p) {

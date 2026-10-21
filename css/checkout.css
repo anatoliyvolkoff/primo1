@@ -178,7 +178,9 @@
 @media (max-width:379.98px){
   .co-grid{grid-template-columns:1fr}
   .co-grid .co-cap,.co-grid .co-city{grid-column:1}
-  .co-steps a{padding-right:10px;font-size:12px}
+  .co-steps{gap:4px}
+  .co-steps a{gap:6px;padding:0 9px 0 5px;font-size:11.5px}
+  .co-steps span{width:22px;height:22px}
   .co-cards .amex{display:none}
 }
 

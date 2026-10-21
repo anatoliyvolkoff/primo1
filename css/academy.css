@@ -12,7 +12,7 @@
 .cx-ghost{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 24px;border-radius:99px;border:1.2px solid #c9c4bf;font-size:15px;font-weight:500;color:#222;white-space:nowrap;transition:border-color .2s}
 .cx-ghost:hover{border-color:#000}
 .cx-back{position:absolute;z-index:2;top:12px;left:12px;height:auto;padding:0}
-.cx-back .back{height:36px;padding:0 14px 0 8px;gap:4px;border-radius:99px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#111;font-weight:500}
+.cx-back .back{height:36px;padding:0 14px 0 8px;gap:4px;border-radius:99px;background:rgba(255,255,255,.92);box-shadow:0 2px 12px rgba(0,0,0,.14);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#111;font-weight:500}
 .cx-facts{padding:0 16px;margin-top:-1px;background:linear-gradient(var(--cx-warm) 50%,#fff 50%)}
 .cx-facts dl{display:grid;grid-template-columns:1fr 1fr;margin:0;border:1px solid var(--cx-line);border-radius:24px;background:#fff;box-shadow:0 20px 40px -28px rgba(0,0,0,.25);overflow:hidden}
 .cx-facts div{padding:18px 18px 20px;border-color:var(--cx-line)}

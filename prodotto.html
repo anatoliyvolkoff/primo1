@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icons/icon.svg">
 <link rel="preload" href="img/product.jpg" as="image" fetchpriority="high">
 <link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.css?v=febed664">
+<link rel="stylesheet" href="css/site.css?v=c709b53b">
 <link rel="stylesheet" href="css/search.css?v=b89386fe">
 <link rel="stylesheet" href="css/product.css?v=d291bc78">
 </head>
@@ -33,7 +33,7 @@
           <button class="lang-btn" id="lang-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Lingua: italiano"><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span><span id="lang-cur">IT</span>
             <svg viewBox="0 0 24 24" class="chev"><path d="m6 9 6 6 6-6"/></svg></button>
           <ul class="lang-menu" id="lang-menu" role="listbox" hidden>
-            <li role="option" data-lang="IT" aria-selected="true">IT</li><li role="option" data-lang="EN">EN</li><li role="option" data-lang="RU">RU</li>
+            <li role="option" data-lang="IT" aria-selected="true">IT</li><li role="option" data-lang="EN" aria-disabled="true">EN <small>presto</small></li><li role="option" data-lang="RU" aria-disabled="true">RU <small>presto</small></li>
           </ul>
         </div>
       </div>
@@ -56,7 +56,7 @@
       <a href="catalogo.html?cat=kit">KIT</a>
       <a href="catalogo.html?cat=accessori">ACCESSORI</a>
       <a href="academy.html">CORSI</a>
-      <a href="chi-siamo.html">ABOUT US</a>
+      <a href="chi-siamo.html">CHI SIAMO</a>
     </nav>
     <div class="progress" id="progress" aria-hidden="true"></div>
   </header>
@@ -79,10 +79,10 @@
     <section class="related" id="related" aria-labelledby="rel-h">
       <div class="rel-head">
         <div><h2 class="rel-h" id="rel-h">Potrebbe piacerti anche</h2>
-          <p class="rel-sub d-only">I prodotti che hai consultato ultimamente.</p></div>
+          <p class="rel-sub d-only">Altri prodotti scelti per te.</p></div>
         <a class="rel-all d-only" href="catalogo.html">Vedi tutto lo shop<span><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></a>
       </div>
-      <div class="rail" data-products="recent" data-count="4"></div>
+      <div class="rail" data-products="related" data-count="4"></div>
     </section>
 
     <div class="marquee d-only" data-kind="free" aria-hidden="true"></div>
@@ -93,7 +93,7 @@
         <output data-q-out aria-live="polite">1</output>
         <button type="button" data-q="1" aria-label="Aumenta quantità"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg></button>
       </div>
-      <button type="button" class="buy" data-buy>Add to Cart</button>
+      <button type="button" class="buy" data-buy>Aggiungi al carrello</button>
     </div>
   </main>
 
@@ -176,8 +176,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </div>
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
-<script src="js/site.js?v=81c8ed33"></script>
-<script src="js/search.js?v=bdfd2a0e"></script>
-<script src="js/product.js?v=1990954c"></script>
+<script src="js/site.js?v=e6667049"></script>
+<script src="js/search.js?v=6c23bc53"></script>
+<script src="js/product.js?v=2baa9540"></script>
 </body>
 </html>

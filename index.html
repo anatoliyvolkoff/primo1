@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="icons/icon.svg">
 <link rel="preload" href="img/banner/acrygel.jpg" as="image" fetchpriority="high">
 <link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.css?v=febed664">
+<link rel="stylesheet" href="css/site.css?v=c709b53b">
 <link rel="stylesheet" href="css/search.css?v=b89386fe">
 <link rel="stylesheet" href="css/home.css?v=a2ed8c59">
 <link rel="stylesheet" href="css/product.css?v=d291bc78">
@@ -34,7 +34,7 @@
           <button class="lang-btn" id="lang-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Lingua: italiano"><span class="flag" aria-hidden="true"><i></i><i></i><i></i></span><span id="lang-cur">IT</span>
             <svg viewBox="0 0 24 24" class="chev"><path d="m6 9 6 6 6-6"/></svg></button>
           <ul class="lang-menu" id="lang-menu" role="listbox" hidden>
-            <li role="option" data-lang="IT" aria-selected="true">IT</li><li role="option" data-lang="EN">EN</li><li role="option" data-lang="RU">RU</li>
+            <li role="option" data-lang="IT" aria-selected="true">IT</li><li role="option" data-lang="EN" aria-disabled="true">EN <small>presto</small></li><li role="option" data-lang="RU" aria-disabled="true">RU <small>presto</small></li>
           </ul>
         </div>
       </div>
@@ -57,7 +57,7 @@
       <a href="catalogo.html?cat=kit">KIT</a>
       <a href="catalogo.html?cat=accessori">ACCESSORI</a>
       <a href="academy.html">CORSI</a>
-      <a href="chi-siamo.html">ABOUT US</a>
+      <a href="chi-siamo.html">CHI SIAMO</a>
     </nav>
     <div class="progress" id="progress" aria-hidden="true"></div>
   </header>
@@ -71,7 +71,7 @@
 
     <!-- ===== I Più Venduti ===== -->
     <section class="block" id="bestsellers">
-      <h2 class="h2 m-only">I Più Venduti</h2>
+      <h2 class="h2">I Più Venduti</h2>
       <p class="sub">I prodotti preferiti dai nostri professionisti.</p>
       <div class="tabs" id="bs-tabs" role="tablist">
         <span class="tab-ghost" aria-hidden="true"></span>
@@ -87,10 +87,10 @@
 
     <!-- ===== Shop by color (desktop) ===== -->
     <section class="shop-color d-only" id="shop-color">
-      <h2 class="h2">Shop by color</h2>
-      <p class="sub">Choose your colour, go straight to the product selection you are looking for.</p>
+      <h2 class="h2">Scegli il tuo colore</h2>
+      <p class="sub">Scegli una sfumatura e vai dritto ai prodotti che cerchi.</p>
       <div class="color-row" id="color-row"></div>
-      <a class="btn-pill-black" href="catalogo.html">Show All</a>
+      <a class="btn-pill-black" href="catalogo.html">Vedi tutti</a>
     </section>
 
     <div class="marquee d-only" data-kind="free" aria-hidden="true"></div>
@@ -100,7 +100,7 @@
       <h2 class="h2">Scegli il tuo Mood.</h2>
       <p class="sub lg">Oltre 60 sfumature curate per ogni personalità.</p>
       <div class="mood-row" id="mood-row"></div>
-      <button class="pill-btn" id="mood-all" lang="en" aria-expanded="false">see all</button>
+      <button class="pill-btn" id="mood-all" aria-expanded="false">Vedi tutti</button>
     </section>
 
     <!-- ===== Nuovi Arrivi ===== -->
@@ -124,15 +124,15 @@
       </div>
       <div class="s-dots" id="dots" role="tablist" aria-label="Choose season"></div>
       <a class="s-cta m-only" id="cta" href="prodotto.html?kit=autunno&amp;shade=1">Scopri la collezione</a>
-      <a class="s-all d-only" href="catalogo.html" lang="en">Show All</a>
+      <a class="s-all d-only" href="catalogo.html">Vedi tutti</a>
     </section>
 
     <div class="marquee d-only" data-kind="free" aria-hidden="true"></div>
 
     <!-- ===== Consigliati per te ===== -->
     <section class="block" id="for-you">
-      <h2 class="h2"><span class="m-only">Consigliati per te</span><span class="d-only">I Più Venduti</span></h2>
-      <p class="sub"><span class="m-only">Selezionati appositamente per il tuo stile.</span><span class="d-only">I prodotti preferiti dai nostri professionisti.</span></p>
+      <h2 class="h2">Consigliati per te</h2>
+      <p class="sub">Selezionati appositamente per il tuo stile.</p>
       <div class="rail" data-products="foryou"></div>
     </section>
 
@@ -140,8 +140,8 @@
 
     <!-- ===== I Più Amati ===== -->
     <section class="block" id="loved">
-      <h2 class="h2"><span class="m-only">I Più Amati</span><span class="d-only">I Più Venduti</span></h2>
-      <p class="sub">I prodotti preferiti dai nostri professionisti.</p>
+      <h2 class="h2">I Più Amati</h2>
+      <p class="sub">I colori che le nostre clienti scelgono di più.</p>
       <div class="rail" data-products="loved"></div>
     </section>
 
@@ -151,7 +151,7 @@
     <section class="community" id="community">
       <p class="kicker m-only">Primo Community</p>
       <h2 class="h2 left-lg">Amato dai Professionisti, Scelto dai Migliori Saloni.</h2>
-      <p class="sub d-only">I prodotti preferiti dai nostri professionisti.</p>
+      <p class="sub d-only">Le parole di chi usa PriMo Nails ogni giorno.</p>
       <div class="t-track" id="t-track"></div>
     </section>
 
@@ -159,17 +159,17 @@
 
     <!-- ===== Founder ===== -->
     <section class="founder" id="founder">
-      <h2 class="h2 left">Meet PriMo Nails Founder</h2>
-      <p class="f-sub"><b>Irina PriMo</b> — International<br>Nail Trainer and Judge <b>dal 2005</b></p>
+      <h2 class="h2 left">La fondatrice di PriMo Nails</h2>
+      <p class="f-sub"><b>Irina PriMo</b> — Nail Trainer<br>e giudice internazionale <b>dal 2005</b></p>
       <div class="stats">
-        <div><strong><span class="m-only">20+ Anni</span><span class="d-only">20+ Years</span></strong><span><span class="m-only">Esperienza</span><span class="d-only">Experience</span></span></div>
-        <div><strong>10 000+</strong><span><span class="m-only">Studenti</span><span class="d-only">Students</span></span></div>
+        <div><strong>20+ Anni</strong><span>Esperienza</span></div>
+        <div><strong>10 000+</strong><span>Studenti</span></div>
       </div>
       <div class="f-photo"><picture><source media="(min-width:1024px)" srcset="img/founder-d.jpg"><img src="img/founder.jpg" alt="Irina PriMo durante un'intervista" loading="lazy"></picture></div>
       <div class="f-bio clamp" id="f-bio">
         <p>Sono Irina PriMo Prijilevscaia-Mosenscaia, artista professionista di livello internazionale, giudice di campionati mondiali e autrice di tecniche esclusive nel mondo della ricostruzione e del design</p>
       </div>
-      <button class="pill-btn wide" id="f-more" aria-expanded="false">LEGGI DI PIU</button>
+      <button class="pill-btn wide" id="f-more" aria-expanded="false">LEGGI DI PIÙ</button>
     </section>
     <div class="bar m-only" aria-hidden="true"></div>
     <div class="marquee d-only" data-kind="free" aria-hidden="true"></div>
@@ -236,9 +236,6 @@
     <button class="ib close" id="drawer-close" aria-label="Chiudi menu"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     <button type="button" class="d-search" id="drawer-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Cerca prodotti, colori, corsi…</button>
     <nav class="d-nav" aria-label="Sezioni">
-      <p class="d-h">In questa pagina</p>
-      <a href="#bestsellers">I Più Venduti</a><a href="#mood">Scegli il tuo Mood</a><a href="#new">Nuovi Arrivi</a><a href="#seasons"><span lang="en">The Seasons</span></a>
-      <a href="#for-you">Consigliati per te</a><a href="#loved">I Più Amati</a><a href="#community">Community</a><a href="#founder">Irina PriMo</a><a href="#courses">Corsi</a><a href="#recent">Visti di Recente</a>
       <p class="d-h">Shop</p>
       <a href="catalogo.html">Tutti i prodotti</a><a href="catalogo.html?cat=semipermanente">Semipermanente</a><a href="catalogo.html?cat=gel">Gel</a>
       <a href="catalogo.html?cat=acrygel">Acrygel</a><a href="catalogo.html?cat=nail-art">Nail art</a><a href="catalogo.html?cat=accessori">Accessori</a>
@@ -246,6 +243,9 @@
       <a href="academy.html">PriMo Academy</a><a href="corso.html">Onicotecnica Corso Base</a>
       <p class="d-h">Azienda</p>
       <a href="chi-siamo.html">Chi siamo</a><a href="spedizioni.html">Spedizioni e resi</a><a href="mailto:primonailspro@gmail.com">Contatti</a>
+      <p class="d-h">In questa pagina</p>
+      <a href="#bestsellers">I Più Venduti</a><a href="#mood">Scegli il tuo Mood</a><a href="#new">Nuovi Arrivi</a><a href="#seasons"><span lang="en">The Seasons</span></a>
+      <a href="#for-you">Consigliati per te</a><a href="#loved">I Più Amati</a><a href="#community">Community</a><a href="#founder">Irina PriMo</a><a href="#courses">Corsi</a><a href="#recent">Visti di Recente</a>
     </nav>
   </div>
   <div class="search" id="search" role="dialog" aria-modal="true" aria-label="Cerca" hidden>
@@ -273,9 +273,9 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </div>
 <noscript><p style="padding:24px;text-align:center;font:600 15px system-ui">Per vedere questo sito abilita JavaScript.</p></noscript>
-<script src="js/site.js?v=81c8ed33"></script>
-<script src="js/search.js?v=bdfd2a0e"></script>
-<script src="js/product.js?v=1990954c"></script>
-<script src="js/home.js?v=65a25169"></script>
+<script src="js/site.js?v=e6667049"></script>
+<script src="js/search.js?v=6c23bc53"></script>
+<script src="js/product.js?v=2baa9540"></script>
+<script src="js/home.js?v=1d94b75e"></script>
 </body>
 </html>
