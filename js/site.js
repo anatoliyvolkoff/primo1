@@ -297,7 +297,7 @@
         <div class="phead"><h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p></div>
         ${priceHtml(p)}
-        ${shadesHtml(p)}
+        ${shadesHtml(p, desktopMQ.matches ? SH_SHOWN : 4)}
         <button class="add" lang="en" aria-label="Aggiungi al carrello – ${label(p)}">add to cart</button>
       </div>
     </article>`;
