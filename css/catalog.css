@@ -80,7 +80,7 @@
 @media (hover:hover) and (pointer:fine){
   .cs-clear:hover{background:#000;border-color:#000;color:#fff}
 }
-.cat-nav{padding:17px 26px 0}
+.cat-nav{padding:9px 26px 0}
 .back{display:inline-flex;align-items:center;height:28.2px;font-family:var(--fi);font-size:13px;line-height:16px;color:#555}
 .back svg{width:22.6px;height:22.6px;stroke-width:1.6;margin-right:1px}
 .crumbs{display:flex;align-items:center;margin:12px 0 0 24px;height:16.5px;font-family:var(--fi);font-size:13px;line-height:16px;color:#a8a8a8;white-space:nowrap;max-width:161.4px;overflow:hidden}
@@ -88,7 +88,7 @@
 .crumbs [aria-current]{overflow:hidden;text-overflow:clip}
 
 /* filter bar */
-.fbar-wrap{position:relative;margin:35.3px 25px 0 26px;z-index:4}
+.fbar-wrap{position:relative;margin:18px 25px 0 26px;z-index:4}
 .fbar{height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 8.3px 0 13px;border:1px solid #e8e6e5;border-radius:30px;background:#fff;box-shadow:0 6px 24px -14px rgba(0,0,0,.12)}
 .f-toggle{display:flex;align-items:center;gap:7.6px;height:44px;padding:0 9px;border:0;background:none;font-size:13.5px;font-weight:600;color:#1a1a1a}
 .f-toggle svg{width:17px;height:17px;stroke-width:2}
@@ -244,7 +244,7 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   [data-hdr=m] .cs-bg::before{left:28%}
   [data-hdr=m] .cs-bg::after{right:26%}
   .cat-semi .fbar-wrap{margin-top:80px}
-  .fbar-wrap{width:992px;margin:120px auto 0}
+  .fbar-wrap{width:992px;margin:60px auto 0}
   .fbar{padding:0 13px 0 13px}
   .f-toggle{gap:7.6px;padding:0 9px;height:33.6px;font-size:14px}
   .f-toggle svg{width:20px;height:20px}
