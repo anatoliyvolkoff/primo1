@@ -83,10 +83,15 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
 .ml{margin:3px 0 0;font-size:12.5px;line-height:16px;font-weight:600;color:var(--gray)}
 .price{margin:15px 0 0;display:flex;gap:6px;align-items:baseline;font-size:18px;font-weight:800;line-height:24px;letter-spacing:.04em}
 .price b{color:var(--red);font-weight:800}.price.nosale b{color:var(--ink)}.price s{color:var(--gray-2);text-decoration-thickness:2px}
-.shades{margin:14px 0 0;display:flex;flex:1 0 auto;flex-wrap:wrap;gap:8px;align-items:center;align-content:flex-start}
+/* swatches sit in fixed slots spread across the full text width: first on the left edge, "+N" on the right edge, equal gaps */
+.shades{--slots:6;--sw:33px;--grow:5px;margin:14px 0 0;display:grid;grid-template-columns:repeat(var(--slots),var(--sw));grid-auto-rows:calc(var(--sw) + var(--grow));justify-content:space-between;row-gap:8px;flex:1 0 auto;align-items:center;align-content:start}
 .sh{width:33px;height:33px;border-radius:50%;padding:0;border:0;background-size:cover;background-position:center;box-shadow:0 0 0 1px rgba(0,0,0,.12);position:relative;flex:none;transition:transform .2s var(--ease)}
-.sh::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid transparent;transition:border-color .2s}
-.sh[aria-pressed=true]::after{border-color:#000}
+/* the selection ring sits on the swatch's own edge (a white gap inside it), so a picked swatch keeps the same footprint and alignment */
+.sh::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid transparent;box-shadow:inset 0 0 0 2px transparent;transition:border-color .2s,box-shadow .2s}
+.sh[aria-pressed=true]::after{border-color:#000;box-shadow:inset 0 0 0 2px #fff}
+/* the picked swatch is a little bigger; it grows around its slot's centre, or rightward when it is first so the left edge stays aligned */
+.pcard .shades .sh[aria-pressed=true]{width:calc(var(--sw) + var(--grow));height:calc(var(--sw) + var(--grow));justify-self:center;box-shadow:none}
+.pcard .shades .sh[aria-pressed=true]:first-child{justify-self:start}
 .sh:active{transform:scale(.9)}
 .sh.pop{animation:pop .3s var(--ease) both;animation-delay:calc(var(--i)*30ms)}
 .plus{position:relative;width:33px;height:33px;border-radius:50%;border:0;background:#f0f0f0;padding:0;font-size:12px;font-weight:600;letter-spacing:-.02em;color:#3a3a3a;flex:none}
@@ -296,12 +301,13 @@ html.lock,html.lock body{overflow:hidden}
   .ml{margin:4px 0 0;font-size:10.5px;line-height:14px;font-weight:600;color:#8a8a8a}
   .price{margin:10.9px 0 0;gap:4.4px;font-size:15.5px;line-height:19px;font-weight:700;letter-spacing:.2px}
   .price s{text-decoration-thickness:1.5px;color:#8a8a8a}
-  .shades{flex:none;margin:12px 0 0;gap:6px;flex-wrap:nowrap}
+  .shades{--sw:26px;--grow:4px;flex:none;margin:10px 0 0}
   .sh{width:26px;height:26px;box-shadow:0 0 0 .6px rgba(0,0,0,.25)}
-  .sh::after{inset:-2.5px;border-width:1.6px}
+  .sh::after{border-width:1.6px}
+  .sh[aria-pressed=true]::after{box-shadow:inset 0 0 0 1.6px #fff}
   .plus{width:26px;height:26px;font-size:10px}
   .shades .extra{display:none}
-  .add{margin:14.5px 0 0 6.9px;width:184.4px;height:31.4px;font-size:15px;font-weight:500;letter-spacing:.4px}
+  .add{margin:12.5px 0 0;width:100%;height:31.4px;font-size:15px;font-weight:500;letter-spacing:.4px}
 
   /* marquee */
   .marquee{height:31px}
