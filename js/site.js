@@ -291,13 +291,13 @@
     return `<div class="shades" role="group" aria-label="Tonalità">${f.slice(0, shown).map((q, i) => shadeBtn(q, i === 0)).join('')}${more > 0 ? `<button class="plus" aria-expanded="false" aria-label="Mostra altre ${more} tonalità">+${more}</button>` : ''}</div>`;
   }
   const productCard = p => `
-    <article class="pcard" data-id="${p.id}">
+    <article class="pcard cc" data-id="${p.id}">
       <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli"><img src="${imgOf(p)}" alt="${label(p)}, ${CAT_LABEL[p.cat].toLowerCase()}" loading="lazy" decoding="async" draggable="false">${p.old ? `<span class="disc" aria-label="Sconto ${disc(p)}%">${disc(p)}%</span>` : ''}</a>
       <div class="pbody">
         <div class="phead"><h3><a href="${href(p)}">${p.num ? `<span>№${p.num}</span>` : ''}<span>${p.name}</span></a></h3>
         <p class="type">${CAT_LABEL[p.cat].toUpperCase()}</p><p class="ml">${p.size}</p></div>
         ${priceHtml(p)}
-        ${shadesHtml(p, desktopMQ.matches ? SH_SHOWN : 4)}
+        ${shadesHtml(p, 4)}
         <button class="add" lang="en" aria-label="Aggiungi al carrello – ${label(p)}">add to cart</button>
       </div>
     </article>`;
