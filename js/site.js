@@ -291,9 +291,9 @@
     return `<div class="shades" role="group" aria-label="Tonalità">${f.slice(0, shown).map((q, i) => shadeBtn(q, i === 0)).join('')}${more > 0 ? `<button class="plus" aria-expanded="false" aria-label="Mostra altre ${more} tonalità">+${more}</button>` : ''}</div>`;
   }
   /* card photo: a two-slide swipe track (the photo, then a close-up of the colour) with dots; `inner` is the <img> or <picture>.
-     The compact card (.cc) and the swipe are phone-only: desktop keeps the full card with a single photo. */
+     The compact card (.cc) is phone-only: desktop keeps the full card, with the same photo swipe. */
   const ccClass = () => (desktopMQ.matches ? '' : ' cc');
-  const cardPhoto = inner => desktopMQ.matches ? inner : `<span class="ptrack"><span class="pslide">${inner}</span><span class="pslide pz" aria-hidden="true">${inner.replace(/ alt="[^"]*"/, ' alt=""')}</span></span><span class="pdots" aria-hidden="true"><i></i><i></i></span>`;
+  const cardPhoto = inner => `<span class="ptrack"><span class="pslide">${inner}</span><span class="pslide pz" aria-hidden="true">${inner.replace(/ alt="[^"]*"/, ' alt=""')}</span></span><span class="pdots" aria-hidden="true"><i></i><i></i></span>`;
   const productCard = p => `
     <article class="pcard${ccClass()}" data-id="${p.id}">
       <a class="pimg" href="${href(p)}" aria-label="${label(p)} – dettagli">${cardPhoto(`<img src="${imgOf(p)}" alt="${label(p)}, ${CAT_LABEL[p.cat].toLowerCase()}" loading="lazy" decoding="async" draggable="false">`)}${p.old ? `<span class="disc" aria-label="Sconto ${disc(p)}%">${disc(p)}%</span>` : ''}</a>

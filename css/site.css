@@ -110,9 +110,9 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
 .pcard.cc .pimg{display:block}
 .ptrack{position:absolute;inset:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none}
 .ptrack::-webkit-scrollbar{display:none}
-.pslide{flex:0 0 100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
+.pslide{position:relative;flex:0 0 100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
 .pslide picture{display:block;width:100%;height:100%}
-.pcard.cc .pz img{transform:scale(1.7)!important;transform-origin:80% 45%}
+.pz img{transform:scale(1.7)!important;transform-origin:80% 45%}
 .pdots{position:absolute;left:50%;bottom:8px;translate:-50% 0;display:flex;gap:5px;padding:4px 6px;border-radius:99px;background:rgba(255,255,255,.8);pointer-events:none}
 .pdots i{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.22);transition:background .2s,width .2s}
 .pimg:not(.on2) .pdots i:first-child,.pimg.on2 .pdots i:last-child{width:14px;border-radius:3px;background:#111}
@@ -322,12 +322,12 @@ html.lock,html.lock body{overflow:hidden}
   .h2{font-size:48px;line-height:50px;font-weight:700;letter-spacing:-.01em;padding:0}
   .sub{margin:16px 0 0;font-family:var(--f);font-size:20px;line-height:31px;font-weight:600;color:#8a8a8a;padding:0}
 
-  /* product card: 232 × 422 */
+  /* product card: 232 × 394 */
   .rail{display:grid;grid-template-columns:repeat(4,232px);gap:16px;justify-content:center;overflow:visible;padding:0;margin:0;scroll-snap-type:none}
   .rail+.rprog{display:none}
-  .pcard{width:232px;height:422px;border:1px solid #9a9a9a;border-radius:15px;box-shadow:none}
-  .pimg{height:203.8px;background:#fff}
-  .pimg img{position:absolute;left:-.6px;top:-3.7px;width:242.4px;height:242.4px;max-width:none;object-fit:fill}
+  .pcard{width:232px;height:394px;border:1px solid #9a9a9a;border-radius:15px;box-shadow:none}
+  .pimg{height:176px;background:#fcfcfc}
+  .pimg img{position:absolute;left:11.3px;top:-3.2px;width:209.4px;height:209.4px;max-width:none;object-fit:fill}
   .disc{top:11px;left:10px;height:16px;padding:0 9px;font-size:11px;line-height:16px;font-weight:600;background:#fe3c3c}
   .pbody{padding:8.4px 16.9px 15.3px}
   .phead{min-height:78.7px}
