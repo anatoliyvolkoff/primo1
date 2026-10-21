@@ -270,9 +270,9 @@ legend{padding:0;font-size:13.5px;line-height:16px;font-weight:600;color:#1a1a1a
   .fchip[aria-pressed=true]::before{background:#000 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 5 5 9-10'/%3E%3C/svg%3E") center/11px no-repeat;border-color:#000}
   .fchip small{color:#999;font-size:12px}
   .grid{grid-template-columns:repeat(4,232px);justify-content:center;column-gap:16px;row-gap:40px;padding:40px 0 0}
-  .gcard{width:232px;height:422px;border:1px solid #9a9a9a;border-radius:15px;box-shadow:none}
-  .gcard .pimg{height:203.8px}
-  .gcard .pimg img{left:-.6px;top:-3.7px;width:242.4px;height:242.4px;object-fit:fill}
+  .gcard{width:232px;height:394px;border:1px solid #9a9a9a;border-radius:15px;box-shadow:none}
+  .gcard .pimg{height:176px;background:#fcfcfc}
+  .gcard .pimg img{left:11.3px;top:-3.2px;width:209.4px;height:209.4px;object-fit:fill}
   .gcard .disc{top:11px;left:10px;height:16px;padding:0 9px;font-size:11px;line-height:16px;font-weight:600;background:#fe3c3c}
   .qv-btn{top:11px;right:11px;opacity:0;transform:scale(.8);transition:opacity .2s,transform .2s}
   .gcard:hover .qv-btn,.qv-btn:focus-visible{opacity:1;transform:none}
