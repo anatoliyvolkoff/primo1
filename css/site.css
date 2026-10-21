@@ -107,6 +107,15 @@ svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-l
    Sizes come from the --cc-* variables, set per context below; buttons in a row line up because the body stretches. */
 .pcard.cc{--cc-t:15px;--cc-tl:19px;--cc-ty:10px;--cc-tyg:11px;--cc-pr:15px;--cc-sw:32px;--cc-b:40px;--cc-px:14px;--cc-min:140px;--cc-slots:5;height:auto}
 .pcard.cc .pimg{flex:none;height:auto;aspect-ratio:287/255}
+.pcard.cc .pimg{display:block}
+.ptrack{position:absolute;inset:0;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none}
+.ptrack::-webkit-scrollbar{display:none}
+.pslide{flex:0 0 100%;height:100%;scroll-snap-align:start;scroll-snap-stop:always;overflow:hidden}
+.pslide picture{display:block;width:100%;height:100%}
+.pcard.cc .pz img{transform:scale(1.7)!important;transform-origin:80% 45%}
+.pdots{position:absolute;left:50%;bottom:8px;translate:-50% 0;display:flex;gap:5px;padding:4px 6px;border-radius:99px;background:rgba(255,255,255,.8);pointer-events:none}
+.pdots i{width:6px;height:6px;border-radius:50%;background:rgba(0,0,0,.22);transition:background .2s,width .2s}
+.pimg:not(.on2) .pdots i:first-child,.pimg.on2 .pdots i:last-child{width:14px;border-radius:3px;background:#111}
 .pcard.cc .pimg img{position:static;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 14%}
 .pcard.cc .pbody{flex:1 0 auto;min-height:var(--cc-min);padding:calc(var(--cc-px) * .7) var(--cc-px) calc(var(--cc-px) * .85);display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:space-between;column-gap:calc(var(--cc-px) * .7)}
 .pcard.cc .phead{grid-column:1/-1;min-height:0}
