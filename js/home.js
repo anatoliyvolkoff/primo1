@@ -108,6 +108,8 @@
   const colorRow = $('#color-row');
   colorRow.innerHTML = MOODS.map(([label, f]) => `<a class="color-item" href="${shadeHref(label)}" aria-label="${label}">
     <img src="img/mood-${f}.webp?v=3" alt="" width="50" height="122" loading="lazy" decoding="async"><span>color</span></a>`).join('');
+  const shades = PM.CATALOG.PRODUCTS.filter(p => p.cell);
+  PM.shadeStrip($('#shade-row'), shades); $('#shade-n').textContent = shades.length;
   function pickMood(item, { scroll = false } = {}) {
     if (scroll) {
       $('#mood').scrollIntoView({ behavior: smooth() });

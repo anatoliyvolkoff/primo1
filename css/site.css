@@ -242,6 +242,26 @@ html.lock,html.lock body{overflow:hidden}
 .rprog{position:relative;width:72px;height:4px;margin:16px auto 0;border-radius:9px;background:rgba(0,0,0,.12);overflow:hidden}
 .rprog i{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:#111;transition:transform .12s linear}
 .mood .rprog{margin-top:14px}
+.nail-row+.rprog{margin-top:10px}
+
+/* "All shades" strip under Shop by color: every shade of the colour sheet as a small nail, scrolls sideways */
+.nail-cap{margin-top:34px;font-size:11px;line-height:14px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;text-align:center}
+.nail-cap b{margin-left:4px;font-weight:600;color:rgba(0,0,0,.45)}
+.nail-row{display:flex;gap:10px;overflow-x:auto;padding:14px 20px 2px;scroll-padding-left:20px;scrollbar-width:none;scroll-snap-type:x proximity;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.nail-row.end{-webkit-mask-image:none;mask-image:none}
+.nail-row::-webkit-scrollbar{display:none}
+.nail-item{flex:none;width:46px;min-height:44px;display:flex;flex-direction:column;align-items:center;color:inherit;text-decoration:none;scroll-snap-align:start}
+.nail-item img{width:34px;height:80px;object-fit:contain;filter:drop-shadow(0 5px 5px rgba(0,0,0,.1));transition:transform .3s var(--ease)}
+.nail-item:active img{transform:translateY(-4px) scale(1.04)}
+.nail-item span{margin-top:9px;max-width:100%;font-size:10px;line-height:12px;font-weight:600;text-align:center;overflow-wrap:anywhere;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+@media (hover:hover) and (pointer:fine){.nail-item:hover img{transform:translateY(-6px)}.nail-row:not(.dragging){cursor:grab}}
+@media (min-width:1024px){
+  .nail-cap{margin-top:56px;font-size:12px}
+  .nail-row{width:977px;max-width:100%;margin:0 auto;gap:12px;padding:16px 0 2px;scroll-padding-left:0}
+  .nail-item{width:52px}
+  .nail-item img{width:40px;height:94px}
+  .nail-item span{font-size:11px;line-height:13px}
+}
 @media (hover:hover) and (pointer:fine){
   .rail,.mood-row:not(.grid),.t-track,.hero-track,.s-track{cursor:grab}
   .dragging{cursor:grabbing!important;scroll-snap-type:none!important;user-select:none}
