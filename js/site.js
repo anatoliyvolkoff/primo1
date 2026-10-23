@@ -276,6 +276,16 @@
     rail._progress = update; update();
   }
 
+  // ---------- "All shades" strip under Shop by color: one nail per shade in the colour sheet (img/nail/<id>.webp, made by tools/nails.py), each opens its product ----------
+  const shadeName = p => (p.num ? p.num : p.fam && p.name.startsWith(p.fam + ' ') ? p.name.slice(p.fam.length + 1) : p.name);
+  function shadeStrip(row, list) {
+    row.innerHTML = list.map(p => `<a class="nail-item" href="${href(p)}" title="${label(p)}" aria-label="${label(p)}">
+      <img src="img/nail/${p.id}.webp" alt="" width="40" height="94" loading="lazy" decoding="async" draggable="false"><span>${shadeName(p)}</span></a>`).join('');
+    attachProgress(row);
+    const end = () => row.classList.toggle('end', row.scrollLeft >= row.scrollWidth - row.clientWidth - 4);   // the fade on the right edge goes once the end is in view
+    row.addEventListener('scroll', end, { passive: true }); end();
+  }
+
   // ---------- product cards: one product each; its swatches are its family (same line or same colour), picking one turns the card into that product ----------
   const SH_SHOWN = 5;
   const href = p => (p.kit ? `prodotto.html?kit=${p.kit}` : `prodotto.html?id=${p.id}`);
@@ -464,7 +474,7 @@
   Object.assign(PM, {
     $, $$, root, reduceMotion, finePointer, desktopMQ, smooth, money, buzz, store, settle,
     MOODS, CATALOG, toast, openOverlay, closeOverlay, addToCart, cartLines, clearCart, flashAdded,
-    attachProgress, ccClass, cardPhoto, productCard, priceHtml, shadesHtml, showOnCard, fillRail, dragScroll, jumpTo,
+    attachProgress, shadeStrip, ccClass, cardPhoto, productCard, priceHtml, shadesHtml, showOnCard, fillRail, dragScroll, jumpTo,
   });
   /* Page scripts run after this file; they call PM.ready() so shared setup that depends on their DOM runs last. */
   PM.ready = () => {

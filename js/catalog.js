@@ -165,6 +165,8 @@
   const shopRow = $('#cat-shop-row');
   shopRow.innerHTML = MOODS.map(([label, f]) => `<button type="button" class="cs-item" data-mood="${label}" aria-pressed="false">
     <img src="img/mood-${f}.webp?v=3" alt="" width="51" height="122" decoding="async"><span>${label}</span></button>`).join('');
+  const semiShades = PRODUCTS.filter(p => p.cat === 'semipermanente' && p.cell);
+  PM.shadeStrip($('#cat-shade-row'), semiShades); $('#cat-shade-n').textContent = semiShades.length;
   shopRow.addEventListener('click', e => {
     const m = e.target.closest('[data-mood]'); if (!m) return;
     if (m.getAttribute('aria-pressed') === 'true') { st.mood = null; st.colors.clear(); }
