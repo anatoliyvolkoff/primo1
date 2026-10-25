@@ -261,7 +261,7 @@
       });
       if (sec.dataset.idle !== 'true' && sNav < 0) {
         sState.pinned = best;
-        if (calm()) { sBest = best; sCommit(); } else setActive(best);   // quiet / gentle: the season changes once the swipe settles
+        sBest = best; sCommit();                                        // the season changes once the swipe settles, not halfway through it
       }
     });
   }
@@ -330,17 +330,17 @@
     if (desktopMQ.matches) { sec.dataset.idle = 'false'; sCards.forEach(c => c.style.removeProperty('--t')); setActive(sState.pinned); return; }
     if (sec.dataset.idle === 'true') placeIdle(); else sGoTo(sState.pinned < 0 ? 0 : sState.pinned, false);
   });
-  // with a hover variant the preview waits until the pointer rests on a card, so sweeping across the row doesn't flash every season
+  // the preview waits until the pointer rests on a card, so sweeping across the row doesn't flash every season
   let hoverT;
-  const later = (fn, ms) => { clearTimeout(hoverT); if (sec.dataset.hover) hoverT = setTimeout(fn, ms); else fn(); };
+  const later = (fn, ms) => { clearTimeout(hoverT); hoverT = setTimeout(fn, ms); };
   const restore = () => { if (desktopMQ.matches) setActive(sState.pinned); };
   sCards.forEach((c, i) => {
     // hover=quiet: hovering previews nothing; the season changes only on a click
     // calm hovers: the season shows only after the pointer has rested on the card a little longer
-    c.addEventListener('mouseenter', () => { if (desktopMQ.matches && sec.dataset.hover !== 'quiet') later(() => setActive(i), calm() ? 280 : 110); });
+    c.addEventListener('mouseenter', () => { if (desktopMQ.matches && sec.dataset.hover !== 'quiet') later(() => setActive(i), calm() ? 280 : 180); });
     c.addEventListener('focusin', () => { clearTimeout(hoverT); if (desktopMQ.matches && sec.dataset.hover !== 'quiet') setActive(i); });
   });
-  track.addEventListener('mouseleave', () => later(restore, calm() ? 450 : 220));
+  track.addEventListener('mouseleave', () => later(restore, calm() ? 450 : 320));
   // sheen / tilt follow the pointer across the card
   let tiltRaf = 0;
   track.addEventListener('pointermove', e => {
