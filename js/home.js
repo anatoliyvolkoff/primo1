@@ -195,19 +195,17 @@
   const layers = [...bg.children];
   bg.insertAdjacentHTML('beforeend', `<div class="aura"></div><div class="bg-layer all">${neutralBlobs}</div>`);
 
-  // motion variants to compare: ?bg=airy|soft|rise|calm|glow|wash|horizon|mesh and ?hover=gentle|float|glass|halo|sheen|tilt|quiet|lift|frame|focus (none = the current motion); ?lab shows a switcher
-  const VARIANTS = { bg: ['now', 'airy', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['now', 'gentle', 'float', 'glass', 'halo', 'sheen', 'tilt', 'quiet', 'lift', 'frame', 'focus'] };
+  // motion variants to compare: ?bg=airy|soft|rise|calm|glow|wash|horizon|mesh and ?hover=lift|ring|photo|focus (lift by default); ?lab shows a switcher
+  const VARIANTS = { bg: ['now', 'airy', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['lift', 'ring', 'photo', 'focus'] };
+  const LABEL = { lift: '1 · подъём', ring: '2 · рамка', photo: '3 · фото', focus: '4 · фокус' };
   const qs = new URLSearchParams(location.search);
-  // calm hovers: only the hovered card reacts; on phones the season changes once a swipe settles
-  const CALM = ['quiet', 'gentle', 'float', 'glass', 'halo', 'sheen', 'tilt'];
-  const calm = () => CALM.includes(sec.dataset.hover);
-  const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; sec.toggleAttribute('data-calm', calm()); };
+  const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; };
   setVariant('bg', qs.get('bg')); setVariant('hover', qs.get('hover'));
   if (qs.has('lab') || qs.has('bg') || qs.has('hover')) {
     const lab = document.createElement('div');
     lab.className = 'lab'; lab.setAttribute('aria-label', 'Seasons motion variants');
-    const row = k => `<p><b>${k}</b>${VARIANTS[k].map(v => `<button type="button" data-k="${k}" data-v="${v}" aria-pressed="${(sec.dataset[k] || 'now') === v}">${v}</button>`).join('')}</p>`;
-    lab.innerHTML = row('bg') + row('hover');
+    const row = k => `<p><b>${k}</b>${VARIANTS[k].map(v => `<button type="button" data-k="${k}" data-v="${v}" aria-pressed="${(sec.dataset[k] || VARIANTS[k][0]) === v}">${LABEL[v] || v}</button>`).join('')}</p>`;
+    lab.innerHTML = row('hover');
     lab.addEventListener('click', e => {
       const b = e.target.closest('button'); if (!b) return;
       setVariant(b.dataset.k, b.dataset.v);
@@ -342,31 +340,6 @@
     if (desktopMQ.matches) { sec.dataset.idle = 'false'; sCards.forEach(c => c.style.removeProperty('--t')); setActive(sState.pinned); return; }
     sGoTo(sState.pinned < 0 ? 0 : sState.pinned, false);
   });
-  // the preview waits until the pointer rests on a card, so sweeping across the row doesn't flash every season
-  let hoverT;
-  const later = (fn, ms) => { clearTimeout(hoverT); hoverT = setTimeout(fn, ms); };
-  const restore = () => { if (desktopMQ.matches) setActive(sState.pinned); };
-  sCards.forEach((c, i) => {
-    // hover=quiet: hovering previews nothing; the season changes only on a click
-    // calm hovers: the season shows only after the pointer has rested on the card a little longer
-    c.addEventListener('mouseenter', () => { if (desktopMQ.matches && sec.dataset.hover !== 'quiet') later(() => setActive(i), 280); });
-    c.addEventListener('focusin', () => { clearTimeout(hoverT); if (desktopMQ.matches && sec.dataset.hover !== 'quiet') setActive(i); });
-  });
-  track.addEventListener('mouseleave', () => later(restore, calm() ? 450 : 320));
-  // sheen / tilt follow the pointer across the card
-  let tiltRaf = 0;
-  track.addEventListener('pointermove', e => {
-    const h = sec.dataset.hover;
-    if ((h !== 'sheen' && h !== 'tilt') || !desktopMQ.matches || reduceMotion || tiltRaf) return;
-    const card = e.target.closest('.s-card'); if (!card) return;
-    tiltRaf = requestAnimationFrame(() => {
-      tiltRaf = 0;
-      const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-      card.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`); card.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
-      card.style.setProperty('--rx', `${((.5 - y) * 4).toFixed(2)}deg`); card.style.setProperty('--ry', `${((x - .5) * 4).toFixed(2)}deg`);
-    });
-  });
-  track.addEventListener('focusout', e => { if (!track.contains(e.relatedTarget) && !track.matches(':hover')) restore(); });
 
   // ---------- testimonials ----------
   const t = $('#t-track');
