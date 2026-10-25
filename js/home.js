@@ -169,18 +169,6 @@
     spring: () => ({ cls: 'petal', size: rnd(9, 15), html: '', o: rnd(.55, .85) }),
     summer: () => ({ cls: 'bubble rise', size: rnd(8, 24), html: '', o: rnd(.5, .85) }),
   };
-  // bg=airy: soft colour clouds that drift slowly, each season in its own colour family; before a season is picked
-  // each card has a faint cloud of its own season colour behind it
-  const AIRY = {
-    autumn: ['#f6c08a', '#f2a65e', '#f7d3a8', '#eba77c', '#f9dcb8'],
-    winter: ['#a8c8f4', '#c4dafa', '#9fc0ee', '#d6e4f7', '#b6d0f5'],
-    spring: ['#f7a8c4', '#fbc4d6', '#f49ab8', '#fcd6e2', '#f6b6cc'],
-    summer: ['#b4e89c', '#cdf2b6', '#a4e08a', '#dcf6cc', '#bfeca8'],
-  };
-  const BLOB_AT = [[12, 62, 46], [88, 38, 50], [50, 92, 58], [30, 22, 36], [72, 78, 44]];
-  const blob = (c, [x, y, w], i) => `<i class="blob" style="--b:${c};--x:${x}%;--y:${y}%;--w:${w}%;--d:${16 + i * 3}s;--dl:${-i * 4}s"></i>`;
-  const blobs = cs => `<div class="blobs">${cs.map((c, i) => blob(c, BLOB_AT[i], i)).join('')}</div>`;
-  const neutralBlobs = `<div class="blobs">${SEASONS.map((s, i) => blob(AIRY[s.id][0], [26 + i * 16, 60, 30], i)).join('')}</div>`;
   SEASONS.forEach(s => {
     const layer = document.createElement('div');
     layer.className = 'bg-layer'; layer.dataset.season = s.id; layer.style.setProperty('--c', s.color);
@@ -189,23 +177,24 @@
       const k = kinds[s.id](), dur = rnd(10, 18);
       p += `<i class="p ${k.cls}" style="--x:${rnd(-2, 98).toFixed(1)}%;--s:${k.size.toFixed(1)}px;--dur:${dur.toFixed(1)}s;--delay:${(-rnd(0, dur)).toFixed(1)}s;--sway:${rnd(-70, 70).toFixed(0)}px;--r0:${rnd(-40, 40) | 0}deg;--r1:${rnd(120, 420) | 0}deg;--o:${k.o.toFixed(2)}">${k.html}</i>`;
     }
-    layer.innerHTML = `<div class="panel"></div>${blobs(AIRY[s.id])}<div class="particles">${p}</div>`;
+    layer.innerHTML = `<div class="panel"></div><div class="particles">${p}</div>`;
     bg.appendChild(layer);
   });
   const layers = [...bg.children];
-  bg.insertAdjacentHTML('beforeend', `<div class="aura"></div><div class="bg-layer all">${neutralBlobs}</div>`);
+  bg.insertAdjacentHTML('beforeend', '<div class="aura"></div>');
 
-  // motion variants to compare: ?bg=airy|soft|rise|calm|glow|wash|horizon|mesh and ?hover=lift|ring|photo|focus (lift by default); ?lab shows a switcher
-  const VARIANTS = { bg: ['now', 'airy', 'soft', 'rise', 'calm', 'glow', 'wash', 'horizon', 'mesh'], hover: ['lift', 'ring', 'photo', 'focus'] };
-  const LABEL = { lift: '1 · подъём', ring: '2 · рамка', photo: '3 · фото', focus: '4 · фокус' };
+  // variants to compare: ?bg=paint|wash|horizon|band|glow|clouds (none = the current illustration) and ?hover=lift|ring|photo|focus (lift by default); ?lab shows a switcher
+  const VARIANTS = { bg: ['now', 'paint', 'wash', 'horizon', 'band', 'glow', 'clouds'], hover: ['lift', 'ring', 'photo', 'focus'] };
+  const LABEL = { now: 'сейчас', paint: '1 · картина', wash: '2 · дымка', horizon: '3 · горизонт', band: '4 · полоса', glow: '5 · свечение', clouds: '6 · облака',
+    lift: '1 · подъём', ring: '2 · рамка', photo: '3 · фото', focus: '4 · фокус' };
   const qs = new URLSearchParams(location.search);
   const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; };
   setVariant('bg', qs.get('bg')); setVariant('hover', qs.get('hover'));
   if (qs.has('lab') || qs.has('bg') || qs.has('hover')) {
     const lab = document.createElement('div');
     lab.className = 'lab'; lab.setAttribute('aria-label', 'Seasons motion variants');
-    const row = k => `<p><b>${k}</b>${VARIANTS[k].map(v => `<button type="button" data-k="${k}" data-v="${v}" aria-pressed="${(sec.dataset[k] || VARIANTS[k][0]) === v}">${LABEL[v] || v}</button>`).join('')}</p>`;
-    lab.innerHTML = row('hover');
+    const row = k => `<p><b>${{ bg: 'фон', hover: 'ховер' }[k]}</b>${VARIANTS[k].map(v => `<button type="button" data-k="${k}" data-v="${v}" aria-pressed="${(sec.dataset[k] || VARIANTS[k][0]) === v}">${LABEL[v] || v}</button>`).join('')}</p>`;
+    lab.innerHTML = row('bg') + row('hover');
     lab.addEventListener('click', e => {
       const b = e.target.closest('button'); if (!b) return;
       setVariant(b.dataset.k, b.dataset.v);
