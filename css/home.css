@@ -135,12 +135,11 @@ a.hbtn{display:inline-grid;place-items:center;text-decoration:none}
 .s-cta:active{transform:scale(.97)}
 
 @media (hover:hover) and (pointer:fine){
-  .sw:hover{transform:scale(1.18)}
-  .more:hover{border-color:#1b1b1b;color:#1b1b1b;transform:scale(1.12)}
+  .sw:hover{transform:scale(1.1)}
+  .more:hover{border-color:#1b1b1b;color:#1b1b1b;transform:scale(1.1)}
   .s-dot:hover::before{background:#9b9ba1}
   .s-dot[aria-selected=true]:hover::before{background:var(--accent)}
   .s-cta:hover{background:#1b1b1b;color:#fff}
-  .s-card:not(.active):hover{border-color:#cfcfd4}
 }
 
 /* ---------- recommended / loved / recent ---------- */
@@ -265,20 +264,24 @@ a.hbtn{display:inline-grid;place-items:center;text-decoration:none}
   .s-head p{margin-top:19px;font-size:20px;line-height:22px;font-weight:600;color:#8a8a8a;word-spacing:6px}
   .s-carousel{margin-top:46px;width:auto}
   .s-track{--card-w:232px;display:grid;grid-template-columns:repeat(4,232px);gap:16px;overflow:visible;padding:0;margin:0;scroll-snap-type:none}
-  .s-card{width:232px;height:466px;transform:none!important;opacity:1;border:1px solid #c4c4c4;border-radius:16px;cursor:pointer;animation:none;transition:transform var(--dur) var(--ease),opacity var(--dur) var(--ease)}
-  .s-card::after{inset:-1px;border-radius:17px;box-shadow:0 22px 40px -18px rgba(20,20,30,.25)}
-  .seasons[data-season] .s-card:not(.active){opacity:.7}
-  /* a small lift instead of a big zoom: text stays crisp and the move stays short */
-  .seasons[data-season] .s-card.active{transform:scale(1.03)!important}
+  /* hovers touch only the hovered card, start at once and use one soft curve both ways; the season changes on a click */
+  .seasons{--soft:cubic-bezier(.25,.1,.25,1);--hov:.6s}
+  .s-card{width:232px;height:466px;transform:none!important;opacity:1;border:1px solid #c4c4c4;border-radius:16px;cursor:pointer;animation:none;
+    transition:transform var(--hov) var(--soft),opacity var(--hov) var(--soft),box-shadow var(--hov) var(--soft)}
+  .s-card::after{inset:-1px;border-radius:17px;box-shadow:none;transition:opacity var(--hov) var(--soft)}
   .s-photo{height:381px;background:#fff;overflow:hidden;border-radius:15px 15px 0 0}
-  .s-photo img{width:230px;height:381px;object-fit:cover}
-  .s-card.active .s-photo img{transform:scale(1.02)}
+  .s-photo img{width:230px;height:381px;object-fit:cover;transition:transform 1.2s var(--soft)}
   /* "Scopri" chip on the photo of the previewed card: the photo opens the seasonal kit */
   .s-go{display:block;position:absolute;left:50%;bottom:14px;padding:7px 18px;border-radius:99px;background:rgba(255,255,255,.94);border:1px solid var(--c);color:#1e1e1e;font-size:12px;font-weight:700;letter-spacing:.04em;
-    opacity:0;transform:translate(-50%,6px);transition:opacity var(--dur) var(--ease),transform var(--dur) var(--ease),background-color .25s var(--ease),color .25s var(--ease);pointer-events:none}
-  .s-card.active .s-go{opacity:1;transform:translate(-50%,0)}
+    opacity:0;transform:translate(-50%,4px);transition:opacity var(--hov) var(--soft),transform var(--hov) var(--soft),background-color .3s var(--soft),color .3s var(--soft);pointer-events:none}
+  .s-card:is(.active,:hover,:focus-within) .s-go{opacity:1;transform:translate(-50%,0)}
   .s-photo:hover .s-go{background:var(--c);color:#fff}
   .seasons:not([data-season]) .s-shade{opacity:0}
+  /* the four hovers to compare (?hover=lift|ring|photo|focus, lift by default) */
+  .seasons:not([data-hover]) .s-card:is(:hover,:focus-within),.seasons[data-hover=lift] .s-card:is(:hover,:focus-within){transform:translate3d(0,-6px,0)!important;box-shadow:0 24px 36px -26px rgba(20,20,30,.35)}
+  .seasons[data-hover=ring] .s-card:is(:hover,:focus-within)::after{opacity:1}
+  .seasons[data-hover=photo] .s-card:is(:hover,:focus-within) .s-photo img{transform:scale(1.045)}
+  .seasons[data-hover=focus] .s-track:has(.s-card:is(:hover,:focus-within)) .s-card:not(:hover,:focus-within){opacity:.45}
   /* before a season is picked every card shows the neutral swatches (design default state) */
   .seasons:not([data-season]) .sw:nth-child(1){--sw:#ececec!important}
   .seasons:not([data-season]) .sw:nth-child(2){--sw:#c9c9c9!important}
@@ -400,8 +403,6 @@ a.hbtn{display:inline-grid;place-items:center;text-decoration:none}
   animation:drift 22s ease-in-out infinite alternate}
 .seasons[data-bg=mesh] .bg-layer:not(.on) .panel{animation-play-state:paused}
 @keyframes drift{to{transform:translate3d(4%,-3%,0) scale(1.05)}}
-/* calm hovers (quiet, gentle, float, glass, halo, sheen, tilt; js sets data-calm) on phones: side cards shrink and fade less while swiping */
-.seasons[data-calm] .s-card{transform:scale(calc(1 - .04*var(--t,0)));opacity:calc(1 - .3*var(--t,0))}
 /* bg=airy: soft colour clouds in each season's own colours that drift slowly; before a pick each card has its season's cloud */
 .blobs,.bg-layer.all{display:none}
 .seasons[data-bg=airy] .blobs{display:block;position:absolute;inset:0;overflow:hidden}
@@ -422,57 +423,6 @@ a.hbtn{display:inline-grid;place-items:center;text-decoration:none}
   background:radial-gradient(30% 62% at var(--ax) 70%,var(--ac),transparent 75%);
   transition:--ax .9s cubic-bezier(.22,1,.36,1),--ac .9s ease}
 @media (max-width:1023.98px){.seasons[data-bg=glow] .aura{background:radial-gradient(75% 42% at 50% 60%,var(--ac),transparent 75%)}}
-
-@media (min-width:1024px){
-  /* the preview follows the pointer only after it rests on a card for a moment (js), and these ease in slower */
-  .seasons[data-hover] .s-card{transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .6s ease,filter .6s ease,border-color .5s,box-shadow .6s ease}
-  .seasons[data-hover] .s-photo img{transition:transform 1.4s cubic-bezier(.22,1,.36,1)}
-  /* hover=lift: the card rises a little; the others stay readable */
-  .seasons[data-hover=lift][data-season] .s-card.active{transform:translate3d(0,-8px,0)!important;box-shadow:0 26px 40px -22px rgba(20,20,30,.28)}
-  .seasons[data-hover=lift][data-season] .s-card:not(.active){opacity:.75}
-  /* hover=frame: nothing moves; colour border, tinted shadow and a slow photo zoom; the others soften */
-  .seasons[data-hover=frame][data-season] .s-card.active{transform:none!important;box-shadow:0 18px 44px -20px var(--c)}
-  .seasons[data-hover=frame][data-season] .s-card:not(.active){opacity:.85;filter:saturate(.6)}
-  /* calm hovers: hovering touches only that card and "Scopri" fades in; nothing else dims or grows, the active card keeps a 1px border */
-  .seasons[data-calm] .s-card{transition:transform .9s cubic-bezier(.22,1,.36,1),opacity .9s ease,border-color .9s ease,box-shadow .9s ease,background-color .9s ease}
-  .seasons[data-calm] .s-photo img{transition:transform 1.8s cubic-bezier(.22,1,.36,1)}
-  .seasons[data-calm] .s-go{transition:opacity .6s ease,transform .8s cubic-bezier(.22,1,.36,1),background-color .3s,color .3s}
-  .seasons[data-calm] .s-card:hover .s-go{opacity:1;transform:translate(-50%,0)}
-  .seasons[data-calm][data-season] .s-card:not(.active){opacity:1}
-  .seasons[data-calm][data-season] .s-card.active{border-width:1px}
-  .seasons[data-calm][data-season] .s-card.active{transform:none!important}
-  .seasons[data-calm][data-season] .s-card.active:not(:hover){box-shadow:0 20px 36px -24px rgba(20,20,30,.28)}
-  .seasons[data-calm]:not([data-season]) .s-shade{opacity:1}
-  .seasons[data-calm] .s-card:not(:hover) .s-photo img{transform:none}
-  /* quiet: small lift and shadow, quicker; the season changes only on a click */
-  .seasons[data-hover=quiet] .s-card{transition-duration:.5s}
-  .seasons[data-hover=quiet][data-calm] .s-card:hover{transform:translate3d(0,-4px,0)!important;box-shadow:0 20px 36px -24px rgba(20,20,30,.32)}
-  .seasons[data-hover=quiet] .s-card:hover .s-photo img{transform:scale(1.03)}
-  /* gentle: like quiet, slower; the season colour follows a resting pointer (also for the hovers below) */
-  .seasons[data-hover=gentle][data-calm] .s-card:hover{transform:translate3d(0,-3px,0)!important;box-shadow:0 20px 36px -24px rgba(20,20,30,.32)}
-  .seasons[data-hover=gentle] .s-card:hover .s-photo img{transform:scale(1.025)}
-  /* float: the card drifts up a little further on a long, soft shadow */
-  .seasons[data-hover=float] .s-card{transition-duration:1.1s}
-  .seasons[data-hover=float][data-calm] .s-card:hover{transform:translate3d(0,-7px,0) scale(1.01)!important;box-shadow:0 34px 50px -30px rgba(20,20,30,.3)}
-  /* glass: nothing moves; the card turns frosted so the background shows through, the border takes the season colour */
-  .seasons[data-hover=glass] .s-card:hover{background-color:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-color:color-mix(in srgb,var(--c) 55%,#c4c4c4)}
-  .seasons[data-hover=glass] .s-photo{transition:background-color .9s ease}
-  .seasons[data-hover=glass] .s-card:hover .s-photo{background-color:transparent}
-  .seasons[data-hover=glass] .s-card:hover .s-photo img{transform:scale(1.02)}
-  /* halo: nothing moves; a soft ring and glow in the season colour fade in around the card */
-  .seasons[data-hover=halo] .s-card:hover{border-color:color-mix(in srgb,var(--c) 60%,#c4c4c4);box-shadow:0 0 0 6px color-mix(in srgb,var(--c) 13%,transparent),0 22px 40px -24px color-mix(in srgb,var(--c) 70%,transparent)}
-  /* sheen: a soft light follows the pointer across the card (js sets --mx / --my) */
-  .seasons[data-hover=sheen] .s-card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .8s ease;
-    background:radial-gradient(260px circle at var(--mx,50%) var(--my,40%),rgba(255,255,255,.55),transparent 70%)}
-  .seasons[data-hover=sheen] .s-card:hover::after{opacity:1}
-  .seasons[data-hover=sheen] .s-card:hover{box-shadow:0 20px 36px -26px rgba(20,20,30,.28)}
-  /* tilt: the card leans a couple of degrees toward the pointer (js sets --rx / --ry) */
-  .seasons[data-hover=tilt] .s-card{transition:transform .7s cubic-bezier(.22,1,.36,1),box-shadow .9s ease,border-color .9s ease}
-  .seasons[data-hover=tilt][data-calm] .s-card:hover{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg))!important;box-shadow:0 24px 40px -26px rgba(20,20,30,.3)}
-  /* hover=focus: a smaller zoom than now, the others step back slightly */
-  .seasons[data-hover=focus][data-season] .s-card.active{transform:scale(1.03)!important}
-  .seasons[data-hover=focus][data-season] .s-card:not(.active){opacity:.6;transform:scale(.985)!important}
-}
 
 /* variant switcher (only with ?lab) */
 .lab{position:fixed;left:12px;bottom:12px;z-index:90;display:grid;gap:8px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.96);box-shadow:0 10px 30px rgba(0,0,0,.18);font-size:12px;font-weight:600;max-width:calc(100vw - 24px)}
