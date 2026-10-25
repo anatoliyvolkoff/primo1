@@ -205,6 +205,7 @@
     PM.root.classList.remove('lock');
     [$('.topbar'), $('#top'), $('.footer')].forEach(n => { if (n) n.inert = false; });
     qvReturn?.focus({ preventScroll: true });
+    document.dispatchEvent(new CustomEvent('pm:qvclose'));
   }
   // the link to the full page follows the colour picked in the panel
   document.addEventListener('pm:pick', e => {
