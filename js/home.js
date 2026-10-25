@@ -262,8 +262,9 @@
     const card = e.target.closest('.s-card'); if (!card) return;
     const i = +card.dataset.i;
     if (!desktopMQ.matches && i !== sState.active) { e.preventDefault(); sGoTo(i); return; }   // phones: the first tap brings a side card to the centre
-    if (e.target.closest('.s-photo')) { e.preventDefault(); openSeason(i); return; }        // the photo opens the product pop-up
-    sGoTo(i);                                                                                // desktop: a click keeps this season after the pointer leaves
+    // the photo opens the product pop-up; on desktop any click on the card outside the shades does too
+    if (e.target.closest('.s-photo') || (desktopMQ.matches && !e.target.closest('.sw, [data-more]'))) { e.preventDefault(); openSeason(i); return; }
+    if (!desktopMQ.matches) sGoTo(i);
     const more = e.target.closest('[data-more]');
     if (more) {
       sState.expanded[i] = true; $('.s-sw', card).innerHTML = swRow(i);
@@ -279,13 +280,14 @@
     sState.pinned = i; setActive(i);
     PM.quickView(SEASONS[i].kit, SEASONS[i].shades[sState.sel[i]][0].id);
   }
+  // desktop: the season's horizon shows only while its pop-up is open, and fades away when the pop-up closes
+  document.addEventListener('pm:qvclose', () => { if (desktopMQ.matches && sState.pinned >= 0) { sState.pinned = -1; setActive(-1); } });
   cta.addEventListener('click', e => { if (sState.active >= 0) { e.preventDefault(); openSeason(sState.active); } });
   track.addEventListener('keydown', e => {
     const step = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
     if (step && e.target === track) { e.preventDefault(); sGoTo((sState.active < 0 ? 0 : sState.active) + step); }
   });
-  // desktop: the four cards sit side by side; the frame starts neutral (design state 1), hovering or focusing a card previews
-  // its season, and leaving the cards goes back to the clicked season, or to neutral if none was clicked
+  // desktop: the four cards sit side by side on a neutral frame (design state 1); hovering only lifts and frames a card
   if (desktopMQ.matches) sec.dataset.idle = 'false';
   desktopMQ.addEventListener('change', () => {
     if (desktopMQ.matches) { sec.dataset.idle = 'false'; sCards.forEach(c => c.style.removeProperty('--t')); setActive(sState.pinned); return; }
