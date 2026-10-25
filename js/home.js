@@ -144,6 +144,7 @@
   SEASONS.forEach(s => { s.shades = PM.CATALOG.KITS[s.kit].shades.slice(0, 8).map(q => [q, PM.CATALOG.label(q)]); });
   // active: the season shown now (hover preview on desktop); pinned: the one picked with a click / tap / key (-1 = neutral)
   const sState = { active: -1, pinned: -1, sel: SEASONS.map(() => 0), expanded: SEASONS.map(() => false) };
+  const SCROLL_TL = window.CSS && CSS.supports('animation-timeline: view()');
   const sec = $('#seasons'), track = $('#track'), dotsEl = $('#dots'), bg = $('#bg'), cta = $('#cta');
   const kitHref = i => `prodotto.html?kit=${SEASONS[i].kit}&shade=${SEASONS[i].shades[sState.sel[i]][0].id}`;
 
@@ -253,12 +254,11 @@
       raf = 0;
       const mid = track.scrollLeft + track.clientWidth / 2;
       const pitch = sCards[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || 17);
-      let best = 0, bestD = Infinity;
-      sCards.forEach((c, k) => {
-        const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
-        if (d < bestD) { bestD = d; best = k; }
-        c.style.setProperty('--t', sec.dataset.idle === 'true' ? 0 : Math.min(1, d / pitch).toFixed(3));
-      });
+      const ds = sCards.map(c => Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid));   // read everything first, then write
+      let best = 0;
+      ds.forEach((d, k) => { if (d < ds[best]) best = k; });
+      // where the browser has scroll-driven animations the card scale runs in CSS (home.css s-focus), off the main thread
+      if (!SCROLL_TL) sCards.forEach((c, k) => c.style.setProperty('--t', Math.min(1, ds[k] / pitch).toFixed(3)));
       if (sec.dataset.idle !== 'true' && sNav < 0) {
         sState.pinned = best;
         sBest = best; sCommit();                                        // the season changes once the swipe settles, not halfway through it
@@ -267,6 +267,18 @@
   }
   let sBest = 0;
   const sCommit = settle(() => { if (sNav < 0 && sec.dataset.idle !== 'true') setActive(sBest); }, 120);
+  // switch the season as soon as the finger lifts and the landing card is known, not after the snap has finished;
+  // while the finger is down only remember the target, so a hesitant drag doesn't flip seasons back and forth
+  let sTouching = false, sTarget = -1;
+  const sLand = () => { if (sTarget >= 0 && sNav < 0 && !desktopMQ.matches) { sState.pinned = sBest = sTarget; setActive(sTarget); } };
+  track.addEventListener('scrollsnapchanging', e => {
+    const i = sCards.indexOf(e.snapTargetInline);
+    if (desktopMQ.matches || sNav >= 0 || i < 0) return;
+    sTarget = i; if (!sTouching) sLand();
+  });
+  track.addEventListener('touchstart', () => { sTouching = true; }, { passive: true });
+  ['touchend', 'touchcancel'].forEach(ev => track.addEventListener(ev, () => { sTouching = false; sLand(); }, { passive: true }));
+  track.addEventListener('scrollend', () => { if (!desktopMQ.matches && sNav < 0) setActive(sBest); });
   track.addEventListener('scroll', () => { if (sNav >= 0) sUnlock(); onSScroll(); }, { passive: true });
   addEventListener('resize', onSScroll);
 
@@ -282,18 +294,18 @@
     sState.pinned = i;
     if (desktopMQ.matches) { setActive(i); return; }
     leaveIdle();
+    const far = Math.abs(i - sState.active) > 1;
     sNav = i; setActive(i); sUnlock();
+    // a jump of more than one card doesn't race the cards past: the row fades out, moves, and fades back in
+    if (animate && far && !reduceMotion) {
+      track.style.transition = 'opacity .2s cubic-bezier(.4,0,.2,1)'; track.style.opacity = '0';
+      setTimeout(() => { track.scrollTo({ left: centerLeft(i), behavior: 'auto' }); track.style.opacity = ''; }, 200);
+      return;
+    }
     track.scrollTo({ left: centerLeft(i), behavior: animate && !reduceMotion ? 'smooth' : 'auto' });
   }
-  // idle frame: first card sits at the left margin, nothing selected. Settles on "autumn" when the carousel is first seen (phones).
-  track.classList.add('free');
-  const placeIdle = () => { if (sec.dataset.idle === 'true' && !desktopMQ.matches) { track.scrollLeft = centerLeft(0) + ((track.clientWidth - sCards[0].offsetWidth) / 2 - 24); onSScroll(); } };
-  placeIdle(); addEventListener('load', placeIdle);
-  if (calm() && !desktopMQ.matches) sGoTo(0, false);   // quiet / gentle: start settled on autumn, no intro slide
-  new IntersectionObserver((ents, ob) => {
-    if (desktopMQ.matches) return;
-    if (ents.some(e => e.isIntersecting)) { ob.disconnect(); if (sec.dataset.idle === 'true') introTimer = setTimeout(() => sGoTo(0), 900); }
-  }, { threshold: .5 }).observe($('.s-carousel'));
+  // phones start settled on autumn, centred, with no intro slide (the old intro jumped and popped the side cards)
+  if (!desktopMQ.matches) sGoTo(0, false);
   ['pointerdown', 'wheel', 'keydown', 'touchstart'].forEach(ev => track.addEventListener(ev, () => { if (!desktopMQ.matches) { leaveIdle(); sNav = -1; } }, { passive: true }));
 
   dotsEl.addEventListener('click', e => { const d = e.target.closest('.s-dot'); if (d) sGoTo(+d.dataset.i); });
@@ -328,7 +340,7 @@
   if (desktopMQ.matches) sec.dataset.idle = 'false';
   desktopMQ.addEventListener('change', () => {
     if (desktopMQ.matches) { sec.dataset.idle = 'false'; sCards.forEach(c => c.style.removeProperty('--t')); setActive(sState.pinned); return; }
-    if (sec.dataset.idle === 'true') placeIdle(); else sGoTo(sState.pinned < 0 ? 0 : sState.pinned, false);
+    sGoTo(sState.pinned < 0 ? 0 : sState.pinned, false);
   });
   // the preview waits until the pointer rests on a card, so sweeping across the row doesn't flash every season
   let hoverT;
@@ -337,7 +349,7 @@
   sCards.forEach((c, i) => {
     // hover=quiet: hovering previews nothing; the season changes only on a click
     // calm hovers: the season shows only after the pointer has rested on the card a little longer
-    c.addEventListener('mouseenter', () => { if (desktopMQ.matches && sec.dataset.hover !== 'quiet') later(() => setActive(i), calm() ? 280 : 180); });
+    c.addEventListener('mouseenter', () => { if (desktopMQ.matches && sec.dataset.hover !== 'quiet') later(() => setActive(i), 280); });
     c.addEventListener('focusin', () => { clearTimeout(hoverT); if (desktopMQ.matches && sec.dataset.hover !== 'quiet') setActive(i); });
   });
   track.addEventListener('mouseleave', () => later(restore, calm() ? 450 : 320));
