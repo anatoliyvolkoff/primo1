@@ -2,7 +2,6 @@
 (() => {
   'use strict';
   const { $, $$, reduceMotion, desktopMQ, smooth, buzz, settle, MOODS, toast, attachProgress, fillRail } = window.PM;
-  const rnd = (a, b) => a + Math.random() * (b - a);
 
   // ---------- hero ----------
   const SLIDES = [
@@ -162,49 +161,14 @@
   });
   const sCards = [...track.children], sDots = [...dotsEl.children];
 
-  const leaf = c => `<svg viewBox="0 0 24 24"><path d="M12 1C7 6 3 11 6 16c1.6 2.6 4 3.6 5.2 4.6L11 23h2l-.2-2.4c1.4-1 3.8-2 5.2-4.6 3-5-1-10-6-15Z" fill="${c}"/><path d="M12 5v17" stroke="rgba(90,40,10,.35)" stroke-width=".8"/></svg>`;
-  const kinds = {
-    autumn: () => ({ cls: '', size: rnd(18, 34), html: leaf(['#e8850f', '#d9542a', '#b8741f', '#cf9a30', '#e8a13b'][Math.random() * 5 | 0]), o: rnd(.5, .85) }),
-    winter: () => ({ cls: 'flake', size: rnd(4, 10), html: '', o: rnd(.6, 1) }),
-    spring: () => ({ cls: 'petal', size: rnd(9, 15), html: '', o: rnd(.55, .85) }),
-    summer: () => ({ cls: 'bubble rise', size: rnd(8, 24), html: '', o: rnd(.5, .85) }),
-  };
   SEASONS.forEach(s => {
     const layer = document.createElement('div');
     layer.className = 'bg-layer'; layer.dataset.season = s.id; layer.style.setProperty('--c', s.color);
-    let p = '';
-    if (!reduceMotion) for (let i = 0; i < (s.id === 'autumn' ? 14 : 10); i++) {
-      const k = kinds[s.id](), dur = rnd(10, 18);
-      p += `<i class="p ${k.cls}" style="--x:${rnd(-2, 98).toFixed(1)}%;--s:${k.size.toFixed(1)}px;--dur:${dur.toFixed(1)}s;--delay:${(-rnd(0, dur)).toFixed(1)}s;--sway:${rnd(-70, 70).toFixed(0)}px;--r0:${rnd(-40, 40) | 0}deg;--r1:${rnd(120, 420) | 0}deg;--o:${k.o.toFixed(2)}">${k.html}</i>`;
-    }
-    layer.innerHTML = `<div class="panel"></div><div class="particles">${p}</div>`;
+    layer.innerHTML = '<div class="panel"></div>';
     bg.appendChild(layer);
   });
   const layers = [...bg.children];
-  bg.insertAdjacentHTML('beforeend', '<div class="aura"></div>');
 
-  // variants to compare: ?bg=paint|wash|horizon|band|glow|clouds (none = the current illustration) and ?hover=lift|ring|photo|focus (lift by default); ?lab shows a switcher
-  const VARIANTS = { bg: ['now', 'paint', 'wash', 'horizon', 'band', 'glow', 'clouds'], hover: ['lift', 'ring', 'photo', 'focus'] };
-  const LABEL = { now: 'сейчас', paint: '1 · картина', wash: '2 · дымка', horizon: '3 · горизонт', band: '4 · полоса', glow: '5 · свечение', clouds: '6 · облака',
-    lift: '1 · подъём', ring: '2 · рамка', photo: '3 · фото', focus: '4 · фокус' };
-  const qs = new URLSearchParams(location.search);
-  const setVariant = (k, v) => { if (v && v !== 'now' && VARIANTS[k].includes(v)) sec.dataset[k] = v; else delete sec.dataset[k]; };
-  setVariant('bg', qs.get('bg')); setVariant('hover', qs.get('hover'));
-  if (qs.has('lab') || qs.has('bg') || qs.has('hover')) {
-    const lab = document.createElement('div');
-    lab.className = 'lab'; lab.setAttribute('aria-label', 'Seasons motion variants');
-    const row = k => `<p><b>${{ bg: 'фон', hover: 'ховер' }[k]}</b>${VARIANTS[k].map(v => `<button type="button" data-k="${k}" data-v="${v}" aria-pressed="${(sec.dataset[k] || VARIANTS[k][0]) === v}">${LABEL[v] || v}</button>`).join('')}</p>`;
-    lab.innerHTML = row('bg') + row('hover');
-    lab.addEventListener('click', e => {
-      const b = e.target.closest('button'); if (!b) return;
-      setVariant(b.dataset.k, b.dataset.v);
-      $$(`button[data-k="${b.dataset.k}"]`, lab).forEach(x => x.setAttribute('aria-pressed', x === b));
-      const u = new URL(location.href); u.searchParams.set(b.dataset.k, b.dataset.v); history.replaceState(null, '', u);
-    });
-    document.body.appendChild(lab);
-  }
-  const auraX = c => { const r = c.getBoundingClientRect(), b = bg.getBoundingClientRect(); return ((r.left + r.width / 2 - b.left) / b.width * 100).toFixed(1); };
-  const rgba = (hex, a) => `rgba(${hex.slice(1).match(/../g).map(h => parseInt(h, 16)).join(',')},${a})`;
 
   // i = -1 brings back the neutral frame (desktop only)
   function setActive(i) {
@@ -213,10 +177,8 @@
     sCards.forEach((c, k) => c.classList.toggle('active', k === i));
     sDots.forEach((d, k) => d.setAttribute('aria-selected', k === i));
     layers.forEach((l, k) => l.classList.toggle('on', k === i));
-    if (i < 0) { delete sec.dataset.season; sec.style.setProperty('--ac', rgba(sec.style.getPropertyValue('--accent') || '#ffffff', 0)); return; }
+    if (i < 0) { delete sec.dataset.season; return; }
     const s = SEASONS[i];
-    sec.style.setProperty('--ac', rgba(s.color, .4));
-    sec.style.setProperty('--ax', desktopMQ.matches ? `${auraX(sCards[i])}%` : '50%');
     sec.style.setProperty('--accent', s.color); sec.style.setProperty('--cta-bg', s.cta);
     sec.dataset.season = s.id;
     cta.href = kitHref(i);
