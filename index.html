@@ -16,7 +16,7 @@
 <link rel="preload" href="fonts/montserrat-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css?v=febed664">
 <link rel="stylesheet" href="css/search.css?v=b89386fe">
-<link rel="stylesheet" href="css/home.css?v=14963dd8">
+<link rel="stylesheet" href="css/home.css?v=9385f9fc">
 <link rel="stylesheet" href="css/product.css?v=d291bc78">
 </head>
 <body class="home">
@@ -149,10 +149,24 @@
 
     <!-- ===== Community ===== -->
     <section class="community" id="community">
-      <p class="kicker m-only">Primo Community</p>
-      <h2 class="h2 left-lg">Amato dai Professionisti, Scelto dai Migliori Saloni.</h2>
-      <p class="sub d-only">I prodotti preferiti dai nostri professionisti.</p>
-      <div class="t-track" id="t-track"></div>
+      <div class="cm-top">
+        <div>
+          <p class="cm-eyebrow">PriMo Community</p>
+          <h2 class="h2">Amato dai Professionisti, Scelto dai Migliori Saloni.</h2>
+          <p class="sub">I prodotti preferiti dai nostri professionisti.</p>
+          <div class="cm-score"><b>4,9</b><div class="stars" role="img" aria-label="5 stelle su 5"></div><p><strong>Eccellente</strong>1 248 recensioni</p></div>
+        </div>
+        <div class="cm-spot" role="region" aria-roledescription="carosello" aria-label="Recensione in evidenza">
+          <div class="cm-q" id="cm-q" aria-live="off"><span class="cm-mark" aria-hidden="true">“</span></div>
+          <div class="cm-ctl">
+            <div class="cm-dots" id="cm-dots"></div>
+            <button class="cm-arrow" type="button" id="cm-prev" aria-label="Recensione precedente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+            <button class="cm-arrow" type="button" id="cm-next" aria-label="Recensione successiva"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+          </div>
+        </div>
+      </div>
+      <div class="cm-wall" id="cm-wall" data-animated></div>
+      <p class="cm-hint">Tocca una recensione per leggerla in grande</p>
     </section>
 
     <div class="marquee d-only" data-kind="free" aria-hidden="true"></div>
@@ -276,6 +290,6 @@
 <script src="js/site.js?v=81c8ed33"></script>
 <script src="js/search.js?v=bdfd2a0e"></script>
 <script src="js/product.js?v=2b19cb85"></script>
-<script src="js/home.js?v=754ee30c"></script>
+<script src="js/home.js?v=b0a773c0"></script>
 </body>
 </html>
