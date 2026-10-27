@@ -294,38 +294,66 @@
     sGoTo(sState.pinned < 0 ? 0 : sState.pinned, false);
   });
 
-  // ---------- testimonials ----------
-  const t = $('#t-track');
-  const star = '<svg viewBox="0 0 24 24"><path d="m12 2.5 2.900 6.100 6.600.900-4.800 4.600 1.200 6.600L12 17.500l-5.900 3.200 1.200-6.600L2.500 9.500l6.600-.9Z"/></svg>';
-  const QUOTES = [
-    '“Uso PriMo Nails da anni nel mio salone. I clienti sono sempre soddisfatti della durata e della brillantezza.”',
-    '“La collezione stagionale è fantastica. Colori sempre alla moda e formulazioni impeccabili.”“Uso PriMo Nails da anni nel mio salone. I clienti sono sempre soddisfatti della durata e della brillantezza.”',
-    '“Uso PriMo Nails da anni nel mio salone. I clienti sono sempre soddisfatti della durata e della brillantezza.”',
-    '“La collezione stagionale è fantastica. Colori sempre alla moda e formulazioni impeccabili.“Uso PriMo Nails da anni nel mio salone. I clienti sono sempre soddisfatti della durata e della brillantezza.”“Uso PriMo Nails da anni nel mio salone. I clienti sono sempre soddisfatti della durata e della brillantezza.””',
-    '“La collezione stagionale è fantastica. Colori sempre alla moda e formulazioni impeccabili.”',
+  // ---------- testimonials: a big rotating quote, fed by a scrolling wall of review cards ----------
+  const star = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2.5 2.9 6.1 6.6.9-4.8 4.6 1.2 6.6L12 17.5l-5.9 3.2 1.2-6.6L2.5 9.5l6.6-.9Z"/></svg>';
+  const stars = star.repeat(5);
+  const REVIEWS = [
+    { n: 'Giulia R.', r: 'Nail Artist · Milano', q: 'Uso PriMo Nails da tre anni nel mio salone. La tenuta arriva a quattro settimane, senza sollevamenti.' },
+    { n: 'Chiara M.', r: 'Titolare, Beauty Lab · Torino', q: 'La collezione stagionale è sempre un passo avanti. Le clienti mi chiedono i colori per nome.' },
+    { n: 'Elena B.', r: 'Onicotecnica · Roma', q: 'Si autolivella e copre in due passate. Risparmio dieci minuti a cliente, ogni giorno.' },
+    { n: 'Federica L.', r: 'Formatrice · Bologna', q: 'Insegno con questi prodotti perché si comportano sempre allo stesso modo. Per una studentessa è tutto.' },
+    { n: 'Sara T.', r: 'Nail Artist · Napoli', q: 'Formula TPO e HEMA free: le clienti più sensibili finalmente non hanno più reazioni.' },
+    { n: 'Martina D.', r: 'Unghie & Co. · Firenze', q: "Spedizione veloce e un'assistenza che risponde davvero. Ordino ogni due settimane." },
   ];
-  // phones show the three cards of the mobile design; desktop shows five, with the middle one highlighted
-  t.innerHTML = QUOTES.map((q, i) => `<article class="tcard${i === 0 ? ' active' : ''}${i === 3 || i === 4 ? ' d-only' : ''}">
-    <p class="t-name">Maria S.</p><p class="t-role">Nail Artist</p>
-    <div class="stars" role="img" aria-label="5 stelle su 5">${star.repeat(5)}</div>
-    <p class="t-quote"><span class="m-only">${QUOTES[0]}</span><span class="d-only">${q}</span></p></article>`).join('');
-  const tCards = [...t.children];
-  attachProgress(t);
-  function tActive() {
-    if (desktopMQ.matches) {                                        // card closest to the centre is highlighted
-      const mid = t.scrollLeft + t.clientWidth / 2; let best = 0, bd = Infinity;
-      tCards.forEach((c, i) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = i; } });
-      tCards.forEach((c, i) => { c.classList.toggle('active', i === best); c.classList.toggle('far', Math.abs(i - best) > 1); });
-      return;
-    }
-    const atEnd = t.scrollLeft + t.clientWidth >= t.scrollWidth - 4;        // the last card can never reach the left edge
-    let best = atEnd ? tCards.filter(c => getComputedStyle(c).display !== 'none').length - 1 : 0, bd = Infinity;
-    if (!atEnd) tCards.forEach((c, i) => { const d = Math.abs(c.offsetLeft - 24 - t.scrollLeft); if (d < bd) { bd = d; best = i; } });
-    tCards.forEach((c, i) => { c.classList.toggle('active', i === best); c.classList.remove('far'); });
+  const cm = $('#community'), cmQ = $('#cm-q'), cmDots = $('#cm-dots'), cmWall = $('#cm-wall'), CM_T = 6000;
+  const initials = n => n.replace('.', '').split(' ').map(w => w[0]).join('');
+  const cmWho = x => `<span class="cm-who"><span class="cm-av" aria-hidden="true">${initials(x.n)}</span><span><span class="cm-n">${x.n}</span><span class="cm-r">${x.r}</span></span></span>`;
+  $('.cm-score .stars', cm).innerHTML = stars;
+  cmQ.insertAdjacentHTML('beforeend', REVIEWS.map((x, i) => `<figure class="cm-slide${i ? '' : ' on'}"${i ? ' aria-hidden="true"' : ''}><blockquote>${x.q}</blockquote>
+    <div class="stars" role="img" aria-label="5 stelle su 5">${stars}</div><figcaption>${cmWho(x)}</figcaption></figure>`).join(''));
+  cmDots.innerHTML = REVIEWS.map((x, i) => `<button type="button" aria-label="Recensione ${i + 1} di ${REVIEWS.length}"><i></i></button>`).join('');
+  // each row is doubled so the loop is seamless; the copies are hidden from assistive tech and the tab order
+  const cmCard = (k, copy) => `<button type="button" class="cm-card" data-k="${k}"${copy ? ' aria-hidden="true" tabindex="-1"' : ` aria-label="Leggi la recensione di ${REVIEWS[k].n}"`}>
+    <span class="stars">${stars}</span><span class="cm-t">“${REVIEWS[k].q}”</span>${cmWho(REVIEWS[k])}</button>`;
+  cmWall.innerHTML = [[0, 1, 2, 3, 4, 5], [3, 4, 5, 0, 1, 2]].map((o, r) =>
+    `<div class="cm-row${r ? ' rev' : ''}" style="--d:${r ? 80 : 70}s">${o.map(k => cmCard(k)).join('')}${o.map(k => cmCard(k, 1)).join('')}</div>`).join('');
+  const cmSlides = $$('.cm-slide', cmQ), cmDot = [...cmDots.children], cmCards = $$('.cm-card', cmWall);
+  let cmI = 0, cmTimer, cmLeft = CM_T, cmStart = 0;
+  const cmRun = () => { clearTimeout(cmTimer); if (reduceMotion || cm.classList.contains('paused')) return; cmStart = Date.now(); cmTimer = setTimeout(() => cmShow(cmI + 1), cmLeft); };
+  function cmShow(k, user) {
+    cmI = (k + REVIEWS.length) % REVIEWS.length;
+    if (user) cmQ.setAttribute('aria-live', 'polite');                 // announce only changes the visitor asked for
+    cmSlides.forEach((s, j) => { s.classList.toggle('on', j === cmI); s.setAttribute('aria-hidden', j !== cmI); });
+    cmDot.forEach((d, j) => { d.setAttribute('aria-current', j === cmI); const f = d.firstChild; f.style.animation = 'none'; void f.offsetWidth; f.style.animation = ''; });
+    cmCards.forEach(c => c.classList.toggle('cur', +c.dataset.k === cmI));
+    cmDots.style.setProperty('--t', CM_T + 'ms'); cmLeft = CM_T; cmRun();
   }
-  t.addEventListener('scroll', tActive, { passive: true });
-  const tCenter = () => { if (desktopMQ.matches) { const c = tCards[2]; t.scrollLeft = c.offsetLeft + c.offsetWidth / 2 - t.clientWidth / 2; } else t.scrollLeft = 0; tActive(); };
-  desktopMQ.addEventListener('change', tCenter); addEventListener('load', tCenter); tCenter();
+  const cmPause = () => { if (cm.classList.contains('paused')) return; cm.classList.add('paused'); clearTimeout(cmTimer); cmLeft -= Date.now() - cmStart; };
+  const cmResume = () => { if (reduceMotion || !cm.classList.contains('paused')) return; cm.classList.remove('paused'); cmRun(); };
+  // hovering or focusing the quote pauses it; hovering the wall only pauses the wall
+  const cmTop = $('.cm-top', cm);
+  cmTop.addEventListener('mouseenter', cmPause); cmTop.addEventListener('mouseleave', cmResume);
+  cmTop.addEventListener('focusin', cmPause); cmTop.addEventListener('focusout', cmResume);
+  cmDot.forEach((d, j) => d.addEventListener('click', () => cmShow(j, true)));
+  $('#cm-prev').addEventListener('click', () => cmShow(cmI - 1, true));
+  $('#cm-next').addEventListener('click', () => cmShow(cmI + 1, true));
+  cmWall.addEventListener('click', e => {
+    const c = e.target.closest('.cm-card'); if (!c) return;
+    buzz(8); cmShow(+c.dataset.k, true);
+    const r = cmQ.getBoundingClientRect();
+    if (r.top < 70 || r.bottom > innerHeight) cmQ.scrollIntoView({ behavior: smooth(), block: 'center' });
+  });
+  let cmX = null;
+  cmQ.addEventListener('touchstart', e => { cmX = e.touches[0].clientX; cmPause(); }, { passive: true });
+  cmQ.addEventListener('touchend', e => {
+    if (cmX == null) return;
+    const dx = e.changedTouches[0].clientX - cmX; cmX = null; cm.classList.remove('paused');
+    if (Math.abs(dx) > 40) cmShow(cmI + (dx < 0 ? 1 : -1), true); else cmRun();
+  });
+  // the spotlight only runs while the section is on screen
+  new IntersectionObserver(([e]) => (e.isIntersecting ? cmResume() : cmPause())).observe(cm);
+  if (reduceMotion) cm.classList.add('paused');
+  cmShow(0);
 
   // ---------- founder ----------
   const more = $('#f-more'), bio = $('#f-bio');
