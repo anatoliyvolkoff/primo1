@@ -1,0 +1,112 @@
+{
+  "hero": {
+    "title": "L'Eleganza nelle Tue Mani",
+    "subtitle": "Scopri la collezione di gel polish professionali PriMo Nails.",
+    "cta": "Scopri la Collezione",
+    "secondaryCta": "Learn More",
+    "badge": "New Collection 2024",
+    "images": [
+      "/banner.png",
+      "/banner2.png",
+      "/banner3.gif",
+      "/banner4.png",
+      "/banner6.png"
+    ],
+    "layout": {
+      "paddingTop": "96",
+      "paddingBottom": "0",
+      "textAlign": "left",
+      "imageHeight": "80",
+      "imageObjectFit": "cover",
+      "contentMaxWidth": "896"
+    }
+  },
+  "explore": {
+    "bestSellers": {
+      "title": "ESPLORA",
+      "subtitle": "I prodotti preferiti dai nostri professionisti.",
+      "layout": {
+        "paddingTop": "128",
+        "paddingBottom": "128",
+        "gap": "32"
+      }
+    },
+    "newArrivals": {
+      "title": "Nuovi Arrivi",
+      "subtitle": "Scopri le ultime novità della collezione PriMo Nails.",
+      "layout": {
+        "paddingTop": "128",
+        "paddingBottom": "128",
+        "gap": "32"
+      }
+    }
+  },
+  "about": {
+    "title": "La Nostra Storia: La Maestria di Irina Primo",
+    "subtitle": "Passione, Innovazione, Eccellenza.",
+    "description": "PriMo Nails non è solo un brand, è l'eredità di Irina Primo, Master Educator con oltre 15 anni di esperienza internazionale nel settore Nails. Ogni prodotto e ogni metodo d'insegnamento nasce dalla sua ricerca incessante della perfezione tecnica. Crediamo che la vera arte nasca dalla fusione tra strumenti d'élite e una competenza senza compromessi: una visione che Irina trasmette personalmente in ogni percorso della nostra Academy, elevando lo standard di ogni professionista.",
+    "cta": "Scopri la Filosofia",
+    "image": "/irina_primo.png",
+    "layout": {
+      "paddingTop": "192",
+      "paddingBottom": "192",
+      "imageSize": "100",
+      "imageBorderRadius": "100"
+    }
+  },
+  "courses": {
+    "title": "Eleva la Tua Arte",
+    "subtitle": "Percorsi formativi d'eccellenza per professionisti del settore.",
+    "description": "La PriMo Academy offre corsi intensivi progettati per trasformare la tua passione in una carriera di successo. Dalle basi alle tecniche più avanzate, i nostri Master ti guideranno passo dopo passo.",
+    "layout": {
+      "paddingTop": "128",
+      "paddingBottom": "128",
+      "borderRadius": "48"
+    }
+  },
+  "footer": {
+    "newsletterTitle": "Rimani Aggiornata",
+    "newsletterSubtitle": "Iscriviti per ricevere novità, anteprime e consigli esclusivi sul mondo PriMo Nails.",
+    "copyright": "© 2026 PriMo Nails. Tutti i diritti riservati.",
+    "layout": {
+      "paddingTop": "96",
+      "paddingBottom": "48"
+    }
+  },
+  "gallery": {
+    "title": "Gallery",
+    "subtitle": "Ispirazioni e creazioni realizzate con i nostri prodotti.",
+    "images": [
+      "/placeholder-product.svg",
+      "/placeholder-product.svg",
+      "/placeholder-product.svg",
+      "/placeholder-product.svg",
+      "/placeholder-product.svg",
+      "/placeholder-product.svg"
+    ],
+    "layout": {
+      "paddingTop": "128",
+      "paddingBottom": "128",
+      "gridGap": "32",
+      "borderRadius": "32"
+    }
+  },
+  "seasons": {
+    "WINTER": {
+      "mainImage": "/collections/le-stagioni/winter.png",
+      "gallery": []
+    },
+    "AUTUMN": {
+      "mainImage": "/collections/le-stagioni/autumn.png",
+      "gallery": []
+    },
+    "SPRING": {
+      "mainImage": "/collections/le-stagioni/spring.png",
+      "gallery": []
+    },
+    "SUMMER": {
+      "mainImage": "/collections/le-stagioni/summer.png",
+      "gallery": []
+    }
+  }
+}

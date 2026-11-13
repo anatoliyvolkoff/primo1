@@ -1,0 +1,13 @@
+.abc-lb{position:fixed;inset:0;z-index:1100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:56px 12px 24px;background:rgba(10,10,10,.92);animation:abc-lb-in .25s both}
+@keyframes abc-lb-in{from{opacity:0}}
+.abc-lb-img{max-width:min(1100px,100%);max-height:calc(100dvh - 150px);object-fit:contain;border-radius:14px;touch-action:pan-y}
+.abc-lb-cap{margin:0;color:#fff;font-family:var(--fi);font-size:14px;text-align:center}
+.abc-lb-cap small{display:block;margin-top:4px;color:#aaa;font-size:12px}
+.abc-lb-btn{position:absolute;display:grid;place-items:center;width:46px;height:46px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;cursor:pointer;transition:background .2s}
+.abc-lb-btn:hover{background:rgba(255,255,255,.28)}
+.abc-lb-btn svg{width:22px;height:22px;stroke-width:2}
+.abc-lb-close{top:12px;right:12px}
+.abc-lb-prev,.abc-lb-next{top:50%;margin-top:-23px}
+.abc-lb-prev{left:10px}.abc-lb-next{right:10px}
+@media (min-width:1024px){.abc-lb{padding:64px 96px 32px}.abc-lb-prev{left:28px}.abc-lb-next{right:28px}}
+.abc-lb svg{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}

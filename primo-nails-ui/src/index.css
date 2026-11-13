@@ -1,0 +1,584 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500&display=swap');
+@import "tailwindcss";
+
+/* Gotham — client-supplied licensed font (Standard family), the site-wide sans.
+   Weights: Light 300, Book 400, Medium 500, Bold 700, Black 900. Gotham has no
+   true SemiBold (600); Tailwind `font-semibold` falls back to the nearest shipped
+   weight (700 Bold). Normal styles only — `italic` is synthesized by the browser. */
+@font-face {
+  font-family: "Gotham";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/gotham/Gotham-Light.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Gotham";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/gotham/Gotham-Book.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Gotham";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/fonts/gotham/Gotham-Medium.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Gotham";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/gotham/Gotham-Bold.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Gotham";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("/fonts/gotham/Gotham-Black.woff2") format("woff2");
+}
+
+@theme {
+  --breakpoint-xs: 26rem; /* 416px — catches larger phones for finer control */
+
+  /* Primo1 redesign: Montserrat is the site-wide face (primo1 `--f`); Inter is
+     primo1's secondary body face (`--fi`), opted into per section via `font-inter`.
+     The Gotham @font-face rules above are kept but no longer referenced. */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-inter: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+
+  --color-brand-accent: hsl(var(--brand-accent));
+  --color-brand-accent-foreground: hsl(var(--brand-accent-foreground));
+
+  /* Gold / champagne accent (#E6BE8A) — recurring editorial highlight used on
+     course accents, rating stars, testimonial stars, and the founder eyebrow. */
+  --color-accent-gold: hsl(var(--accent-gold));
+
+  --color-badge-new: hsl(var(--badge-new));
+  --color-badge-new-foreground: hsl(var(--badge-new-foreground));
+  --color-badge-sale: hsl(var(--badge-sale));
+  --color-badge-sale-foreground: hsl(var(--badge-sale-foreground));
+  --color-badge-hit: hsl(var(--badge-hit));
+  --color-badge-hit-foreground: hsl(var(--badge-hit-foreground));
+
+  /* Distinct discounted-price red (#e00000) — slightly darker than the sale
+     badge (#fe3c3c). Kept as its own token so both reds stay independently tunable. */
+  --color-sale-price: hsl(var(--sale-price));
+
+  /* Redesign (2026) prototype tokens — see docs/redesign/gap/00-design-system.md.
+     Warm surfaces, free-ship progress/done colors, scroll-progress orange,
+     scrim, and the signature spring easing. Exposed for later-batch utilities. */
+  --color-warm: hsl(var(--warm));
+  --color-footer: hsl(var(--footer));
+  --color-orange: hsl(var(--orange));
+  --color-ship: hsl(var(--ship));
+  --color-green-bright: hsl(var(--green-bright));
+
+  /* Segmented pill tabs (track / hover) + product-card swatch / chip atoms. */
+  --color-tab-track: hsl(var(--tab-track));
+  --color-tab-hover: hsl(var(--tab-hover));
+  --color-swatch-border: hsl(var(--swatch-border));
+  --color-chip-border: hsl(var(--chip-border));
+  --color-chip-text: hsl(var(--chip-text));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --shadow-subtle: var(--shadow-subtle);
+  --shadow-card: var(--shadow-card);
+  --shadow-elevated: var(--shadow-elevated);
+
+  --radius: var(--radius);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-pill: var(--radius-pill);
+
+  /* 976px content grid (8 cols · 108px · 16px gutter — client-supplied). */
+  --grid-max: var(--grid-max);
+}
+
+:root {
+    /* Figma redesign palette (2026) — warm neutral base, black actions.
+       Every value is an `H S% L%` triplet (hex converted) so Tailwind's
+       `/opacity` modifiers keep working through the hsl() indirection. */
+    --background: 0 0% 100%;    /* Redesign: desktop page canvas is white #FFFFFF
+                                   (prototype). Warm #F9F6F3 is now footer-scoped (--footer). */
+    --foreground: 0 0% 15%;     /* Body text #262626 */
+
+    --card: 0 0% 100%;          /* Pure white #FFFFFF */
+    --card-foreground: 240 3% 12%; /* Near-black title #1D1D1F */
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 3% 12%;
+
+    --primary: 0 0% 0%;         /* Action color is pure black #000000 (pills/buttons) */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 95%;      /* Tab-track light grey #F2F2F2 */
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 0 0% 95%;          /* Light neutral fill */
+    --muted-foreground: 0 0% 54%; /* Prototype muted grey #8a8a8a. ⚠️ WCAG: #8a8a8a on
+                                     white is ~3.5:1 — below AA for small text. DECISIONS says
+                                     match the prototype exactly; revisit if a11y audit flags it. */
+
+    --accent: 0 0% 95%;         /* Subtle neutral accent */
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 99% 62%;    /* Sale/discount red #fe3c3c (prototype) */
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 100 22% 38%;      /* Muted brand green (#5A764C) — darkened for WCAG AA as small text (≥4.6:1 on #FFF and #F9F6F3) */
+    --success-foreground: 0 0% 98%;
+
+    --warning: 32 85% 50%;       /* Warm amber (#ED8A12) */
+    --warning-foreground: 0 0% 15%;
+
+    /* Primary accent — kept for legacy consumers; now the black action color. */
+    --brand-accent: 0 0% 0%;
+    --brand-accent-foreground: 0 0% 100%;
+
+    /* Gold / champagne editorial accent #E6BE8A. */
+    --accent-gold: 34 65% 72%;
+
+    /* Semantic badge tokens */
+    --badge-new: 135 59% 49%;        /* Apple-system green #34C759 */
+    --badge-new-foreground: 0 0% 100%;
+    --badge-sale: 0 99% 62%;         /* Sale-badge red #fe3c3c (prototype) */
+    --badge-sale-foreground: 0 0% 100%;
+    --badge-hit: 34 100% 50%;        /* Orange #ff9000 (prototype) */
+    --badge-hit-foreground: 0 0% 100%;
+
+    /* Discounted-price red #e00000 (prototype) — distinct from the sale badge. */
+    --sale-price: 0 100% 44%;
+
+    /* ── Redesign (2026) prototype tokens ── */
+    --warm: 40 20% 97%;          /* Warm section surface #f9f8f6 */
+    --footer: 30 33% 96%;        /* Footer warm tone #f9f6f3 (was aliased to --background) */
+    --orange: 34 100% 50%;       /* Scroll-progress / search chip trend icon #ff9000 */
+    --ship: 24 100% 54%;         /* Cart free-ship progress fill #ff7812 */
+    --green-bright: 127 100% 39%; /* "Free-ship unlocked" / marquee FREE #00c510 (distinct from --success/--badge-new) */
+    --scrim: 240 14% 7%;         /* Overlay backdrop base; use as hsl(var(--scrim)/0.4) → rgba(15,15,20,.4) */
+    --ease: cubic-bezier(.22, .8, .24, 1); /* Signature spring easing (prototype) */
+
+    /* Segmented pill tabs + product-card swatch/chip atoms. */
+    --tab-track: 0 0% 95%;       /* #F2F2F2 */
+    --tab-hover: 0 0% 85%;       /* #D9D9D9 */
+    --swatch-border: 0 0% 89%;   /* #E2E2E2 */
+    --chip-border: 0 0% 43%;     /* #6E6E6E */
+    --chip-text: 0 0% 39%;       /* #646464 */
+
+    --border: 24 8% 88%;        /* #E3E0DE */
+    --input: 24 8% 88%;
+    --ring: 0 0% 0%;
+
+    /* Soft, low-opacity shadow system (Figma). */
+    --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.06);
+    --shadow-card: 0 1px 6px rgba(0, 0, 0, 0.12);
+    --shadow-elevated: 0 9px 28px -9px rgba(0, 0, 0, 0.15);
+
+    /* Border radius system — cards 16/20px, full pill. */
+    --radius: 1rem;             /* 16px — default card radius */
+    --radius-lg: 1.25rem;       /* 20px — larger card radius */
+    --radius-xl: 2rem;          /* 32px for hero cards */
+    --radius-pill: 9999px;      /* Full pill shape */
+
+    /* 976px content grid (8 cols · 108px · 16px gutter). */
+    --grid-max: 976px;
+
+    /* Premium Motion System */
+    --motion-hover: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --motion-press: 140ms cubic-bezier(0.4, 0, 0.2, 1);
+    --motion-card: 250ms cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-reveal: 450ms cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-accordion: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --motion-carousel: 550ms cubic-bezier(0.22, 1, 0.36, 1);
+    
+    /* Lift values */
+    --lift-subtle: -1px;
+    --lift-card: -3px;
+    --lift-button: -2px;
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* CLIENT RULE: base headings use Gotham (--font-sans), NOT Montserrat.
+     Montserrat (--font-heading) is reserved for large display section titles and
+     is opted into ONLY via the SectionTitle primitive / the `.font-heading`
+     utility below. */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    letter-spacing: -0.02em;
+  }
+  button, input, select, textarea {
+    font-family: inherit;
+  }
+  /* Disable mobile text-autosizing / font-boosting. Without this, Chrome inflates
+     short text sitting in wide flex containers on narrow viewports (~3.5x),
+     independent of the specified font-size — e.g. the PDP mobile sticky
+     add-to-cart label rendered ~40px and clipped despite `text-[12px]`. */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
+
+/* Explicit opt-in to the Montserrat display face. Tailwind v4 also generates a
+   `font-heading` utility from the `--font-heading` theme token; this @layer
+   utilities rule guarantees it exists even where that generation is scoped out. */
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+}
+
+.btn-primary {
+  @apply bg-primary text-primary-foreground px-8 py-3 rounded-full font-medium text-sm tracking-wide shadow-sm;
+  transition: transform var(--motion-hover), box-shadow var(--motion-hover), background-color var(--motion-hover);
+}
+
+.btn-primary:hover {
+  @apply bg-foreground/90;
+  transform: translateY(var(--lift-button));
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card-premium {
+  @apply bg-card rounded-3xl overflow-hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform var(--motion-card), box-shadow var(--motion-card);
+}
+
+.card-premium:hover {
+  transform: translateY(var(--lift-card));
+  box-shadow: var(--shadow-elevated);
+}
+
+.section-spacing {
+  @apply py-16 sm:py-24 lg:py-32;
+}
+
+.container-premium {
+  width: 100%;
+  max-width: calc(1300px + 2rem); /* 1300px inner + 1rem padding per side */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-premium {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+@media (min-width: 1332px) { /* 1300 + 32px safety */
+  .container-premium {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 1300px; /* Exact 12-col * 79 + 11 gutters * 32px */
+  }
+}
+
+.color-swatch {
+  transition: transform var(--motion-hover), box-shadow var(--motion-hover);
+}
+
+.color-swatch:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* Tailwind v4 dropped the UA `cursor: pointer` on <button>, so every button,
+   swatch, dot, tab and role-based control across the app lost its hover cursor.
+   Restore it in the base layer (utilities like `cursor-default` still win) for
+   the interactive elements the browser doesn't already flag. Anchors (<a href>)
+   keep the UA pointer on their own. Disabled controls fall back to default. */
+@layer base {
+  button,
+  summary,
+  select,
+  [role="button"],
+  [role="tab"],
+  [role="radio"],
+  [role="option"],
+  [role="switch"],
+  [role="menuitem"] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"],
+  [disabled] {
+    cursor: default;
+  }
+}
+
+/* Global overflow cleanup */
+html {
+  overflow-x: hidden;
+}
+body {
+  overflow-x: clip; /* clip doesn't create a scroll container, so position:sticky still works */
+  position: relative;
+  width: 100%;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Overlay backdrop (scrim) fade-in — prototype `.scrim{animation:fadein .25s both}`. */
+@keyframes scrim-fade-in {
+  from { opacity: 0; }
+}
+
+/* Cart count badge "pop" on change (prototype `.cart-n` animation). */
+@keyframes pop {
+  from { transform: scale(0); }
+  to { transform: none; }
+}
+.animate-pop {
+  animation: pop 0.3s var(--ease);
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.animate-marquee {
+  display: inline-block;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-reveal {
+  animation: reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* ───────────────────────────────────────────────
+   Le Stagioni — per-season ambient particles
+   (autumn leaves / winter snow / spring petals / summer bubbles).
+   Decorative; not rendered at all under prefers-reduced-motion (handled in JS).
+   ─────────────────────────────────────────────── */
+@keyframes season-fall {
+  0%   { transform: translate3d(0, -48px, 0) rotate(var(--r0)) scale(var(--sp-scale)); opacity: 0; }
+  8%   { opacity: var(--o); }
+  90%  { opacity: var(--o); }
+  100% { transform: translate3d(var(--sway), var(--field-h), 0) rotate(var(--r1)) scale(var(--sp-scale)); opacity: 0; }
+}
+@keyframes season-rise {
+  0%   { transform: translate3d(0, var(--field-h), 0) rotate(var(--r0)) scale(var(--sp-scale)); opacity: 0; }
+  10%  { opacity: var(--o); }
+  85%  { opacity: var(--o); }
+  100% { transform: translate3d(var(--sway), -48px, 0) rotate(var(--r1)) scale(var(--sp-scale)); opacity: 0; }
+}
+@keyframes season-pop { from { transform: scale(0); } to { transform: none; } }
+
+/* Fade particles out near the top so they never collide with the headline. */
+.season-field {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 14%, #000 32%, #000 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, rgba(0,0,0,.35) 14%, #000 32%, #000 100%);
+}
+.season-particle {
+  position: absolute;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  will-change: transform, opacity;
+}
+.season-particle.is-falling { animation: season-fall var(--dur) linear var(--delay) infinite; }
+.season-particle.is-rising  { animation: season-rise var(--dur) linear var(--delay) infinite; }
+.season-field-paused .season-particle { animation-play-state: paused; }
+
+.sp-leaf   { border-radius: 0 60% 0 60%; background: linear-gradient(135deg, #e0892f, #a8451f); box-shadow: inset 0 0 2px rgba(0,0,0,.25); }
+.sp-petal  { border-radius: 50% 0 50% 50%; background: linear-gradient(135deg, #f8c7d8, #e98aa8); }
+.sp-flake  { width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 5px 1px rgba(255,255,255,.9); }
+.sp-bubble { border-radius: 50%; border: 1px solid rgba(255,255,255,.7); background: radial-gradient(circle at 35% 30%, rgba(255,255,255,.75), rgba(255,255,255,.12)); }
+
+.season-swatch-pop { animation: season-pop .35s cubic-bezier(.22,.8,.24,1) both; }
+
+/* Mobile carousel card — scroll-coupled fall-off: the focal (centred) card is
+   full size/opacity, neighbours shrink + fade. `--t` (0→1) is written per-frame
+   from JS (SeasonalCollections) so the fall-off tracks the scroll without
+   re-rendering React. */
+.season-card-m {
+  height: 370px;
+  transform: scale(calc(1 - 0.083 * var(--t, 0)));
+  opacity: calc(1 - 0.5 * var(--t, 0));
+  transition: border-color 0.4s ease, box-shadow 0.5s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .season-card-m { transform: none; opacity: 1; }
+}
+
+/* Editorial Typography */
+.text-editorial-title {
+  @apply text-[clamp(40px,8vw,96px)] font-extrabold leading-[0.95] tracking-tighter uppercase;
+  font-family: var(--font-heading);
+}
+
+.text-editorial-subtitle {
+  @apply text-[clamp(16px,2.5vw,20px)] font-medium tracking-wide leading-relaxed opacity-80;
+  font-family: var(--font-sans);
+}
+
+.text-editorial-label {
+  @apply text-[clamp(12px,1.5vw,14px)] font-bold tracking-[0.4em] uppercase opacity-60;
+  font-family: var(--font-heading);
+}
+
+/* Custom Premium Scrollbar - High Visibility */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 15px 0;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(29, 29, 31, 0.25); /* Increased default visibility */
+  border-radius: 30px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+  transition: all 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(29, 29, 31, 0.45);
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(29, 29, 31, 0.25) transparent;
+}
+
+/* ───────────────────────────────────────────────
+   Accessibility — Reduced motion respect
+   ─────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-marquee,
+  .animate-reveal,
+  .animate-float {
+    animation: none !important;
+  }
+
+  .animate-reveal {
+    opacity: 1;
+  }
+
+  /* Product card hover: a small 4px lift, kept smooth even with Reduce motion on
+     (deliberate exception; every other transition stays off). */
+  .pm-card-lift {
+    transition-duration: 400ms !important;
+  }
+}
+
+
+/* Primo1 visibility helpers (site.css): `!important` so they beat the scoped
+   primo1 section styles (e.g. `.pm-founder .stats span{display:block}`). */
+@media (max-width:1023.98px){.d-only{display:none!important}}
+@media (min-width:1024px){.m-only{display:none!important}}
+
+/* Course detail: the phone enrol bar sits at the bottom, so the back-to-top
+   button moves above it (primo1 `.course .totop`). */
+@media (max-width: 1023.98px) {
+  body.has-enrol-bar .scroll-to-top {
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+/* Product page: the phone buy bar (79px) is fixed at the bottom, so reserve
+   that space below the footer and lift the back-to-top button above it. */
+@media (max-width: 1023.98px) {
+  body:has([data-pdp-buybar]) {
+    padding-bottom: calc(79px + env(safe-area-inset-bottom, 0px));
+  }
+  body:has([data-pdp-buybar]) .scroll-to-top {
+    bottom: calc(91px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  /* Seasonal-kit pages: the season tabs sit in the bar too (+12px gap +42px). */
+  body:has([data-pdp-buybar][data-has-tabs]) {
+    padding-bottom: calc(133px + env(safe-area-inset-bottom, 0px));
+  }
+  body:has([data-pdp-buybar][data-has-tabs]) .scroll-to-top {
+    bottom: calc(145px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}

@@ -1,0 +1,92 @@
+/* The Seasons — ported from the primo1 prototype (css/home.css, "The Seasons – Mobile" + "Desktop - 11").
+   Everything is scoped under .pm-seasons so the short class names never leak into the rest of the site. */
+.pm-seasons{--ease:cubic-bezier(.4,0,.2,1);--dur:.45s;position:relative;isolation:isolate;overflow:hidden;padding:64px 0 44px;display:flex;flex-direction:column;align-items:center;font-family:var(--font-heading)}
+.pm-seasons .ps-bg{position:absolute;inset:0;z-index:-1;pointer-events:none}
+/* "horizon": white on top, the season colour rising softly from the bottom; the new season fades in over the old one */
+.pm-seasons .ps-layer{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity 0s .9s,visibility 0s .9s;
+  background:linear-gradient(180deg,#fff 0%,#fff 40%,color-mix(in srgb,var(--c) 9%,#fff) 70%,color-mix(in srgb,var(--c) 24%,#fff) 100%)}
+.pm-seasons .ps-layer.on{opacity:1;visibility:visible;z-index:1;transition:opacity .9s cubic-bezier(.25,.1,.25,1)}
+.pm-seasons:not([data-season]) .ps-layer{transition:opacity .9s cubic-bezier(.25,.1,.25,1),visibility 0s .9s}
+
+.pm-seasons .ps-head{text-align:center;padding:0 16px}
+.pm-seasons .ps-head h2{margin:0;font-size:36px;line-height:40px;font-weight:800;letter-spacing:-.01em;color:#1b1b1b}
+.pm-seasons .ps-head p{margin:10px 0 0;font-size:16px;font-weight:600;color:#5b5b60;letter-spacing:.01em}
+.pm-seasons .ps-carousel{width:100%;margin-top:44px}
+.pm-seasons .ps-track{--card-w:clamp(260px,80vw,340px);position:relative;display:flex;gap:17px;overflow-x:auto;overscroll-behavior-x:contain;padding:14px calc((100% - var(--card-w))/2) 34px;margin:-14px 0 -34px;
+  scroll-snap-type:x mandatory;scrollbar-width:none;outline:none}
+.pm-seasons .ps-track::-webkit-scrollbar{display:none}
+.pm-seasons .ps-card{flex:none;width:var(--card-w);height:calc(var(--card-w)*1.4231);scroll-snap-align:center;scroll-snap-stop:always;position:relative;background:#fff;border:2px solid #e6e6ea;border-radius:26px;cursor:pointer;
+  transform:scale(calc(1 - .083*var(--t,0)));opacity:calc(1 - .5*var(--t,0));display:flex;flex-direction:column;text-align:center}
+/* the active ring and shadow sit on a layer that only fades */
+.pm-seasons .ps-card::after{content:"";position:absolute;inset:-2px;border-radius:28px;border:2px solid var(--c);box-shadow:0 22px 40px -14px rgba(20,20,30,.22);opacity:0;transition:opacity var(--dur) var(--ease);pointer-events:none}
+.pm-seasons .ps-card.active::after{opacity:1}
+.pm-seasons .ps-card.active{cursor:default}
+.pm-seasons .ps-photo{position:relative;display:block;width:100%;height:calc(var(--card-w)*1.0654);padding:0;border:0;background:#fdfdfd;flex:none;overflow:hidden;border-radius:24px 24px 0 0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pm-seasons .ps-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 46%;display:block;-webkit-user-drag:none;user-select:none;transition:transform var(--dur) var(--ease)}
+.pm-seasons .ps-go{display:none}
+.pm-seasons .ps-badge{position:absolute;top:12px;left:12px;background:#d42a20;color:#fff;font-weight:800;font-size:11px;line-height:1;padding:7px 12px;border-radius:999px;letter-spacing:.02em}
+.pm-seasons .ps-meta{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;padding-bottom:4px}
+.pm-seasons .ps-meta h3{margin:0;font-size:19px;font-weight:700;line-height:1;color:#1b1b1b}
+.pm-seasons .ps-sw{display:flex;gap:8px;align-items:center}
+.pm-seasons .sw{position:relative;width:26px;height:26px;padding:0;border-radius:50%;border:2px solid transparent;background-color:var(--sw);background-size:cover;background-position:center;flex:none;box-shadow:0 0 0 .5px rgba(0,0,0,.14);cursor:pointer;transition:transform .25s var(--ease),border-color .25s var(--ease)}
+.pm-seasons .ps-shade{margin:0;min-height:18px;font-size:14.5px;line-height:18px;font-weight:600;color:#6f6f74;letter-spacing:.02em;transition:opacity var(--dur) var(--ease)}
+.pm-seasons .ps-shade.swap{animation:ps-shadein var(--dur) var(--ease)}
+@keyframes ps-shadein{from{opacity:0;transform:translateY(3px)}}
+.pm-seasons .sw.sel{border-color:#191919}
+.pm-seasons .sw:active{transform:scale(.88)}
+.pm-seasons .sw.pop{animation:ps-pop .35s var(--ease) both;animation-delay:calc(var(--i)*35ms)}
+@keyframes ps-pop{from{opacity:0;transform:scale(.4)}}
+.pm-seasons .more{position:relative;width:26px;height:26px;padding:0;border-radius:50%;border:2px solid #6f6f74;background:none;color:#55555a;font-size:11px;font-weight:800;line-height:1;display:grid;place-items:center;flex:none;pointer-events:none}
+.pm-seasons .ps-dots{position:relative;z-index:2;display:flex;margin-top:10px}
+.pm-seasons .ps-dot{width:36px;height:44px;border:0;background:none;padding:0;display:grid;place-items:center;cursor:pointer}
+.pm-seasons .ps-dot::before{content:"";width:10px;height:10px;border-radius:99px;background:#c4c4c9;transition:width var(--dur) var(--ease),background-color var(--dur) var(--ease)}
+.pm-seasons .ps-dot[aria-selected=true]::before{width:28px;background:var(--accent)}
+.pm-seasons .ps-cta{position:relative;z-index:2;margin-top:18px;height:52px;min-width:190px;padding:0 30px;border-radius:999px;border:2px solid #1b1b1b;background:var(--cta-bg,transparent);color:#1b1b1b;font-size:15.5px;font-weight:700;display:inline-grid;place-items:center;cursor:pointer;transition:background-color var(--dur) var(--ease),color .25s var(--ease),transform .15s var(--ease)}
+.pm-seasons .ps-cta:active{transform:scale(.97)}
+.pm-seasons .ps-all{display:none}
+
+@media (hover:hover) and (pointer:fine){
+  .pm-seasons .sw:hover{transform:scale(1.1)}
+  .pm-seasons .ps-dot:hover::before{background:#9b9ba1}
+  .pm-seasons .ps-dot[aria-selected=true]:hover::before{background:var(--accent)}
+  .pm-seasons .ps-cta:hover{background:#1b1b1b;color:#fff}
+}
+
+/* desktop: four cards side by side; hover lifts and frames a card, a click opens the season and tints the background */
+@media (min-width:1024px){
+  .pm-seasons{--soft:cubic-bezier(.25,.1,.25,1);--hov:.7s;padding:0;margin:120px 0;height:722px;justify-content:flex-start;overflow:visible}
+  .pm-seasons .ps-bg{inset:-120px 0 -120px}
+  .pm-seasons .ps-head h2{font-size:48px;line-height:50px;font-weight:700;letter-spacing:.9px;color:#1e1e1e}
+  .pm-seasons .ps-head p{margin-top:19px;font-size:20px;line-height:22px;font-weight:600;color:#8a8a8a;word-spacing:6px}
+  .pm-seasons .ps-carousel{margin-top:46px;width:auto}
+  .pm-seasons .ps-track{--card-w:232px;display:grid;grid-template-columns:repeat(4,232px);gap:16px;overflow:visible;padding:0;margin:0;scroll-snap-type:none}
+  .pm-seasons .ps-card{width:232px;height:466px;transform:none!important;opacity:1!important;border:1px solid #c4c4c4;border-radius:16px;cursor:pointer;
+    transition:transform var(--hov) var(--soft),opacity var(--hov) var(--soft),box-shadow var(--hov) var(--soft)}
+  .pm-seasons .ps-card::after{inset:-1px;border-radius:17px;box-shadow:none;transition:opacity var(--hov) var(--soft)}
+  .pm-seasons .ps-photo{height:381px;background:#fff;overflow:hidden;border-radius:15px 15px 0 0}
+  .pm-seasons .ps-photo img{width:230px;height:381px;object-fit:cover;transition:transform 1.2s var(--soft)}
+  /* "Scopri" chip on the photo of the hovered card */
+  .pm-seasons .ps-go{display:block;position:absolute;left:50%;bottom:14px;padding:7px 18px;border-radius:99px;background:rgba(255,255,255,.94);border:1px solid var(--c);color:#1e1e1e;font-size:12px;font-weight:700;letter-spacing:.04em;
+    opacity:0;transform:translate(-50%,4px);transition:opacity var(--hov) var(--soft),transform var(--hov) var(--soft),background-color .3s var(--soft),color .3s var(--soft);pointer-events:none}
+  .pm-seasons .ps-card:is(.active,:hover,:focus-within) .ps-go{opacity:1;transform:translate(-50%,0)}
+  .pm-seasons .ps-photo:hover .ps-go{background:var(--c);color:#fff}
+  .pm-seasons:not([data-season]) .ps-shade{opacity:0}
+  .pm-seasons .ps-card:is(:hover,:focus-within){transform:translate3d(0,-6px,0)!important;box-shadow:0 24px 36px -26px rgba(20,20,30,.35)}
+  .pm-seasons .ps-card:is(:hover,:focus-within)::after{opacity:1}
+  .pm-seasons .ps-badge{top:10px;left:10px;padding:4px 10px;font-size:11px;font-weight:600;background:#fe3c3c}
+  .pm-seasons .ps-meta{justify-content:flex-start;gap:8px;padding:6px 0 0}
+  .pm-seasons .ps-meta h3{font-size:13.5px;font-weight:500;line-height:16px}
+  .pm-seasons .ps-sw{gap:3px}
+  .pm-seasons .ps-shade{min-height:13px;font-size:11.5px;line-height:13px}
+  .pm-seasons .sw{width:22px;height:22px;border-width:1.5px;box-shadow:0 0 0 .6px rgba(0,0,0,.2)}
+  .pm-seasons .sw:not(.sel){border-color:#fff}
+  .pm-seasons .sw.sel{border-color:#1e1e1e}
+  .pm-seasons .more{width:22px;height:22px;border-width:1px;border-color:#555;color:#555;font-size:7px}
+  .pm-seasons .ps-all{display:grid;place-items:center;width:166px;height:40px;margin-top:39px;border-radius:99px;border:1px solid #555;background:#fff;color:#555;font-size:14px;font-weight:600;letter-spacing:.3px;transition:background-color .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease)}
+  .pm-seasons .ps-all:hover{background:#1e1e1e;border-color:#1e1e1e;color:#fff}
+  .pm-seasons .ps-dots,.pm-seasons .ps-cta{display:none}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .pm-seasons *,.pm-seasons *::before,.pm-seasons *::after{transition-duration:0s!important;animation-duration:0s!important}
+}
