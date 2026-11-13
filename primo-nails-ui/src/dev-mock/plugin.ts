@@ -1,21 +1,18 @@
-// Dev-only: serves sanitized fixtures (grey placeholder images/swatches) for /store/* so the
-// storefront runs with no API/Postgres/Redis/S3. Enabled with VITE_MOCK_API=1 (see `pnpm dev:mock`).
+// Dev-only: serves fixtures captured from the real store API for /store/*, plus the store's photos
+// (./media, referenced by the fixtures as /mock-media/<file>), so the storefront runs with no
+// API/Postgres/Redis/S3. Enabled with VITE_MOCK_API=1 (see `pnpm dev:mock`).
 import type { Plugin } from 'vite';
 import fs from 'fs';
 import path from 'path';
 
 const load = (n: string) => JSON.parse(fs.readFileSync(path.join(__dirname, `${n}.json`), 'utf8'));
+const MEDIA_TYPES: Record<string, string> = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg',
+  '.gif': 'image/gif', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
 
 export function mockApi(): Plugin {
   return {
     name: 'primo-mock-api',
     apply: 'serve',
-    // Flat grey placeholders look identical when zoomed, so lighten the hover/zoom slide
-    // (card 1.7x, quick-view 1.9x) to make the swap visible.
-    transformIndexHtml() {
-      return [{ tag: 'style', injectTo: 'head',
-        children: 'img[class*="scale-[1.7]"],img[class*="scale-[1.9]"]{filter:brightness(1.3) contrast(1.15)!important}' }];
-    },
     configureServer(server) {
       const products = load('products'), regions = load('regions'), content = load('content'),
         courses = load('courses'), categories = load('categories');
@@ -25,6 +22,13 @@ export function mockApi(): Plugin {
       server.middlewares.use((req, res, next) => {
         const url = new URL(req.url || '/', 'http://x');
         const p = url.pathname;
+        if (p.startsWith('/mock-media/')) {
+          const file = path.join(__dirname, 'media', path.basename(decodeURIComponent(p)));
+          if (!fs.existsSync(file)) { res.statusCode = 404; return res.end(); }
+          res.setHeader('content-type', MEDIA_TYPES[path.extname(file).toLowerCase()] ?? 'application/octet-stream');
+          res.setHeader('cache-control', 'max-age=3600');
+          return fs.createReadStream(file).pipe(res);
+        }
         if (!p.startsWith('/store/')) return next();
         if (p === '/store/regions') return send(res, regions);
         if (p === '/store/products') {

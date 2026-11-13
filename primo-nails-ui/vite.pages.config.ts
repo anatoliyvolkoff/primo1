@@ -2,7 +2,7 @@
 // from https://<user>.github.io/primo1/ui/. Everything Pages-specific lives here so the app source
 // stays identical to the real store:
 //   - assets + router are re-based onto the /primo1/ui/ sub-path,
-//   - API calls are answered in the browser from src/dev-mock fixtures (grey placeholder images),
+//   - API calls are answered in the browser from src/dev-mock fixtures (real data + photos),
 //   - every known route gets its own .html copy so deep links / refresh work without a server.
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
@@ -22,7 +22,8 @@ function pagesBuild(): Plugin {
   // Vite never re-bases, so prefix them here. Folders need the trailing slash, which keeps routes
   // such as "/about-us" apart from the "/about/" folder.
   const entries = fs.readdirSync(path.resolve(__dirname, 'public'), { withFileTypes: true });
-  const dirs = entries.filter((e) => e.isDirectory()).map((e) => escapeRe(e.name));
+  // "mock-media" = the store photos the fixtures point at (copied into the build in closeBundle).
+  const dirs = [...entries.filter((e) => e.isDirectory()).map((e) => escapeRe(e.name)), 'mock-media'];
   const files = entries.filter((e) => e.isFile()).map((e) => escapeRe(e.name));
   const publicRef = new RegExp(`(["'\`])/((?:${dirs.join('|')})/|(?:${files.join('|')})(?=["'\`?#]))`, 'g');
 
@@ -45,6 +46,7 @@ function pagesBuild(): Plugin {
     },
     // GitHub Pages serves /foo from foo.html, so copy the SPA shell to every known route.
     closeBundle() {
+      fs.cpSync(path.resolve(__dirname, 'src/dev-mock/media'), path.join(OUT_DIR, 'mock-media'), { recursive: true });
       const shell = fs.readFileSync(path.join(OUT_DIR, 'index.html'));
       const handles = (list: any[]) => (list ?? []).map((x) => x.handle).filter(Boolean);
       const routes = [
