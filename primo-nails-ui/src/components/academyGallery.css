@@ -6,7 +6,7 @@
 .acg-arrows button{display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid #ddd;border-radius:50%;background:#fff;color:#111;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
 .acg-arrows button:hover{background:#000;border-color:#000;color:#fff}
 .acg-arrows svg{width:20px;height:20px}
-.acg-track{display:flex;gap:10px;margin-top:22px;padding:0 16px 4px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.acg-track{display:flex;gap:10px;margin-top:22px;padding:0 16px 4px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding:0 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .acg-track::-webkit-scrollbar{display:none}
 .acg-track:focus-visible{outline:2px solid #111;outline-offset:2px}
 .acg-item{position:relative;flex:0 0 auto;width:62vw;max-width:260px;aspect-ratio:4/5;padding:0;border:1px solid #ece7e1;border-radius:18px;overflow:hidden;background:#f6f3ef;cursor:zoom-in;scroll-snap-align:start}

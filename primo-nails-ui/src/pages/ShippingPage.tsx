@@ -108,7 +108,7 @@ function RateTableInner({
         </h3>
         <p className="font-sans text-[13px] leading-[19px] text-[#8a8580] lg:text-[14px]">{desc}</p>
       </div>
-      <div className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <table className="w-full table-fixed border-collapse">
           <caption className="sr-only">{caption}</caption>
           <thead>

@@ -108,10 +108,10 @@ export const ShopByColor: React.FC<ShopByColorProps> = ({
             ref={scrollerRef}
             className={`no-scrollbar -mx-4 sm:-mx-5 lg:mx-0 lg:px-0 ${
               isFilterMode
-                ? 'overflow-x-auto px-9 pt-20 pb-8 sm:pt-24 sm:pb-10 -mt-20 -mb-8 sm:-mt-24 sm:-mb-10'
+                ? 'overflow-x-auto overflow-y-hidden px-9 pt-20 pb-8 sm:pt-24 sm:pb-10 -mt-20 -mb-8 sm:-mt-24 sm:-mb-10'
                 : grid
                   ? 'overflow-visible px-5 pt-[34px]'
-                  : 'overflow-x-auto snap-x snap-proximity scroll-pl-9 px-9 pt-[41px] lg:pt-[53.5px]'
+                  : 'overflow-x-auto overflow-y-hidden snap-x snap-proximity scroll-pl-9 px-9 pt-[41px] lg:pt-[53.5px]'
             }`}
           >
             {/* w-max + mx-auto centres the row when it fits, but left-aligns and

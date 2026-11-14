@@ -66,7 +66,7 @@ const CoursesHomeRail = ({
 
         {/* Card rail — prototype `.mn-list`: horizontal snap scroller on mobile,
             vertical stack of wide rows on desktop. */}
-        <div className="mt-6 flex gap-3.5 overflow-x-auto px-6 scroll-px-6 pt-1 pb-2 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [overscroll-behavior-x:contain] lg:mt-12 lg:flex-col lg:gap-5 lg:overflow-visible lg:px-0 lg:py-0">
+        <div className="mt-6 flex gap-3.5 overflow-x-auto overflow-y-hidden px-6 scroll-px-6 pt-1 pb-2 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden [overscroll-behavior-x:contain] lg:mt-12 lg:flex-col lg:gap-5 lg:overflow-visible lg:px-0 lg:py-0">
           {isLoading ? (
             Array.from({ length: 3 }).map((_, i) => (
               <div
@@ -289,7 +289,7 @@ export const CoursesList = ({ showAll = false }: { showAll?: boolean }) => {
             <div
               role="group"
               aria-label={t('courses.filterLabel')}
-              className="flex gap-2 mt-5 -mx-6 px-6 overflow-x-auto no-scrollbar lg:mt-0 lg:mx-0 lg:px-0 lg:overflow-visible lg:flex-none"
+              className="flex gap-2 mt-5 -mx-6 px-6 overflow-x-auto overflow-y-hidden no-scrollbar lg:mt-0 lg:mx-0 lg:px-0 lg:overflow-visible lg:flex-none"
             >
               {['', ...levels].map((lvl) => {
                 const pressed = activeLevel === lvl;

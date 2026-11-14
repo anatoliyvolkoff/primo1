@@ -376,15 +376,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, grid = false,
               className={`text-[11px] lg:leading-[calc(1/0.75)] shrink-0 max-lg:shadow-none ${
                 isOutOfStock
                   ? 'max-lg:basis-full max-lg:h-9 max-lg:px-3 max-lg:text-[10px] max-lg:tracking-[0.06em] max-lg:@max-[230px]:h-[30px] max-lg:@max-[230px]:px-2.5 max-lg:@max-[230px]:text-[9px]'
-                  : 'max-lg:w-9 max-lg:h-9 max-lg:px-0 max-lg:@max-[230px]:w-[30px] max-lg:@max-[230px]:h-[30px]'
+                  : 'max-lg:w-[46px] max-lg:h-[46px] max-lg:px-0 max-lg:@max-[230px]:w-11 max-lg:@max-[230px]:h-11'
               } ${compact ? 'lg:!h-[28px] lg:!text-[12px]' : 'lg:h-[31.4px] lg:text-[15px]'} lg:font-medium lg:tracking-[0.4px] lg:whitespace-nowrap lg:shadow-none ${
                 !isOutOfStock && isAdded ? 'max-lg:bg-[#1f7a3a] max-lg:border-[#1f7a3a]' : ''
               }`}
               leadingIcon={
                 isOutOfStock ? undefined : isAdded ? (
-                  <Check aria-hidden="true" className="w-4 h-4" />
+                  <Check aria-hidden="true" className="w-4 h-4 max-lg:w-5 max-lg:h-5" />
                 ) : (
-                  <Plus aria-hidden="true" strokeWidth={2.5} className="w-[18px] h-[18px] @max-[230px]:w-[15px] @max-[230px]:h-[15px] lg:hidden" />
+                  <Plus aria-hidden="true" strokeWidth={2.5} className="w-[22px] h-[22px] @max-[230px]:w-[21px] @max-[230px]:h-[21px] lg:hidden" />
                 )
               }
             >
