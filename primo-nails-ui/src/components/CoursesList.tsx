@@ -7,6 +7,10 @@ import { useCourses } from '../hooks/useCourses';
 import type { UICourse } from '../hooks/useCourses';
 import { PRODUCT_PLACEHOLDER } from '../lib/imageFallback';
 
+// The whole course card is one link (prototype `<a class="mn">` / `<a class="acard">`), so a tap
+// anywhere on it opens the course. Inner parts are plain elements — no nested links.
+const MotionLink = motion.create(Link);
+
 type Translate = ReturnType<typeof useLanguage>['t'];
 
 /**
@@ -92,44 +96,43 @@ const CoursesHomeRail = ({
             </div>
           ) : (
             courses.map((course, i) => (
-              <motion.div
+              <MotionLink
                 key={course.id}
+                to={`/corsi/${course.handle}`}
+                aria-labelledby={`mn-${course.id}-t`}
+                aria-describedby={course.description ? `mn-${course.id}-d` : undefined}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group/mn flex-none w-[286px] snap-start flex flex-col p-2.5 border-[0.8px] border-[#1a1a1a] rounded-[26px] text-[#111] transition-[box-shadow,transform] duration-[250ms] active:scale-[0.98] lg:w-auto lg:flex-row lg:items-center lg:gap-12 lg:p-3 lg:rounded-[30px] lg:hover:-translate-y-1 lg:hover:shadow-[0_18px_36px_-24px_rgba(0,0,0,0.28)]"
+                className="group/mn flex-none w-[286px] snap-start flex flex-col p-2.5 border-[0.8px] border-[#1a1a1a] rounded-[26px] text-[#111] transition-[box-shadow,transform] duration-[250ms] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111] lg:w-auto lg:flex-row lg:items-center lg:gap-12 lg:p-3 lg:rounded-[30px] lg:hover:-translate-y-1 lg:hover:shadow-[0_18px_36px_-24px_rgba(0,0,0,0.28)]"
               >
                 {/* Image — prototype `.mn-img`: square on mobile, 280px 4:3 left
                     on desktop, with the multiply-blend crop from the prototype. */}
-                <Link
-                  to={`/corsi/${course.handle}`}
-                  aria-label={course.title}
+                <div
                   style={{ ['--tint' as string]: tints[i % tints.length] }}
                   className="relative block aspect-square w-full overflow-hidden rounded-[18px] bg-[var(--tint)] lg:flex-none lg:w-[280px] lg:aspect-[4/3] lg:rounded-[20px]"
                 >
                   <img
                     src={course.image || PRODUCT_PLACEHOLDER}
-                    alt={course.title}
+                    alt=""
                     loading="lazy"
                     decoding="async"
                     sizes="(min-width: 1024px) 280px, 286px"
                     className="w-full h-full object-cover object-[50%_30%] mix-blend-multiply transition-transform duration-[600ms] ease-out lg:group-hover/mn:scale-[1.05]"
                   />
-                </Link>
+                </div>
 
                 {/* Body — prototype `.mn-body`. On desktop it's a 2-col grid so the
                     round arrow button can pin to the right across the text rows. */}
                 <div className="flex flex-1 flex-col pt-4 px-2.5 pb-2.5 lg:grid lg:grid-cols-[1fr_auto] lg:items-center lg:gap-x-8 lg:px-0 lg:py-0 lg:pr-10">
-                  <h3 className="m-0 text-[20px] leading-[24px] font-bold tracking-[-0.5px] text-balance lg:col-start-1 lg:text-[28px] lg:leading-[34px] lg:tracking-[-0.8px]">
-                    <Link to={`/corsi/${course.handle}`} className="transition-colors hover:text-accent-gold lg:hover:text-[#111]">
-                      {course.title}
-                    </Link>
+                  <h3 id={`mn-${course.id}-t`} className="m-0 text-[20px] leading-[24px] font-bold tracking-[-0.5px] text-balance lg:col-start-1 lg:text-[28px] lg:leading-[34px] lg:tracking-[-0.8px]">
+                    {course.title}
                   </h3>
 
                   {/* Blurb — prototype `.mn-txt`. */}
                   {course.description && (
-                    <p className="mt-1.5 mb-4 font-inter text-[14px] leading-[21px] text-[#555] lg:mb-0 lg:col-start-1 lg:max-w-[460px] lg:text-[15.5px] lg:leading-6">
+                    <p id={`mn-${course.id}-d`} className="mt-1.5 mb-4 font-inter text-[14px] leading-[21px] text-[#555] lg:mb-0 lg:col-start-1 lg:max-w-[460px] lg:text-[15.5px] lg:leading-6">
                       {course.description}
                     </p>
                   )}
@@ -138,17 +141,20 @@ const CoursesHomeRail = ({
                       omitted — the course model has no review-count field and we
                       don't fabricate one (data gap flagged in the report). */}
 
-                  {/* CTA — prototype `.mn-go`: dark pill on mobile; round arrow
-                      button pinned to the right on desktop, accent-filled on hover. */}
+                  {/* CTA — prototype `.mn-go`: dark pill on mobile. On desktop it is
+                      the Academy ghost pill (`.cx-ghost`: 52px, #c9c4bf outline)
+                      with its label, pinned to the right; hovering anywhere on
+                      the card fills it black and nudges the arrow. Decorative —
+                      the card itself is the link. */}
                   <span
                     aria-hidden="true"
-                    className="mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-[#111] px-5 pl-5 pr-[18px] text-[14px] font-semibold text-white h-11 lg:col-start-2 lg:row-start-1 lg:row-span-full lg:m-0 lg:h-14 lg:w-14 lg:justify-center lg:gap-0 lg:px-0 lg:text-[0px] lg:transition-colors lg:group-hover/mn:bg-[#c8742d]"
+                    className="mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-[#111] pl-5 pr-[18px] text-[14px] font-semibold text-white h-11 lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:m-0 lg:h-[52px] lg:gap-2.5 lg:whitespace-nowrap lg:border lg:border-[#c9c4bf] lg:bg-transparent lg:pl-6 lg:pr-5 lg:text-[15px] lg:font-medium lg:text-[#111] lg:transition-[background-color,border-color,color] lg:duration-200 lg:group-hover/mn:border-[#111] lg:group-hover/mn:bg-[#111] lg:group-hover/mn:text-white"
                   >
-                    <span className="lg:hidden">{t('courses.cardCta')}</span>
-                    <span className="lg:inline-flex lg:transition-transform lg:group-hover/mn:translate-x-[3px]">{arrow}</span>
+                    {t('courses.cardCta')}
+                    <span className="inline-flex transition-transform duration-200 group-hover/mn:translate-x-[3px]">{arrow}</span>
                   </span>
                 </div>
-              </motion.div>
+              </MotionLink>
             ))
           )}
         </div>
@@ -396,32 +402,32 @@ export const CoursesList = ({ showAll = false }: { showAll?: boolean }) => {
             // The `lg:` appearance is identical in both so the desktop grid never
             // changes between pages.
             return showAll ? (
-            <motion.div
+            <MotionLink
               key={course.id}
+              to={`/corsi/${course.handle}`}
+              aria-labelledby={`ac-${course.id}-t`}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
               hidden={cardIsHidden(course) ? true : undefined}
-              className="group relative grid grid-cols-[108px_minmax(0,1fr)] items-center gap-4 bg-white p-2.5 pr-3.5 rounded-[22px] transition-all duration-300 border border-[#e6e1dc] hover:border-[#cfc8c1] hover:shadow-[0_18px_36px_-24px_rgba(0,0,0,0.28)] lg:flex lg:flex-col lg:items-stretch lg:gap-0 lg:p-2.5 lg:rounded-[28px] lg:hover:-translate-y-1 lg:[&[hidden]]:hidden"
+              className="group relative grid grid-cols-[108px_minmax(0,1fr)] items-center gap-4 bg-white p-2.5 pr-3.5 rounded-[22px] transition-all duration-300 border border-[#e6e1dc] hover:border-[#cfc8c1] hover:shadow-[0_18px_36px_-24px_rgba(0,0,0,0.28)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#111] lg:flex lg:flex-col lg:items-stretch lg:gap-0 lg:p-2.5 lg:rounded-[28px] lg:hover:-translate-y-1 lg:[&[hidden]]:hidden"
             >
               {/* Nail-art image — square on the LEFT on mobile/tablet (prototype
                   `.ac-img`, aspect 1:1, radius 16px); full-width on TOP on desktop. */}
-              <Link
-                to={`/corsi/${course.handle}`}
-                aria-label={course.title}
+              <div
                 style={{ ['--tint' as string]: tint }}
                 className="relative block self-stretch aspect-square overflow-hidden rounded-[16px] bg-[#F9F8F6] lg:w-full lg:aspect-[4/3] lg:rounded-[20px]"
               >
                 <img
                   src={course.image || PRODUCT_PLACEHOLDER}
-                  alt={course.title}
+                  alt=""
                   loading="lazy"
                   decoding="async"
                   sizes="(min-width: 1024px) 300px, 108px"
                   className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-500 ease-out"
                 />
-              </Link>
+              </div>
 
               {/* Text block — to the RIGHT of the image on mobile; below the photo on
                   desktop as a flex column whose footer pins to the card bottom.
@@ -435,10 +441,8 @@ export const CoursesList = ({ showAll = false }: { showAll?: boolean }) => {
                   </p>
                 )}
 
-                <h3 className="mt-1 text-[17px] leading-[21px] font-semibold tracking-[-0.3px] text-[#111] lg:mt-1.5 lg:text-[21px] lg:leading-[26px]">
-                  <Link to={`/corsi/${course.handle}`} className="hover:text-accent-gold transition-colors lg:hover:text-[#111]">
-                    {course.title}
-                  </Link>
+                <h3 id={`ac-${course.id}-t`} className="mt-1 text-[17px] leading-[21px] font-semibold tracking-[-0.3px] text-[#111] lg:mt-1.5 lg:text-[21px] lg:leading-[26px]">
+                  {course.title}
                 </h3>
 
                 {/* Desktop-only description line (prototype `.ac-txt`), clamped to
@@ -472,7 +476,7 @@ export const CoursesList = ({ showAll = false }: { showAll?: boolean }) => {
                   </span>
                 </div>
               </div>
-            </motion.div>
+            </MotionLink>
             ) : (
             <motion.div
               key={course.id}

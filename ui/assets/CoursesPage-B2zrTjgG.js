@@ -1,4 +1,4 @@
-import{U as u,b as S,J as $,V as D,o as I,K as M,r as a,M as T,j as e,Y as L,Z as P,_ as v,$ as A,a0 as V}from"./index-BOZ2d9Hh.js";import{C as q}from"./CoursesList-DGxYEe_E.js";import{C as B,A as O,a as W}from"./CourseEnrollModal-CWIM6yci.js";import"./calendar-DeaMJLOT.js";import"./GalleryLightbox-DUENI_Lt.js";/**
+import{U as u,b as S,J as $,V as D,o as I,K as M,r as a,M as T,j as e,Y as L,Z as P,_ as v,$ as A,a0 as V}from"./index-CAWgaKjb.js";import{C as q}from"./CoursesList-CcMy7EXT.js";import{C as B,A as O,a as W}from"./CourseEnrollModal-e_26ucKv.js";import"./calendar-CxCGO3nt.js";import"./GalleryLightbox-B4hhLiH1.js";/**
  * @license lucide-react v0.546.0 - ISC
  *
  * This source code is licensed under the ISC license.
