@@ -35,6 +35,10 @@ interface ProductCardProps {
 const SHADE_SLOTS_WIDE = 5;
 const SHADE_SLOTS_NARROW = 4;
 const SHADE_SLOTS_DESKTOP = 6;
+// Search overlay cards use the catalogue's desktop swatch sizes too; next to the
+// suggestion column they are narrower (~203px) than a catalogue card, so the
+// row drops to 5 slots there (4 circles + "+N") instead of overflowing.
+const SHADE_SLOTS_DESKTOP_NARROW = 5;
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, grid = false, highlightQuery, onNavigate }) => {
   const { addToCart } = useCart();
@@ -109,30 +113,33 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, grid = false,
     const visible = slots - 1;
     return i >= visible || (activeShadeIndex >= visible && i === visible - 1);
   };
+  // Search overlay: a denser card (own image height, title and button), but
+  // the swatch row matches the catalogue card (sizes, gaps, left inset).
+  const compact = Boolean(onNavigate);
   // Every shade hidden in the wide layout is also hidden in the narrow one.
   const hiddenOnPhone = (i: number) =>
     (hiddenAt(i, SHADE_SLOTS_WIDE) ? 'max-lg:hidden' : hiddenAt(i, SHADE_SLOTS_NARROW) ? 'max-lg:@max-[230px]:hidden' : '') +
-    (hiddenAt(i, SHADE_SLOTS_DESKTOP) ? ' lg:hidden' : '');
+    (hiddenAt(i, SHADE_SLOTS_DESKTOP) ? ' lg:hidden' : compact && hiddenAt(i, SHADE_SLOTS_DESKTOP_NARROW) ? ' lg:@max-[230px]:hidden' : '');
   const shadeRowSiblings = shadeSiblings;
   const isOutOfStock = activeProduct.inStock === false;
-  // Search overlay: a smaller, denser card (own image height, paddings, type and swatch sizes).
-  const compact = Boolean(onNavigate);
   const wideChip = overflowsAt(SHADE_SLOTS_WIDE);
   const desktopChip = overflowsAt(SHADE_SLOTS_DESKTOP);
+  const desktopNarrowChip = compact && !desktopChip && overflowsAt(SHADE_SLOTS_DESKTOP_NARROW);
   // The "+N" circle opens the product page, where every colour is shown (kits
   // open the kit page, where all its shades are listed).
   const moreShadesChip = (overflowsAt(SHADE_SLOTS_NARROW) || desktopChip) && (
     <Link
       to={`/product/${activeProduct.handle || activeProduct.id}`}
       onClick={(e) => e.stopPropagation()}
-      className={`${wideChip ? 'grid' : 'hidden max-lg:@max-[230px]:grid'} ${desktopChip ? 'lg:grid' : 'lg:hidden'} relative shrink-0 rounded-full bg-[#f0f0f0] text-[#3a3a3a] font-semibold tracking-[-0.02em] place-items-center w-[29px] h-[29px] text-[10px] @max-[230px]:w-[22px] @max-[230px]:h-[22px] @max-[230px]:text-[8px] lg:w-[26px] lg:h-[26px] lg:bg-white lg:border lg:border-[#555] lg:text-[#555] lg:text-[10px] active:scale-90 transition-transform before:absolute before:-inset-x-px before:-inset-y-[7px] outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}
+      className={`${wideChip ? 'grid' : 'hidden max-lg:@max-[230px]:grid'} ${desktopChip ? 'lg:grid' : 'lg:hidden'} ${desktopNarrowChip ? 'lg:@max-[230px]:grid' : ''} relative shrink-0 rounded-full bg-[#f0f0f0] text-[#3a3a3a] font-semibold tracking-[-0.02em] place-items-center w-[29px] h-[29px] text-[10px] max-lg:@max-[230px]:w-[22px] max-lg:@max-[230px]:h-[22px] max-lg:@max-[230px]:text-[8px] lg:w-[26px] lg:h-[26px] lg:bg-white lg:border lg:border-[#555] lg:text-[#555] lg:text-[10px] active:scale-90 transition-transform before:absolute before:-inset-x-px before:-inset-y-[7px] outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`}
     >
       {/* The count matches the layout's own number of visible slots. The
           visible "+N" stays part of the accessible name (label in name); the
           CSS-hidden variant is display:none, so it drops out of it. */}
-      <span className="hidden lg:inline">+{shadeRowCount - (SHADE_SLOTS_DESKTOP - 1)}</span>
+      <span className={`hidden lg:inline ${compact ? 'lg:@max-[230px]:hidden' : ''}`}>+{shadeRowCount - (SHADE_SLOTS_DESKTOP - 1)}</span>
+      {compact && <span className="hidden lg:@max-[230px]:inline">+{shadeRowCount - (SHADE_SLOTS_DESKTOP_NARROW - 1)}</span>}
       {wideChip && <span className="@max-[230px]:hidden lg:hidden">+{shadeRowCount - (SHADE_SLOTS_WIDE - 1)}</span>}
-      <span className={`${wideChip ? 'hidden @max-[230px]:inline' : ''} lg:hidden`}>+{shadeRowCount - (SHADE_SLOTS_NARROW - 1)}</span>
+      <span className={`${wideChip ? 'hidden max-lg:@max-[230px]:inline' : ''} lg:hidden`}>+{shadeRowCount - (SHADE_SLOTS_NARROW - 1)}</span>
       <span className="sr-only"> {t('collections.moreShades')}</span>
     </Link>
   );
@@ -246,7 +253,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, grid = false,
         </div>
 
         {/* Content Section — Figma left-aligned card anatomy */}
-        <div className={`${compact ? 'lg:!px-[10px] lg:!pt-[7px] lg:!pb-[9px] ' : ''}px-[13px] pt-[9px] pb-[11px] max-lg:@max-[230px]:px-[10px] max-lg:@max-[230px]:pt-[7px] max-lg:@max-[230px]:pb-[9px] lg:px-[17px] lg:pb-[13px] lg:pt-[7px] flex-grow flex flex-col items-start text-left`}>
+        <div className={`${compact ? 'lg:!pt-[7px] lg:!pb-[9px] ' : ''}px-[13px] pt-[9px] pb-[11px] max-lg:@max-[230px]:px-[10px] max-lg:@max-[230px]:pt-[7px] max-lg:@max-[230px]:pb-[9px] lg:px-[17px] lg:pb-[13px] lg:pt-[7px] flex-grow flex flex-col items-start text-left`}>
           <div className="flex-grow w-full">
             {/* Primo1 desktop `.phead`: name + category share a 57px block so the price lines up across a row. */}
             <div className={compact ? 'lg:min-h-[50px]' : 'lg:min-h-[57px]'}>
@@ -336,7 +343,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, grid = false,
                       }}
                       aria-label={`${sibling.name}${isSelected ? ' — ' + t('a11y.selected') : ''}`}
                       data-shade-index={i}
-                      className={`shrink-0 ${isSelected ? `max-lg:w-[33px] max-lg:h-[33px] max-lg:@max-[230px]:w-[26px] max-lg:@max-[230px]:h-[26px] ${compact ? 'lg:h-[26px] lg:w-[26px]' : 'lg:h-[30px] lg:w-[30px]'} lg:-m-0.5 shadow-[inset_0_0_0_2px_#fff]` : `${phoneSwatchSize} ${compact ? 'lg:h-[22px] lg:w-[22px]' : 'lg:h-[26px] lg:w-[26px]'}`} ${hiddenOnPhone(i)}`}
+                      className={`shrink-0 ${isSelected ? `max-lg:w-[33px] max-lg:h-[33px] max-lg:@max-[230px]:w-[26px] max-lg:@max-[230px]:h-[26px] lg:h-[30px] lg:w-[30px] lg:-m-0.5 shadow-[inset_0_0_0_2px_#fff]` : `${phoneSwatchSize} lg:h-[26px] lg:w-[26px]`} ${hiddenOnPhone(i)}`}
                     />
                   );
                 })}
