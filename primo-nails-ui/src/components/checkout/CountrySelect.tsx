@@ -72,7 +72,7 @@ export const CountrySelect: FC<CountrySelectProps> = ({
         onClick={() => setOpen(o => !o)}
         aria-haspopup="listbox"
         aria-expanded={open}
-        className="w-full h-[52px] rounded-pill border border-[#e6e1dc] bg-[#faf8f6] px-5 text-[15px] text-foreground outline-none transition-[border-color,background-color,box-shadow] duration-200 hover:border-[#c9c4bf] focus-visible:border-foreground focus-visible:bg-card focus-visible:ring-[3px] focus-visible:ring-foreground/10 disabled:opacity-50 flex items-center justify-between gap-2 text-left"
+        className="w-full h-[52px] rounded-pill border border-[#e6e1dc] bg-surface px-5 text-[15px] text-foreground outline-none transition-[border-color,background-color,box-shadow] duration-200 hover:border-[#c9c4bf] focus-visible:border-foreground focus-visible:bg-card focus-visible:ring-[3px] focus-visible:ring-foreground/10 disabled:opacity-50 flex items-center justify-between gap-2 text-left"
       >
         <span className={`truncate ${selected ? '' : 'text-muted-foreground'}`}>{label}</span>
         <ChevronDown className={`w-4 h-4 shrink-0 text-muted-foreground transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />

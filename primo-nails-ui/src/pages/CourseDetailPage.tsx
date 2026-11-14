@@ -207,7 +207,7 @@ export function CourseDetailPage() {
         <main className="min-h-screen bg-white text-foreground pt-[61px] pb-24 lg:pt-[95px] lg:pb-0">
             {/* 1. SPLIT HERO — desktop: 50/50 content-left / image-right.
                 Mobile: stacked image-top / content below (unchanged intent). */}
-            <section className="relative isolate overflow-hidden bg-[#f6f3ef] lg:grid lg:grid-cols-2 lg:min-h-[560px]">
+            <section className="relative isolate overflow-hidden bg-surface lg:grid lg:grid-cols-2 lg:min-h-[560px]">
                 {/* Floating back pill (top-left of hero) */}
                 <div className="absolute z-20 top-3 left-3 lg:top-12 lg:left-[max(24px,calc(50%-488px))]">
                     <button
@@ -234,7 +234,7 @@ export function CourseDetailPage() {
                 </div>
 
                 {/* Content — course-specific intro */}
-                <div className="relative -mt-7 rounded-t-[28px] bg-[#f6f3ef] px-6 pt-[30px] pb-8 lg:order-1 lg:mt-0 lg:self-center lg:rounded-none lg:bg-transparent lg:px-0 lg:pl-[max(24px,calc(50vw-488px))] lg:pr-14 lg:py-24">
+                <div className="relative -mt-7 rounded-t-[28px] bg-surface px-6 pt-[30px] pb-8 lg:order-1 lg:mt-0 lg:self-center lg:rounded-none lg:bg-transparent lg:px-0 lg:pl-[max(24px,calc(50vw-488px))] lg:pr-14 lg:py-24">
                     <p className="text-[11px] font-bold uppercase tracking-[1.8px] text-accent-gold">
                         {levelLabel
                             ? t('courseDetail.heroEyebrow', { level: levelLabel })
@@ -272,7 +272,7 @@ export function CourseDetailPage() {
             {/* 2. FACTS STRIP — white 4-col dl overlapping the hero bottom (desktop) */}
             <section
                 aria-label={t('courseDetail.essentialInfo')}
-                className="relative z-10 -mt-px bg-[linear-gradient(#f6f3ef_50%,#fff_50%)] px-4 lg:mx-auto lg:-mt-12 lg:w-full lg:max-w-[976px] lg:bg-none lg:px-0"
+                className="relative z-10 -mt-px bg-[linear-gradient(var(--surface)_50%,#fff_50%)] px-4 lg:mx-auto lg:-mt-12 lg:w-full lg:max-w-[976px] lg:bg-none lg:px-0"
             >
                 <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-[24px] border border-[#e6e1dc] bg-[#e6e1dc] shadow-[0_30px_60px_-36px_rgba(0,0,0,0.3)] lg:grid-cols-4 lg:gap-0 lg:border-0 lg:bg-white">
                     {facts.map((item, i) => (
@@ -525,7 +525,7 @@ export function CourseDetailPage() {
                             variant="primary"
                             size="lg"
                             leadingIcon={<MessageCircle className="w-5 h-5" />}
-                            className="!border-white !bg-white !text-[#111] shadow-none hover:!bg-[#ece8e3]"
+                            className="!border-white !bg-white !text-[#111] shadow-none hover:!bg-surface-strong"
                         >
                             {t('courseDetail.whatsappCta')}
                         </Button>

@@ -73,11 +73,11 @@ const CoursesHomeRail = ({
                 key={i}
                 className="flex-none w-[286px] snap-start flex flex-col gap-0 p-2.5 border-[0.8px] border-[#1a1a1a] rounded-[26px] animate-pulse lg:w-auto lg:flex-row lg:items-center lg:gap-12 lg:p-3 lg:rounded-[30px]"
               >
-                <div className="aspect-square w-full rounded-[18px] bg-[#F0EEEA] lg:flex-none lg:w-[280px] lg:aspect-[4/3] lg:rounded-[20px]" />
+                <div className="aspect-square w-full rounded-[18px] bg-surface-strong lg:flex-none lg:w-[280px] lg:aspect-[4/3] lg:rounded-[20px]" />
                 <div className="flex flex-col gap-3 pt-4 px-2.5 pb-2.5 lg:flex-1 lg:px-0 lg:py-0 lg:pr-10">
-                  <div className="h-5 w-3/4 rounded bg-[#F0EEEA]" />
-                  <div className="h-3 w-full rounded bg-[#F0EEEA]" />
-                  <div className="h-3 w-2/3 rounded bg-[#F0EEEA]" />
+                  <div className="h-5 w-3/4 rounded bg-surface-strong" />
+                  <div className="h-3 w-full rounded bg-surface-strong" />
+                  <div className="h-3 w-2/3 rounded bg-surface-strong" />
                 </div>
               </div>
             ))
@@ -333,12 +333,12 @@ export const CoursesList = ({ showAll = false }: { showAll?: boolean }) => {
                 key={i}
                 className="grid grid-cols-[108px_minmax(0,1fr)] items-center gap-4 bg-white border border-[#e6e1dc] p-2.5 pr-3.5 rounded-[22px] animate-pulse lg:flex lg:flex-col lg:items-stretch lg:gap-0 lg:p-2.5 lg:rounded-[28px]"
               >
-                <div className="self-stretch aspect-square rounded-[16px] bg-[#F0EEEA] lg:w-full lg:aspect-[4/3] lg:rounded-[20px]" />
+                <div className="self-stretch aspect-square rounded-[16px] bg-surface-strong lg:w-full lg:aspect-[4/3] lg:rounded-[20px]" />
                 <div className="min-w-0 flex flex-col gap-2.5 lg:w-full lg:px-3 lg:pt-[18px] lg:pb-2.5">
-                  <div className="h-2.5 w-1/3 rounded bg-[#F0EEEA]" />
-                  <div className="h-4 w-3/4 rounded bg-[#F0EEEA]" />
-                  <div className="h-3 w-2/3 rounded bg-[#F0EEEA]" />
-                  <div className="mt-2 h-3 w-full rounded bg-[#F0EEEA]" />
+                  <div className="h-2.5 w-1/3 rounded bg-surface-strong" />
+                  <div className="h-4 w-3/4 rounded bg-surface-strong" />
+                  <div className="h-3 w-2/3 rounded bg-surface-strong" />
+                  <div className="mt-2 h-3 w-full rounded bg-surface-strong" />
                 </div>
               </div>
               ) : (
@@ -347,12 +347,12 @@ export const CoursesList = ({ showAll = false }: { showAll?: boolean }) => {
                 className="bg-white border border-black/5 rounded-[1.25rem] sm:rounded-[1.5rem] overflow-hidden flex flex-col md:flex-row items-stretch animate-pulse lg:rounded-[28px] lg:flex-col lg:p-2.5"
               >
                 <div className="flex flex-col w-full md:w-[58%] p-6 sm:p-8 md:pl-10 gap-4 order-2 md:order-1 lg:w-full lg:order-2 lg:p-3">
-                  <div className="h-8 w-3/4 rounded-lg bg-[#F0EEEA]" />
-                  <div className="h-3 w-2/3 rounded bg-[#F0EEEA]" />
-                  <div className="h-3 w-1/2 rounded bg-[#F0EEEA]" />
-                  <div className="mt-4 h-10 w-32 rounded-full bg-[#F0EEEA]" />
+                  <div className="h-8 w-3/4 rounded-lg bg-surface-strong" />
+                  <div className="h-3 w-2/3 rounded bg-surface-strong" />
+                  <div className="h-3 w-1/2 rounded bg-surface-strong" />
+                  <div className="mt-4 h-10 w-32 rounded-full bg-surface-strong" />
                 </div>
-                <div className="w-full md:w-[42%] aspect-[16/9] md:aspect-[4/3] bg-[#F0EEEA] order-1 md:order-2 lg:w-full lg:order-1 lg:rounded-[20px]" />
+                <div className="w-full md:w-[42%] aspect-[16/9] md:aspect-[4/3] bg-surface-strong order-1 md:order-2 lg:w-full lg:order-1 lg:rounded-[20px]" />
               </div>
               ),
             )
@@ -417,7 +417,7 @@ export const CoursesList = ({ showAll = false }: { showAll?: boolean }) => {
                   `.ac-img`, aspect 1:1, radius 16px); full-width on TOP on desktop. */}
               <div
                 style={{ ['--tint' as string]: tint }}
-                className="relative block self-stretch aspect-square overflow-hidden rounded-[16px] bg-[#F9F8F6] lg:w-full lg:aspect-[4/3] lg:rounded-[20px]"
+                className="relative block self-stretch aspect-square overflow-hidden rounded-[16px] bg-surface lg:w-full lg:aspect-[4/3] lg:rounded-[20px]"
               >
                 <img
                   src={course.image || PRODUCT_PLACEHOLDER}
@@ -492,7 +492,7 @@ export const CoursesList = ({ showAll = false }: { showAll?: boolean }) => {
                 to={`/corsi/${course.handle}`}
                 aria-label={course.title}
                 style={{ ['--tint' as string]: tint }}
-                className="relative block w-full md:w-[42%] aspect-[16/9] md:aspect-[4/3] overflow-hidden bg-[#F9F8F6] order-1 md:order-2 lg:w-full lg:order-1 lg:rounded-[20px]"
+                className="relative block w-full md:w-[42%] aspect-[16/9] md:aspect-[4/3] overflow-hidden bg-surface order-1 md:order-2 lg:w-full lg:order-1 lg:rounded-[20px]"
               >
                 <img
                   src={course.image || PRODUCT_PLACEHOLDER}

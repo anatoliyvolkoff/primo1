@@ -115,12 +115,12 @@ function RateTableInner({
             <tr>
               <th
                 scope="col"
-                className={cn(COL_CLS, weightColCls, 'border-t border-[#e6e1dc] bg-[#fbf9f6] pb-3 pt-3 align-bottom text-[10.5px] font-bold uppercase tracking-[1.5px] text-[#8a8580] lg:pb-4 lg:pt-4')}
+                className={cn(COL_CLS, weightColCls, 'border-t border-[#e6e1dc] bg-surface pb-3 pt-3 align-bottom text-[10.5px] font-bold uppercase tracking-[1.5px] text-[#8a8580] lg:pb-4 lg:pt-4')}
               >
                 {weightLabel}
               </th>
               {headers.map((h, i) => (
-                <th key={i} scope="col" className={cn(COL_CLS, 'border-t border-[#e6e1dc] bg-[#fbf9f6] pb-3 pt-3 align-bottom lg:pb-4 lg:pt-4')}>
+                <th key={i} scope="col" className={cn(COL_CLS, 'border-t border-[#e6e1dc] bg-surface pb-3 pt-3 align-bottom lg:pb-4 lg:pt-4')}>
                   <span className="block text-[13px] font-bold leading-[17px] text-[#111] lg:text-[15px] lg:leading-5">{h.zone}</span>
                   <span className="mt-[3px] block font-sans text-[11px] font-normal leading-[14px] text-[#8a8580] lg:text-[12.5px] lg:leading-[17px]">{h.area}</span>
                 </th>
@@ -141,7 +141,7 @@ function RateTableInner({
               ))}
             </tr>
             {bandKgs.map((kg) => (
-              <tr key={kg} className="border-t border-[#e6e1dc] transition-colors lg:hover:bg-[#fbf9f6]">
+              <tr key={kg} className="border-t border-[#e6e1dc] transition-colors lg:hover:bg-surface">
                 <th scope="row" className={cn(COL_CLS, 'h-[46px] whitespace-nowrap font-sans text-[14.5px] font-normal text-[#555] lg:h-[50px] lg:text-[15.5px]')}>
                   {kgLabel(kg)}
                 </th>
@@ -222,7 +222,7 @@ export function ShippingPage() {
   return (
     <main className="flex-1 pt-20 sm:pt-24 pb-10 lg:pb-0">
       {/* ── Hero (warm full-bleed band) ── */}
-      <section className="bg-[#f6f3ef] pb-10 lg:pb-12">
+      <section className="bg-surface pb-10 lg:pb-12">
         <div className="mx-auto w-full max-w-[976px] px-6 sm:px-4">
           <div className="pt-6 lg:pt-10">
             <Link
@@ -310,7 +310,7 @@ export function ShippingPage() {
             />
             {/* Country legend — derived from the zone descriptions (same data
                 source as the rate zones), reformatted as a 2-col list. */}
-            <dl className="grid gap-3.5 border-t border-[#e6e1dc] bg-[#fbf9f6] px-[18px] pb-5 pt-[18px] lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-[26px] lg:pt-[22px]">
+            <dl className="grid gap-3.5 border-t border-[#e6e1dc] bg-surface px-[18px] pb-5 pt-[18px] lg:grid-cols-2 lg:gap-8 lg:px-8 lg:pb-[26px] lg:pt-[22px]">
               {euZones.map((z, i) => (
                 <div key={z.key}>
                   <dt className="text-[10.5px] font-bold uppercase leading-[14px] tracking-[1.5px] text-accent-gold">
@@ -406,7 +406,7 @@ export function ShippingPage() {
               href={whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-[52px] items-center justify-center gap-2 rounded-pill bg-white px-8 text-[15px] font-medium text-[#111] transition-colors hover:bg-[#ece8e3] active:scale-[0.98]"
+              className="inline-flex h-[52px] items-center justify-center gap-2 rounded-pill bg-white px-8 text-[15px] font-medium text-[#111] transition-colors hover:bg-surface-strong active:scale-[0.98]"
             >
               <MessageCircle className="h-5 w-5" aria-hidden="true" />
               {t('shipping.finalWhatsapp')}

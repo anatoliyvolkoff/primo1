@@ -83,14 +83,14 @@ export function CoursesPage() {
   // conflicting classes, so fill + font are `!` to beat the primitive's
   // `bg-card` / `font-sans`.
   const pillField =
-    'h-[52px] rounded-full bg-[#faf8f6]! border-[#e6e1dc] px-[22px] font-inter! text-[15px] ' +
+    'h-[52px] rounded-full bg-surface! border-[#e6e1dc] px-[22px] font-inter! text-[15px] ' +
     'placeholder:text-[#9a948e] focus:border-[#111] focus:bg-white!';
 
   return (
       <main className="flex-1 pt-[61px] lg:pt-24 lg:pb-0 pb-[120px]">
         {/* PHONE hero — primo1 `.acad-hero`: photo with a frosted "Indietro"
             pill, then a warm intro card lapping over its bottom edge. */}
-        <section className="lg:hidden relative bg-[#f6f3ef]">
+        <section className="lg:hidden relative bg-surface">
           <div className="absolute z-[2] top-3 left-3">
             <button
               type="button"
@@ -109,7 +109,7 @@ export function CoursesPage() {
             fetchPriority="high"
             className="w-full h-[320px] object-cover object-[50%_30%]"
           />
-          <div className="relative -mt-7 px-6 pt-[30px] pb-8 rounded-t-[28px] bg-[#f6f3ef]">
+          <div className="relative -mt-7 px-6 pt-[30px] pb-8 rounded-t-[28px] bg-surface">
             <p className="font-sans text-[11px] leading-4 font-bold tracking-[1.8px] uppercase text-[#c8742d]">{t('courses.heroEyebrow')}</p>
             <h1 className="mt-2.5 text-[40px] leading-[42px] font-bold tracking-[-1.6px] text-[#111]">{t('courses.bannerTitle')}</h1>
             <p className="mt-4 font-inter text-[16px] leading-6 text-[#555]">{t('courses.bannerSubtitle')}</p>
@@ -164,7 +164,7 @@ export function CoursesPage() {
                   <a
                     href="#courses"
                     onClick={scrollToSection('courses')}
-                    className="inline-flex items-center justify-center h-[52px] px-7 rounded-full bg-white text-black text-[15px] font-semibold transition-colors duration-200 hover:bg-[#ece8e3] active:scale-[0.98]"
+                    className="inline-flex items-center justify-center h-[52px] px-7 rounded-full bg-white text-black text-[15px] font-semibold transition-colors duration-200 hover:bg-surface-strong active:scale-[0.98]"
                   >
                     {t('courses.heroCtaCourses')}
                   </a>
@@ -182,7 +182,7 @@ export function CoursesPage() {
         </section>
 
         {/* DESKTOP facts strip — white 4-column card pulled up to overlap the hero. */}
-        <section aria-label={t('courses.academyLabel')} className="relative px-4 -mt-px bg-[linear-gradient(#f6f3ef_50%,#fff_50%)] lg:bg-none lg:mt-0 lg:max-w-[976px] lg:mx-auto lg:px-6">
+        <section aria-label={t('courses.academyLabel')} className="relative px-4 -mt-px bg-[linear-gradient(var(--surface)_50%,#fff_50%)] lg:bg-none lg:mt-0 lg:max-w-[976px] lg:mx-auto lg:px-6">
           <dl className="grid grid-cols-2 lg:grid-cols-4 lg:-mt-12 rounded-[24px] border border-[#e6e1dc] bg-white overflow-hidden shadow-[0_20px_40px_-28px_rgba(0,0,0,0.25)]">
             {([
               // Four marketing facts, matching the prototype's `.acad-facts`
@@ -280,7 +280,7 @@ export function CoursesPage() {
                       placeholder={t('courses.whatDoYouNeed')}
                       aria-label={t('courses.whatDoYouNeed')}
                       rows={3}
-                      className="h-28 rounded-[22px] bg-[#faf8f6]! border-[#e6e1dc] px-[22px] py-4 font-inter! text-[15px] placeholder:text-[#9a948e] focus:border-[#111] focus:bg-white!"
+                      className="h-28 rounded-[22px] bg-surface! border-[#e6e1dc] px-[22px] py-4 font-inter! text-[15px] placeholder:text-[#9a948e] focus:border-[#111] focus:bg-white!"
                     />
                     <Button type="submit" variant="primary" size="lg" fullWidth className="mt-1 h-[52px] normal-case tracking-[0.2px] text-[15px] font-semibold">
                       {t('courses.submitRequest')}

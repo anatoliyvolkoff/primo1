@@ -64,7 +64,7 @@ export const ProvinceSelect: FC<ProvinceSelectProps> = ({ id, value, invalid, on
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-invalid={invalid || undefined}
-        className={`w-full h-[52px] rounded-pill border bg-[#faf8f6] px-5 text-[15px] text-foreground outline-none transition-[border-color,background-color,box-shadow] duration-200 hover:border-[#c9c4bf] focus-visible:border-foreground focus-visible:bg-card focus-visible:ring-[3px] focus-visible:ring-foreground/10 flex items-center justify-between gap-2 text-left ${
+        className={`w-full h-[52px] rounded-pill border bg-surface px-5 text-[15px] text-foreground outline-none transition-[border-color,background-color,box-shadow] duration-200 hover:border-[#c9c4bf] focus-visible:border-foreground focus-visible:bg-card focus-visible:ring-[3px] focus-visible:ring-foreground/10 flex items-center justify-between gap-2 text-left ${
           invalid ? 'border-destructive bg-card' : 'border-[#e6e1dc]'
         }`}
       >

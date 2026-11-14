@@ -11,7 +11,7 @@
 .abc .cx-back .back{height:36px;padding:0 14px 0 8px;gap:4px;border-radius:99px;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#111;font-weight:500}
 @media (min-width:1024px){.abc .abc-hero .cx-back .back{background:#fff}}
 
-.abc{--cx-warm:#f6f3ef;--cx-line:#e6e1dc;overflow:hidden}
+.abc{--cx-warm:var(--surface);--cx-line:#e6e1dc;overflow:hidden}
 .abc h2{text-wrap:balance}
 .abc-hero{position:relative;height:560px;background:#111;color:#fff;overflow:hidden}
 .abc-hero img{width:100%;height:100%;object-fit:cover;object-position:46% 30%;filter:brightness(.62) contrast(1.05)}
@@ -90,7 +90,7 @@
 .abc-tile{position:relative;display:flex;flex-direction:column;min-height:420px;padding:24px;border-radius:28px;background:var(--cx-warm);overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s}
 .abc-tile img{position:absolute;right:-6%;top:0;width:86%;height:72%;object-fit:contain;object-position:100% 0;mix-blend-mode:multiply;transition:transform .6s var(--ease)}
 .abc-tile:not(.school) img{-webkit-mask-image:radial-gradient(ellipse 62% 62% at 58% 48%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 62% 62% at 58% 48%,#000 55%,transparent 100%)}
-.abc-tile.school{background:#ece6df}
+.abc-tile.school{background:var(--surface-strong)}
 .abc-tile.school img{right:-14%;width:96%;height:76%}
 .abc-tile-txt{position:relative;margin-top:auto;max-width:78%}
 .abc-tile h3{margin:8px 0 0;font-size:28px;line-height:32px;font-weight:600;letter-spacing:-.9px;color:#111}
