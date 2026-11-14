@@ -103,8 +103,12 @@
   /* Redesign (2026) prototype tokens — see docs/redesign/gap/00-design-system.md.
      Warm surfaces, free-ship progress/done colors, scroll-progress orange,
      scrim, and the signature spring easing. Exposed for later-batch utilities. */
-  --color-warm: hsl(var(--warm));
-  --color-footer: hsl(var(--footer));
+  /* Soft section surface (footer, community, info panels, form fields, course
+     cards…). One token: change `--surface` in :root to re-colour all of them. */
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
+  --color-warm: var(--surface);
+  --color-footer: var(--surface);
   --color-orange: hsl(var(--orange));
   --color-ship: hsl(var(--ship));
   --color-green-bright: hsl(var(--green-bright));
@@ -189,8 +193,11 @@
     --sale-price: 0 100% 44%;
 
     /* ── Redesign (2026) prototype tokens ── */
-    --warm: 40 20% 97%;          /* Warm section surface #f9f8f6 */
-    --footer: 30 33% 96%;        /* Footer warm tone #f9f6f3 (was aliased to --background) */
+    /* Soft surface behind the footer, community, info panels, fields and course
+       cards (replaced the old cream #f6f3ef–#faf8f6 family). THE one value to change. */
+    --surface: #f8f8f8;
+    /* Hover / skeleton shade, derived so it always follows --surface. */
+    --surface-strong: color-mix(in srgb, var(--surface) 93%, #000);
     --orange: 34 100% 50%;       /* Scroll-progress / search chip trend icon #ff9000 */
     --ship: 24 100% 54%;         /* Cart free-ship progress fill #ff7812 */
     --green-bright: 127 100% 39%; /* "Free-ship unlocked" / marquee FREE #00c510 (distinct from --success/--badge-new) */

@@ -1,5 +1,5 @@
 /* Ported verbatim from primo1 (css/site.css), scoped under .pm-footer (non-root selectors wrapped in :where so primo1's specificity is kept). Generated. */
-.pm-footer{--ink:#000;--gray:#6b6b6b;--gray-2:#767676;--line:#999;--red:#e00000;--badge:#d92d2d;--orange:#ff9000;--ship:#ff7812;--green:#00c510;--warm:#f9f8f6;--footer:#f9f6f2;--hair:#e2dfdd;--accent:#c8742d;--cta-bg:#fff;--dot:#c4c4c9;--ease:cubic-bezier(.22,.8,.24,1);--f:Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--fi:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink)}
+.pm-footer{--ink:#000;--gray:#6b6b6b;--gray-2:#767676;--line:#999;--red:#e00000;--badge:#d92d2d;--orange:#ff9000;--ship:#ff7812;--green:#00c510;--warm:var(--surface);--footer:var(--surface);--hair:#e2dfdd;--accent:#c8742d;--cta-bg:#fff;--dot:#c4c4c9;--ease:cubic-bezier(.22,.8,.24,1);--f:Montserrat,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--fi:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink)}
 .pm-footer svg{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .pm-footer{background:var(--footer);border-top:1px solid rgba(227,224,222,.5);padding:46px 33px 62px;font-family:var(--fi)}
 :where(.pm-footer) .f-logo{width:98px;height:auto}
@@ -35,7 +35,7 @@
 :where(.pm-footer) .pay .gp{color:#5f6368;font-weight:500;font-size:8.5px;white-space:nowrap}
 :where(.pm-footer) .pay .gp b{color:#4285f4;font-weight:700;margin-right:1px}
 @media (min-width:1024px){
-  .pm-footer{padding:0;border-top:1px solid rgba(227,224,222,.5);background:#f9f6f3}
+  .pm-footer{padding:0;border-top:1px solid rgba(227,224,222,.5);background:var(--surface)}
   :where(.pm-footer) .f-in{max-width:976px;margin:0 auto;padding:101px 0 100px;display:grid;grid-template-columns:356px 1fr;grid-template-rows:226px auto}
   :where(.pm-footer) .f-brand{padding-top:24px}
   :where(.pm-footer) .f-logo{width:133px}

@@ -228,7 +228,7 @@ export function CourseEnrollModal({
                     <button
                       type="button"
                       onClick={() => setStep('form')}
-                      className="group flex items-center gap-4 w-full bg-white text-black border border-[#d9d5d0] rounded-[28px] px-6 py-4 text-left hover:bg-[#f6f3ef] active:scale-[0.98] transition-[background-color,transform]"
+                      className="group flex items-center gap-4 w-full bg-white text-black border border-[#d9d5d0] rounded-[28px] px-6 py-4 text-left hover:bg-surface active:scale-[0.98] transition-[background-color,transform]"
                     >
                       <Mail className="w-5 h-5 shrink-0" strokeWidth={1.8} />
                       <span className="flex-1 min-w-0">

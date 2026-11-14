@@ -150,7 +150,7 @@ export const NewsletterPopup: React.FC = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 40 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative bg-[#faf8f6]! text-card-foreground w-full max-w-[820px] max-h-[92vh] rounded-[16px] sm:rounded-[20px] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row shadow-elevated outline-none"
+            className="relative bg-surface! text-card-foreground w-full max-w-[820px] max-h-[92vh] rounded-[16px] sm:rounded-[20px] overflow-y-auto md:overflow-hidden flex flex-col md:flex-row shadow-elevated outline-none"
           >
             {/* Close Button */}
             <button

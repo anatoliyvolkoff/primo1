@@ -106,7 +106,7 @@ function focusNextInfoField(fromId: string) {
 const CHECKOUT_LABEL_CLS =
   'font-sans text-[12.5px] leading-4 font-medium text-muted-foreground mb-1.5 ml-4';
 const checkoutInputCls = (invalid: boolean) =>
-  `w-full h-[52px] px-5 rounded-pill border bg-[#faf8f6] font-sans text-[15px] text-foreground ` +
+  `w-full h-[52px] px-5 rounded-pill border bg-surface font-sans text-[15px] text-foreground ` +
   `placeholder:text-muted-foreground/60 outline-none transition-[border-color,background-color,box-shadow] duration-200 ` +
   `hover:border-[#c9c4bf] focus-visible:border-foreground focus-visible:bg-card focus-visible:ring-[3px] focus-visible:ring-foreground/10 ` +
   (invalid ? 'border-destructive bg-card' : 'border-[#e6e1dc]');
@@ -124,7 +124,7 @@ const CheckoutHero: React.FC<{ step: 'info' | 'shipping' | 'payment' }> = ({ ste
     { n: 3, label: t('checkout.stepPayment') },
   ];
   return (
-    <section className="bg-[#f6f3ef] pt-24 sm:pt-28 md:pt-32">
+    <section className="bg-surface pt-24 sm:pt-28 md:pt-32">
       <Container className="lg:!max-w-[976px] lg:mx-auto">
         <Link
           to="/semipermanente"
@@ -819,7 +819,7 @@ export const Checkout = () => {
                           key={option.id}
                           className={`relative flex items-center gap-3.5 min-h-[68px] px-4 py-3 border rounded-[20px] bg-card cursor-pointer transition-[border-color,box-shadow,background-color] duration-200 ${
                             selected
-                              ? 'border-foreground shadow-[0_0_0_1px_var(--color-foreground)] bg-[#fcfbfa]'
+                              ? 'border-foreground shadow-[0_0_0_1px_var(--color-foreground)] bg-surface'
                               : 'border-[#e6e1dc] hover:border-[#b9b3ad]'
                           }`}
                         >
@@ -894,7 +894,7 @@ export const Checkout = () => {
                     {t('checkout.paymentSecureNote')}
                   </p>
                 </div>
-                <div className="flex items-center gap-3.5 min-h-[68px] px-4 py-3 border border-foreground rounded-[20px] bg-[#fcfbfa] shadow-[0_0_0_1px_var(--color-foreground)]">
+                <div className="flex items-center gap-3.5 min-h-[68px] px-4 py-3 border border-foreground rounded-[20px] bg-surface shadow-[0_0_0_1px_var(--color-foreground)]">
                   <span aria-hidden="true" className="flex-none grid place-items-center w-[22px] h-[22px] rounded-full border-[7px] border-foreground" />
                   <div className="flex-1 min-w-0">
                     <p className="font-sans text-[15px] font-bold text-foreground">Nexi XPay</p>
@@ -905,7 +905,7 @@ export const Checkout = () => {
                   </div>
                 </div>
                 {/* Next-step notice: the pay action lives in the order summary, so say so. */}
-                <div role="note" className="flex items-start gap-3 px-4 py-3.5 rounded-[16px] bg-[#f6f3ef] border border-[#e6e1dc]">
+                <div role="note" className="flex items-start gap-3 px-4 py-3.5 rounded-[16px] bg-surface border border-[#e6e1dc]">
                   <Info className="flex-none w-[18px] h-[18px] mt-0.5 text-foreground" strokeWidth={1.8} aria-hidden="true" />
                   <div className="flex-1 min-w-0">
                     <p className="font-sans text-[14px] leading-5 font-semibold text-foreground">{t('checkout.payHintTitle' as any)}</p>
@@ -921,7 +921,7 @@ export const Checkout = () => {
             <Card
               radius="lg"
               id="order-summary"
-              className="scroll-mb-8 lg:sticky lg:top-[120px] rounded-[28px] lg:rounded-[32px] border-[#e6e1dc] bg-[#f6f3ef] shadow-[0_30px_60px_-36px_rgba(0,0,0,0.3)] p-6 sm:p-8"
+              className="scroll-mb-8 lg:sticky lg:top-[120px] rounded-[28px] lg:rounded-[32px] border-[#e6e1dc] bg-surface shadow-[0_30px_60px_-36px_rgba(0,0,0,0.3)] p-6 sm:p-8"
             >
               <h3 className="font-sans text-[22px] leading-7 font-semibold tracking-[-0.4px] text-card-foreground mb-5">{t('checkout.orderSummary')}</h3>
 
@@ -941,7 +941,7 @@ export const Checkout = () => {
                       </div>
                       <div
                         aria-label={t('checkout.qtyLabel', { count: item.quantity })}
-                        className="absolute -top-[7px] -right-[7px] min-w-[22px] h-[22px] px-1.5 rounded-full bg-foreground text-background text-[11px] font-bold flex items-center justify-center shadow-[0_0_0_2px_#f6f3ef]"
+                        className="absolute -top-[7px] -right-[7px] min-w-[22px] h-[22px] px-1.5 rounded-full bg-foreground text-background text-[11px] font-bold flex items-center justify-center shadow-[0_0_0_2px_var(--surface)]"
                       >
                         {item.quantity}
                       </div>

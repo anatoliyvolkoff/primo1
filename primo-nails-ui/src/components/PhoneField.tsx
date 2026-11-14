@@ -157,7 +157,7 @@ export function PhoneField({
       {open && (
         <div
           role="listbox"
-          className="absolute z-30 mt-2 w-full sm:w-[340px] max-w-[calc(100vw-3rem)] bg-[#FAF9F6] border border-black/10 rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] overflow-hidden"
+          className="absolute z-30 mt-2 w-full sm:w-[340px] max-w-[calc(100vw-3rem)] bg-surface border border-black/10 rounded-3xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.25)] overflow-hidden"
         >
           <div className="p-3 border-b border-black/5">
             <div className="flex items-center gap-2 bg-white border border-black/10 rounded-full px-4 py-2.5">
