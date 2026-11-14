@@ -65,7 +65,7 @@ export const NAIL_SWATCHES: NailSwatch[] = [
   { name: 'marrone', slug: 'marrone', i18nKey: 'swatch.marrone', color: '#4A2518', productColors: ['MARRONE'], moodPhoto: '/moods/mood-cioccolato.webp' },
   // Effect-based pill — the CSV doesn't translate effects; SHIMMER /
   // HOLOGRAPHIC / MATTE / GLITTER stay in English. Match by effect, not colour.
-  { name: 'glitter', slug: 'glitter', i18nKey: 'swatch.glitter', color: '#C89B90', isGlitter: true, productColors: [], productEffect: 'GLITTER', moodPhoto: '/moods/mood-glitter.webp' },
+  { name: 'glitter', slug: 'glitter', i18nKey: 'swatch.glitter', color: '#C89B90', isGlitter: true, productColors: [], productEffect: 'GLITTER', moodPhoto: '/moods/mood-glitter-anim.webp' },
   { name: 'blu',     slug: 'blu',     i18nKey: 'swatch.blu',     color: '#2B429F', productColors: ['BLU'], moodPhoto: '/moods/mood-blu.webp' },
   { name: 'verde',   slug: 'verde',   i18nKey: 'swatch.verde',   color: '#559E38', productColors: ['VERDE'], moodPhoto: '/moods/mood-verde.webp' },
   // 'y + o' (yellow→orange) split swatch — matches the ref's palette label.
