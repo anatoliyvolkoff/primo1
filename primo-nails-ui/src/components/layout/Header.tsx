@@ -126,7 +126,7 @@ export const Header = () => {
         style={{ right: 'var(--scrollbar-comp, 0px)' }}
         className={`fixed top-0 left-0 ${isMobileMenuOpen ? 'z-[120]' : 'z-50'} transition-colors duration-300 ${
           isScrolled
-            ? 'bg-background/95 backdrop-blur-md border-b border-border/50'
+            ? 'bg-background border-b border-border/50'
             : 'bg-background border-b border-transparent'
         }`}
       >

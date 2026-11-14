@@ -68,7 +68,7 @@ export const StickyColorStrip: React.FC<StickyColorStripProps> = ({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.22, ease: [0.22, 0.8, 0.24, 1] }}
-            className="absolute inset-x-0 top-0 flex items-center h-14 pl-2 pr-3 bg-white/95 backdrop-blur border-b border-[#ededed] shadow-[0_6px_16px_-12px_rgba(0,0,0,0.25)] lg:h-16 lg:justify-center lg:px-6"
+            className="absolute inset-x-0 -top-px flex items-center h-[57px] pl-2 pr-3 bg-white border-b border-[#ededed] shadow-[0_6px_16px_-12px_rgba(0,0,0,0.25)] lg:h-[65px] lg:justify-center lg:px-6"
           >
             {/* Swatches: 28px dots with a 16px gap, so even a fully selected row
                 (every dot ringed) keeps clear air between the rings. Selected =
