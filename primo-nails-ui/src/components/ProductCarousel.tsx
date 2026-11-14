@@ -88,6 +88,29 @@ export const ProductCarousel: React.FC<ProductCarouselProps> = ({
   const itemCount = React.Children.count(children);
   useEffect(() => { update(); }, [update, itemCount]);
 
+  // Entrance state is held here (not left to `whileInView`) so cards that mount
+  // AFTER the row has animated in inherit `animate="visible"` and fade in too.
+  // With `whileInView` alone a card added later (e.g. the product you just
+  // left, prepended to "Potrebbe piacerti anche" when you open another product)
+  // stayed at opacity 0: an invisible card-wide hole at the start of the row.
+  const [shown, setShown] = useState(false);
+
+  // When the first item changes, the row now holds a different list (another
+  // product page, new search results): start again from the first card. Without
+  // this Chrome's scroll anchoring keeps the old cards in place and the new
+  // first card ends up scrolled out of view to the left.
+  const firstKey = React.Children.toArray(children)
+    .map((c) => (React.isValidElement(c) ? c.key : null))
+    .find((k) => k != null) ?? null;
+  const prevFirstKey = useRef(firstKey);
+  useEffect(() => {
+    if (prevFirstKey.current === firstKey) return;
+    prevFirstKey.current = firstKey;
+    const el = scrollRef.current;
+    if (el) el.scrollLeft = 0;
+    update();
+  }, [firstKey, update]);
+
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -138,7 +161,8 @@ export const ProductCarousel: React.FC<ProductCarouselProps> = ({
           aria-label={t('a11y.gallery')}
           tabIndex={0}
           initial="hidden"
-          whileInView="visible"
+          animate={shown ? 'visible' : 'hidden'}
+          onViewportEnter={() => setShown(true)}
           viewport={{ once: true, amount: 0.15 }}
           variants={carouselRowVariants}
           // overflow-y-hidden (not the default `visible`, which the `auto`
