@@ -149,7 +149,7 @@ export const ProductCarousel: React.FC<ProductCarouselProps> = ({
           // scroll until you pause. Hidden keeps it off the wheel; the py-6
           // /-my-6 pair reserves room for the lift/shadow/entrance so nothing
           // is clipped and the layout is unchanged.
-          className={`flex overflow-x-auto overflow-y-hidden py-6 -my-6 no-scrollbar snap-x snap-mandatory touch-pan-x ${
+          className={`flex overflow-x-auto overflow-y-hidden py-6 -my-6 no-scrollbar snap-x snap-mandatory ${
             bleedRight ? '-mr-4 sm:mr-0' : ''
           } ${rowClassName}`}
         >

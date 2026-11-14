@@ -76,7 +76,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ customItems, withBack 
       // Phones: Primo1 `.crumbs` — 13px sentence case (the labels are
       // uppercase strings, so each is lower-cased with a capital first
       // letter), light grey.
-      className="flex items-center gap-0 text-[13px] leading-4 font-normal tracking-normal text-[#a8a8a8] mb-[18px] font-inter lg:text-[13px] lg:leading-4 lg:text-[#8a8a8a] lg:gap-0.5 lg:mb-0 select-none overflow-x-auto no-scrollbar whitespace-nowrap"
+      className="flex items-center gap-0 text-[13px] leading-4 font-normal tracking-normal text-[#a8a8a8] mb-[18px] font-inter lg:text-[13px] lg:leading-4 lg:text-[#8a8a8a] lg:gap-0.5 lg:mb-0 select-none overflow-x-auto overflow-y-hidden no-scrollbar whitespace-nowrap"
     >
       <ol className="flex items-center gap-0 lg:gap-0.5 min-w-0">
         {items.map((item, index) => (

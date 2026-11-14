@@ -12,7 +12,7 @@
 .pm-seasons .ps-head h2{margin:0;font-size:36px;line-height:40px;font-weight:800;letter-spacing:-.01em;color:#1b1b1b}
 .pm-seasons .ps-head p{margin:10px 0 0;font-size:16px;font-weight:600;color:#5b5b60;letter-spacing:.01em}
 .pm-seasons .ps-carousel{width:100%;margin-top:44px}
-.pm-seasons .ps-track{--card-w:clamp(260px,80vw,340px);position:relative;display:flex;gap:17px;overflow-x:auto;overscroll-behavior-x:contain;padding:14px calc((100% - var(--card-w))/2) 34px;margin:-14px 0 -34px;
+.pm-seasons .ps-track{--card-w:clamp(260px,80vw,340px);position:relative;display:flex;gap:17px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;padding:14px calc((100% - var(--card-w))/2) 34px;margin:-14px 0 -34px;
   scroll-snap-type:x mandatory;scrollbar-width:none;outline:none}
 .pm-seasons .ps-track::-webkit-scrollbar{display:none}
 .pm-seasons .ps-card{flex:none;width:var(--card-w);height:calc(var(--card-w)*1.4231);scroll-snap-align:center;scroll-snap-stop:always;position:relative;background:#fff;border:2px solid #e6e6ea;border-radius:26px;cursor:pointer;

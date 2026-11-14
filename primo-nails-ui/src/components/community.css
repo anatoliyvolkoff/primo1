@@ -52,15 +52,14 @@
 :where(.pm-community) .cm-card .cm-n{font-size:13.5px;line-height:17px}
 :where(.pm-community) .cm-card .cm-r{font-size:12px}
 :where(.pm-community) .cm-card.cur{border-color:#ffa22b;box-shadow:0 8px 20px -8px rgba(255,144,0,.35)}
-:where(.pm-community) .cm-card:active{transform:scale(.98)}
 :where(.pm-community) .cm-hint{margin:16px 24px 0;font-family:var(--fi);font-size:12px;line-height:16px;color:var(--gray);text-align:center}
 @media (hover:hover) and (pointer:fine){
   :where(.pm-community) .cm-arrow:hover{background:#000;border-color:#000}
   :where(.pm-community) .cm-arrow:hover svg{stroke:#fff}
-  :where(.pm-community) .cm-card:hover{border-color:#ffa22b;transform:translateY(-4px);box-shadow:0 18px 36px -24px rgba(0,0,0,.28)}
+  :where(.pm-community) .cm-card:hover{border-color:#ffa22b;box-shadow:0 18px 36px -24px rgba(0,0,0,.28)}
 }
 @media (prefers-reduced-motion:reduce){
-  :where(.pm-community) .cm-wall{overflow-x:auto;-webkit-mask:none;mask:none;scrollbar-width:none}
+  :where(.pm-community) .cm-wall{overflow-x:auto;overflow-y:hidden;-webkit-mask:none;mask:none;scrollbar-width:none}
   :where(.pm-community) .cm-row{animation:none}
 }
 @media (min-width:1024px){

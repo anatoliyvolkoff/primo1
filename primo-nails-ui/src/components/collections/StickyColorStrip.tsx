@@ -77,7 +77,7 @@ export const StickyColorStrip: React.FC<StickyColorStripProps> = ({
               ref={rowRef}
               role="group"
               aria-label={t('shop.cs.groupLabel' as any)}
-              className="flex-1 min-w-0 flex items-center gap-4 overflow-x-auto no-scrollbar px-2 py-2 lg:flex-none lg:overflow-visible"
+              className="flex-1 min-w-0 flex items-center gap-4 overflow-x-auto overflow-y-hidden no-scrollbar px-2 py-2 lg:flex-none lg:overflow-visible"
             >
               {NAIL_SWATCHES.map((swatch) => {
                 const isSelected = selectedColors.includes(swatch.name);

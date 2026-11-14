@@ -610,7 +610,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               controls leave no room); on smaller screens the chips live in the
               bottom sheet, but the count cap still shows next to Clear. */}
           {activeFiltersCount > 0 && (
-            <div className="hidden lg:flex min-w-0 items-center gap-2 h-10 pr-10 overflow-x-auto no-scrollbar [mask-image:linear-gradient(to_right,#000_calc(100%-44px),transparent)] [-webkit-mask-image:linear-gradient(to_right,#000_calc(100%-44px),transparent)]">
+            <div className="hidden lg:flex min-w-0 items-center gap-2 h-10 pr-10 overflow-x-auto overflow-y-hidden no-scrollbar [mask-image:linear-gradient(to_right,#000_calc(100%-44px),transparent)] [-webkit-mask-image:linear-gradient(to_right,#000_calc(100%-44px),transparent)]">
               {activeFilters.map((f, i) => {
                 const label = chipLabel(f);
                 return (
