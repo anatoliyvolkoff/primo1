@@ -79,7 +79,7 @@ export function CoursesPage() {
   };
 
   // Pill-shaped field styling (prototype `.fld input`): 52px, radius 99,
-  // warm #faf8f6 fill, focus → black border + white fill. `cn` doesn't merge
+  // surface fill (--surface), focus → black border + white fill. `cn` doesn't merge
   // conflicting classes, so fill + font are `!` to beat the primitive's
   // `bg-card` / `font-sans`.
   const pillField =
