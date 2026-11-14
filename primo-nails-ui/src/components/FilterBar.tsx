@@ -368,6 +368,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 <Swatch
                   key={swatch.name}
                   color={swatch.color}
+                  image={swatch.swatchImage}
                   selected={isSelected}
                   size="lg"
                   role="checkbox"

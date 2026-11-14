@@ -94,7 +94,7 @@ export const StickyColorStrip: React.FC<StickyColorStripProps> = ({
                   >
                     <span
                       aria-hidden="true"
-                      style={{ background: swatch.color }}
+                      style={swatch.swatchImage ? { background: `url(${swatch.swatchImage}) center / cover no-repeat` } : { background: swatch.color }}
                       className={`block w-full h-full rounded-full transition-[box-shadow,transform] duration-200 ease-[cubic-bezier(.22,.8,.24,1)] group-active:scale-90 ${
                         isSelected
                           ? 'shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.15),0_0_0_2px_#fff,0_0_0_3.5px_#000]'

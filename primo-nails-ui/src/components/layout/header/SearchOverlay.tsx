@@ -551,7 +551,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
                                         sug.swatch.moodPhoto ? (
                                           <img src={sug.swatch.moodPhoto} alt="" loading="lazy" decoding="async" className="w-[18px] h-[26px] object-contain" />
                                         ) : (
-                                          <span className="w-[16px] h-[16px] rounded-full" style={{ background: sug.swatch.color }} />
+                                          <span className="w-[16px] h-[16px] rounded-full" style={sug.swatch.swatchImage ? { background: `url(${sug.swatch.swatchImage}) center / cover no-repeat` } : { background: sug.swatch.color }} />
                                         )
                                       ) : sug.kind === 'collection' ? (
                                         <Leaf className="w-[15px] h-[15px]" strokeWidth={2} />

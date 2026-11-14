@@ -40,6 +40,13 @@ export interface NailSwatch {
    * to the `color` CSS swatch.
    */
   moodPhoto?: string;
+  /**
+   * Round swatch photo for the colour-filter circles (filter panel, sticky
+   * colour strip, search suggestions): the real product swatch that best
+   * matches this filter, made by `scripts/filter-swatches.py`. Falls back to
+   * `color` where absent.
+   */
+  swatchImage?: string;
 }
 
 // productColors are IT uppercase values from metadata.color.it. The catalog
@@ -53,24 +60,24 @@ export interface NailSwatch {
 // split swatch, so y-o falls back to its CSS split-gradient everywhere. Assets
 // live in `public/moods/`.
 export const NAIL_SWATCHES: NailSwatch[] = [
-  { name: 'b & w',   slug: 'bw',      i18nKey: 'swatch.bw',      color: 'linear-gradient(90deg, #050505 50%, #F4F4F4 50%)', productColors: ['NERO', 'BIANCO'], moodPhoto: '/moods/mood-bw.webp' },
-  { name: 'grigio',  slug: 'grigio',  i18nKey: 'swatch.grigio',  color: '#8A8D91', productColors: ['GRIGIO'], moodPhoto: '/moods/mood-grigio.webp' },
-  { name: 'nude',    slug: 'nude',    i18nKey: 'swatch.nude',    color: '#E3C2B0', productColors: ['NUDE'], moodPhoto: '/moods/mood-nude.webp' },
-  { name: 'rosa',    slug: 'rosa',    i18nKey: 'swatch.rosa',    color: '#F49AC1', productColors: ['ROSA'], moodPhoto: '/moods/mood-rosa.webp' },
-  { name: 'rosso',   slug: 'rosso',   i18nKey: 'swatch.rosso',   color: '#D91A2A', productColors: ['ROSSO'], moodPhoto: '/moods/mood-rosso.webp' },
-  { name: 'bordo',   slug: 'bordo',   i18nKey: 'swatch.bordo',   color: '#6B0F1A', productColors: ['BORDEAUX'], moodPhoto: '/moods/mood-bordeaux.webp' },
-  { name: 'marsala', slug: 'marsala', i18nKey: 'swatch.marsala', color: '#B52857', productColors: ['MARSALA'], moodPhoto: '/moods/mood-lampone.webp' },
-  { name: 'magenta', slug: 'magenta', i18nKey: 'swatch.magenta', color: '#E0007B', productColors: ['MAGENTA'], moodPhoto: '/moods/mood-fucsia.webp' },
-  { name: 'viola',   slug: 'viola',   i18nKey: 'swatch.viola',   color: '#9B6BCE', productColors: ['VIOLA'], moodPhoto: '/moods/mood-lilla.webp' },
-  { name: 'marrone', slug: 'marrone', i18nKey: 'swatch.marrone', color: '#4A2518', productColors: ['MARRONE'], moodPhoto: '/moods/mood-cioccolato.webp' },
+  { name: 'b & w',   slug: 'bw',      i18nKey: 'swatch.bw',      color: 'linear-gradient(90deg, #050505 50%, #F4F4F4 50%)', productColors: ['NERO', 'BIANCO'], moodPhoto: '/moods/mood-bw.webp', swatchImage: '/swatches/filter/bw.webp' },
+  { name: 'grigio',  slug: 'grigio',  i18nKey: 'swatch.grigio',  color: '#8A8D91', productColors: ['GRIGIO'], moodPhoto: '/moods/mood-grigio.webp', swatchImage: '/swatches/filter/grigio.webp' },
+  { name: 'nude',    slug: 'nude',    i18nKey: 'swatch.nude',    color: '#E3C2B0', productColors: ['NUDE'], moodPhoto: '/moods/mood-nude.webp', swatchImage: '/swatches/filter/nude.webp' },
+  { name: 'rosa',    slug: 'rosa',    i18nKey: 'swatch.rosa',    color: '#F49AC1', productColors: ['ROSA'], moodPhoto: '/moods/mood-rosa.webp', swatchImage: '/swatches/filter/rosa.webp' },
+  { name: 'rosso',   slug: 'rosso',   i18nKey: 'swatch.rosso',   color: '#D91A2A', productColors: ['ROSSO'], moodPhoto: '/moods/mood-rosso.webp', swatchImage: '/swatches/filter/rosso.webp' },
+  { name: 'bordo',   slug: 'bordo',   i18nKey: 'swatch.bordo',   color: '#6B0F1A', productColors: ['BORDEAUX'], moodPhoto: '/moods/mood-bordeaux.webp', swatchImage: '/swatches/filter/bordo.webp' },
+  { name: 'marsala', slug: 'marsala', i18nKey: 'swatch.marsala', color: '#B52857', productColors: ['MARSALA'], moodPhoto: '/moods/mood-lampone.webp', swatchImage: '/swatches/filter/marsala.webp' },
+  { name: 'magenta', slug: 'magenta', i18nKey: 'swatch.magenta', color: '#E0007B', productColors: ['MAGENTA'], moodPhoto: '/moods/mood-fucsia.webp', swatchImage: '/swatches/filter/magenta.webp' },
+  { name: 'viola',   slug: 'viola',   i18nKey: 'swatch.viola',   color: '#9B6BCE', productColors: ['VIOLA'], moodPhoto: '/moods/mood-lilla.webp', swatchImage: '/swatches/filter/viola.webp' },
+  { name: 'marrone', slug: 'marrone', i18nKey: 'swatch.marrone', color: '#4A2518', productColors: ['MARRONE'], moodPhoto: '/moods/mood-cioccolato.webp', swatchImage: '/swatches/filter/marrone.webp' },
   // Effect-based pill — the CSV doesn't translate effects; SHIMMER /
   // HOLOGRAPHIC / MATTE / GLITTER stay in English. Match by effect, not colour.
-  { name: 'glitter', slug: 'glitter', i18nKey: 'swatch.glitter', color: '#C89B90', isGlitter: true, productColors: [], productEffect: 'GLITTER', moodPhoto: '/moods/mood-glitter-anim.webp' },
-  { name: 'blu',     slug: 'blu',     i18nKey: 'swatch.blu',     color: '#2B429F', productColors: ['BLU'], moodPhoto: '/moods/mood-blu.webp' },
-  { name: 'verde',   slug: 'verde',   i18nKey: 'swatch.verde',   color: '#559E38', productColors: ['VERDE'], moodPhoto: '/moods/mood-verde.webp' },
+  { name: 'glitter', slug: 'glitter', i18nKey: 'swatch.glitter', color: '#C89B90', isGlitter: true, productColors: [], productEffect: 'GLITTER', moodPhoto: '/moods/mood-glitter-anim.webp', swatchImage: '/swatches/filter/glitter.webp' },
+  { name: 'blu',     slug: 'blu',     i18nKey: 'swatch.blu',     color: '#2B429F', productColors: ['BLU'], moodPhoto: '/moods/mood-blu.webp', swatchImage: '/swatches/filter/blu.webp' },
+  { name: 'verde',   slug: 'verde',   i18nKey: 'swatch.verde',   color: '#559E38', productColors: ['VERDE'], moodPhoto: '/moods/mood-verde.webp', swatchImage: '/swatches/filter/verde.webp' },
   // 'y + o' (yellow→orange) split swatch — matches the ref's palette label.
   // Filters by catalog values GIALLO and ARANCIONE (when present).
-  { name: 'y + o',   slug: 'y-o',     i18nKey: 'swatch.orange',  color: 'linear-gradient(90deg, #FFDB00 50%, #FF8C00 50%)', productColors: ['GIALLO', 'ARANCIONE'] },
+  { name: 'y + o',   slug: 'y-o',     i18nKey: 'swatch.orange',  color: 'linear-gradient(90deg, #FFDB00 50%, #FF8C00 50%)', productColors: ['GIALLO', 'ARANCIONE'], swatchImage: '/swatches/filter/y-o.webp' },
 ];
 
 /**
