@@ -396,33 +396,34 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                     )
                   )}
 
-                  {/* `.p-title` */}
-                  <h2
-                    id={titleId}
-                    className="m-0 text-[22px] font-bold leading-[28px] tracking-[0.15px] text-[#1e1e1e] md:text-[26px] md:leading-8 lg:text-[28px] lg:leading-[34px]"
-                  >
-                    {product.name}
-                  </h2>
+                  {/* `.p-title` — with the single size pill ("3 × 12 ml") on the
+                      same row, right-aligned and centred on the title's first
+                      line, so the price block below no longer needs its own row. */}
+                  <div className="flex w-full items-start justify-between gap-3">
+                    <h2
+                      id={titleId}
+                      className="m-0 min-w-0 text-[22px] font-bold leading-[28px] tracking-[0.15px] text-[#1e1e1e] md:text-[26px] md:leading-8 lg:text-[28px] lg:leading-[34px]"
+                    >
+                      {product.name}
+                    </h2>
+                    {sizeGroup.length < 2 && capacityLabel && (
+                      <span className="mt-[1.5px] grid h-[25px] min-w-[56px] flex-none place-items-center whitespace-nowrap rounded-[13px] border-[1.5px] border-[#7f7f7f] px-2.5 text-[13px] font-medium leading-none text-[#1e1e1e] md:mt-[3.5px] lg:mt-[4.5px]">
+                        {capacityLabel}
+                      </span>
+                    )}
+                  </div>
 
-                  {/* `.p-price` — red current + struck original (Price primitive). */}
-                  <Price
-                    size="lg"
-                    current={formatPrice(view.price, language)}
-                    original={view.originalPrice ? formatPrice(view.originalPrice, language) : undefined}
-                    className="mt-2.5 md:mt-3 gap-4 md:gap-3 [&>span]:font-extrabold [&>span:only-child]:text-black [&>span]:text-[20px] [&>span:first-child]:text-[20px] [&>span]:leading-[22px] [&>span:first-child]:leading-[22px] [&>span]:tracking-[1.6px] [&>span:first-child]:tracking-[1.6px] md:[&>span]:text-[21px] md:[&>span:first-child]:text-[21px] md:[&>span]:leading-6 md:[&>span:first-child]:leading-6 md:[&>span:first-child]:tracking-[1.6px] md:[&>span]:tracking-[1.6px]"
-                  />
-
-                  {/* `.p-size` (single) / `.p-sizes` (chooser) — when the
+                  {/* `.p-sizes` (chooser) — when the
                       product is sold in ≥2 sizes (same name + category, e.g.
                       Cleaner Emotion 100 ml / 1000 ml) show one selectable chip
                       per size; picking one swaps the active product in place
                       (`onPickSibling`) so the price re-binds, mirroring the
-                      prototype. Otherwise the plain capacity pill. */}
+                      prototype. The single pill sits in the title row. */}
                   {sizeGroup.length >= 2 ? (
                     <div
                       role="group"
                       aria-label={t('product.format')}
-                      className="mt-4 flex flex-wrap gap-2"
+                      className="mt-3 flex flex-wrap gap-2"
                     >
                       {sizeGroup.map((sku) => {
                         const isActive = sku.id === product.id;
@@ -443,13 +444,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                         );
                       })}
                     </div>
-                  ) : (
-                    capacityLabel && (
-                      <span className="mt-4 grid h-[25px] min-w-[56px] place-items-center whitespace-nowrap rounded-[13px] border-[1.5px] border-[#7f7f7f] px-2.5 text-[13px] font-medium leading-none text-[#1e1e1e]">
-                        {capacityLabel}
-                      </span>
-                    )
-                  )}
+                  ) : null}
 
                   {/* `.p-shades-h` + `.p-grid` — the options selector region.
                       Prototype binds its season-kit shades here; we bind kit
@@ -457,7 +452,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   {(isKit || hasSiblings || product.swatchImage) && (
                     <>
                       {shadeCount > 0 && (
-                        <div className="mt-[25px] flex h-[39px] w-full items-start justify-between border-b border-[#f2f2f4] pt-1.5 text-[14px] leading-[19px] tracking-[-0.13px] md:mt-5 md:h-[34px] md:pt-0">
+                        <div className="mt-4 flex h-[39px] w-full items-start justify-between border-b border-[#f2f2f4] pt-1.5 text-[14px] leading-[19px] tracking-[-0.13px] md:mt-5 md:h-[34px] md:pt-0">
                           <b className="font-bold text-[#1e1e1e]">
                             {t('product.shades')}: <span className="font-bold">{shadeName}</span>
                           </b>
@@ -542,6 +537,15 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                       </div>
                     </>
                   )}
+
+                  {/* `.p-price` — red current + struck original (Price primitive). Sits
+                      under the shades, right above the buy row (Sir, 2026-11-14). */}
+                  <Price
+                    size="lg"
+                    current={formatPrice(view.price, language)}
+                    original={view.originalPrice ? formatPrice(view.originalPrice, language) : undefined}
+                    className="mt-4 md:mt-5 gap-4 md:gap-3 [&>span]:font-extrabold [&>span:only-child]:text-black [&>span]:text-[20px] [&>span:first-child]:text-[20px] [&>span]:leading-[22px] [&>span:first-child]:leading-[22px] [&>span]:tracking-[1.6px] [&>span:first-child]:tracking-[1.6px] md:[&>span]:text-[21px] md:[&>span:first-child]:text-[21px] md:[&>span]:leading-6 md:[&>span:first-child]:leading-6 md:[&>span:first-child]:tracking-[1.6px] md:[&>span]:tracking-[1.6px]"
+                  />
 
                   {/* (M14) No TPO/HEMA trust pills — the prototype quick-view has
                       none; the claim lives only in the description. */}

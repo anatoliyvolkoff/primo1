@@ -220,6 +220,17 @@ describe('QuickViewModal edge cases', () => {
       // No multi-chip group when there is no ≥2-size family.
       expect(within(dialog).queryByRole('group', { name: 'product.format' })).toBeNull();
     });
+
+    it('the single size pill shares the title row, and the price sits below the shades', () => {
+      renderModal(makeProduct({ capacity: '12 ml', swatchImage: 'https://cdn.test/s.jpg' }));
+      const dialog = screen.getByRole('dialog');
+      const title = within(dialog).getByRole('heading', { level: 2 });
+      expect(title.parentElement?.textContent).toContain('12 ml');
+      const shades = within(dialog).getByRole('group', { name: 'product.availableColors' });
+      const price = within(dialog).getByText(/12/, { selector: 'span:not(.grid)' });
+      // DOCUMENT_POSITION_FOLLOWING: the price comes after the shades in reading order.
+      expect(shades.compareDocumentPosition(price) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    });
   });
 
   describe('accordions open one at a time', () => {
