@@ -138,7 +138,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, grid = false,
   );
   // Phone swatch sizes: 29px in rails, 22px in the narrow two-up catalogue grid.
   const phoneSwatchSize = 'max-lg:w-[29px] max-lg:h-[29px] max-lg:@max-[230px]:w-[22px] max-lg:@max-[230px]:h-[22px]';
-  const shadeRowClass = `flex ${shadesOpen ? 'flex-wrap' : 'lg:flex-nowrap flex-wrap'} items-center justify-start lg:justify-between w-full gap-1.5 lg:gap-2 min-h-9 lg:min-h-[30px] max-lg:w-auto max-lg:flex-1 max-lg:min-w-0 max-lg:@max-[230px]:min-h-[30px] max-lg:@max-[230px]:gap-1`;
+  const shadeRowClass = `flex ${shadesOpen ? 'flex-wrap' : 'lg:flex-nowrap flex-wrap'} items-center justify-start w-full gap-1.5 lg:gap-2 min-h-9 lg:min-h-[30px] max-lg:w-auto max-lg:flex-1 max-lg:min-w-0 max-lg:@max-[230px]:min-h-[30px] max-lg:@max-[230px]:gap-1`;
 
   const openQuickView = () => {
     setIsQuickViewOpen(true);

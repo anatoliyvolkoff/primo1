@@ -204,6 +204,21 @@ describe('ProductCard edge cases', () => {
       );
     });
 
+    it('keeps the shade swatches packed to the left on every width', () => {
+      const a = makeProduct({ id: 'g-a', name: 'Grigio A', handle: 'grigio-a', hasShade: true, colorName: 'Grigio' });
+      const b = makeProduct({ id: 'g-b', name: 'Grigio B', handle: 'grigio-b', hasShade: true, colorName: 'Grigio' });
+      CATALOGUE = [a, b];
+      render(
+        <MemoryRouter>
+          <ProductCard product={a} />
+        </MemoryRouter>
+      );
+      const group = screen.getByRole('radiogroup', { name: 'a11y.chooseShade:Grigio' });
+      // Two shades must sit side by side, not spread to the card's two edges.
+      expect(group.className).toContain('justify-start');
+      expect(group.className).not.toMatch(/justify-between/);
+    });
+
     it('renders kit-child swatches in place of the swatch row for a bundle', () => {
       const childA = makeProduct({ id: 'c-a', name: 'Child A', handle: 'child-a', swatchImage: 'https://cdn.test/ca.jpg' });
       const childB = makeProduct({ id: 'c-b', name: 'Child B', handle: 'child-b', swatchImage: 'https://cdn.test/cb.jpg' });
