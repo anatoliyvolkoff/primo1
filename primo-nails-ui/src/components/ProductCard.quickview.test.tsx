@@ -156,10 +156,12 @@ describe('ProductCard quick-view (eye) modal', () => {
     } as Partial<Product>);
     const dialog = openQuickView();
 
-    // Fixed height tied to the viewport (mobile 92dvh / md min(90dvh,820px)) —
-    // present so the box occupies a constant height rather than hugging content.
+    // Fixed height tied to the viewport (mobile 92dvh; a single product gets
+    // md min(90dvh,760px) / lg min(90dvh,720px) — kits keep 820px) — present so
+    // the box occupies a constant height rather than hugging content.
     expect(dialog.className).toContain('h-[92dvh]');
-    expect(dialog.className).toContain('md:h-[min(90dvh,820px)]');
+    expect(dialog.className).toContain('md:h-[min(90dvh,760px)]');
+    expect(dialog.className).toContain('lg:h-[min(90dvh,720px)]');
     // No height *cap* class: the height is driven by `h-*`, not `max-h-*`, so it
     // cannot shrink-to-fit and then grow when content expands.
     expect(dialog.className).not.toMatch(/(?:^|\s)(?:md:)?max-h-/);

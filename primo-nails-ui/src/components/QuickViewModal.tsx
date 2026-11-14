@@ -310,8 +310,11 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
             // Height is STABLE (fixed to the viewport-tied value, not just a
             // max) so opening/closing an accordion never resizes the outer box —
             // the overflow scrolls inside `.qv-scroll` instead of growing the
-            // modal. Mobile = `h-[92dvh]`; md = `h-[min(90dvh,820px)]`.
-            className="relative flex h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-[26px] bg-white outline-none md:h-[min(90dvh,820px)] md:w-[min(960px,100%)] md:max-w-none md:rounded-[32px] lg:rounded-[40px]"
+            // modal. Mobile = `h-[92dvh]`. From md, kits (season tabs + shade
+            // row, the tallest content) keep `min(90dvh,820px)`; single
+            // products get 760px (md) / 720px (lg): at 820px they left a
+            // ~150px empty band under "Go to product page" (halved, Sir 2026-11-14).
+            className={`relative flex h-[92dvh] w-full max-w-[440px] flex-col overflow-hidden rounded-t-[26px] bg-white outline-none ${isKit ? 'md:h-[min(90dvh,820px)]' : 'md:h-[min(90dvh,760px)] lg:h-[min(90dvh,720px)]'} md:w-[min(960px,100%)] md:max-w-none md:rounded-[32px] lg:rounded-[40px]`}
           >
             {/* `.qv-head` — the prototype's `.qv-tabs` season-switcher pill row
                 (centred) + close button. The tabs show ONLY when the active
