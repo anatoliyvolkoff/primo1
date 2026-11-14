@@ -274,7 +274,7 @@ describe('ProductCard edge cases', () => {
       const chip = screen.getByRole('link', { name: /collections\.moreShades/ });
       expect(within(chip).getByText('+5').className).toContain('lg:inline');
       expect(within(chip).getByText('+6').className).toContain('@max-[230px]:hidden');
-      expect(within(chip).getByText('+7').className).toContain('hidden @max-[230px]:inline');
+      expect(within(chip).getByText('+7').className).toContain('hidden max-lg:@max-[230px]:inline');
       // The visible count stays in the accessible name (WCAG 2.5.3).
       expect(chip).toHaveAccessibleName(/\+6/);
       // The chip is a link to the product page (all colours are shown there);
@@ -389,6 +389,39 @@ describe('ProductCard edge cases', () => {
       expect(chip.className).toContain('hidden max-lg:@max-[230px]:grid');
       expect(chip).toHaveTextContent('+2');
       expect(radios.filter((r) => r.className.includes('max-lg:@max-[230px]:hidden'))).toHaveLength(2);
+    });
+
+    it('gives search cards the catalogue swatch sizes, with a 5-slot row when narrow', () => {
+      const shades = Array.from({ length: 8 }, (_, i) =>
+        makeProduct({
+          id: `red-${i}`,
+          name: `Red ${i}`,
+          handle: `red-${i}`,
+          hasShade: true,
+          colorName: 'Red',
+          swatchImage: `https://cdn.test/r${i}.jpg`,
+        })
+      );
+      CATALOGUE = shades;
+      render(
+        <MemoryRouter>
+          <ProductCard product={shades[0]} highlightQuery="red" onNavigate={() => {}} />
+        </MemoryRouter>
+      );
+      const radios = screen.getAllByRole('radio');
+      // Same desktop sizes as the catalogue card: 30px selected, 26px others.
+      expect(radios[0].className).toContain('lg:h-[30px] lg:w-[30px]');
+      expect(radios[1].className).toContain('lg:h-[26px] lg:w-[26px]');
+      expect(radios.some((r) => r.className.includes('lg:h-[22px]'))).toBe(false);
+      // Wide search cards: 5 circles + "+3" (as the catalogue); narrow ones: 4 + "+4".
+      expect(radios.filter((r) => /(^| )lg:hidden/.test(r.className))).toHaveLength(3);
+      expect(radios.filter((r) => /(^| )lg:@max-\[230px\]:hidden/.test(r.className))).toHaveLength(1);
+      const chip = screen.getByRole('link', { name: /collections\.moreShades/ });
+      expect(chip.className).toContain('lg:grid');
+      expect(chip.className).toContain('lg:w-[26px]');
+      expect(chip.className).not.toMatch(/(^| )@max-\[230px\]:w-\[22px\]/);
+      expect(chip).toHaveTextContent('+3');
+      expect(chip).toHaveTextContent('+4');
     });
   });
 });
