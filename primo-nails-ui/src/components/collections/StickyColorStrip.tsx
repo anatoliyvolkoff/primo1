@@ -68,13 +68,16 @@ export const StickyColorStrip: React.FC<StickyColorStripProps> = ({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.22, ease: [0.22, 0.8, 0.24, 1] }}
-            className="absolute inset-x-0 top-0 flex items-center gap-2 h-14 pl-3 pr-2 bg-white/95 backdrop-blur border-b border-[#ededed] shadow-[0_6px_16px_-12px_rgba(0,0,0,0.25)] lg:h-16 lg:justify-center"
+            className="absolute inset-x-0 top-0 flex items-center h-14 pl-2 pr-3 bg-white/95 backdrop-blur border-b border-[#ededed] shadow-[0_6px_16px_-12px_rgba(0,0,0,0.25)] lg:h-16 lg:justify-center lg:px-6"
           >
+            {/* Swatches: 28px dots with a 16px gap, so even a fully selected row
+                (every dot ringed) keeps clear air between the rings. Selected =
+                the design system's thin double ring (white gap + black line). */}
             <div
               ref={rowRef}
               role="group"
               aria-label={t('shop.cs.groupLabel' as any)}
-              className="flex-1 min-w-0 flex items-center gap-2.5 overflow-x-auto no-scrollbar py-2 lg:flex-none lg:overflow-visible"
+              className="flex-1 min-w-0 flex items-center gap-4 overflow-x-auto no-scrollbar px-2 py-2 lg:flex-none lg:overflow-visible"
             >
               {NAIL_SWATCHES.map((swatch) => {
                 const isSelected = selectedColors.includes(swatch.name);
@@ -87,24 +90,26 @@ export const StickyColorStrip: React.FC<StickyColorStripProps> = ({
                     aria-pressed={isSelected}
                     aria-label={label}
                     title={label}
-                    className="relative shrink-0 w-8 h-8 rounded-full outline-none before:absolute before:-inset-1 before:content-[''] focus-visible:ring-2 focus-visible:ring-ring"
+                    className="group relative shrink-0 w-7 h-7 rounded-full outline-none before:absolute before:-inset-2 before:content-[''] focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-4"
                   >
                     <span
                       aria-hidden="true"
                       style={{ background: swatch.color }}
-                      className={`block w-full h-full rounded-full shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.15)] transition-transform duration-200 ${
+                      className={`block w-full h-full rounded-full transition-[box-shadow,transform] duration-200 ease-[cubic-bezier(.22,.8,.24,1)] group-active:scale-90 ${
                         isSelected
-                          ? 'scale-110 outline outline-2 outline-offset-2 outline-black'
-                          : 'active:scale-95'
+                          ? 'shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.15),0_0_0_2px_#fff,0_0_0_3.5px_#000]'
+                          : 'shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.15)] [@media(hover:hover)_and_(pointer:fine)]:group-hover:shadow-[inset_0_0_0_0.5px_rgba(0,0,0,0.15),0_0_0_2px_#fff,0_0_0_3.5px_#c9c4bf]'
                       }`}
                     />
                   </button>
                 );
               })}
             </div>
+            {/* Hairline divider between the palette and the result controls. */}
+            <span aria-hidden="true" className="shrink-0 w-px h-6 mx-3 bg-[#e2dfdd] lg:mx-5" />
             <span
               aria-live="polite"
-              className="shrink-0 text-[12px] font-semibold tabular-nums text-black"
+              className="shrink-0 text-[12px] leading-none font-semibold tabular-nums text-black whitespace-nowrap lg:text-[13px]"
             >
               {t('search.categoryCount', { count })}
             </span>
@@ -113,9 +118,10 @@ export const StickyColorStrip: React.FC<StickyColorStripProps> = ({
                 type="button"
                 onClick={onClear}
                 aria-label={t('shop.cs.allColors' as any)}
-                className="shrink-0 grid place-items-center w-8 h-8 rounded-full border border-[#c9c4bf] bg-white text-black active:scale-95"
+                title={t('shop.cs.allColors' as any)}
+                className="relative shrink-0 ml-3 grid place-items-center w-8 h-8 rounded-full bg-[#f2f2f2] text-black transition-[background-color,color,transform] duration-200 before:absolute before:-inset-1.5 before:content-[''] active:scale-95 [@media(hover:hover)_and_(pointer:fine)]:hover:bg-black [@media(hover:hover)_and_(pointer:fine)]:hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
-                <X aria-hidden="true" className="w-3.5 h-3.5" strokeWidth={2} />
+                <X aria-hidden="true" className="w-3.5 h-3.5" strokeWidth={2.25} />
               </button>
             )}
           </motion.div>
