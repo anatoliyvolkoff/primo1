@@ -1,0 +1,1 @@
+import{j as r}from"./index-Ct6RaRp6.js";import{L as o}from"./LegalPage-Ce8Kiz1X.js";import{T as t}from"./legal-DABV3p8Y.js";import"./Container-VpbcyPZG.js";function n(){return r.jsx(o,{doc:t,canonicalPath:"/termini"})}export{n as TermsPage};
