@@ -13,15 +13,16 @@ vi.mock('../context/LanguageContext', () => ({
 
 // Animation wrapper → plain div (strip motion-only props so they don't leak to
 // the DOM and warn).
-vi.mock('motion/react', () => ({
-  motion: {
-    div: (props: any) => {
-      // Strip motion-only props so they don't leak onto the DOM node.
-      const { initial: _i, whileInView: _w, viewport: _v, transition: _t, children, ...rest } = props;
-      return <div {...rest}>{children}</div>;
+vi.mock('motion/react', () => {
+  // Strip motion-only props so they don't leak onto the DOM node.
+  const strip = ({ initial: _i, whileInView: _w, viewport: _v, transition: _t, ...rest }: any) => rest;
+  return {
+    motion: {
+      div: (props: any) => <div {...strip(props)} />,
+      create: (Comp: any) => (props: any) => <Comp {...strip(props)} />,
     },
-  },
-}));
+  };
+});
 
 // Drive the course list the component renders.
 const coursesState: { data: UICourse[]; isLoading: boolean; isError: boolean } = {
@@ -221,5 +222,25 @@ describe('CoursesList — Academy dark "solo" promo tile sizing', () => {
     // so it still fills the row's right edge rather than orphaning.
     fireEvent.click(screen.getByRole('button', { name: 'Avanzato' }));
     expect(spanOf()).toBe('span 2');
+  });
+});
+
+// The whole card is one link to the course: a click on the photo, the blurb or the
+// empty space opens it, and there are no nested links inside.
+describe('CoursesList — the whole course card is clickable', () => {
+  it.each([
+    ['Home rail', false],
+    ['Academy grid', true],
+  ])('%s: card is a single link to the course, named by its title', (_label, showAll) => {
+    const { container } = renderList({ showAll }, [FULL]);
+
+    const card = screen.getByRole('link', { name: FULL.title });
+    expect(card).toHaveAttribute('href', `/corsi/${FULL.handle}`);
+    // Photo, blurb and CTA all sit inside that one link.
+    expect(card).toContainElement(screen.getByText(FULL.description));
+    expect(card.querySelector('img')).toBeTruthy();
+    expect(card.querySelector('a')).toBeNull();
+    // Exactly one link per course.
+    expect(container.querySelectorAll(`a[href="/corsi/${FULL.handle}"]`)).toHaveLength(1);
   });
 });
