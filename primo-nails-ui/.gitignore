@@ -1,0 +1,16 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+.idea/
+package-lock.json
+
+# Playwright (dev-only visual/a11y harness)
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+

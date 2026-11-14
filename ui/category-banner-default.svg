@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="640" viewBox="0 0 1920 640" role="img" aria-label="PriMo Nails" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F3EEE9"/>
+      <stop offset="1" stop-color="#E4DAD1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="640" fill="url(#bg)"/>
+  <g fill="none" stroke="#CDBFB2" stroke-width="4" opacity="0.6">
+    <circle cx="1620" cy="120" r="220"/>
+    <circle cx="300" cy="560" r="260"/>
+  </g>
+  <text x="960" y="345" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="72" font-weight="700" letter-spacing="24" fill="#B7AEA6">PRIMO NAILS</text>
+</svg>

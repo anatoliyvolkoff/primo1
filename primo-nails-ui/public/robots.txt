@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Checkout, payment-return and order-confirmation routes (/checkout/*):
+# transactional, session/order-specific, no SEO value. Keep crawlers out.
+Disallow: /checkout
+Disallow: /checkout/
+
+Sitemap: https://primonails.it/sitemap.xml
