@@ -1,0 +1,1 @@
+import{j as r}from"./index-DhUs4rcA.js";import{L as o}from"./LegalPage-C-diNVeU.js";import{P as a}from"./legal-DABV3p8Y.js";import"./Container-DkUfmMAp.js";function c(){return r.jsx(o,{doc:a,canonicalPath:"/privacy"})}export{c as PrivacyPage};
