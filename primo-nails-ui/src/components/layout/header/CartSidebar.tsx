@@ -49,6 +49,9 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
 
   return (
     <div
+      // Closed drawer stays mounted off-screen: keep it out of the tab order and
+      // the accessibility tree so keyboard/screen-reader users don't land in it.
+      inert={!isOpen}
       className={`fixed inset-0 z-[300] transition-opacity duration-300 ${
         isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
       }`}

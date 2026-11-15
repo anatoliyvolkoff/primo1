@@ -261,6 +261,7 @@ export const en: Record<TranslationKey, string> = {
   'product.addToCartCard': 'Add to cart',
   'product.shades': 'Shades',
   'product.colors': 'Colors',
+  'product.color': 'Color',
   'product.shippingNote': 'Shipping calculated at checkout.',
   'product.shippingRatesLink': 'Rates and returns',
   'pdp.wholesale.label': 'Wholesale',

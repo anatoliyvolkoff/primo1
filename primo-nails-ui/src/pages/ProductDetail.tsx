@@ -794,7 +794,7 @@ export const ProductDetail = () => {
                   </span>
                   {/* The shade count ("N Colori"). Count = sibling swatches. */}
                   <span className="font-sans text-[14px] lg:text-[15px] leading-[19px] font-normal text-[#a0a0a0] shrink-0">
-                    <em className="not-italic text-[#5a5a5a]">{dimensionSwatches.length}</em> {t('product.colors' as any)}
+                    <em className="not-italic text-[#5a5a5a]">{dimensionSwatches.length}</em> {t(dimensionSwatches.length === 1 ? 'product.color' : 'product.colors')}
                   </span>
                 </div>
                 <div className="flex gap-2.5 overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-proximity scroll-px-5 -mx-5 px-5 sm:max-lg:scroll-px-[33px] sm:max-lg:-mx-[33px] sm:max-lg:px-[33px] mt-2 mb-[18px] pt-1.5 pb-4 border-b border-[#f0f0f2] lg:grid lg:w-[419px] lg:grid-cols-[repeat(6,55.7px)] lg:justify-between lg:gap-x-0 lg:gap-y-2 lg:overflow-visible lg:mx-0 lg:mb-0 lg:px-0 lg:pt-0 lg:pb-0 lg:border-0 lg:mt-[20px]" role="radiogroup" aria-label={t('product.shades')}>
@@ -941,7 +941,7 @@ export const ProductDetail = () => {
                   </span>
                   {/* The shade count ("N Colori"). Count = sibling swatches. */}
                   <span className="font-sans text-[14px] lg:text-[15px] leading-[19px] font-normal text-[#a0a0a0] shrink-0">
-                    <em className="not-italic text-[#5a5a5a]">{dimensionSwatches.length}</em> {t('product.colors' as any)}
+                    <em className="not-italic text-[#5a5a5a]">{dimensionSwatches.length}</em> {t(dimensionSwatches.length === 1 ? 'product.color' : 'product.colors')}
                   </span>
                 </div>
                 <div className="flex gap-2.5 overflow-x-auto overflow-y-hidden no-scrollbar snap-x snap-proximity scroll-px-5 -mx-5 px-5 sm:max-lg:scroll-px-[33px] sm:max-lg:-mx-[33px] sm:max-lg:px-[33px] mt-2 mb-[18px] pt-1.5 pb-4 border-b border-[#f0f0f2] lg:grid lg:w-[419px] lg:grid-cols-[repeat(6,55.7px)] lg:justify-between lg:gap-x-0 lg:gap-y-2 lg:overflow-visible lg:mx-0 lg:mb-0 lg:px-0 lg:pt-0 lg:pb-0 lg:border-0 lg:mt-[20px]" role="radiogroup" aria-label={t('product.shades')}>
