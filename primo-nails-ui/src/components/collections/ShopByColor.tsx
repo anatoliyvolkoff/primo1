@@ -26,8 +26,8 @@ interface ShopByColorProps {
 /**
  * Primo1 layout: desktop "Shop by color" (`.shop-color` — 14 nail tips spread
  * over 977px, black "Show All" pill) and phones "Scegli il tuo Mood."
- * (`.mood` — swipeable row with a small progress thumb, "see all" expands the
- * row into a 4-column grid).
+ * (`.mood` — swipeable row with a small progress thumb; the "see all" pill
+ * goes to the Gel Polish catalogue, /semipermanente).
  */
 export const ShopByColor: React.FC<ShopByColorProps> = ({
   selectedColors,
@@ -41,15 +41,6 @@ export const ShopByColor: React.FC<ShopByColorProps> = ({
   const selected = selectedColors ?? [];
 
   const scrollerRef = React.useRef<HTMLDivElement>(null);
-  // Phones: "see all" turns the swipe row into a grid (Primo1 `.mood-row.grid`).
-  const [expanded, setExpanded] = React.useState(false);
-  const toggleExpanded = () => {
-    setExpanded((was) => {
-      if (was && scrollerRef.current) scrollerRef.current.scrollLeft = 0;
-      return !was;
-    });
-  };
-
   // Primo1 `.rprog`: a 72px track whose thumb mirrors the row's scroll position.
   const [progress, setProgress] = React.useState({ w: 1, p: 0 });
   React.useEffect(() => {
@@ -70,8 +61,7 @@ export const ShopByColor: React.FC<ShopByColorProps> = ({
       el.removeEventListener('scroll', update);
       ro?.disconnect();
     };
-  }, [expanded]);
-  const grid = !isFilterMode && expanded;
+  }, []);
 
   return (
     <section
@@ -109,20 +99,12 @@ export const ShopByColor: React.FC<ShopByColorProps> = ({
             className={`no-scrollbar -mx-4 sm:-mx-5 lg:mx-0 lg:px-0 ${
               isFilterMode
                 ? 'overflow-x-auto overflow-y-hidden px-9 pt-20 pb-8 sm:pt-24 sm:pb-10 -mt-20 -mb-8 sm:-mt-24 sm:-mb-10'
-                : grid
-                  ? 'overflow-visible px-5 pt-[34px]'
-                  : 'overflow-x-auto overflow-y-hidden snap-x snap-proximity scroll-pl-9 px-9 pt-[41px] lg:pt-[53.5px]'
+                : 'overflow-x-auto overflow-y-hidden snap-x snap-proximity scroll-pl-9 px-9 pt-[41px] lg:pt-[53.5px]'
             }`}
           >
             {/* w-max + mx-auto centres the row when it fits, but left-aligns and
                 stays scrollable from the FIRST swatch when it overflows. */}
-            <div
-              className={
-                grid
-                  ? 'grid grid-cols-4 gap-x-2 gap-y-[26px] w-full lg:flex lg:flex-nowrap lg:justify-between lg:w-[977px] lg:mx-auto'
-                  : 'flex flex-nowrap items-center gap-[21px] lg:gap-0 lg:justify-between lg:w-[977px] w-max mx-auto'
-              }
-            >
+            <div className="flex flex-nowrap items-center gap-[21px] lg:gap-0 lg:justify-between lg:w-[977px] w-max mx-auto">
               {NAIL_SWATCHES.map((swatch, i) => {
                 const isSelected = selected.includes(swatch.name);
                 // Swatches with a painted nail-tip "mood" photo render it
@@ -146,9 +128,7 @@ export const ShopByColor: React.FC<ShopByColorProps> = ({
                 return (
                   <div
                     key={swatch.slug}
-                    className={`relative group flex flex-col items-center shrink-0 snap-start ${
-                      grid ? 'w-auto lg:w-[51px]' : 'w-[53.5px] lg:w-[51px]'
-                    }`}
+                    className="relative group flex flex-col items-center shrink-0 snap-start w-[53.5px] lg:w-[51px]"
                   >
                     <AnimatePresence>
                       {isFilterMode && showTutorial && i === 2 && (
@@ -207,11 +187,11 @@ export const ShopByColor: React.FC<ShopByColorProps> = ({
 
                     <span
                       // Phones: Primo1 `.mood-item span` — 13px medium lowercase,
-                      // 47px under the tip (12px in the grid); selected = bold +
+                      // 47px under the tip; selected = bold +
                       // 2px underline. Desktop: `.color-item span` — 12px bold
                       // black, 45px under the tip; long names wrap in a 66px box.
                       className={`w-full text-center leading-tight whitespace-nowrap lowercase text-[13px] font-medium text-black tracking-normal transition-all duration-300 ${
-                        grid ? 'mt-3' : isFilterMode ? 'mt-[41px]' : 'mt-[47px]'
+                        isFilterMode ? 'mt-[41px]' : 'mt-[47px]'
                       } lg:mt-[45px] lg:whitespace-normal lg:w-[66px] lg:text-[12px] lg:leading-[15px] lg:font-bold lg:text-black ${
                         isSelected ? 'max-lg:font-bold max-lg:shadow-[inset_0_-2px_0_#000] lg:scale-110' : ''
                       }`}
@@ -224,8 +204,8 @@ export const ShopByColor: React.FC<ShopByColorProps> = ({
             </div>
           </div>
 
-          {/* Phones: Primo1 `.rprog` scroll thumb (hidden when the row fits or is a grid). */}
-          {!isFilterMode && !grid && progress.w < 1 && (
+          {/* Phones: Primo1 `.rprog` scroll thumb (hidden when the row fits). */}
+          {!isFilterMode && progress.w < 1 && (
             <div
               aria-hidden="true"
               className="lg:hidden relative w-[72px] h-1 mx-auto mt-[14px] rounded-[9px] bg-black/12 overflow-hidden"
@@ -243,15 +223,15 @@ export const ShopByColor: React.FC<ShopByColorProps> = ({
 
         {!isFilterMode && (
           <>
-            {/* Phones: Primo1 `.mood .pill-btn` — outline pill, expands the row. */}
-            <button
-              type="button"
-              onClick={toggleExpanded}
-              aria-expanded={expanded}
-              className="lg:hidden mt-[23px] w-[163px] h-11 rounded-full border-[1.2px] border-[#444] bg-transparent text-[15px] font-normal text-[#656565] tracking-[0.02em] active:bg-[#f3f3f3]"
+            {/* Phones: Primo1 `.mood .pill-btn` — outline pill, opens the Gel
+                Polish catalogue. Same press/hover micro-interactions as the
+                shared outline <Button> (scale press, darker border on hover). */}
+            <Link
+              to="/semipermanente"
+              className="lg:hidden grid place-items-center mt-[23px] w-[163px] h-11 rounded-full border-[1.2px] border-[#444] bg-transparent text-[15px] font-normal text-[#656565] tracking-[0.02em] transition-[background-color,color,border-color,scale] duration-200 ease-[cubic-bezier(.22,.8,.24,1)] hover:text-black hover:border-black active:bg-[#f3f3f3] active:scale-[0.96] active:duration-100 outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 [-webkit-tap-highlight-color:transparent] select-none"
             >
-              {expanded ? t('shop.showLess') : t('shop.seeAll')}
-            </button>
+              {t('shop.seeAll')}
+            </Link>
             {/* Desktop: Primo1 `.btn-pill-black`. */}
             <Link
               to="/semipermanente"

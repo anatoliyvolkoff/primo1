@@ -49,10 +49,13 @@ describe('ShopByColor — nav mode (Home discovery widget)', () => {
       const link = screen.getByRole('link', { name: swatch.i18nKey });
       expect(link).toHaveAttribute('href', `/semipermanente?color=${swatch.slug}`);
     }
-    // No filter buttons in nav mode — swatches are links; the only button is
-    // the phone "see all" toggle.
-    expect(screen.getAllByRole('button')).toHaveLength(1);
-    expect(screen.getByRole('button', { name: 'shop.seeAll' })).toHaveAttribute('aria-expanded', 'false');
+    // No buttons in nav mode — swatches and both CTAs are links.
+    expect(screen.queryAllByRole('button')).toHaveLength(0);
+  });
+
+  it('phone "see all" pill is a link to the Gel Polish catalogue (/semipermanente)', () => {
+    renderNav();
+    expect(screen.getByRole('link', { name: 'shop.seeAll' })).toHaveAttribute('href', '/semipermanente');
   });
 
   it('shows the "Show All" CTA linking to /semipermanente (nav mode only)', () => {
