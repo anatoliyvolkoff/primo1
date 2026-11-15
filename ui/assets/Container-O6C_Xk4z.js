@@ -1,1 +1,0 @@
-import{j as o,c as r}from"./index-Qjwx634I.js";const i=({as:a="div",className:s,children:x,...m})=>o.jsx(a,{className:r("mx-auto w-full max-w-[var(--grid-max)] px-6 sm:px-4",s),...m,children:x});export{i as C};
