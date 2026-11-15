@@ -1,4 +1,4 @@
-import React, { useState, useId, useEffect, useMemo } from 'react';
+import React, { useState, useId, useEffect, useMemo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { X, ChevronDown, MessageSquare } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -8,6 +8,7 @@ import { useCart } from '../context/CartContext';
 import { deriveSizeGroup, deriveSeasonKits } from '../pages/ProductDetail';
 import { useLanguage } from '../context/LanguageContext';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import { useSheetDragDismiss } from '../hooks/useSheetDragDismiss';
 import { formatPrice } from '../lib/formatPrice';
 import { computeSalePercent } from '../lib/sale';
 import { useScrollLock } from '../lib/scrollLock';
@@ -224,6 +225,16 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
 
   useScrollLock(open);
 
+  // Phones: swipe the sheet down to close it.
+  const backdropRef = useRef<HTMLDivElement>(null);
+  useSheetDragDismiss({
+    enabled: open && !isMd,
+    sheetRef: dialogRef,
+    backdropRef,
+    onDismiss: onClose,
+    mediaQuery: '(max-width: 767px)',
+  });
+
   const badgeDefs = useStoreSetting<BadgeDef[]>('badges', BUILTIN_BADGES);
   const resolvedBadge = resolveBadge(product.badge, product.isPromoted, badgeDefs, language);
 
@@ -272,12 +283,14 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           // `.qv`: fixed, dim backdrop; bottom-sheet on mobile, centred from md.
-          className="fixed inset-0 z-[100] flex items-end justify-center bg-[rgba(20,20,20,0.55)] md:items-center md:p-6"
+          className="fixed inset-0 z-[100] flex items-end justify-center md:items-center md:p-6"
         >
-          {/* Backdrop click target */}
+          {/* Backdrop (dim + click target). Its own element so it can fade
+              while the sheet is swiped down, without fading the sheet. */}
           <div
+            ref={backdropRef}
             aria-hidden="true"
-            className="absolute inset-0"
+            className="absolute inset-0 bg-[rgba(20,20,20,0.55)]"
             onClick={onClose}
           />
 
@@ -334,7 +347,10 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               </div>
             ) : (
               /* Phones: no header strip. The close button floats over the photo and
-                 stays pinned while the sheet scrolls. */
+                 stays pinned while the sheet scrolls; a grab handle hints that
+                 the sheet can be swiped down to close. */
+              <>
+              <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-2 z-[5] h-[5px] w-10 -translate-x-1/2 rounded-full bg-black/20" />
               <button
                 type="button"
                 onClick={onClose}
@@ -343,6 +359,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
               >
                 <X className="h-[18px] w-[18px]" strokeWidth={2} />
               </button>
+              </>
             )}
 
             {/* `.qv-scroll` — only this scrolls; the photo stays put on desktop. */}
