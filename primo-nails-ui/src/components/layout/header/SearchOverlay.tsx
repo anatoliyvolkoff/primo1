@@ -791,9 +791,12 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
                           {NAIL_SWATCHES.map(swatch => (
                             <Link
                               key={swatch.name}
-                              to={`/tutti-prodotti?color=${swatch.slug}`}
+                              // Same target as the Home "Shop by color" palette:
+                              // the Gel Polish (Semipermanente) catalogue filtered
+                              // by this colour; #prodotti scrolls to the results.
+                              to={`/semipermanente?color=${swatch.slug}#prodotti`}
                               onClick={handleClose}
-                              className="group flex flex-col items-center gap-1.5 py-1.5 rounded-xl text-center"
+                              className="group flex flex-col items-center gap-1.5 py-1.5 rounded-xl text-center outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                             >
                               {/* The glossy nail swatch (photo OR CSS fallback)
                                   is shared with the Home ShopByColor palette via

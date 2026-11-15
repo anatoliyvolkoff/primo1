@@ -123,9 +123,12 @@ describe('SearchOverlay — idle state', () => {
 
   it('renders the whole "Cerca per colore" grid — one link per swatch', () => {
     const { container } = renderOverlay();
-    // Each swatch links to /tutti-prodotti?color=<slug>; the idle grid lists all.
-    const colorLinks = container.querySelectorAll('a[href^="/tutti-prodotti?color="]');
+    // Each swatch links to the Gel Polish (Semipermanente) catalogue filtered by
+    // its colour, like the Home "Shop by color" palette; the idle grid lists all.
+    const colorLinks = container.querySelectorAll('a[href^="/semipermanente?color="]');
     expect(colorLinks.length).toBe(NAIL_SWATCHES.length);
+    // …and lands on the results (#prodotti on CategoryPage).
+    expect(container.querySelector('a[href="/semipermanente?color=rosso#prodotti"]')).not.toBeNull();
   });
 
   it('a photo swatch (ROSSO) renders an <img> nail-tip', () => {

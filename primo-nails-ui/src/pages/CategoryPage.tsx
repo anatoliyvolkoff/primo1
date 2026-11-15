@@ -386,6 +386,7 @@ export function CategoryPage() {
             (+ the sticky strip on colour-led pages). */}
         <div
           ref={resultsRef}
+          id="prodotti"
           className={showPalette ? 'scroll-mt-[130px] lg:scroll-mt-[175px]' : undefined}
         >
         <FilterBar

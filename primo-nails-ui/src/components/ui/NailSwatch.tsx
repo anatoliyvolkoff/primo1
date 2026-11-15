@@ -95,7 +95,7 @@ export const NailSwatch: React.FC<NailSwatchProps> = ({
       className={cn(
         'relative block',
         size === 'grid'
-          ? 'w-[26px] h-[62px] transition-transform group-hover:-translate-y-[3px]'
+          ? 'w-[26px] h-[62px] transition-transform duration-200 group-hover:-translate-y-[3px] group-active:scale-[0.92] group-active:duration-100'
           : 'w-full h-full',
         className,
       )}
