@@ -644,7 +644,7 @@ export const ProductDetail = () => {
   };
 
   return (
-    <main className="flex-1 pt-[57px] lg:pt-[134px] pb-28 sm:pb-32 lg:pb-24">
+    <main className="flex-1 pt-[57px] lg:pt-[134px] pb-16 lg:pb-24">
       {/* Desktop: constrain the PDP to the redesign's centred 976px column. The
           `!` beats the shared .container-premium (1300px) max-width; mobile
           stays full-width inside the container. (See DECISIONS gotcha.) */}
@@ -1210,7 +1210,7 @@ export const ProductDetail = () => {
         </div>
 
         {/* RELATED PRODUCTS — Editorial Highlight */}
-        <section className="pt-[37px] pb-[100px] lg:pb-[140px] lg:pt-0 lg:mt-[134.9px]">
+        <section className="pt-[37px] pb-0 lg:pb-[140px] lg:pt-0 lg:mt-[134.9px]">
           <div className="flex flex-col md:flex-row md:items-start justify-between mb-0 lg:mb-[40px] gap-4 sm:gap-6 max-sm:px-1 sm:max-lg:px-[13px]">
             <SectionTitle
               as="h2"

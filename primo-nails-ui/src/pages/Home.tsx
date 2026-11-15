@@ -107,7 +107,7 @@ export function Home() {
   // existing props). Rendered as a helper to keep the section rhythm readable.
   // Primo1 shows some strips on desktop only (`.marquee.d-only`). `gap` adds
   // Primo1's desktop 120px rhythm above the strip (sections ending flush).
-  const marquee = (desktopOnly = false, gap = false) => {
+  const marquee = (desktopOnly = false, gap = false, mobileOnly = false) => {
     const strip = (
       <RunningBanner
           text={t('banner.tpoHemaText')}
@@ -115,6 +115,7 @@ export function Home() {
           highlightClassName="text-green-bright"
           Icon={ShieldCheck}
           desktopOnly={desktopOnly}
+          mobileOnly={mobileOnly}
       />
     );
     return gap ? <div className="lg:mt-[120px]">{strip}</div> : strip;
@@ -153,8 +154,8 @@ export function Home() {
           />
         </div>
 
-        {/* Phones: Primo1's free-shipping strip after Nuovi Arrivi (`.marquee.m-only`). */}
-        <RunningBanner mobileOnly />
+        {/* Phones: TPO & HEMA strip after Nuovi Arrivi (was free shipping; Sir 2026-11-15). */}
+        {marquee(false, false, true)}
 
         {/* The Seasons — leave exactly as-is per the client (do not restyle/move
             its internals). It follows ShopByColor per the prototype order. */}
@@ -191,9 +192,8 @@ export function Home() {
 
         <CoursesList />
 
-        {/* Primo1: free-shipping strip on phones, TPO & HEMA strip on desktop. */}
-        <RunningBanner mobileOnly />
-        {marquee(true)}
+        {/* TPO & HEMA strip at every size (phones used to get free shipping here). */}
+        {marquee()}
 
         {/* Visti di Recente — phones keep Primo1's compact rail; desktop shows the
             standard 4-card row (client request). */}

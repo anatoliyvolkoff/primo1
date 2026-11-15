@@ -69,13 +69,13 @@ describe('Home — TPO & HEMA marquee', () => {
       </MemoryRouter>
     );
 
-    // Primo1 rhythm: eight TPO & HEMA strips between the major sections, plus
-    // two phone-only free-shipping strips (default copy, no text prop) after
-    // Nuovi Arrivi and after the courses.
+    // Nine TPO & HEMA strips between the major sections. The phone-only
+    // free-shipping strips were replaced by TPO & HEMA (Sir, 2026-11-15), so
+    // no banner falls back to the default free-shipping copy.
     const all = screen.getAllByTestId('running-banner');
-    expect(all.length).toBe(10);
+    expect(all.length).toBe(9);
     const banners = all.filter((b) => b.textContent?.trim());
-    expect(banners.length).toBe(8);
+    expect(banners.length).toBe(9);
     // Each carries the TPO & HEMA copy (keys echoed by the mocked t()),
     // not the default free-shipping message.
     for (const b of banners) {
