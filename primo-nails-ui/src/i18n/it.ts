@@ -59,6 +59,7 @@ export const it = {
   'shop.cs.shadesWord': 'tonalità',
   'shop.cs.allColors': 'Tutti i colori',
   'shop.cs.groupLabel': 'Colori',
+  'shop.cs.moreColors': 'Altri colori',
   // About us page (Primo1 chi-siamo).
   'aboutPage.hero.alt': "Irina PriMo durante un'intervista in studio",
   'aboutPage.hero.title1': 'Chi',

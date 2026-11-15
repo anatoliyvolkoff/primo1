@@ -61,6 +61,7 @@ export const en: Record<TranslationKey, string> = {
   'shop.cs.shadesWord': 'shades',
   'shop.cs.allColors': 'All colours',
   'shop.cs.groupLabel': 'Colours',
+  'shop.cs.moreColors': 'More colours',
   // About us page (Primo1 chi-siamo).
   'aboutPage.hero.alt': 'Irina PriMo during a studio interview',
   'aboutPage.hero.title1': 'About',
