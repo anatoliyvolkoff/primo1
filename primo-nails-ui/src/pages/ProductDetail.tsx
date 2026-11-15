@@ -1055,7 +1055,7 @@ export const ProductDetail = () => {
                 glyphStrokeWidth={0.9}
                 glyphClassName="w-11 h-11"
                 className={`flex items-center ${product.inStock === false ? 'opacity-40 pointer-events-none' : ''}`}
-                buttonClassName="w-11 h-11 p-0 grid place-items-center text-[#222] hover:text-foreground transition-colors"
+                buttonClassName="w-11 h-11 p-0 grid place-items-center text-[#222] hover:text-foreground"
                 readoutAs="span"
                 readoutClassName="font-sans text-[20px] leading-6 font-medium w-[13px] mx-[13px] text-center"
               />

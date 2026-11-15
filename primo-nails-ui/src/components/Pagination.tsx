@@ -90,7 +90,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             onClick={() => onPageChange(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
             aria-label={t('a11y.pagination.prev')}
-            className="flex items-center gap-1 shrink-0 h-10 pl-2 pr-3 max-sm:px-1.5 lg:px-0 rounded-pill text-sm lg:text-[13.5px] font-medium text-muted-foreground lg:text-[#555] hover:text-foreground disabled:opacity-30 disabled:hover:text-muted-foreground transition-colors duration-300"
+            className="flex items-center gap-1 shrink-0 h-10 pl-2 pr-3 max-sm:px-1.5 lg:px-0 rounded-pill text-sm lg:text-[13.5px] font-medium text-muted-foreground lg:text-[#555] hover:text-foreground disabled:opacity-30 disabled:hover:text-muted-foreground transition-[color,scale] duration-200 active:scale-95"
           >
             <ChevronLeft className="w-4 h-4" aria-hidden="true" />
             <span className="hidden sm:inline">{t('pagination.previous')}</span>
@@ -115,7 +115,7 @@ export const Pagination: React.FC<PaginationProps> = ({
                     onClick={() => onPageChange(page)}
                     aria-current={isCurrent ? 'page' : undefined}
                     aria-label={isCurrent ? t('a11y.pageCurrent', { page }) : t('a11y.pageNumber', { page })}
-                    className={`w-9 h-9 max-sm:w-7 max-[440px]:w-6 sm:w-10 sm:h-10 lg:w-auto lg:h-9 lg:min-w-7 lg:px-1 lg:rounded-[18px] flex items-center justify-center rounded-full text-sm lg:text-[13.5px] font-medium transition-all duration-300 ${
+                    className={`w-9 h-9 max-sm:w-7 max-[440px]:w-6 sm:w-10 sm:h-10 lg:w-auto lg:h-9 lg:min-w-7 lg:px-1 lg:rounded-[18px] flex items-center justify-center rounded-full text-sm lg:text-[13.5px] font-medium transition-all duration-200 active:scale-90 ${
                       isCurrent
                         ? 'bg-primary text-primary-foreground shadow-card max-sm:w-9 max-sm:font-semibold lg:shadow-none lg:min-w-9 lg:font-semibold'
                         : 'text-foreground lg:text-[#555] hover:bg-tab-track lg:hover:bg-black/5'
@@ -133,7 +133,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
             disabled={currentPage === totalPages}
             aria-label={t('a11y.pagination.next')}
-            className="flex items-center gap-1 shrink-0 h-10 pl-3 pr-2 max-sm:px-1.5 lg:px-0 rounded-pill text-sm lg:text-[13.5px] font-medium text-muted-foreground lg:text-[#555] hover:text-foreground disabled:opacity-30 disabled:hover:text-muted-foreground transition-colors duration-300"
+            className="flex items-center gap-1 shrink-0 h-10 pl-3 pr-2 max-sm:px-1.5 lg:px-0 rounded-pill text-sm lg:text-[13.5px] font-medium text-muted-foreground lg:text-[#555] hover:text-foreground disabled:opacity-30 disabled:hover:text-muted-foreground transition-[color,scale] duration-200 active:scale-95"
           >
             <span className="hidden sm:inline">{t('pagination.next')}</span>
             <ChevronRight className="w-4 h-4" aria-hidden="true" />

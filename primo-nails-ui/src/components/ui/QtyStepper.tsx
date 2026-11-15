@@ -1,5 +1,10 @@
 import React from 'react';
 import { Minus, Plus } from 'lucide-react';
+import { cn } from './cn';
+
+/** Press feedback for the − / + buttons (scale dips on tap/click). */
+const STEP_BTN_FX =
+  'transition-[color,opacity,scale] duration-150 active:scale-[0.85] [-webkit-tap-highlight-color:transparent]';
 
 /**
  * Circled thin-stroke stepper glyphs — a faithful copy of the prototype's
@@ -135,7 +140,7 @@ export const QtyStepper: React.FC<QtyStepperProps> = ({
         aria-label={decrementLabel}
         disabled={decrementDisabled}
         onClick={onDecrement}
-        className={buttonClassName}
+        className={cn(STEP_BTN_FX, buttonClassName)}
       >
         {MinusGlyph}
       </button>
@@ -145,7 +150,7 @@ export const QtyStepper: React.FC<QtyStepperProps> = ({
         aria-label={incrementLabel}
         disabled={incrementDisabled}
         onClick={onIncrement}
-        className={buttonClassName}
+        className={cn(STEP_BTN_FX, buttonClassName)}
       >
         {PlusGlyph}
       </button>

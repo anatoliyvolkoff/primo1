@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Search, ShoppingCart, Menu, ChevronDown } from 'lucide-react';
+import { Search, ShoppingCart, ChevronDown } from 'lucide-react';
 import { useScroll, useMotionValueEvent } from 'motion/react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
@@ -142,19 +142,32 @@ export const Header = () => {
             <button
               ref={burgerRef}
               type="button"
-              className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] hover:opacity-100 transition-opacity text-foreground"
+              className="mi-icon lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] text-foreground"
               onClick={() => setIsMobileMenuOpen(prev => !prev)}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
               aria-label={t('common.menu')}
             >
-              <Menu className="h-5 w-5 stroke-[2]" />
+              {/* Burger that morphs into an X while the menu is open (index.css `.mi-burger`). */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className={`mi-burger h-5 w-5 ${isMobileMenuOpen ? 'is-open' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                strokeLinecap="round"
+              >
+                <line className="mi-burger-top" x1="4" y1="6" x2="20" y2="6" />
+                <line className="mi-burger-mid" x1="4" y1="12" x2="20" y2="12" />
+                <line className="mi-burger-bot" x1="4" y1="18" x2="20" y2="18" />
+              </svg>
             </button>
             {/* Language Selector */}
             <div ref={langRef} className="relative shrink-0">
               <button
                 type="button"
-                className="flex items-center gap-1.5 sm:gap-2 lg:gap-0 cursor-pointer group min-w-[44px] min-h-[44px] lg:min-h-0 lg:h-[41.5px] -ml-1.5 px-1.5 lg:px-0 lg:pl-[5.7px]"
+                className="flex items-center gap-1.5 sm:gap-2 lg:gap-0 cursor-pointer group transition-[opacity,scale] duration-200 hover:opacity-70 active:scale-95 min-w-[44px] min-h-[44px] lg:min-h-0 lg:h-[41.5px] -ml-1.5 px-1.5 lg:px-0 lg:pl-[5.7px]"
                 onClick={() => setIsLangOpen(prev => !prev)}
                 aria-haspopup="listbox"
                 aria-expanded={isLangOpen}
@@ -265,7 +278,7 @@ export const Header = () => {
                   Tab-focusing it shouldn't pop a modal. */}
               <button
                 type="button"
-                className="hidden lg:flex items-center justify-start gap-[10px] h-[43.1px] w-[252px] mr-2 pl-[15px] pr-[9px] rounded-[22px] bg-[#f6f6f6] text-foreground transition-[background-color,box-shadow] duration-150 hover:bg-white hover:shadow-[0_0_0_1px_#111]"
+                className="hidden lg:flex items-center justify-start gap-[10px] h-[43.1px] w-[252px] mr-2 pl-[15px] pr-[9px] rounded-[22px] bg-[#f6f6f6] text-foreground transition-[background-color,box-shadow,scale] duration-150 hover:bg-white hover:shadow-[0_0_0_1px_#111] active:scale-[0.98]"
                 onClick={() => setIsSearchOpen(true)}
                 aria-label={t('common.openSearch')}
                 aria-keyshortcuts="/ Control+K Meta+K"
@@ -284,7 +297,7 @@ export const Header = () => {
               {/* Mobile / tablet: search icon button (unchanged behavior). */}
               <button
                 type="button"
-                className="flex lg:hidden items-center justify-center w-11 h-11 min-w-[44px] hover:opacity-100 transition-opacity text-foreground"
+                className="mi-icon flex lg:hidden items-center justify-center w-11 h-11 min-w-[44px] text-foreground"
                 onClick={() => setIsSearchOpen(true)}
                 aria-label={t('common.openSearch')}
               >
@@ -292,7 +305,7 @@ export const Header = () => {
               </button>
               <button
                 type="button"
-                className="flex items-center justify-center w-11 h-11 min-w-[44px] lg:w-[43.1px] lg:h-[43.1px] hover:opacity-100 transition-opacity relative text-foreground"
+                className="mi-icon flex items-center justify-center w-11 h-11 min-w-[44px] lg:w-[43.1px] lg:h-[43.1px] relative text-foreground"
                 onClick={() => setIsCartOpen(true)}
                 aria-label={t('common.cart', { count: cartCount })}
               >
