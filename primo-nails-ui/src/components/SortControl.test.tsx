@@ -63,3 +63,22 @@ describe('SortControl — option set matches the client prototype', () => {
     expect(screen.getByText('sort.popularity')).toBeTruthy();
   });
 });
+
+describe('SortControl — placement', () => {
+  it('opens downward by default (desktop bar)', () => {
+    render(<SortControl currentSort="popularity" onSortChange={() => {}} />);
+    openMenu();
+    const list = screen.getByRole('listbox');
+    expect(list.dataset.placement).toBe('down');
+    expect(list.className).toContain('top-[calc(100%+6px)]');
+  });
+
+  it('opens upward when placement="up" so it never covers the sheet CTA', () => {
+    render(<SortControl currentSort="popularity" onSortChange={() => {}} placement="up" />);
+    openMenu();
+    const list = screen.getByRole('listbox');
+    expect(list.dataset.placement).toBe('up');
+    expect(list.className).toContain('bottom-[calc(100%+8px)]');
+    expect(list.className).not.toContain('top-[calc(100%+6px)]');
+  });
+});
