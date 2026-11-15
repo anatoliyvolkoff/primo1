@@ -75,7 +75,7 @@ interface RateTableProps {
 }
 
 const COL_CLS =
-  'px-2.5 text-right tabular-nums first:pl-[18px] first:text-left last:pr-[18px] lg:px-5 lg:first:pl-8 lg:last:pr-8';
+  'px-1.5 max-[359px]:px-1 sm:px-2.5 text-right tabular-nums first:pl-3.5 sm:first:pl-[18px] first:text-left last:pr-3.5 sm:last:pr-[18px] lg:px-5 lg:first:pl-8 lg:last:pr-8';
 
 /** Header + <table> for one rate zone group (Italy or Europe). Pivots the live
  *  zones: columns = zones, rows = the union of their weight bands (data-driven,
@@ -109,7 +109,7 @@ function RateTableInner({
         <p className="font-sans text-[13px] leading-[19px] text-[#8a8580] lg:text-[14px]">{desc}</p>
       </div>
       <div className="overflow-x-auto overflow-y-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <table className="w-full table-fixed border-collapse">
+        <table className="w-full table-auto border-collapse sm:table-fixed">
           <caption className="sr-only">{caption}</caption>
           <thead>
             <tr>
@@ -130,23 +130,23 @@ function RateTableInner({
           <tbody>
             {/* Free-ship highlighted row (data-driven freeThreshold per zone). */}
             <tr className="border-t border-[#e6e1dc] [&>*]:h-11 [&>*]:bg-[rgba(31,122,58,0.07)] [&>*]:text-[#1f7a3a] lg:[&>*]:h-[52px] lg:[&>*]:text-[17px]">
-              <th scope="row" className={cn(COL_CLS, 'whitespace-nowrap font-heading text-[11px] font-bold uppercase tracking-[1.2px] lg:text-[11.5px]')}>
+              <th scope="row" className={cn(COL_CLS, 'leading-[15px] sm:whitespace-nowrap font-heading text-[11px] font-bold uppercase tracking-[1.2px] lg:text-[11.5px]')}>
                 <Check className="mr-1.5 -mb-0.5 inline h-[13px] w-[13px] [stroke-width:2.4]" aria-hidden="true" />
                 {freeFromLabel}
               </th>
               {zones.map((z) => (
-                <td key={z.key} className={cn(COL_CLS, 'font-bold')}>
+                <td key={z.key} className={cn(COL_CLS, 'whitespace-nowrap font-bold max-sm:text-[13.5px]')}>
                   {z.freeThreshold != null ? formatPrice(z.freeThreshold, language) : '—'}
                 </td>
               ))}
             </tr>
             {bandKgs.map((kg) => (
               <tr key={kg} className="border-t border-[#e6e1dc] transition-colors lg:hover:bg-surface">
-                <th scope="row" className={cn(COL_CLS, 'h-[46px] whitespace-nowrap font-sans text-[14.5px] font-normal text-[#555] lg:h-[50px] lg:text-[15.5px]')}>
+                <th scope="row" className={cn(COL_CLS, 'h-[46px] leading-[17px] sm:whitespace-nowrap font-sans text-[13.5px] sm:text-[14.5px] font-normal text-[#555] lg:h-[50px] lg:text-[15.5px]')}>
                   {kgLabel(kg)}
                 </th>
                 {zones.map((z) => (
-                  <td key={z.key} className={cn(COL_CLS, 'h-[46px] text-[14.5px] font-bold text-[#111] lg:h-[50px] lg:text-[15.5px]')}>
+                  <td key={z.key} className={cn(COL_CLS, 'h-[46px] whitespace-nowrap text-[13.5px] sm:text-[14.5px] font-bold text-[#111] lg:h-[50px] lg:text-[15.5px]')}>
                     {priceFor(z, kg)}
                   </td>
                 ))}
@@ -290,7 +290,7 @@ export function ShippingPage() {
               kgLabel={kgLabel}
               zones={itZones}
               headers={itHeaders}
-              weightColCls="w-[30%] lg:w-[28%]"
+              weightColCls="sm:w-[30%] lg:w-[28%]"
               language={language}
             />
           </div>
@@ -305,7 +305,7 @@ export function ShippingPage() {
               desc={t('shipping.ratesEuropeDesc')}
               caption={t('shipping.ratesEuropeCaption')}
               kgLabel={kgLabel}
-              weightColCls="w-[34%] lg:w-[28%]"
+              weightColCls="sm:w-[34%] lg:w-[28%]"
               language={language}
             />
             {/* Country legend — derived from the zone descriptions (same data

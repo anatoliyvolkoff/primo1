@@ -259,6 +259,7 @@ export const it = {
   'product.addToCartCard': 'Add to cart',
   'product.shades': 'Sfumature',
   'product.colors': 'Colori',
+  'product.color': 'Colore',
   'product.shippingNote': 'Spedizione calcolata al checkout.',
   'product.shippingRatesLink': 'Tariffe e resi',
   'pdp.wholesale.label': 'Ingrosso',
@@ -329,7 +330,7 @@ export const it = {
   'cart.updateFailed': 'Impossibile aggiornare la quantità.',
 
   // ── Checkout ──
-  'checkout.title': 'Checkout sicura',
+  'checkout.title': 'Checkout sicuro',
   'checkout.emptyCart': 'Il tuo carrello è vuoto',
   'checkout.returnToShop': 'Ritorna allo Shop',
   'checkout.contactInfo': 'Informazioni di contatto',
@@ -447,7 +448,7 @@ export const it = {
   'founder.experienceD': 'Experience',
   'founder.studentsM': 'Studenti',
   'founder.studentsD': 'Students',
-  'founder.more': 'LEGGI DI PIU',
+  'founder.more': 'LEGGI DI PIÙ',
   'founder.less': 'LEGGI MENO',
   'founder.photoAlt': "Irina PriMo durante un'intervista",
   'aboutBrand.label': 'Vision & Excellence',
