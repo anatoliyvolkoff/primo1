@@ -439,7 +439,7 @@ export function CategoryPage() {
                   transition: { duration: 0.3, ease: [0.22, 0.8, 0.24, 1] },
                 },
               }}
-              className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-sm:-mx-0.5 gap-x-2.5 gap-y-[13.6px] sm:gap-6 lg:gap-x-4 lg:gap-y-10 min-h-[400px]"
+              className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 max-sm:-mx-0.5 gap-x-2.5 gap-y-[13.6px] sm:gap-6 lg:gap-x-4 lg:gap-y-10 min-h-[400px] content-start"
             >
               {paginatedProducts.length > 0 ? (
                 paginatedProducts.map(product => (
