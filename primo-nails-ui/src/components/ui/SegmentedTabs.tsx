@@ -67,7 +67,7 @@ export function SegmentedTabs<T extends string = string>({
             className={cn(
               'relative inline-flex h-10 items-center justify-center rounded-pill px-9',
               'font-sans text-sm font-medium leading-none',
-              'transition-colors duration-200',
+              'transition-[color,background-color,scale] duration-200 active:scale-[0.96]',
               'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-tab-track',
               'disabled:opacity-40 disabled:pointer-events-none',
               // The pill carries the active background; text color still toggles

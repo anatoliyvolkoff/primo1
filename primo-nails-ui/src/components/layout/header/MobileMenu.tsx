@@ -41,8 +41,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, navItem
           aria-label={t('a11y.mobileNav' as any)}
           className="container-premium py-4 sm:py-6 flex flex-col gap-1"
         >
-          {navItems.map(item => (
-            <MobileNavRow key={item.label} item={item} pathname={pathname} onClose={onClose} />
+          {navItems.map((item, i) => (
+            // Rows slide in one after another as the menu opens (index.css `.mi-menu-row`).
+            <div key={item.label} className="mi-menu-row" style={{ '--i': i } as React.CSSProperties}>
+              <MobileNavRow item={item} pathname={pathname} onClose={onClose} />
+            </div>
           ))}
         </nav>
       </motion.div>
@@ -53,7 +56,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onClose, navItem
 
 
 const ROW_CLASS =
-  'min-h-[44px] flex items-center text-[12px] font-semibold uppercase tracking-widest transition-all px-2 rounded-xl';
+  'min-h-[44px] flex items-center text-[12px] font-semibold uppercase tracking-widest transition-all px-2 rounded-xl active:bg-muted/60 [-webkit-tap-highlight-color:transparent]';
 
 const MobileNavRow: React.FC<{ item: NavItem; pathname: string; onClose: () => void }> = ({
   item,
@@ -122,7 +125,7 @@ const MobileNavRow: React.FC<{ item: NavItem; pathname: string; onClose: () => v
           aria-controls={submenuId}
           aria-label={toggleLabel}
           data-testid="mobile-submenu-toggle"
-          className="shrink-0 w-14 min-h-[44px] -mr-2 flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-colors"
+          className="shrink-0 w-14 min-h-[44px] -mr-2 flex items-center justify-center rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-[color,background-color,scale] active:scale-90"
         >
           <ChevronDown
             className={`w-4 h-4 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}

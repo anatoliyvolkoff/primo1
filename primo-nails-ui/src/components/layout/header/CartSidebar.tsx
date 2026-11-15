@@ -73,7 +73,7 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
           <h2 id={titleId} className="text-lg sm:text-xl font-bold tracking-widest uppercase truncate">{t('cart.title')}</h2>
           <button
             onClick={onClose}
-            className="w-10 h-10 flex items-center justify-center hover:bg-muted rounded-full transition-colors shrink-0 ml-2"
+            className="w-10 h-10 flex items-center justify-center hover:bg-muted rounded-full transition-[color,background-color,border-color,scale] duration-200 active:scale-90 shrink-0 ml-2"
             aria-label={t('cart.close')}
           >
             <X className="w-5 h-5" />
@@ -103,7 +103,7 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
                   type="button"
                   onClick={dismissCartNotice}
                   aria-label={t('cart.close')}
-                  className="shrink-0 -mr-1 p-1 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  className="shrink-0 -mr-1 p-1 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted transition-[color,background-color,border-color,scale] duration-200 active:scale-90"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
@@ -119,7 +119,7 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
               <p className="text-lg text-muted-foreground">{t('cart.empty')}</p>
               <button
                 onClick={onClose}
-                className="mt-4 px-8 py-3 bg-primary text-primary-foreground border border-primary text-sm font-medium uppercase tracking-widest rounded-pill hover:bg-transparent hover:text-primary transition-colors"
+                className="mt-4 px-8 py-3 bg-primary text-primary-foreground border border-primary text-sm font-medium uppercase tracking-widest rounded-pill hover:bg-transparent hover:text-primary transition-[color,background-color,border-color,scale] duration-200 active:scale-[0.97]"
               >
                 {t('cart.startShopping')}
               </button>
@@ -154,7 +154,7 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
                       </div>
                       <button
                         onClick={() => setPendingRemoveId(item.id)}
-                        className="text-muted-foreground hover:text-foreground transition-colors shrink-0 p-1 -m-1"
+                        className="text-muted-foreground hover:text-foreground transition-[color,background-color,border-color,scale] duration-200 active:scale-90 shrink-0 p-1 -m-1"
                         aria-label={t('cart.removeItem', { name: item.name })}
                       >
                         <X className="w-4 h-4" />
@@ -177,7 +177,7 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
                               updateQuantity(item.id, q - 1);
                             }
                           }}
-                          className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
+                          className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-[color,background-color,border-color,scale] duration-200 active:scale-90"
                           aria-label={t('cart.decreaseQty')}
                         >
                           <Minus className="w-3.5 h-3.5" />
@@ -186,7 +186,7 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
                         <button
                           type="button"
                           onClick={() => updateQuantity(item.id, liveQuantity(item.id) + 1)}
-                          className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-colors"
+                          className="w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/30 transition-[color,background-color,border-color,scale] duration-200 active:scale-90"
                           aria-label={t('cart.increaseQty')}
                         >
                           <Plus className="w-3.5 h-3.5" />
@@ -218,7 +218,7 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
             <Link
               to="/checkout"
               onClick={onClose}
-              className="w-full py-3.5 sm:py-4 bg-primary text-primary-foreground border border-primary text-[13px] sm:text-sm font-medium uppercase tracking-widest rounded-pill hover:bg-transparent hover:text-primary transition-colors flex justify-center"
+              className="w-full py-3.5 sm:py-4 bg-primary text-primary-foreground border border-primary text-[13px] sm:text-sm font-medium uppercase tracking-widest rounded-pill hover:bg-transparent hover:text-primary transition-[color,background-color,border-color,scale] duration-200 active:scale-[0.97] flex justify-center"
             >
               {t('cart.checkout')}
             </Link>
@@ -282,13 +282,13 @@ export const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose }) => 
               <div className="flex gap-3 w-full">
                 <button
                   onClick={() => setPendingRemoveId(null)}
-                  className="flex-1 py-3 border border-border rounded-full text-sm font-bold uppercase tracking-widest hover:bg-muted transition-colors"
+                  className="flex-1 py-3 border border-border rounded-full text-sm font-bold uppercase tracking-widest hover:bg-muted transition-[color,background-color,border-color,scale] duration-200 active:scale-[0.97]"
                 >
                   {t('cart.cancel')}
                 </button>
                 <button
                   onClick={confirmRemove}
-                  className="flex-1 py-3 bg-foreground text-background rounded-full text-sm font-bold uppercase tracking-widest hover:bg-foreground/85 transition-colors"
+                  className="flex-1 py-3 bg-foreground text-background rounded-full text-sm font-bold uppercase tracking-widest hover:bg-foreground/85 transition-[color,background-color,border-color,scale] duration-200 active:scale-[0.97]"
                 >
                   {t('cart.remove')}
                 </button>

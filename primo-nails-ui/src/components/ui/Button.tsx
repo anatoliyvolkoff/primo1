@@ -20,23 +20,29 @@ export interface ButtonProps
   children?: React.ReactNode;
 }
 
+// Micro-interactions: hover only fires on hover-capable pointers (Tailwind v4
+// wraps `hover:` in `@media (hover: hover)`), so phones get just the press.
+// The press uses the `scale` property and the hover lift uses `transform`, so
+// neither clobbers a caller's `translate-*` positioning.
 const base =
-  'inline-flex items-center justify-center gap-2 rounded-pill font-sans font-medium ' +
-  'transition-[background-color,color,border-color,box-shadow,transform] duration-200 ease-out ' +
+  'group/btn inline-flex items-center justify-center gap-2 rounded-pill font-sans font-medium ' +
+  'transition-[background-color,color,border-color,box-shadow,transform,scale] duration-200 ease-[cubic-bezier(.22,.8,.24,1)] ' +
   'outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ' +
   'focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 ' +
-  'active:scale-[0.98] select-none';
+  'active:scale-[0.96] active:duration-100 [-webkit-tap-highlight-color:transparent] select-none';
 
 const variants: Record<ButtonVariant, string> = {
   // Black pill — the primary action color (prototype: no hover restyle, just a
   // subtle press via the shared `active:scale-[0.98]` in `base`).
   primary:
-    'bg-primary text-primary-foreground border border-primary shadow-card',
+    'bg-primary text-primary-foreground border border-primary shadow-card ' +
+    'hover:bg-[#262626] hover:border-[#262626] hover:[transform:translateY(-1px)] ' +
+    'active:[transform:none]',
   // Outline pill — grey border/text, no hover-invert, light press fill
   // (prototype `.pill-btn`: 1.2px #444 border, #656565 text, :active #f3f3f3).
   secondary:
     'bg-transparent text-[#656565] border-[1.2px] border-[#444] ' +
-    'active:bg-[#f3f3f3]',
+    'hover:text-black hover:border-black active:bg-[#f3f3f3]',
   // Minimal, no chrome.
   ghost:
     'bg-transparent text-primary border border-transparent ' +
@@ -86,7 +92,12 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           leadingIcon
         )}
         {children}
-        {!loading && trailingIcon}
+        {!loading && trailingIcon && (
+          // Trailing icons (arrows) nudge forward on hover.
+          <span className="inline-flex transition-transform duration-200 group-hover/btn:translate-x-0.5">
+            {trailingIcon}
+          </span>
+        )}
       </>
     );
 

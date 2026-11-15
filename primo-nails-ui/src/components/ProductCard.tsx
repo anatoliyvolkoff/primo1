@@ -382,7 +382,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, grid = false,
               }`}
               leadingIcon={
                 isOutOfStock ? undefined : isAdded ? (
-                  <Check aria-hidden="true" className="w-4 h-4 max-lg:w-5 max-lg:h-5" />
+                  <Check aria-hidden="true" className="animate-pop w-4 h-4 max-lg:w-5 max-lg:h-5" />
                 ) : (
                   <Plus aria-hidden="true" strokeWidth={2.5} className="w-[22px] h-[22px] @max-[230px]:w-[21px] @max-[230px]:h-[21px] lg:hidden" />
                 )

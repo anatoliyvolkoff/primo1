@@ -42,7 +42,7 @@ const ChipItem: React.FC<{
     type="button"
     aria-pressed={checked}
     onClick={onChange}
-    className={`inline-flex items-center gap-2 h-8 px-3.5 rounded-pill border text-xs font-medium uppercase tracking-wider transition-[background-color,color,border-color] duration-200 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+    className={`inline-flex items-center gap-2 h-8 px-3.5 rounded-pill border text-xs font-medium uppercase tracking-wider transition-[background-color,color,border-color,scale] duration-200 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
       checked
         ? 'bg-primary text-primary-foreground border-primary'
         : 'bg-transparent text-muted-foreground border-border hover:border-foreground hover:text-foreground'
@@ -619,7 +619,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                     type="button"
                     onClick={() => removeFilter(f)}
                     aria-label={t('filter.removeFilter', { name: label })}
-                    className="group flex items-center gap-1.5 shrink-0 pl-3.5 pr-2.5 h-8 rounded-full border border-border bg-white text-xs whitespace-nowrap hover:border-black transition-colors"
+                    className="group flex items-center gap-1.5 shrink-0 pl-3.5 pr-2.5 h-8 rounded-full border border-border bg-white text-xs whitespace-nowrap hover:border-black transition-[border-color,scale] duration-200 active:scale-95"
                   >
                     <span className="capitalize">{label}</span>
                     <X className="w-3 h-3 opacity-50 group-hover:opacity-100 transition-opacity" />
@@ -644,7 +644,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               <button
                 type="button"
                 onClick={clearAll}
-                className="flex items-center gap-1.5 h-10 px-3 sm:px-4 rounded-full border border-border bg-white text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground hover:text-black hover:border-black transition-all shrink-0"
+                className="flex items-center gap-1.5 h-10 px-3 sm:px-4 rounded-full border border-border bg-white text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground hover:text-black hover:border-black transition-all active:scale-95 shrink-0"
               >
                 <X className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">{t('filter.clearAll')}</span>
@@ -659,7 +659,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                 chevron rotates 180° when the panel is open. */}
             <button
               onClick={() => setIsExpanded(prev => !prev)}
-              className="h-10 sm:h-10 max-sm:h-11 max-sm:w-11 max-sm:px-0 rounded-full flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 lg:h-[42.6px] lg:px-[17px] lg:gap-[9px] transition-all duration-300 min-w-[44px] justify-center sm:justify-start bg-black text-white hover:bg-black/90"
+              className="h-10 sm:h-10 max-sm:h-11 max-sm:w-11 max-sm:px-0 rounded-full flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 lg:h-[42.6px] lg:px-[17px] lg:gap-[9px] transition-all duration-300 min-w-[44px] justify-center sm:justify-start bg-black text-white hover:bg-[#262626] active:scale-95"
               aria-label={isExpanded ? t('filter.hideFilters') : t('filter.showFilters')}
               aria-expanded={isExpanded}
             >
@@ -755,7 +755,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
                   )}
                   <button
                     onClick={() => setIsExpanded(false)}
-                    className="p-2 hover:bg-muted rounded-full transition-colors"
+                    className="p-2 hover:bg-muted rounded-full transition-[background-color,scale] active:scale-90"
                     aria-label={t('filter.closeFilters')}
                   >
                     <X className="w-5 h-5" />

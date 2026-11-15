@@ -137,7 +137,7 @@ export const ProductCarousel: React.FC<ProductCarouselProps> = ({
   };
 
   const arrowBase =
-    'absolute top-1/2 -translate-y-1/2 z-20 hidden sm:flex w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-white border border-black/5 shadow-md items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-all duration-300 group';
+    'absolute top-1/2 -translate-y-1/2 z-20 hidden sm:flex w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-white border border-black/5 shadow-md items-center justify-center text-foreground hover:bg-foreground hover:text-background active:scale-90 transition-all duration-200 group';
 
   return (
     <div>
