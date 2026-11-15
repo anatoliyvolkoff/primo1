@@ -8,9 +8,14 @@ export type SortOption = 'popularity' | 'newest' | 'price-asc' | 'price-desc';
 interface SortControlProps {
   currentSort: SortOption;
   onSortChange: (option: SortOption) => void;
+  /** 'up' opens the list above the trigger, centred — used in the phone
+   *  filter sheet footer where a downward list would cover the results
+   *  button and run off the bottom of the screen. */
+  placement?: 'down' | 'up';
 }
 
-export const SortControl: React.FC<SortControlProps> = ({ currentSort, onSortChange }) => {
+export const SortControl: React.FC<SortControlProps> = ({ currentSort, onSortChange, placement = 'down' }) => {
+  const up = placement === 'up';
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -81,14 +86,16 @@ export const SortControl: React.FC<SortControlProps> = ({ currentSort, onSortCha
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            initial={{ opacity: 0, y: up ? 8 : 10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            exit={{ opacity: 0, y: up ? 8 : 10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transformOrigin: up ? 'bottom center' : 'top right' }}
+            data-placement={placement}
             id={menuId}
             role="listbox"
             aria-label={t('sort.label')}
-            className="absolute top-[calc(100%+6px)] right-0 min-w-[220px] lg:min-w-full bg-white border border-border lg:border-[#e6e6e6] shadow-2xl lg:shadow-[0_14px_40px_rgba(0,0,0,0.14)] rounded-3xl lg:rounded-[14px] p-2 lg:p-1.5 overflow-hidden"
+            className={`absolute ${up ? 'bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 min-w-[240px]' : 'top-[calc(100%+6px)] right-0 min-w-[220px]'} lg:min-w-full bg-white border border-border lg:border-[#e6e6e6] shadow-2xl lg:shadow-[0_14px_40px_rgba(0,0,0,0.14)] rounded-3xl lg:rounded-[14px] p-2 lg:p-1.5 overflow-hidden`}
           >
             {/* Options — prototype listbox: 13px, hover/selected #f3f3f3,
                 selected also 700 weight (no black fill, no per-option icons). */}

@@ -788,7 +788,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               {/* CTA footer — primo1 `.fp-foot` puts the phone sort control here. */}
               <div className="p-6 border-t border-border shrink-0 flex flex-col gap-4">
                 <div className="flex justify-center">
-                  <SortControl currentSort={sortBy} onSortChange={onSortChange} />
+                  <SortControl currentSort={sortBy} onSortChange={onSortChange} placement="up" />
                 </div>
                 <button
                   onClick={() => setIsExpanded(false)}
