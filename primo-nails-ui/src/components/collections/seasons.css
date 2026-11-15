@@ -28,7 +28,7 @@
 .pm-seasons .ps-meta{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;padding-bottom:4px}
 .pm-seasons .ps-meta h3{margin:0;font-size:19px;font-weight:700;line-height:1;color:#1b1b1b}
 .pm-seasons .ps-sw{display:flex;gap:8px;align-items:center}
-.pm-seasons .sw{position:relative;width:26px;height:26px;padding:0;border-radius:50%;border:2px solid transparent;background-color:var(--sw);background-size:cover;background-position:center;flex:none;box-shadow:0 0 0 .5px rgba(0,0,0,.14);cursor:pointer;transition:transform .25s var(--ease),border-color .25s var(--ease)}
+.pm-seasons .sw{position:relative;width:26px;height:26px;padding:0;border-radius:50%;border:2px solid transparent;background-color:var(--sw);background-size:112%;background-position:center;background-origin:border-box;flex:none;box-shadow:0 0 0 .5px rgba(0,0,0,.14);cursor:pointer;transition:transform .25s var(--ease),border-color .25s var(--ease)}
 .pm-seasons .ps-shade{margin:0;min-height:18px;font-size:14.5px;line-height:18px;font-weight:600;color:#6f6f74;letter-spacing:.02em;transition:opacity var(--dur) var(--ease)}
 .pm-seasons .ps-shade.swap{animation:ps-shadein var(--dur) var(--ease)}
 @keyframes ps-shadein{from{opacity:0;transform:translateY(3px)}}
