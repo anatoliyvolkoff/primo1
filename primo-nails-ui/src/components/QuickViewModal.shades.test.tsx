@@ -163,6 +163,21 @@ describe('QuickViewModal kit shades (Primo1 quick view)', () => {
   const s1 = mkP('s1', 'Shade One', '14');
   (s1 as Product).capacity = '12ml';
 
+  it('kit pop-up follows the kit product page: black KIT tile, kit name + count incl. the tile', () => {
+    render(
+      <MemoryRouter>
+        <QuickViewModal product={kit} bundleChildren={[s1, mkP('s2', 'Shade Two', '14')]} shadeSiblings={[]} open
+          onClose={noop} onAddToCart={noop} isAdded={false} onPickSibling={noop} />
+      </MemoryRouter>
+    );
+    const dialog = screen.getByRole('dialog');
+    const tile = within(dialog).getByRole('button', { name: 'collections.fullCollection' });
+    expect(tile.textContent).toBe('product.kitBadge');
+    expect(tile.getAttribute('style') ?? '').not.toContain('background-color');
+    expect(dialog.textContent).toContain('product.shades: Kit Spring');
+    expect(dialog.textContent).toMatch(/3\s*collections\.colors/);
+  });
+
   it('picking a kit shade stays in the pop-up, shows that shade and adds it; ALL goes back to the set', async () => {
     const { fireEvent } = await import('@testing-library/react');
     const onClose = vi.fn();

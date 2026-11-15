@@ -81,14 +81,6 @@ export interface QuickViewModalProps {
   onPickSibling: (sibling: Product) => void;
 }
 
-// Primo1 `KITS[].all`: the "all" tile of each seasonal kit takes its own colour.
-const KIT_ALL_COLOR: Record<string, string> = {
-  'kit-winter-collection': '#1f2f6b',
-  'kit-spring-collection': '#e48fae',
-  'kit-summer-collection': '#f2703a',
-  'kit-autumn-collection': '#8c3a12',
-};
-
 const isKitProduct = (p: Product, children: Product[]) => children.length > 0 && !!p.bundleHandles?.length;
 
 export const QuickViewModal: React.FC<QuickViewModalProps> = ({
@@ -248,11 +240,11 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
   // (the available-colours label); shade → the colour name; else the product name.
   const isKit = bundleChildren.length > 0;
   const hasSiblings = shadeSiblings.length > 1;
-  const shadeCount = isKit ? bundleChildren.length : hasSiblings ? shadeSiblings.length : 0;
+  const shadeCount = isKit ? bundleChildren.length + 1 : hasSiblings ? shadeSiblings.length : 0;
   // Prototype shade-name line: a kit defaults to "set completo" (the leading
   // ALL chip is selected); a shade shows the colour name.
   const shadeName = isKit
-    ? kitShade ? kitShade.name.replace(/^(?:№|N[º°])\s*/, '') : t('collections.fullCollection')
+    ? kitShade ? kitShade.name.replace(/^(?:№|N[º°])\s*/, '') : product.name
     : hasSiblings
       ? product.colorName || product.name
       : product.colorName || product.name;
@@ -379,19 +371,19 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                 </div>
 
                 {/* `.pinfo` */}
-                <div className="flex flex-col items-start px-5 pt-5 md:px-0 md:pt-1">
+                <div className="flex flex-col items-start px-5 pt-[18px] md:px-0 md:pt-1">
                   {/* `.p-badge` — red % off pill (or the configured badge). */}
                   {salePercent != null ? (
                     <SalePill
                       variant="modal"
                       current={product.price}
                       original={product.originalPrice}
-                      className="mb-3.5"
+                      className="mb-3.5 max-md:order-2 max-md:mb-3"
                     />
                   ) : (
                     resolvedBadge && (
                       <span
-                        className="mb-3.5 inline-flex w-fit items-center rounded-pill px-3 py-1 text-[11px] font-bold uppercase leading-none tracking-widest"
+                        className="mb-3.5 max-md:order-2 inline-flex w-fit items-center rounded-pill px-3 py-1 text-[11px] font-bold uppercase leading-none tracking-widest"
                         style={resolvedBadge.style}
                       >
                         {resolvedBadge.label}
@@ -402,14 +394,14 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   {/* `.p-title` — with the single size pill ("3 × 12 ml") on the
                       same row, right-aligned and centred on the title's first
                       line, so the price block below no longer needs its own row. */}
-                  <div className="flex w-full items-start justify-between gap-3">
+                  <div className="flex w-full items-start justify-between gap-3 max-md:order-3">
                     <h2
                       id={titleId}
-                      className="m-0 min-w-0 text-[22px] font-bold leading-[28px] tracking-[0.15px] text-[#1e1e1e] md:text-[26px] md:leading-8 lg:text-[28px] lg:leading-[34px]"
+                      className="m-0 min-w-0 text-[24px] font-bold leading-[30px] tracking-normal md:tracking-[0.15px] text-[#1e1e1e] md:text-[26px] md:leading-8 lg:text-[28px] lg:leading-[34px]"
                     >
                       {product.name}
                     </h2>
-                    {sizeGroup.length < 2 && capacityLabel && (
+                    {isMd && sizeGroup.length < 2 && capacityLabel && (
                       <span className="mt-[1.5px] grid h-[25px] min-w-[56px] flex-none place-items-center whitespace-nowrap rounded-[13px] border-[1.5px] border-[#7f7f7f] px-2.5 text-[13px] font-medium leading-none text-[#1e1e1e] md:mt-[3.5px] lg:mt-[4.5px]">
                         {capacityLabel}
                       </span>
@@ -426,7 +418,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                     <div
                       role="group"
                       aria-label={t('product.format')}
-                      className="mt-3 flex flex-wrap gap-2"
+                      className="mt-3 flex flex-wrap gap-2 max-md:order-4"
                     >
                       {sizeGroup.map((sku) => {
                         const isActive = sku.id === product.id;
@@ -455,11 +447,11 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   {(isKit || hasSiblings || product.swatchImage) && (
                     <>
                       {shadeCount > 0 && (
-                        <div className="mt-4 flex h-[39px] w-full items-start justify-between border-b border-[#f2f2f4] pt-1.5 text-[14px] leading-[19px] tracking-[-0.13px] md:mt-5 md:h-[34px] md:pt-0">
-                          <b className="font-bold text-[#1e1e1e]">
+                        <div className="flex w-full items-center justify-between gap-3 text-[15px] leading-[19px] tracking-[-0.13px] max-md:order-1 md:mt-5 md:h-[34px] md:items-start md:border-b md:border-[#f2f2f4] md:text-[14px]">
+                          <b className="min-w-0 truncate font-bold text-[#1e1e1e]">
                             {t('product.shades')}: <span className="font-bold">{shadeName}</span>
                           </b>
-                          <span className="text-[13px] font-normal text-[#a0a0a0]">
+                          <span className="flex-none text-[14px] font-normal text-[#a0a0a0] md:text-[13px]">
                             <em className="not-italic text-[#5a5a5a]">{shadeCount}</em> {t('collections.colors')}
                           </span>
                         </div>
@@ -467,7 +459,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                       <div
                         role="group"
                         aria-label={t('product.availableColors')}
-                        className="mt-3.5 grid w-full grid-cols-[repeat(5,minmax(0,56px))] justify-start gap-3 md:grid-cols-[repeat(5,minmax(0,52px))]"
+                        className="no-scrollbar -mx-5 mb-[18px] mt-2 flex w-[calc(100%+40px)] gap-2.5 overflow-x-auto overflow-y-hidden border-b border-[#f0f0f2] px-5 pb-4 pt-1.5 max-md:order-1 md:mx-0 md:mb-0 md:mt-3.5 md:grid md:w-full md:grid-cols-[repeat(5,minmax(0,52px))] md:justify-start md:gap-3 md:overflow-visible md:border-0 md:p-0 max-md:[&>*]:h-12! max-md:[&>*]:w-12! max-md:[&>*]:flex-none"
                       >
                         {isKit
                           ? [
@@ -483,10 +475,9 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                                 aria-label={t('collections.fullCollection')}
                                 aria-pressed={!kitShade}
                                 title={t('collections.fullCollection')}
-                                className={`grid aspect-square w-full place-items-center rounded-full bg-black text-[10px] font-extrabold uppercase leading-none tracking-[1px] text-white ${kitShade ? '' : 'shadow-[0_0_0_2.5px_#fff,0_0_0_5px_#000]'}`}
-                                style={KIT_ALL_COLOR[product.handle ?? ""] ? { backgroundColor: KIT_ALL_COLOR[product.handle ?? ""] } : undefined}
+                                className={`grid aspect-square w-full place-items-center rounded-full bg-black text-[9px] font-black uppercase leading-none tracking-widest text-white transition-transform duration-200 hover:scale-105 active:scale-95 ${kitShade ? '' : 'shadow-[0_0_0_2.5px_#fff,0_0_0_5px_#000]'}`}
                               >
-                                ALL
+                                {t('product.kitBadge')}
                               </button>,
                               ...bundleChildren.map((child) => (
                               <button
@@ -543,19 +534,26 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
 
                   {/* `.p-price` — red current + struck original (Price primitive). Sits
                       under the shades, right above the buy row (Sir, 2026-11-14). */}
+                  <div className="mt-4 flex w-full items-center justify-between gap-3 max-md:order-4 max-md:mt-2.5 md:mt-5">
                   <Price
                     size="lg"
                     current={formatPrice(view.price, language)}
                     original={view.originalPrice ? formatPrice(view.originalPrice, language) : undefined}
-                    className="mt-4 md:mt-5 gap-4 md:gap-3 [&>span]:font-extrabold [&>span:only-child]:text-black [&>span]:text-[20px] [&>span:first-child]:text-[20px] [&>span]:leading-[22px] [&>span:first-child]:leading-[22px] [&>span]:tracking-[1.6px] [&>span:first-child]:tracking-[1.6px] md:[&>span]:text-[21px] md:[&>span:first-child]:text-[21px] md:[&>span]:leading-6 md:[&>span:first-child]:leading-6 md:[&>span:first-child]:tracking-[1.6px] md:[&>span]:tracking-[1.6px]"
+                    className="gap-3 [&>span]:font-extrabold [&>span:only-child]:text-black [&>span]:text-[22px] [&>span:first-child]:text-[22px] [&>span]:leading-7 [&>span:first-child]:leading-7 [&>span]:tracking-[0.4px] [&>span:first-child]:tracking-[0.4px] md:[&>span]:text-[21px] md:[&>span:first-child]:text-[21px] md:[&>span]:leading-6 md:[&>span:first-child]:leading-6 md:[&>span:first-child]:tracking-[1.6px] md:[&>span]:tracking-[1.6px]"
                   />
+                    {!isMd && sizeGroup.length < 2 && capacityLabel && (
+                      <span className="grid h-[30px] min-w-[64px] flex-none place-items-center whitespace-nowrap rounded-[15px] border border-[#7f7f7f] px-[14px] text-[14px] font-medium leading-none text-black">
+                        {capacityLabel}
+                      </span>
+                    )}
+                  </div>
 
                   {/* (M14) No TPO/HEMA trust pills — the prototype quick-view has
                       none; the claim lives only in the description. */}
 
                   {/* `.p-buy` — stepper + add-to-cart. Sticky bottom bar on
                       mobile; inline static row from md (prototype `.p-buy.d-only`). */}
-                  <div className="sticky bottom-0 z-[2] -mx-5 mt-4 flex w-[calc(100%+40px)] flex-col items-stretch gap-2.5 self-stretch bg-white px-5 py-3 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.14)] md:static md:mx-0 md:mt-6 md:w-full md:flex-row md:items-center md:gap-2 md:px-0 md:py-0 md:shadow-none">
+                  <div className="sticky bottom-0 z-[2] -mx-5 mt-4 max-md:order-7 max-md:mt-5 flex w-[calc(100%+40px)] flex-col items-stretch gap-2.5 self-stretch bg-white px-5 py-3 shadow-[0_-8px_24px_-12px_rgba(0,0,0,0.14)] md:static md:mx-0 md:mt-6 md:w-full md:flex-row md:items-center md:gap-2 md:px-0 md:py-0 md:shadow-none">
                     {!isMd && seasonTablist}
                     <div className="flex items-center gap-3 md:contents">
                     {/* `.stepper` */}
@@ -602,18 +600,18 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
 
                   {/* `.wholesale` box — WhatsApp + email enquiry, mirroring the
                       PDP and prototype. */}
-                  <div className="mt-6 md:mt-5 flex min-h-[64px] w-full items-center gap-3.5 self-stretch rounded-2xl border-[1.5px] border-[#999] px-3.5 py-3">
+                  <div className="mt-6 max-md:order-5 max-md:min-h-[66px] max-md:gap-[13px] max-md:py-2 max-md:pl-[18px] max-md:pr-2 md:mt-5 flex min-h-[64px] w-full items-center gap-3.5 self-stretch rounded-2xl border-[1.5px] border-[#999] px-3.5 py-3">
                     <span
                       aria-hidden="true"
-                      className="grid h-[34px] w-[34px] flex-none place-items-center rounded-full border-[1.5px] border-[#222] text-[#222]"
+                      className="grid h-[38px] w-[38px] md:h-[34px] md:w-[34px] flex-none place-items-center rounded-full border-[1.5px] border-[#222] text-[#222]"
                     >
                       <MessageSquare className="h-4 w-4" strokeWidth={1.6} />
                     </span>
-                    <span className="flex min-w-0 flex-col gap-1 leading-tight">
-                      <b className="text-[14px] font-bold leading-[17px] tracking-[0.2px] text-[#111]">
+                    <span className="flex min-w-0 flex-col gap-1.5 leading-tight md:gap-1">
+                      <b className="text-[15px] font-bold leading-[17px] tracking-[0.2px] text-[#111] md:text-[14px]">
                         {t('pdp.wholesale.title')}
                       </b>
-                      <span className="text-[13px] leading-4 text-[#1d1a52]">
+                      <span className="text-[14px] leading-4 text-[#1d1a52] md:text-[13px]">
                         {t('pdp.wholesale.text')}{' '}
                         <a
                           href={wholesaleWhatsappHref}
@@ -635,7 +633,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   </div>
 
                   {/* `.ship-note` */}
-                  <p className="mt-3 w-full self-stretch text-left text-[12.5px] md:text-[12px] leading-4 tracking-[0.3px] text-[#a9a9a9]">
+                  <p className="mt-3 max-md:order-6 max-md:mt-[15px] max-md:text-center w-full self-stretch text-left text-[12.5px] md:text-[12px] leading-4 tracking-[0.3px] text-[#a9a9a9]">
                     {t('product.shippingNote')}{' '}
                     <Link
                       to="/spedizioni"
@@ -648,7 +646,7 @@ export const QuickViewModal: React.FC<QuickViewModalProps> = ({
 
                   {/* `.p-acc` — one-open-at-a-time accordions. */}
                   {accordions.length > 0 && (
-                    <div className="mt-4 w-full self-stretch">
+                    <div className="mt-4 w-full self-stretch max-md:order-8">
                       {accordions.map(([heading, body], i) => {
                         const isOpen = openAcc === i;
                         return (
