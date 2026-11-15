@@ -213,10 +213,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, grid = false,
               type="button"
               onClick={(e) => { e.stopPropagation(); openQuickView(); }}
               aria-label={t('product.quickView', { name: activeProduct.name })}
-              // Grid phones: primo1 `.qv-btn` — 25px white dot, soft shadow, 9px tap halo.
-              className={`relative ${grid ? 'w-[25.3px] h-[25.3px] bg-[#fcfcfc] shadow-[0_1px_4px_rgba(0,0,0,0.16)] before:absolute before:-inset-[9px] before:content-[""]' : 'w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-md border border-black/5 shadow-sm'} lg:w-[25px] lg:h-[25px] rounded-full lg:bg-[#fcfcfc] lg:backdrop-blur-none lg:border-0 flex items-center justify-center lg:shadow-[0_1px_4px_rgba(0,0,0,0.16)] hover:bg-white lg:hover:bg-[#fcfcfc] hover:scale-105 active:scale-95 transition-all text-[#555]`}
+              // Grid phones/tablets: primo1 `.qv-btn` white dot, enlarged to 32px for
+              // fingers, plus an invisible 6px halo so the tap target is 44x44.
+              className={`relative ${grid ? 'w-8 h-8 bg-[#fcfcfc] shadow-[0_1px_4px_rgba(0,0,0,0.16)] before:absolute before:-inset-[6px] before:content-[""] lg:before:hidden' : 'w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-md border border-black/5 shadow-sm'} lg:w-[25px] lg:h-[25px] rounded-full lg:bg-[#fcfcfc] lg:backdrop-blur-none lg:border-0 flex items-center justify-center lg:shadow-[0_1px_4px_rgba(0,0,0,0.16)] hover:bg-white lg:hover:bg-[#fcfcfc] hover:scale-105 active:scale-95 transition-all text-[#555]`}
             >
-              <Eye className={`lg:w-[13px] lg:h-[13px] lg:text-current ${grid ? 'w-[13px] h-[13px] text-current' : 'w-4 h-4 text-[#1d1d1f]'}`} strokeWidth={grid ? 2 : undefined} />
+              <Eye className={`lg:w-[13px] lg:h-[13px] lg:text-current ${grid ? 'w-[15px] h-[15px] text-current' : 'w-4 h-4 text-[#1d1d1f]'}`} strokeWidth={grid ? 2 : undefined} />
             </button>
           </div>
           )}

@@ -87,7 +87,7 @@ export function CoursesPage() {
     'placeholder:text-[#9a948e] focus:border-[#111] focus:bg-white!';
 
   return (
-      <main className="flex-1 pt-[61px] lg:pt-24 lg:pb-0 pb-[120px]">
+      <main className="flex-1 pt-[61px] lg:pt-24 pb-0">
         {/* PHONE hero — primo1 `.acad-hero`: photo with a frosted "Indietro"
             pill, then a warm intro card lapping over its bottom edge. */}
         <section className="lg:hidden relative bg-surface">
