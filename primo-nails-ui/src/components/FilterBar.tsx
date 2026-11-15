@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { motion, AnimatePresence, useDragControls } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, X, SlidersHorizontal, Tags } from 'lucide-react';
 import { SortControl, SortOption } from './SortControl';
 import { useLanguage } from '../context/LanguageContext';
@@ -7,6 +7,7 @@ import { NAIL_SWATCHES, productMatchesSwatch } from '../data/swatches';
 import type { Product } from '../types';
 import { formatPrice } from '../lib/formatPrice';
 import { useScrollLock } from '../lib/scrollLock';
+import { useSheetDragDismiss } from '../hooks/useSheetDragDismiss';
 import { Swatch } from './ui';
 
 /** All collection labels we know how to filter by. Hidden from the UI
@@ -169,7 +170,6 @@ export const FilterBar: React.FC<FilterBarProps> = ({
   // Drag controls for the mobile bottom sheet — drag starts from the grab
   // handle only, so swiping the handle down closes the sheet (and scrolling
   // the content inside doesn't drag it).
-  const sheetDragControls = useDragControls();
 
   // Count how many products in the page-level set match each filter
   // option. Memoized so re-renders from input changes don't recompute.
@@ -305,6 +305,16 @@ export const FilterBar: React.FC<FilterBarProps> = ({
     return () => mql.removeEventListener('change', onChange);
   }, []);
   useScrollLock(isExpanded && isMobileViewport);
+
+  // Mobile filter sheet: swipe down (handle, header, or list at its top) to close.
+  const sheetRef = useRef<HTMLDivElement>(null);
+  const sheetBackdropRef = useRef<HTMLDivElement>(null);
+  useSheetDragDismiss({
+    enabled: isExpanded && isMobileViewport,
+    sheetRef,
+    backdropRef: sheetBackdropRef,
+    onDismiss: () => setIsExpanded(false),
+  });
 
   const toggleColor = (color: string) => {
     setSelectedColors?.(prev =>
@@ -700,6 +710,7 @@ export const FilterBar: React.FC<FilterBarProps> = ({
           <div className="lg:hidden fixed inset-0 z-[200] flex items-end">
             {/* Backdrop */}
             <motion.div
+              ref={sheetBackdropRef}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -713,24 +724,12 @@ export const FilterBar: React.FC<FilterBarProps> = ({
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'spring', stiffness: 300, damping: 32 }}
-              drag="y"
-              dragListener={false}
-              dragControls={sheetDragControls}
-              dragConstraints={{ top: 0, bottom: 0 }}
-              dragElastic={{ top: 0, bottom: 0.6 }}
-              onDragEnd={(_, info) => {
-                // Swipe down far/fast enough → close; otherwise it springs
-                // back open completely.
-                if (info.offset.y > 120 || info.velocity.y > 600) setIsExpanded(false);
-              }}
+              ref={sheetRef}
               className="relative w-full bg-white rounded-t-[32px] max-h-[88vh] flex flex-col"
               onClick={e => e.stopPropagation()}
             >
               {/* Handle — drag target for swipe-to-dismiss */}
-              <div
-                onPointerDown={e => sheetDragControls.start(e)}
-                className="flex justify-center pt-3 pb-2 shrink-0 cursor-grab active:cursor-grabbing touch-none"
-              >
+              <div className="flex justify-center pt-3 pb-2 shrink-0 touch-none">
                 <div className="w-10 h-1.5 rounded-full bg-border" />
               </div>
 

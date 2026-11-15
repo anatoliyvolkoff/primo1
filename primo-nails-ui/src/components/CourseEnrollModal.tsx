@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useToast } from '../context/ToastContext';
 import { MEDUSA_BACKEND_URL } from '../lib/medusa';
 import { useScrollLock } from '../lib/scrollLock';
+import { useSheetDragDismiss } from '../hooks/useSheetDragDismiss';
 import { PhoneField, emptyPhone, type PhoneValue } from './PhoneField';
 import { Button, Input, Textarea } from './ui';
 
@@ -99,6 +100,15 @@ export function CourseEnrollModal({
 
   // Move focus into the dialog when it opens.
   const dialogRef = useRef<HTMLDivElement>(null);
+  // Phones (bottom-sheet layout below `sm`): swipe down to close.
+  const backdropRef = useRef<HTMLDivElement>(null);
+  useSheetDragDismiss({
+    enabled: open,
+    sheetRef: dialogRef,
+    backdropRef,
+    onDismiss: onClose,
+    mediaQuery: '(max-width: 639px)',
+  });
   useEffect(() => {
     if (!open) return;
     const frame = requestAnimationFrame(() => {
@@ -172,6 +182,7 @@ export function CourseEnrollModal({
       {open && (
         <div className="fixed inset-0 z-[1000] flex items-end sm:items-center justify-center p-0 sm:p-6" role="dialog" aria-modal="true" aria-labelledby={titleId}>
           <motion.div
+            ref={backdropRef}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -187,6 +198,7 @@ export function CourseEnrollModal({
             transition={{ type: 'spring', damping: 26, stiffness: 300 }}
             className="relative bg-white w-full max-w-[520px] max-h-[92dvh] rounded-t-[26px] sm:rounded-[32px] overflow-y-auto shadow-[0_30px_60px_-36px_rgba(0,0,0,0.3)] outline-none"
           >
+            <div aria-hidden="true" className="pointer-events-none absolute left-1/2 top-2 h-[5px] w-10 -translate-x-1/2 rounded-full bg-black/15 sm:hidden" />
             <button
               type="button"
               onClick={onClose}
