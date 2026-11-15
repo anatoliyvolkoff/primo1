@@ -8,8 +8,8 @@ interface BannerProps {
   mobileImageUrl?: string;
   overlayOpacity?: string;
   /**
-   * `catalog` follows the Primo1 catalogue hero (`.cat-hero`): a 391px photo
-   * only on phones (the heading stays for screen readers), and on desktop a
+   * `catalog` follows the Primo1 catalogue hero (`.cat-hero`): a 196px photo
+   * on phones (391px on tablets) (the heading stays for screen readers), and on desktop a
    * 356px band with the text left-aligned in the 976px column. The default
    * keeps the centred title over the photo.
    */
@@ -46,7 +46,7 @@ export const Banner: React.FC<BannerProps> = ({
 
   if (isCatalog) {
     return (
-      <div className="relative h-[391px] lg:h-[356px] overflow-hidden bg-[#1d1d1d]">
+      <div className="relative h-[196px] sm:h-[391px] lg:h-[356px] overflow-hidden bg-[#1d1d1d]">
         {picture}
         {/* The photo is admin-set, so desktop keeps a light scrim behind the
             white text for legibility; phones show the photo alone. */}
